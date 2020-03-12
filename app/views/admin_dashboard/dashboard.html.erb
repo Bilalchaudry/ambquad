@@ -1,68 +1,54 @@
-<body>
 
-<!-- Start Left menu area -->
+<!-- Start Left menu area-->
 <div class="left-sidebar-pro">
   <nav id="sidebar" class="">
     <div class="sidebar-header">
       <img class="main-logo" src="img/logo/logo.png" alt=""/>
-<!--      <strong><img src="img/logo/logosn.png" alt=""/></strong>-->
     </div>
-    <div class="left-custom-menu-adp-wrap comment-scrollbar">
-<!--      <nav class="sidebar-nav left-sidebar-menu-pro">-->
+    <div class="left-custom-menu-adp-wrap comment-scrollbar" style="margin-top: -34px;">
+      <nav class="sidebar-nav left-sidebar-menu-pro">
         <ul class="metismenu" id="menu1">
           <li>
-<!--           <span class="glyphicon glyphicon-user"></span>-->
-<!--            </span>-->
-              <span class="btn mini-click-non" style="color: #0c1923"><span class="glyphicon glyphicon-user"></span>Users</span>
-
+            <a class="has-arrow" href="all-professors.html" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap"></span> <span class="mini-click-non">Users</span></a>
+            <ul class="submenu-angle" aria-expanded="false">
+              <li> <%=link_to 'Add User', new_user_path %></li>
+              <li><a title="Edit User" href="edit-professor.html"><span class="mini-sub-pro">Edit User</span></a></li>
+            </ul>
           </li>
         </ul>
-<!--      </nav>-->
+      </nav>
     </div>
   </nav>
 </div>
 <!-- End Left menu area -->
 <!-- Start Welcome area -->
-<div class="all-content-wrapper">
+<div class="header-top-area">
   <div class="container-fluid">
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="logo-pro">
-          <br><br>
-<!--          <a href="index.html"><img class="main-logo" src="img/logo/logo.png" alt=""/></a>-->
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="header-advance-area">
-    <div class="header-top-area">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="header-top-wraper">
-              <div class="row">
-                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                  <div class="header-right-info" style="width:700px; margin:0 auto;">
-                    <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                      <li class="nav-item">
-                        <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-<!--                          <img src="img/product/pro4.jpg" alt=""/>-->
-                          <span class="admin-name">Welcome <%= current_admin_user.email %> !</span>
-                        </a>
-                        <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                          <li><a href="#"><span class="edu-icon edu-home-admin author-log-ic"></span>My Account</a>
-                          </li>
-                          <li><a href="#"><span class="edu-icon edu-user-rounded author-log-ic"></span>My Profile</a>
-                          <li><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Settings</a>
-                          </li>
-                          <li>
-                            <%= link_to 'Log Out', destroy_admin_user_session_path, method: :delete %>
-                          </li>
-                        </ul>
+        <div class="header-top-wraper">
+          <div class="row">
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+              <div class="header-right-info" style="width:100px; margin:0 auto;">
+                <ul class="nav navbar-nav mai-top-nav header-right-menu">
+                  <li class="nav-item">
+                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle" style="color: black;">
+                      <!--                          <img src="img/product/pro4.jpg" alt=""/>-->
+                      <%= current_admin_user.email %>
+                      <!--                          <span class="admin-name">Welcome <%#= current_admin_user.email %> !</span>-->
+                    </a>
+                    <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
+                      <li><a href="#"><span class="edu-icon edu-home-admin author-log-ic"></span>My Account</a>
+                      </li>
+                      <li><a href="#"><span class="edu-icon edu-user-rounded author-log-ic"></span>My Profile</a>
+                      <li><a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Settings</a>
+                      </li>
+                      <li>
+                        <%= link_to 'Log Out', destroy_admin_user_session_path, method: :delete %>
                       </li>
                     </ul>
-                  </div>
-                </div>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -70,10 +56,26 @@
       </div>
     </div>
   </div>
-  <br>
+</div>
+<div class="all-content-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<!--        <div class="logo-pro">-->
+<!--          <br><br>-->
+<!--          <a href="index.html"><img class="main-logo" src="img/logo/logo.png" alt=""/></a>-->
+<!--        </div>-->
+      </div>
+    </div>
+  </div>
+<!--  <div class="header-advance-area">-->
+
+<!--  </div>-->
+  <br><br>
+
 
   <div class="analytics-sparkle-area">
-    <div class="container-fluid">
+    <div class="container">
       <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
           <div class="analytics-sparkle-line reso-mg-b-30">
@@ -118,7 +120,7 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
           <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#neworder" role="tab" aria-controls="nav-home" aria-selected="true">
           <div class="social-media-edu">
-            <span class="glyphicon">&#xe118;</span>
+
             <div class="social-edu-ctn">
               <h3>Projects</h3>
             </div>
@@ -128,7 +130,6 @@
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
           <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#ongoingorder" role="tab" aria-controls="nav-profile" aria-selected="false">
           <div class="social-media-edu twitter-cl res-mg-t-30 table-mg-t-pro-n">
-            <span class="glyphicon glyphicon-user"></span>
             <div class="social-edu-ctn">
               <h3>Ambquad TM Users</h3>
             </div>
@@ -138,7 +139,7 @@
         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#orderhistory" role="tab" aria-controls="nav-contact" aria-selected="false">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
           <div class="social-media-edu youtube-cl res-mg-t-30 res-tablet-mg-t-30 dk-res-t-pro-30">
-           <i style='font-size:20px' class='far'>&#xf1ad;</i>
+<!--           <i style='font-size:20px' class='far'>&#xf1ad;</i>-->
             <div class="social-edu-ctn">
               <h3>Client Companies</h3>
             </div>
@@ -163,4 +164,3 @@
 </div>
 </div>
 <br>
-</body>
