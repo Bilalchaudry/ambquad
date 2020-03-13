@@ -1,0 +1,39 @@
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header"><h3 class="text-center font-weight-light my-4">Project</h3></div>
+            <div class="card-body">
+              <p id="notice"><%= notice %></p>
+
+              <p>
+                <strong>Project name:</strong>
+                <%= @project.project_name %>
+              </p>
+
+              <p>
+                <strong>Address:</strong>
+                <%= @project.address %>
+              </p>
+
+              <p>
+                <strong>Project lead:</strong>
+                <%= @project.project_lead %>
+              </p>
+
+              <p>
+                <strong>Company:</strong>
+                <%= @project.company.name %>
+              </p>
+
+              <%= link_to 'Edit', edit_project_path(@project) %> |
+              <%= link_to 'Back', projects_path %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
