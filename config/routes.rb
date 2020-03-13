@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :employee_types
   resources :companies
   resources :users
+  resources :plant_types
 end
