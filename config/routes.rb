@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   resources :projects
   resources :companies
   resources :users
+  resources :plant_types
 end
