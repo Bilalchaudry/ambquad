@@ -20,9 +20,13 @@
                   </div>
                 <% end %>
 
-                <div class="field">
-                  <%= form.label :employee_type %>
-                  <%= form.text_field :employee_type %>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :employee_type, :class => "small mb-1" %>
+                      <%= form.text_field :employee_type, :class => "form-control py-4", :required => true %>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="actions">

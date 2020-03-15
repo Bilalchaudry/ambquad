@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Plant name:</strong>
+  <%= @plant.plant_name %>
+</p>
+
+<p>
+  <strong>Plant:</strong>
+  <%= @plant.plant_id %>
+</p>
+
+<p>
+  <strong>Plant type:</strong>
+  <%= @plant.plant_type %>
+</p>
+
+<p>
+  <strong>Project company:</strong>
+  <%= @plant.project_company_id %>
+</p>
+
+<p>
+  <strong>Contract start date:</strong>
+  <%= @plant.contract_start_date %>
+</p>
+
+<p>
+  <strong>Contract end date:</strong>
+  <%= @plant.contract_end_date %>
+</p>
+
+<p>
+  <strong>Market value:</strong>
+  <%= @plant.market_value %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @plant.status %>
+</p>
+
+<%= link_to 'Edit', edit_plant_path(@plant) %> |
+<%= link_to 'Back', plants_path %>

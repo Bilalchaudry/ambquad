@@ -4,31 +4,32 @@
       <div class="row justify-content-center">
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
-<!--            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Company</h3></div>-->
             <div class="card-body">
-              <%= form_with(model: company, local: true) do |form| %>
-                <% if company.errors.any? %>
+              <%= form_with(model: plant, local: true) do |form| %>
+                <% if plant.errors.any? %>
                   <div id="error_explanation">
-                    <h2><%= pluralize(company.errors.count, "error") %> prohibited this company from being saved:</h2>
+                    <h2><%= pluralize(plant.errors.count, "error") %> prohibited this company from being saved:</h2>
 
                     <ul>
-                      <% company.errors.full_messages.each do |message| %>
+                      <% plant.errors.full_messages.each do |message| %>
                         <li><%= message %></li>
                       <% end %>
                     </ul>
                   </div>
                 <% end %>
+
+
                 <div class="form-row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :email, :class => "small mb-1" %>
-                      <%= form.email_field :email, :class => "form-control py-4", :required => true %>
+                      <%= form.label :plant_name, :class => "small mb-1" %>
+                      <%= form.text_field :plant_name, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :name, :class => "small mb-1" %>
-                      <%= form.text_field :name, validate: true , :class => "form-control py-4", :required => true %>
+                      <%= form.label :plant_id, :class => "small mb-1" %>
+                      <%= form.text_field :plant_id, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -36,14 +37,14 @@
                 <div class="form-row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :phone_number, :class => "small mb-1" %>
-                      <%= form.telephone_field :phone_number, :class => "form-control py-4", :required => true %>
+                      <%= form.label :contract_start_date, :class => "small mb-1" %>
+                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :address, :class => "small mb-1" %>
-                      <%= form.text_field :address, :class => "form-control py-4", :required => true %>
+                      <%= form.label :contract_end_date, :class => "small mb-1" %>
+                      <%= form.password_field :contract_end_date, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -51,23 +52,32 @@
                 <div class="form-row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :number_of_users, :class => "small mb-1" %>
-                      <%= form.number_field :number_of_users, :class => "form-control py-4", :required => true %>
+                      <%= form.label :plant_type, :class => "small mb-1" %>
+                      <select name="plant[plant_type_id]" id="plant_type_id" class="form-control">
+                        <% PlantType.all.each do |type| %>
+                          <option value="<%= type.id %>">
+                            <%= type.type_name %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :start_date, :class => "small mb-1" %>
-                      <%= form.date_field :start_date, :class => "form-control py-4", :required => true %>
+                      <%= form.label :market_value, :class => "small mb-1" %>
+                      <%= form.text_field :market_value, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
+
 
                 <div class="form-group mt-4 mb-0">
                   <div class="actions">
                     <%= form.submit %>
                   </div>
                 </div>
+
+
               <% end %>
             </div>
           </div>

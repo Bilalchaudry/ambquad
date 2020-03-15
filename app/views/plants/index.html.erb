@@ -2,16 +2,16 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
-        <h1 class="mt-4">Companies</h1>
+        <h1 class="mt-4">Platns</h1>
         <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item active">Companies</li>
+          <li class="breadcrumb-item active">Platns</li>
         </ol>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New User", new_user_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Plant", new_plant_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
 
@@ -23,24 +23,24 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Actions</th>
+                  <th>Plant Name</th>
+                  <th>Plant ID</th>
+                  <th>Plant Type</th>
+                  <th>Contract Start Date</th>
+                  <th>Contract End Date</th>
+                  <th>Market Value</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <% @users.each do |user| %>
+                <% @plants.each do |plant| %>
                   <tr>
-                    <td><%= user.username %></td>
-                    <td><%= user.email %></td>
-                    <td><%= user.role%></td>
-                    <td>
-                      <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", user_path(user), :class => "btn btn-outline-danger", method: :delete %>
-                    </td>
+                    <td><%= plant.plant_name%></td>
+                    <td><%= plant.plant_id %></td>
+                    <td><%= plant.plant_type %></td>
+                    <td><%= plant.contract_start_date %></td>
+                    <td><%= plant.contract_end_date %></td>
+                    <td><%= plant.market_value %></td>
                   </tr>
                 <% end %>
 

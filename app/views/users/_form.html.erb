@@ -1,32 +1,110 @@
-<%= form_with(model: user, local: true) do |form| %>
-  <% if user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <!--            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Company</h3></div>-->
+            <div class="card-body">
+              <%= form_with(model: user, local: true) do |form| %>
+                <% if user.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(user.errors.count, "error") %> prohibited this company from being saved:</h2>
 
-      <ul>
-      <% user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+                    <ul>
+                      <% user.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :first_name, :class => "small mb-1" %>
+                      <%= form.text_field :first_name, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :last_name, :class => "small mb-1" %>
+                      <%= form.text_field :last_name, validate: true , :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :phone_number, :class => "small mb-1" %>
+                      <%= form.text_field :phone_number, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :email, :class => "small mb-1" %>
+                      <%= form.email_field :email, validate: true , :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :username, :class => "small mb-1" %>
+                      <%= form.text_field :username, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :password, :class => "small mb-1" %>
+                      <%= form.password_field :password, validate: true , :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :Role, :class => "small mb-1" %>
+                      <%#= form.select :role,  User.roles.keys, :class => "form-control py-2" %>
+                      <select name="user[role]" id="role" class="form-control">
+                        <% User.roles.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.label :Comapny, :class => "small mb-1" %>
+                      <select name="user[company_id]" id="company_id" class="form-control">
+                        <% Company.all.each do |company| %>
+                          <option value="<%= company.id %>">
+                            <%= company.name %>
+                          </option>
+                        <% end %>
+                      </select>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group mt-4 mb-0">
+                  <div class="actions">
+                    <%= form.submit %>
+                  </div>
+                </div>
+
+
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div class="field">
-    <%= form.label :role %>
-    <%= form.number_field :role %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+  </main>
+</div>
