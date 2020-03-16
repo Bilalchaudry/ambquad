@@ -46,11 +46,11 @@ class ClientCompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @client_company.update(company_params)
-        format.html { redirect_to @company, notice: 'Company was successfully updated.' }
-        format.json { render :show, status: :ok, location: @company }
+        format.html { redirect_to @client_company, notice: 'Company was successfully updated.' }
+        format.json { render :show, status: :ok, location: @client_company }
       else
         format.html { render :edit }
-        format.json { render json: @company.errors, status: :unprocessable_entity }
+        format.json { render json: @client_company.errors, status: :unprocessable_entity }
       end
     end
   end
