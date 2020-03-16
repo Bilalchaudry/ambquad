@@ -66,8 +66,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.label :Role, :class => "small mb-1" %>
-                      <%#= form.select :role,  User.roles.keys, :class => "form-control py-2" %>
-                      <select name="user[role]" id="role" class="form-control">
+                      <select name="temporary_user[role]" id="role" class="form-control">
                         <% User.roles.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
@@ -80,7 +79,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.label :Comapny, :class => "small mb-1" %>
-                      <select name="user[company_id]" id="company_id" class="form-control">
+                      <select name="temporary_user[company_id]" id="company_id" class="form-control">
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.name %>

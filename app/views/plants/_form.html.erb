@@ -20,39 +20,55 @@
 
 
                 <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.label :plant_name, :class => "small mb-1" %>
-                      <%= form.text_field :plant_name, :class => "form-control py-2", :required => true %>
-                    </div>
+                  <div class="col-md-4">
+                    <%= form.label :plant_name, :class => "mb-1", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :plant_id, :class => "small mb-1" %>
+                      <%= form.text_field :plant_name, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :plant_id, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <%= form.text_field :plant_id, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.label :contract_start_date, :class => "small mb-1" %>
-                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
-                    </div>
+                  <div class="col-md-4">
+                    <%= form.label :contract_start_date, :class => "mb-1", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :contract_end_date, :class => "small mb-1" %>
-                      <%= form.password_field :contract_end_date, validate: true, :class => "form-control py-2", :required => true %>
+                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_end_date, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :plant_type, :class => "small mb-1" %>
+                      <%= form.date_field :contract_end_date, validate: true, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :plant_type, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <select name="plant[plant_type_id]" id="plant_type_id" class="form-control">
                         <% PlantType.all.each do |type| %>
                           <option value="<%= type.id %>">
@@ -62,23 +78,43 @@
                       </select>
                     </div>
                   </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :market_value, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :market_value, :class => "small mb-1" %>
                       <%= form.text_field :market_value, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
 
 
-                <div class="form-group mt-4 mb-0">
-                  <div class="actions">
-                    <%= form.submit %>
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", plants_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
                 </div>
 
 
-              <% end %>
+
+            <% end %>
             </div>
           </div>
         </div>

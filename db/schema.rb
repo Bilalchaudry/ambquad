@@ -17,11 +17,17 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
 
   create_table "client_companies", force: :cascade do |t|
     t.string "email"
-    t.string "name"
-    t.string "phone_number"
+    t.string "company_name"
+    t.string "phone"
     t.string "address"
     t.integer "number_of_users"
+    t.integer "primary_poc_first_name"
+    t.integer "primary_poc_last_name"
+    t.integer "poc_email"
+    t.integer "poc_phone"
+    t.integer "status"
     t.date "start_date"
+    t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -60,8 +66,15 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
 
   create_table "projects", force: :cascade do |t|
     t.string "project_name"
-    t.string "address"
-    t.string "project_lead"
+    t.string "project_id"
+    t.string "site_office_address"
+    t.text "project_summary"
+    t.text "phone"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "project_status"
+    t.string "client_po_number"
+    t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "client_company_id"
@@ -74,7 +87,7 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
     t.string "phone_no"
     t.string "email"
     t.string "username"
-    t.integer "role"
+    t.integer "role", default: 0
     t.string "encrypted_password"
     t.string "password"
     t.integer "company_id"
@@ -97,7 +110,7 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
     t.string "username"
     t.integer "role", default: 0
     t.string "encrypted_password", default: "", null: false
-    t.integer "company_id"
+    t.integer "client_company_id"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

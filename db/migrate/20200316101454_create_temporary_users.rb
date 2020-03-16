@@ -6,7 +6,7 @@ class CreateTemporaryUsers < ActiveRecord::Migration[5.2]
       t.string :phone_no
       t.string :email
       t.string :username
-      t.integer :role
+      t.integer :role, default: 0
       t.string :encrypted_password
       t.string :password
       t.integer :company_id

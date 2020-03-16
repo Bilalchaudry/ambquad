@@ -29,6 +29,7 @@
                   <th>Contract Start Date</th>
                   <th>Contract End Date</th>
                   <th>Market Value</th>
+                  <th>Actions</th>
                 </tr>
                 </thead>
 
@@ -37,10 +38,15 @@
                   <tr>
                     <td><%= plant.plant_name%></td>
                     <td><%= plant.plant_id %></td>
-                    <td><%= plant.plant_type %></td>
+                    <td><%= plant.plant_type_id %></td>
                     <td><%= plant.contract_start_date %></td>
                     <td><%= plant.contract_end_date %></td>
                     <td><%= plant.market_value %></td>
+                    <td>
+                      <%= link_to "View", plant_path(plant), :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", edit_plant_path(plant), :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", plant_path(plant), :class => "btn btn-outline-danger", method: :delete %>
+                    </td>
                   </tr>
                 <% end %>
 

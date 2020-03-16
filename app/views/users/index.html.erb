@@ -2,9 +2,9 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
-        <h1 class="mt-4">Companies</h1>
+        <h1 class="mt-4">Ambquad Users</h1>
         <ol class="breadcrumb mb-4">
-          <li class="breadcrumb-item active">Companies</li>
+          <li class="breadcrumb-item active">Ambquad Users</li>
         </ol>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
@@ -26,6 +26,7 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
+                  <th>Company</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -36,6 +37,7 @@
                     <td><%= user.username %></td>
                     <td><%= user.email %></td>
                     <td><%= user.role%></td>
+                    <td><%= user.client_company.name rescue nil %></td>
                     <td>
                       <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>

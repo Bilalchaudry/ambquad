@@ -1,7 +1,5 @@
 class ClientCompany < ApplicationRecord
-
-  has_many :client_companies
-  has_many :users, :through => :client_companies
+  has_many :users
 
   has_many :client_company_projects
   has_many :projects, :through => :client_company_projects

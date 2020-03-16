@@ -4,10 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :user_client_companies
-  has_many :client_companies, :through => :user_client_companies
 
-  # belongs_to :client_company, optional: true
+  belongs_to :client_company, optional: true
 
   enum role: {
       Admin: 0,

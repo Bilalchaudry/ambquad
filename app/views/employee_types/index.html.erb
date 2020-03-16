@@ -22,6 +22,7 @@
                 <thead>
                 <tr>
                   <th>Employee Types</th>
+                  <th>Actions</th>
                 </tr>
                 </thead>
 
@@ -29,6 +30,11 @@
                 <% @employee_types.each do |employee_type| %>
                   <tr>
                     <td><%= employee_type.employee_type %></td>
+                    <td>
+                    <%= link_to "View", employee_type_path(employee_type), :class => "btn btn-outline-dark" %>
+                    <%= link_to "Edit", edit_employee_type_path(employee_type), :class => "btn btn-outline-info" %>
+                    <%= link_to "Delete", employee_type_path(employee_type), :class => "btn btn-outline-danger", method: :delete %>
+                    </td>
                   </tr>
                 <% end %>
                 </tbody>

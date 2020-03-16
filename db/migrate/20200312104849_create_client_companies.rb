@@ -2,11 +2,17 @@ class CreateClientCompanies < ActiveRecord::Migration[5.2]
   def change
     create_table :client_companies do |t|
       t.string :email
-      t.string :name
-      t.string :phone_number
+      t.string :company_name
+      t.string :phone
       t.string :address
       t.integer :number_of_users
+      t.integer :primary_poc_first_name
+      t.integer :primary_poc_last_name
+      t.integer :poc_email
+      t.integer :poc_phone
+      t.integer :status
       t.date :start_date
+      t.date :closed_at
 
       t.timestamps
     end

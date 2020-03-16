@@ -30,11 +30,11 @@ class TemporaryUsersController < ApplicationController
     @user.save
     respond_to do |format|
       if @temporary_user.save
-        format.html { redirect_to @user, notice: 'Temporary user was successfully created.' }
-        format.json { render :show, status: :created, location: @temporary_user }
+        format.html {redirect_to @user, notice: 'Temporary user was successfully created.'}
+        format.json {render :show, status: :created, location: @temporary_user}
       else
-        format.html { render :new }
-        format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @temporary_user.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -44,11 +44,11 @@ class TemporaryUsersController < ApplicationController
   def update
     respond_to do |format|
       if @temporary_user.update(temporary_user_params)
-        format.html { redirect_to @temporary_user, notice: 'Temporary user was successfully updated.' }
-        format.json { render :show, status: :ok, location: @temporary_user }
+        format.html {redirect_to @temporary_user, notice: 'Temporary user was successfully updated.'}
+        format.json {render :show, status: :ok, location: @temporary_user}
       else
-        format.html { render :edit }
-        format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @temporary_user.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -58,20 +58,23 @@ class TemporaryUsersController < ApplicationController
   def destroy
     @temporary_user.destroy
     respond_to do |format|
-      format.html { redirect_to temporary_users_url, notice: 'Temporary user was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to temporary_users_url, notice: 'Temporary user was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_temporary_user
-      @temporary_user = TemporaryUser.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def temporary_user_params
-      params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
-                                             :role, :password, :encrypted_password, :company_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_temporary_user
+    @temporary_user = TemporaryUser.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def temporary_user_params
+    pp = params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
+                                                :password, :encrypted_password, :company_id)
+    pp[:role] = params[:temporary_user][:role].to_i
+    return pp
+  end
 end
