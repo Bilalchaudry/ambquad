@@ -8,16 +8,37 @@
             <div class="card-body">
               <p id="notice"><%= notice %></p>
 
-              <div class="text-center font-weight-light my-4">
-              <p>
-               <h3> <strong>Employee type:</strong>
-                <%= @employee_type.employee_type %></h3>
-              </p>
-              <%= link_to 'Edit', edit_employee_type_path(@employee_type) %> |
-              <%= link_to 'Back', employee_types_path %>
-              </div>
 
-            </div>
+                <div class="form-row pt-2">
+                  <div class="col-md-4">
+                    <strong>Employee type:</strong>
+                  </div>
+                  <div class="col-md-6">
+                    <div>
+                      <%= @employee_type.employee_type %>
+                    </div>
+                  </div>
+                </div>
+
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Edit', edit_employee_type_path(@employee_type), :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Back', employee_types_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div>
+              </div>
+              </div>
           </div>
         </div>
       </div>

@@ -8,37 +8,90 @@
             <div class="card-body">
               <p id="notice"><%= notice %></p>
 
-              <p>
-                <strong>Email:</strong>
-                <%= @company.email %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Email:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @company.email %>
+                  </div>
+                </div>
+              </div>
 
-              <p>
-                <strong>Name:</strong>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Name:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @company.name %>
+                  </div>
+                </div>
+              </div>
 
-              <p>
-                <strong>Phone number:</strong>
-                <%= @company.phone_number %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Phone number:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @company.phone_number %>
+                  </div>
+                </div>
+              </div>
 
-              <p>
-                <strong>Address:</strong>
-                <%= @company.address %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Address:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @company.address %>
+                  </div>
+                </div>
+              </div>
 
-              <p>
-                <strong>Number of users:</strong>
-                <%= @company.number_of_users %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Number of users:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @company.number_of_users %>
+                  </div>
+                </div>
+              </div>
 
-              <p>
-                <strong>Start date:</strong>
-                <%= @company.start_date %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Start date:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @company.start_date %>
+                  </div>
+                </div>
+              </div>
 
-              <%= link_to 'Edit', edit_company_path(@company) %> |
-              <%= link_to 'Back', companies_path %>
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Edit', edit_company_path(@company), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Back', companies_path , :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div>
+              </div>
             </div>
           </div>
         </div>
