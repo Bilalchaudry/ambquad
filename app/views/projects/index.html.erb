@@ -23,7 +23,7 @@
                 <tr>
                   <th>Name</th>
                   <th>Address</th>
-                  <th>Compnay</th>
+                  <th>Company</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -32,8 +32,8 @@
                 <% @projects.each do |project| %>
                   <tr>
                     <td><%= project.project_name %></td>
-                    <td><%= project.address %></td>
-                    <td><%= project.client_companies.last.name rescue nil  %></td>
+                    <td><%= project.site_office_address %></td>
+                    <td><%= project.client_companies.last.company_name rescue nil  %></td>
                     <td>
                       <%= link_to "View", project_path(project), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" %>

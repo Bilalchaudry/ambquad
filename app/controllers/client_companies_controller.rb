@@ -69,7 +69,8 @@ class ClientCompaniesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def company_params
-      params.require(:client_company).permit(:email, :name, :phone_number, :address,
-                                             :number_of_users, :start_date)
+      params.require(:client_company).permit(:company_name, :company_id, :address, :phone, :number_of_users,
+                                             :primary_poc_first_name, :primary_poc_last_name, :poc_email,
+                                             :poc_phone, :status, :client_po_number, :closed_at )
     end
 end

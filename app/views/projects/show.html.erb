@@ -15,17 +15,17 @@
 
               <p>
                 <strong>Address:</strong>
-                <%= @project.address %>
+                <%= @project.site_office_address %>
               </p>
 
               <p>
                 <strong>Project lead:</strong>
-                <%= @project.project_lead %>
+                <%= @project.project_lead rescue nil %>
               </p>
 
               <p>
                 <strong>Company:</strong>
-                <%= @project.client_companies.last.name %>
+                <%= @project.client_companies.last.company_name %>
               </p>
 
               <%= link_to 'Edit', edit_project_path(@project) %> |

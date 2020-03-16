@@ -18,15 +18,15 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
   create_table "client_companies", force: :cascade do |t|
     t.string "email"
     t.string "company_name"
-    t.string "phone"
+    t.string "company_id"
     t.string "address"
+    t.string "phone"
     t.integer "number_of_users"
     t.integer "primary_poc_first_name"
     t.integer "primary_poc_last_name"
     t.integer "poc_email"
     t.integer "poc_phone"
     t.integer "status"
-    t.date "start_date"
     t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -90,7 +90,7 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
     t.integer "role", default: 0
     t.string "encrypted_password"
     t.string "password"
-    t.integer "company_id"
+    t.integer "client_company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

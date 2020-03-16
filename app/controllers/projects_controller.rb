@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
     if current_user.role.eql?("Admin")
       @projects = Project.all
     else
-      @projects = Project.all
+      @projects = current_user.client_company.projects rescue nil
     end
   end
 
@@ -77,6 +77,6 @@ class ProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:project_name, :address, :project_lead, :client_company_id)
+    params.require(:project).permit(:project_name, :site_office_address, :client_company_id)
   end
 end

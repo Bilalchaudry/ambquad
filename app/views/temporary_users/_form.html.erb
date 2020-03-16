@@ -79,10 +79,10 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.label :Comapny, :class => "small mb-1" %>
-                      <select name="temporary_user[company_id]" id="company_id" class="form-control">
+                      <select name="temporary_user[client_company_id]" id="company_id" class="form-control">
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
-                            <%= company.name %>
+                            <%= company.company_name %>
                           </option>
                         <% end %>
                       </select>
