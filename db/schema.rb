@@ -15,20 +15,26 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "client_company_projects", force: :cascade do |t|
-    t.integer "project_id"
-    t.integer "client_company_id"
+  create_table "client_companies", force: :cascade do |t|
+    t.string "email"
+    t.string "company_name"
+    t.string "company_id"
+    t.string "address"
+    t.string "phone"
+    t.integer "number_of_users"
+    t.integer "primary_poc_first_name"
+    t.integer "primary_poc_last_name"
+    t.integer "poc_email"
+    t.integer "poc_phone"
+    t.integer "status"
+    t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "companies", force: :cascade do |t|
-    t.string "email"
-    t.string "name"
-    t.string "phone_number"
-    t.string "address"
-    t.integer "number_of_users"
-    t.date "start_date"
+  create_table "client_company_projects", force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "client_company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -60,12 +66,18 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
 
   create_table "projects", force: :cascade do |t|
     t.string "project_name"
-    t.string "address"
-    t.string "project_lead"
+    t.string "project_id"
+    t.string "site_office_address"
+    t.text "project_summary"
+    t.text "phone"
+    t.date "start_date"
+    t.date "end_date"
+    t.integer "project_status"
+    t.integer "client_company_id"
+    t.string "client_po_number"
+    t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "company_id"
-    t.index ["company_id"], name: "index_projects_on_company_id"
   end
 
   create_table "temporary_users", force: :cascade do |t|
@@ -97,7 +109,7 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
     t.string "username"
     t.integer "role", default: 0
     t.string "encrypted_password", default: "", null: false
-    t.integer "company_id"
+    t.integer "client_company_id"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -105,5 +117,4 @@ ActiveRecord::Schema.define(version: 2020_03_16_101454) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "projects", "companies"
 end
