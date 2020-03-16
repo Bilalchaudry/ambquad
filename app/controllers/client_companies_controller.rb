@@ -10,6 +10,10 @@ class ClientCompaniesController < ApplicationController
   # GET /companies/1
   # GET /companies/1.json
   def show
+    if params[:delete].present?
+      @client_company.destroy
+      redirect_to client_companies_path
+    end
   end
 
   # GET /companies/new
@@ -56,7 +60,7 @@ class ClientCompaniesController < ApplicationController
   def destroy
     @client_company.destroy
     respond_to do |format|
-      format.html { redirect_to @client_company, notice: 'Company was successfully destroyed.' }
+      format.html { redirect_to client_companies_url, notice: 'Company was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
