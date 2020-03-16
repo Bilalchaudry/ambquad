@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   resources :employee_types
   resources :projects
   resources :client_companies
-  resources :users, except: [:show]
+  # resources :users, except: [:show]
   resources :plant_types
 end
