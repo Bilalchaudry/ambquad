@@ -20,121 +20,77 @@
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :company_name, :class => "mb-1", :style => 'font-weight:bold' %>
+                    <%= form.label :company_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :company_name, :class => "form-control py-4", :required => true %>
+                      <%= form.text_field :company_name, :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label "Company ID", :class => "mb-1", :style => 'font-weight:bold' %>
+                    <%= form.label :company_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :company_id, :class => "form-control py-4", :required => true %>
+                      <%= form.text_field :company_id, validate: true , :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :address, :class => "mb-1", :style => 'font-weight:bold' %>
+                    <%= form.label :address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :address, :class => "form-control py-4", :required => true %>
+                      <%= form.text_field :address, :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :phone, :class => "mb-1", :style => 'font-weight:bold' %>
+                    <%= form.label :phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :phone, :class => "form-control py-4", :required => true %>
+                      <%= form.text_field :phone, :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :number_of_users, :class => "mb-1", :style => 'font-weight:bold' %>
+                    <%= form.label :number_of_users, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.number_field :number_of_users, :class => "form-control py-4", :required => true %>
+                      <%= form.number_field :number_of_users, :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :primary_poc_first_name, :class => "mb-1", :style => 'font-weight:bold' %>
+                    <%= form.label :primary_poc_first_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :primary_poc_first_name, :class => "form-control py-4", :required => true %>
+                      <%= form.text_field :primary_poc_first_name, :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :primary_poc_last_name, :class => "mb-1", :style => 'font-weight:bold' %>
+                    <%= form.label :primary_poc_last_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :primary_poc_last_name, :class => "form-control py-4", :required => true %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="col-md-4">
-                    <%= form.label :poc_email, :class => "mb-1", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :poc_email, :class => "form-control py-4" %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="col-md-4">
-                    <%= form.label :poc_phone, :class => "mb-1", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :poc_phone, :class => "form-control py-4" %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="col-md-4">
-                    <%= form.label :status, :class => "mb-1", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :status, :class => "form-control py-4" %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="col-md-4">
-                    <%= form.label :closed_at, :class => "mb-1", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.date_field :closed_at, :class => "form-control py-4" %>
+                      <%= form.text_field :primary_poc_last_name, :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>

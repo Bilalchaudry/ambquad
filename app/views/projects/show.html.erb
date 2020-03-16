@@ -8,28 +8,68 @@
             <div class="card-body">
               <p id="notice"><%= notice %></p>
 
-              <p>
-                <strong>Project name:</strong>
-                <%= @project.project_name %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Project name:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @project.project_name %>
+                  </div>
+                </div>
+              </div>
 
-              <p>
-                <strong>Address:</strong>
-                <%= @project.site_office_address %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Address:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @project.site_office_address %>
+                  </div>
+                </div>
+              </div>
 
-              <p>
-                <strong>Project lead:</strong>
-                <%= @project.project_lead rescue nil %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Project lead:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @project.project_lead %>
+                  </div>
+                </div>
+              </div>
 
-              <p>
-                <strong>Company:</strong>
-                <%= @project.client_companies.last.company_name %>
-              </p>
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Company:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @project.client_companies.last.company_name %>
+                  </div>
+                </div>
+              </div>
 
-              <%= link_to 'Edit', edit_project_path(@project) %> |
-              <%= link_to 'Back', projects_path %>
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Edit', edit_project_path(@project), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Back', projects_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div>
+              </div>
             </div>
           </div>
         </div>
