@@ -10,6 +10,10 @@ class ClientCompaniesController < ApplicationController
   # GET /companies/1
   # GET /companies/1.json
   def show
+    if params[:delete].present?
+      @client_company.destroy
+      redirect_to client_companies_path
+    end
   end
 
   # GET /companies/new
