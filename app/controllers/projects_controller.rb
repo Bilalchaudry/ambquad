@@ -15,6 +15,10 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
+    if params[:delete].present?
+      @project.destroy
+      redirect_to project_path
+    end
   end
 
   # GET /projects/new

@@ -13,6 +13,9 @@ class UsersController < ApplicationController
     if params[:id] == "0"
       sign_out(current_user)
       redirect_to root_path
+    elsif params[:delete].present?
+      @user.destroy
+      redirect_to user_path
     else
       @user = User.find(params[:id])
     end

@@ -10,6 +10,10 @@ class PlantsController < ApplicationController
   # GET /plants/1
   # GET /plants/1.json
   def show
+    if params[:delete].present?
+      @plant.destroy
+      redirect_to plant_path
+    end
   end
 
   # GET /plants/new
