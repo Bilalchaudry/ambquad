@@ -25,7 +25,7 @@
 
               <p>
                 <strong>Company:</strong>
-                <%= @project.company.name %>
+                <%= @project.client_companies.last.name %>
               </p>
 
               <%= link_to 'Edit', edit_project_path(@project) %> |

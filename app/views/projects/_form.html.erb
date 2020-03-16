@@ -45,8 +45,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.label :company, :class => "small mb-1" %>
-                      <select name="project[company_id]" id="project_id" class="form-control">
-                        <% Company.all.each do |company| %>
+                      <select name="project[client_company_id]" id="client_company_id" class="form-control">
+                        <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.name %>
                           </option>

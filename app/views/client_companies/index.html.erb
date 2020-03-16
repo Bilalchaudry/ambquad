@@ -11,7 +11,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-dark text-white mb-3">
-              <%= link_to "Add New Company", new_company_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Company", new_client_company_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
 
@@ -43,9 +43,9 @@
                     <td><%= company.number_of_users %></td>
                     <td><%= company.start_date %></td>
                     <td>
-                      <%= link_to "View", company_path(company), :class => "btn btn-outline-success" %>
-                      <%= link_to "Edit", edit_company_path(company), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", company_path(company), :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "View", client_company_path(company), :class => "btn btn-outline-success" %>
+                      <%= link_to "Edit", edit_client_company_path(company), :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", client_company_path(company), :class => "btn btn-outline-danger", method: :delete %>
                     </td>
                   </tr>
                 <% end %>

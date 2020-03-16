@@ -10,18 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_14_204958) do
+ActiveRecord::Schema.define(version: 2020_03_16_101454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "companies", force: :cascade do |t|
+  create_table "client_companies", force: :cascade do |t|
     t.string "email"
     t.string "name"
     t.string "phone_number"
     t.string "address"
     t.integer "number_of_users"
     t.date "start_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "client_company_projects", force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "client_company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -57,8 +64,29 @@ ActiveRecord::Schema.define(version: 2020_03_14_204958) do
     t.string "project_lead"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "company_id"
-    t.index ["company_id"], name: "index_projects_on_company_id"
+    t.bigint "client_company_id"
+    t.index ["client_company_id"], name: "index_projects_on_client_company_id"
+  end
+
+  create_table "temporary_users", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone_no"
+    t.string "email"
+    t.string "username"
+    t.integer "role"
+    t.string "encrypted_password"
+    t.string "password"
+    t.integer "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_client_companies", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "client_company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -77,5 +105,5 @@ ActiveRecord::Schema.define(version: 2020_03_14_204958) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "projects", "companies"
+  add_foreign_key "projects", "client_companies"
 end

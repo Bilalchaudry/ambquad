@@ -1,10 +1,10 @@
-class CompaniesController < ApplicationController
+class ClientCompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
   # GET /companies
   # GET /companies.json
   def index
-    @companies = Company.all
+    @companies = ClientCompany.all
   end
 
   # GET /companies/1
@@ -14,7 +14,7 @@ class CompaniesController < ApplicationController
 
   # GET /companies/new
   def new
-    @company = Company.new
+    @client_company = ClientCompany.new
   end
 
   # GET /companies/1/edit
@@ -24,15 +24,15 @@ class CompaniesController < ApplicationController
   # POST /companies
   # POST /companies.json
   def create
-    @company = Company.new(company_params)
+    @client_company = ClientCompany.new(company_params)
 
     respond_to do |format|
-      if @company.save
-        format.html { redirect_to @company, notice: 'Company was successfully created.' }
-        format.json { render :show, status: :created, location: @company }
+      if @client_company.save
+        format.html { redirect_to @client_company, notice: 'Company was successfully created.' }
+        format.json { render :show, status: :created, location: @client_company}
       else
         format.html { render :new }
-        format.json { render json: @company.errors, status: :unprocessable_entity }
+        format.json { render json: @client_company.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -64,11 +64,12 @@ class CompaniesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_company
-      @company = Company.find(params[:id])
+      @company = ClientCompany.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def company_params
-      params.require(:company).permit(:email, :name, :phone_number, :address, :number_of_users, :start_date)
+      params.require(:client_company).permit(:email, :name, :phone_number, :address,
+                                             :number_of_users, :start_date)
     end
 end

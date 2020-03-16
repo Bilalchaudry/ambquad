@@ -5,13 +5,13 @@
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-body">
-              <%= form_with(model: user, local: true) do |form| %>
-                <% if user.errors.any? %>
+              <%= form_with(model: temporary_user, local: true) do |form| %>
+                <% if temporary_user.errors.any? %>
                   <div id="error_explanation">
-                    <h2><%= pluralize(user.errors.count, "error") %> prohibited this company from being saved:</h2>
+                    <h2><%= pluralize(temporary_user.errors.count, "error") %> prohibited this company from being saved:</h2>
 
                     <ul>
-                      <% user.errors.full_messages.each do |message| %>
+                      <% temporary_user.errors.full_messages.each do |message| %>
                         <li><%= message %></li>
                       <% end %>
                     </ul>

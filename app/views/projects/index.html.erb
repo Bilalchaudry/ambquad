@@ -32,7 +32,7 @@
                   <tr>
                     <td><%= project.project_name %></td>
                     <td><%= project.address %></td>
-                    <td><%= project.company.name %></td>
+                    <td><%= project.client_companies.last.name rescue nil  %></td>
                   </tr>
                 <% end %>
                 </tbody>
