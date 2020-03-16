@@ -7,17 +7,18 @@
 <!--            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Company</h3></div>-->
             <div class="card-body">
               <%= form_with(model: company, local: true) do |form| %>
-                <% if company.errors.any? %>
-                  <div id="error_explanation">
-                    <h2><%= pluralize(company.errors.count, "error") %> prohibited this company from being saved:</h2>
+                <%= render 'layouts/error_messages', object: form.object %>
+                <%# if company.errors.any? %>
+<!--                  <div id="error_explanation">-->
+<!--                    <h2><%#= pluralize(company.errors.count, "error") %> prohibited this company from being saved:</h2>-->
 
-                    <ul>
-                      <% company.errors.full_messages.each do |message| %>
-                        <li><%= message %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                <% end %>
+<!--                    <ul>-->
+                      <%# company.errors.full_messages.each do |message| %>
+<!--                        <li><%#= message %></li>-->
+                      <%# end %>
+<!--                    </ul>-->
+<!--                  </div>-->
+                <%# end %>
                 <div class="form-row">
                   <div class="col-md-6">
                     <div class="form-group">
