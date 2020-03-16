@@ -18,55 +18,94 @@
                     </ul>
                   </div>
                 <% end %>
+
+
+
+
                 <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.label :email, :class => "small mb-1" %>
-                      <%= form.email_field :email, :class => "form-control py-4", :required => true %>
-                    </div>
+                  <div class="col-md-4">
+                    <%= form.label :email, :class => "mb-1", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :name, :class => "small mb-1" %>
+                      <%= form.email_field :email, :class => "form-control py-4", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :name, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <%= form.text_field :name, validate: true , :class => "form-control py-4", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.label :phone_number, :class => "small mb-1" %>
-                      <%= form.telephone_field :phone_number, :class => "form-control py-4", :required => true %>
-                    </div>
+                  <div class="col-md-4">
+                    <%= form.label :phone_number, :class => "mb-1", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :address, :class => "small mb-1" %>
+                      <%= form.telephone_field :phone_number, :class => "form-control py-4", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :address, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <%= form.text_field :address, :class => "form-control py-4", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.label :number_of_users, :class => "small mb-1" %>
-                      <%= form.number_field :number_of_users, :class => "form-control py-4", :required => true %>
-                    </div>
+                  <div class="col-md-4">
+                    <%= form.label :number_of_users, :class => "mb-1", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :start_date, :class => "small mb-1" %>
+                      <%= form.number_field :number_of_users, :class => "form-control py-4", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :start_date, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <%= form.date_field :start_date, :class => "form-control py-4", :required => true %>
                     </div>
                   </div>
                 </div>
 
-                <div class="form-group mt-4 mb-0">
-                  <div class="actions">
-                    <%= form.submit %>
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", companies_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
                 </div>
               <% end %>
             </div>

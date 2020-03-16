@@ -18,33 +18,46 @@
                     </ul>
                   </div>
                 <% end %>
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.label :project_name, :class => "small mb-1" %>
-                      <%= form.text_field :project_name, :class => "form-control py-2", :required => true %>
-                    </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_name, :class => "mb-1", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :address, :class => "small mb-1" %>
+                      <%= form.text_field :project_name, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :address, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
                       <%= form.text_field :address, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
+
                 <div class="form-row">
                 </div>
-                <div class="form-row">
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_lead, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :project_lead, :class => "small mb-1" %>
                       <%= form.text_field :project_lead, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
+                </div>
 
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :company, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :company, :class => "small mb-1" %>
                       <select name="project[company_id]" id="project_id" class="form-control">
                         <% Company.all.each do |company| %>
                           <option value="<%= company.id %>">
@@ -55,12 +68,26 @@
                     </div>
                   </div>
                 </div>
-
-                <div class="form-group mt-4 mb-0">
-                  <div class="actions">
-                    <%= form.submit %>
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
                   </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", projects_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
                 </div>
+
               <% end %>
             </div>
           </div>

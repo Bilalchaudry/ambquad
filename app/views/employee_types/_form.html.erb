@@ -20,17 +20,35 @@
                   </div>
                 <% end %>
 
-                <div class="form-row">
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :employee_type, :class => "mb-1", :style => 'font-weight:bold' %>
+                  </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.label :employee_type, :class => "small mb-1" %>
                       <%= form.text_field :employee_type, :class => "form-control py-4", :required => true %>
                     </div>
                   </div>
                 </div>
 
-                <div class="actions">
-                  <%= form.submit %>
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", employee_types_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
                 </div>
               <% end %>
             </div>
