@@ -10,8 +10,12 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    redirect_to root_path if params[:id] == "sign_out"
-    @user = User.find(params[:id])
+    if params[:id] == "0"
+      sign_out(current_user)
+      redirect_to root_path
+    else
+      @user = User.find(params[:id])
+    end
   end
 
   # GET /users/new
