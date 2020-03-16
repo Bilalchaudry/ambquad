@@ -17,7 +17,7 @@ class ProjectsController < ApplicationController
   def show
     if params[:delete].present?
       @project.destroy
-      redirect_to project_path
+      redirect_to projects_path
     end
   end
 

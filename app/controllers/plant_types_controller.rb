@@ -12,7 +12,7 @@ class PlantTypesController < ApplicationController
   def show
     if params[:delete].present?
       @plant_type.destroy
-      redirect_to plant_type_path
+      redirect_to plant_types_path
     end
   end
 

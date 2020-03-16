@@ -12,7 +12,7 @@ class EmployeeTypesController < ApplicationController
   def show
     if params[:delete].present?
       @employee_type.destroy
-      redirect_to employee_type_path
+      redirect_to employee_types_path
     end
   end
 
