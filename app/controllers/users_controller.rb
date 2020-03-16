@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    redirect_to root_path if params[:id] == "sign_out"
   end
 
   # GET /users/new
