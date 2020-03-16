@@ -24,6 +24,7 @@
                   <th>Name</th>
                   <th>Address</th>
                   <th>Compnay</th>
+                  <th>Actions</th>
                 </tr>
                 </thead>
 
@@ -33,6 +34,11 @@
                     <td><%= project.project_name %></td>
                     <td><%= project.address %></td>
                     <td><%= project.company.name %></td>
+                    <td>
+                      <%= link_to "View", project_path(project), :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", project_path(project), :class => "btn btn-outline-danger", method: :delete %>
+                    </td>
                   </tr>
                 <% end %>
                 </tbody>

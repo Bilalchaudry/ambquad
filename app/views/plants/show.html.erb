@@ -1,44 +1,61 @@
-<p id="notice"><%= notice %></p>
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header"><h3 class="text-center font-weight-light my-4"><%= @plant.plant_name %></h3></div>
+            <div class="card-body">
 
-<p>
-  <strong>Plant name:</strong>
-  <%= @plant.plant_name %>
-</p>
+              <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Plant:</strong>
-  <%= @plant.plant_id %>
-</p>
+              <p>
+                <strong>Plant name:</strong>
+                <%= @plant.plant_name %>
+              </p>
 
-<p>
-  <strong>Plant type:</strong>
-  <%= @plant.plant_type %>
-</p>
+              <p>
+                <strong>Plant:</strong>
+                <%= @plant.plant_id %>
+              </p>
 
-<p>
-  <strong>Project company:</strong>
-  <%= @plant.project_company_id %>
-</p>
+              <p>
+                <strong>Plant type:</strong>
+                <%= @plant.plant_type_id %>
+              </p>
 
-<p>
-  <strong>Contract start date:</strong>
-  <%= @plant.contract_start_date %>
-</p>
+              <p>
+                <strong>Project company:</strong>
+                <%= @plant.project_company_id %>
+              </p>
 
-<p>
-  <strong>Contract end date:</strong>
-  <%= @plant.contract_end_date %>
-</p>
+              <p>
+                <strong>Contract start date:</strong>
+                <%= @plant.contract_start_date %>
+              </p>
 
-<p>
-  <strong>Market value:</strong>
-  <%= @plant.market_value %>
-</p>
+              <p>
+                <strong>Contract end date:</strong>
+                <%= @plant.contract_end_date %>
+              </p>
 
-<p>
-  <strong>Status:</strong>
-  <%= @plant.status %>
-</p>
+              <p>
+                <strong>Market value:</strong>
+                <%= @plant.market_value %>
+              </p>
 
-<%= link_to 'Edit', edit_plant_path(@plant) %> |
-<%= link_to 'Back', plants_path %>
+              <p>
+                <strong>Status:</strong>
+                <%= @plant.status %>
+              </p>
+
+              <%= link_to 'Edit', edit_plant_path(@plant) %> |
+              <%= link_to 'Back', plants_path %>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
