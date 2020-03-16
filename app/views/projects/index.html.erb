@@ -34,7 +34,7 @@
                     <td>
                       <%= link_to "View", project_path(project), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", project_path(project), :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "Delete", "/projects/#{project.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
                     </td>
                   </tr>
                 <% end %>

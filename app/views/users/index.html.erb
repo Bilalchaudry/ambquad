@@ -38,7 +38,7 @@
                     <td>
                       <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", user_path(user), :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "Delete", "/users/#{user.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
                     </td>
                   </tr>
                 <% end %>
