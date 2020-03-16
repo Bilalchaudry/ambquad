@@ -9,6 +9,7 @@ class CreateProjects < ActiveRecord::Migration[5.2]
       t.date :start_date
       t.date :end_date
       t.integer :project_status
+      t.integer :client_company_id
       t.string :client_po_number
       t.date :closed_at
       t.timestamps
