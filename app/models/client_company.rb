@@ -1,4 +1,5 @@
 class ClientCompany < ApplicationRecord
+
   has_many :users
 
   has_many :client_company_projects, dependent: :destroy

@@ -6,17 +6,9 @@
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-body">
               <%= form_with(model: project, local: true) do |form| %>
-                <% if project.errors.any? %>
-                  <div id="error_explanation">
-                    <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+                <%= render 'layouts/error_messages', object: form.object %>
 
-                    <ul>
-                      <% project.errors.full_messages.each do |message| %>
-                        <li><%= message %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                <% end %>
+
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -27,13 +19,15 @@
                     </div>
                   </div>
                 </div>
+
+
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :site_office_address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :site_office_address, validate: true, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :site_office_address, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
