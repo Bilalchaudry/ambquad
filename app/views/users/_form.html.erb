@@ -7,7 +7,10 @@
             <div class="card-body">
               <%= form_with(model: user, local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
-                <div class="form-row">
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :first_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.text_field :first_name, :class => "form-control py-2", :required => true %>
