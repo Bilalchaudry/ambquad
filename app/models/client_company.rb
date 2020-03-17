@@ -6,4 +6,5 @@ class ClientCompany < ApplicationRecord
   has_many :projects, :through => :client_company_projects, dependent: :destroy
 
   validates :phone, :address, :number_of_users, presence: true
+  validates :company_name, :phone, uniqueness: true
 end

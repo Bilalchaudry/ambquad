@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
 
   belongs_to :client_company, optional: true
+  validates :email, uniqueness: true
 
   enum role: {
       Admin: 0,
