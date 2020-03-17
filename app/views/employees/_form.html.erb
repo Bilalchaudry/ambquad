@@ -1,0 +1,197 @@
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-body">
+              <%= form_with(model: employee, local: true) do |form| %>
+                <% if employee.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(employee.errors.count, "error") %> prohibited this employee from being saved:</h2>
+
+                    <ul>
+                      <% employee.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :first_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :first_name, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :last_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :last_name, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :employee_ID, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.number_field :employee_id, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.number_field :phone, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :email, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :gender, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="employee[gender]" id="gender" class="form-control">
+                        <% Employee.genders.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :home_company_role, :class => "mb-1 pt-4", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_area :home_company_role, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :contract_end_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%#= form.number_field :status, :class => "form-control py-2", :required => true %>
+                      <select name="employee[status]" id="status" class="form-control">
+                        <% Employee.statuses.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="employee[project_id]" id="project_id" class="form-control">
+                        <% Project.all.each do |project| %>
+                          <option value="<%= project.id %>">
+                            <%= project.project_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                     </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_company_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.number_field :project_company_id, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", employees_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

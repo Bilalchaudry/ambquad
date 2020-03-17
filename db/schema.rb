@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_17_063228) do
+ActiveRecord::Schema.define(version: 2020_03_17_110139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,24 @@ ActiveRecord::Schema.define(version: 2020_03_17_063228) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "employees", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "employee_id"
+    t.integer "phone"
+    t.string "email"
+    t.integer "gender", default: 0
+    t.text "home_company_role"
+    t.date "contract_start_date"
+    t.date "contract_end_date"
+    t.integer "status", default: 0
+    t.integer "project_company_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_employees_on_project_id"
+  end
+
   create_table "plant_types", force: :cascade do |t|
     t.string "type_name"
     t.datetime "created_at", null: false
@@ -73,11 +91,12 @@ ActiveRecord::Schema.define(version: 2020_03_17_063228) do
     t.date "start_date"
     t.date "end_date"
     t.integer "project_status"
-    t.integer "client_company_id"
     t.string "client_po_number"
     t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "client_company_id"
+    t.index ["client_company_id"], name: "index_projects_on_client_company_id"
   end
 
   create_table "temporary_users", force: :cascade do |t|
@@ -117,4 +136,6 @@ ActiveRecord::Schema.define(version: 2020_03_17_063228) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "employees", "projects"
+  add_foreign_key "projects", "client_companies"
 end

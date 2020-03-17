@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: MyString
+  last_name: MyString
+  employee_id: 1
+  phone: 1
+  email: MyString
+  gender: 1
+  home_company_role: MyText
+  contract_start_date: 2020-03-17
+  contract_end_date: 2020-03-17
+  status: 1
+  project_company_id: 1
+  project: one
+
+two:
+  first_name: MyString
+  last_name: MyString
+  employee_id: 1
+  phone: 1
+  email: MyString
+  gender: 1
+  home_company_role: MyText
+  contract_start_date: 2020-03-17
+  contract_end_date: 2020-03-17
+  status: 1
+  project_company_id: 1
+  project: two

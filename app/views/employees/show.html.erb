@@ -1,0 +1,168 @@
+<!--<p id="notice"><%#= notice %></p>-->
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header"><h3 class="text-center font-weight-light my-4">Employee Type</h3></div>
+            <div class="card-body">
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>First name:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.first_name %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Last name:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.last_name %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Employee ID:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.employee_id %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Phone:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.phone %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Email:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.email %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Gender:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.gender %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Home company role:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.home_company_role %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Contract start date:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.contract_start_date %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Contract end date:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.contract_end_date %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Status:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.status %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Project company:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.project_company_id %>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Project:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.project.project_name %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Edit', edit_employee_path(@employee), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Back', employees_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
