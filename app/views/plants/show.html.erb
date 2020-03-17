@@ -7,7 +7,7 @@
             <div class="card-header"><h3 class="text-center font-weight-light my-4"><%= @plant.plant_name %></h3></div>
             <div class="card-body">
 
-              <p id="notice"><%= notice %></p>
+              <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
@@ -44,17 +44,6 @@
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
-                  <strong>Project company:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @plant.project_company_id %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
                   <strong>Contract start date:</strong>
                 </div>
                 <div class="col-md-6">
@@ -82,17 +71,6 @@
                 <div class="col-md-6">
                   <div>
                     <%= @plant.market_value %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Status:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @plant.status %>
                   </div>
                 </div>
               </div>

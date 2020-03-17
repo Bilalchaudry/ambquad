@@ -6,18 +6,41 @@
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-header"><h3 class="text-center font-weight-light my-4"><%= @user.first_name %></h3></div>
             <div class="card-body">
+              <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
 
               <div class="form-row pt-2">
                 <div class="col-md-2">
-                  <strong>Name:</strong>
+                  <strong>First Name:</strong>
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @user.username %>
+                    <%= @user.first_name %>
                   </div>
                 </div>
               </div>
 
+
+              <div class="form-row pt-2">
+                <div class="col-md-2">
+                  <strong>Last Name:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @user.last_name %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-2">
+                  <strong>Phone:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @user.phone_no %>
+                  </div>
+                </div>
+              </div>
 
               <div class="form-row pt-2">
                 <div class="col-md-2">
@@ -32,11 +55,33 @@
 
               <div class="form-row pt-2">
                 <div class="col-md-2">
+                  <strong>Username:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @user.username %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-2">
                   <strong>Role:</strong>
                 </div>
                 <div class="col-md-6">
                   <div>
                     <%= @user.role %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-2">
+                  <strong>Company:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @user.client_company.company_name %>
                   </div>
                 </div>
               </div>

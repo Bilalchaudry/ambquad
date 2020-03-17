@@ -6,17 +6,7 @@
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-body">
               <%= form_with(model: client_company , local: true) do |form| %>
-                <% if client_company.errors.any? %>
-                  <div id="error_explanation">
-                    <h2><%= pluralize(client_company.errors.count, "error") %> prohibited this company from being saved:</h2>
-
-                    <ul>
-                      <% client_company.errors.full_messages.each do |message| %>
-                        <li><%= message %></li>
-                      <% end %>
-                    </ul>
-                  </div>
-                <% end %>
+                <%= render 'layouts/error_messages', object: form.object %>
 
                 <div class="form-row">
                   <div class="col-md-4">
