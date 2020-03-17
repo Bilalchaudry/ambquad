@@ -1,4 +1,6 @@
-<p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
+<%  if notice.present? %>
+  <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
+<% end %>
 
 <p>
   <strong>First name:</strong>
