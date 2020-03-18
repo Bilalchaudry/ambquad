@@ -32,7 +32,7 @@
                   <th>Contract start date</th>
                   <th>Contract end date</th>
                   <th>Status</th>
-                  <th>Project company</th>
+<!--                  <th>Project company</th>-->
                   <th>Project</th>
                   <th>Actions</th>
                 </tr>
@@ -51,7 +51,7 @@
                     <td><%= employee.contract_start_date %></td>
                     <td><%= employee.contract_end_date %></td>
                     <td><%= employee.status %></td>
-                    <td><%= employee.project_company_id %></td>
+<!--                    <td><%#= employee.project_company_id %></td>-->
                     <td><%= employee.project.project_name %></td>
                     <td><%= link_to 'View', employee, :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', edit_employee_path(employee), :class => "btn btn-outline-info" %>
