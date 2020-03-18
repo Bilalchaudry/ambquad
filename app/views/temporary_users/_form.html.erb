@@ -37,6 +37,26 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="temporary_user[country_name]" id="country" class="form-control">
+                        <option value=" "></option>
+                        <% @country = ISO3166::Country.countries.sort %>
+                        <% @country.each do |c| %>
+                          <option value="<%= c.name %>">
+                            <%= c.name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :phone_no, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>

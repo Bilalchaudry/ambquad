@@ -29,6 +29,9 @@ class ClientCompaniesController < ApplicationController
   # POST /companies.json
   def create
     @client_company = ClientCompany.new(company_params)
+    code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code
+    @client_company.phone = '+' + code + @client_company.phone
+
 
     respond_to do |format|
       if @client_company.save
@@ -75,6 +78,6 @@ class ClientCompaniesController < ApplicationController
     def company_params
       params.require(:client_company).permit(:company_name, :company_id, :address, :phone, :number_of_users,
                                              :primary_poc_first_name, :primary_poc_last_name, :poc_email,
-                                             :poc_phone, :status, :client_po_number, :closed_at )
+                                             :poc_phone, :status, :client_po_number, :closed_at, :country_name )
     end
 end
