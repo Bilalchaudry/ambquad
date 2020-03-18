@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :project_companies
+  resources :project_employees
   resources :other_managers
   resources :foremen
   resources :employees
