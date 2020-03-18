@@ -1,7 +1,7 @@
 class ForemenController < ApplicationController
   include ForemenHelper
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
-  before_action :employe_except_foreman, only: [:new]
+  before_action :employe_except_foreman, only: [:new, :edit]
 
   # GET /foremen
   # GET /foremen.json
