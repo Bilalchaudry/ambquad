@@ -217,7 +217,14 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.number_field :project_company_id, :class => "form-control py-2", :required => true %>
+                      <%#= form.number_field :project_company_id, :class => "form-control py-2", :required => true %>
+                      <select name="employee[project_company_id]" id="other_manager_id" class="form-control">
+                        <% ProjectCompany.all.each do |company| %>
+                          <option value="<%= company.id %>">
+                            <%= company.company_name %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
