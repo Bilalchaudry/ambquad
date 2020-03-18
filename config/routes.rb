@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :foremen
   resources :employees
   resources :temporary_users
   resources :plants
