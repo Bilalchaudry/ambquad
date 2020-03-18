@@ -36,13 +36,17 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
 
     respond_to do |format|
-      if @project.save
-
-        @project.client_companies << ClientCompany.find_by_id(params[:project][:client_company_id])
-        format.html {redirect_to @project, notice: 'Project was successfully created.'}
-        format.json {render :show, status: :created, location: @project}
+      if params[:project][:client_company_id].present?
+        if @project.save
+          @project.client_companies << ClientCompany.find_by_id(params[:project][:client_company_id])
+          format.html {redirect_to @project, notice: 'Project was successfully created.'}
+          format.json {render :show, status: :created, location: @project}
+        else
+          format.html {render :new}
+          format.json {render json: @project.errors, status: :unprocessable_entity}
+        end
       else
-        format.html {render :new}
+        format.html {render :new, alert: "Company is required"}
         format.json {render json: @project.errors, status: :unprocessable_entity}
       end
     end
