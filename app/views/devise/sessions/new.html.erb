@@ -8,6 +8,10 @@
     <div class="col-sm-4 mt-4 p-4 dive_style">
       <center><h1><%= t('.sign_in') %></h1></center>
 
+        <% flash.each do |name, msg| %>
+          <%= content_tag(:div, msg, class: "alert alert-info") %>
+        <% end %>
+
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="form-group ">
           <%= f.label :email %>
