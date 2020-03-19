@@ -39,10 +39,58 @@ ActiveRecord::Schema.define(version: 2020_03_19_125454) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "cost_codes", force: :cascade do |t|
+    t.string "cost_code_id"
+    t.string "cost_code_description"
+    t.integer "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employee_types", force: :cascade do |t|
     t.string "employee_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "employee_id"
+    t.string "phone"
+    t.string "email"
+    t.integer "gender", default: 0
+    t.text "home_company_role"
+    t.date "contract_start_date"
+    t.date "contract_end_date"
+    t.integer "status", default: 0
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "foreman_id"
+    t.bigint "other_manager_id"
+    t.bigint "employee_type_id"
+    t.bigint "project_company_id"
+    t.index ["employee_type_id"], name: "index_employees_on_employee_type_id"
+    t.index ["foreman_id"], name: "index_employees_on_foreman_id"
+    t.index ["other_manager_id"], name: "index_employees_on_other_manager_id"
+    t.index ["project_company_id"], name: "index_employees_on_project_company_id"
+    t.index ["project_id"], name: "index_employees_on_project_id"
+  end
+
+  create_table "foremen", force: :cascade do |t|
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_foremen_on_employee_id"
+  end
+
+  create_table "other_managers", force: :cascade do |t|
+    t.string "manager_type"
+    t.bigint "employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employee_id"], name: "index_other_managers_on_employee_id"
   end
 
   create_table "plant_types", force: :cascade do |t|
@@ -64,6 +112,47 @@ ActiveRecord::Schema.define(version: 2020_03_19_125454) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "project_and_project_companies", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "project_company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_company_id"], name: "index_project_and_project_companies_on_project_company_id"
+    t.index ["project_id"], name: "index_project_and_project_companies_on_project_id"
+  end
+
+  create_table "project_companies", force: :cascade do |t|
+    t.text "company_summary"
+    t.text "project_role"
+    t.string "address"
+    t.string "phone"
+    t.string "primary_poc_first_name"
+    t.string "primary_poc_last_name"
+    t.string "poc_email"
+    t.string "poc_phone"
+    t.bigint "client_company_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "company_name"
+    t.index ["client_company_id"], name: "index_project_companies_on_client_company_id"
+    t.index ["project_id"], name: "index_project_companies_on_project_id"
+  end
+
+  create_table "project_employees", force: :cascade do |t|
+    t.date "contract_start_date"
+    t.date "contract_end_date"
+    t.bigint "employee_id"
+    t.bigint "employee_type_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.float "total_hours"
+    t.index ["employee_id"], name: "index_project_employees_on_employee_id"
+    t.index ["employee_type_id"], name: "index_project_employees_on_employee_type_id"
+    t.index ["project_id"], name: "index_project_employees_on_project_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "project_name"
     t.string "project_id"
@@ -73,11 +162,12 @@ ActiveRecord::Schema.define(version: 2020_03_19_125454) do
     t.date "start_date"
     t.date "end_date"
     t.integer "project_status"
-    t.integer "client_company_id"
     t.string "client_po_number"
     t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "client_company_id"
+    t.index ["client_company_id"], name: "index_projects_on_client_company_id"
   end
 
   create_table "temporary_users", force: :cascade do |t|
@@ -118,4 +208,19 @@ ActiveRecord::Schema.define(version: 2020_03_19_125454) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "employees", "employee_types"
+  add_foreign_key "employees", "foremen"
+  add_foreign_key "employees", "other_managers"
+  add_foreign_key "employees", "project_companies"
+  add_foreign_key "employees", "projects"
+  add_foreign_key "foremen", "employees"
+  add_foreign_key "other_managers", "employees"
+  add_foreign_key "project_and_project_companies", "project_companies"
+  add_foreign_key "project_and_project_companies", "projects"
+  add_foreign_key "project_companies", "client_companies"
+  add_foreign_key "project_companies", "projects"
+  add_foreign_key "project_employees", "employee_types"
+  add_foreign_key "project_employees", "employees"
+  add_foreign_key "project_employees", "projects"
+  add_foreign_key "projects", "client_companies"
 end

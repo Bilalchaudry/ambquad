@@ -1,80 +1,151 @@
+<!--<div id="layoutAuthentication_content">-->
+<!--  <main>-->
+<!--    <div class="container">-->
+<!--      <div class="row justify-content-center">-->
+<!--        <div class="col-lg-7">-->
+<!--          <div class="card shadow-lg border-0 rounded-lg mt-5">-->
+<!--            <div class="card-header"><h3 class="text-center font-weight-light my-4">Project</h3></div>-->
+<!--            <div class="card-body">-->
+<%# if notice.present? %>
+<!--                <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%#= notice %></p>-->
+<%# end %>
+<!--              <div class="form-row pt-2">-->
+<!--                <div class="col-md-4">-->
+<!--                  <strong>Project name:</strong>-->
+<!--                </div>-->
+<!--                <div class="col-md-6">-->
+<!--                  <div >-->
+<%#= @project.project_name %>
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div class="form-row pt-2">-->
+<!--                <div class="col-md-4">-->
+<!--                  <strong>Address:</strong>-->
+<!--                </div>-->
+<!--                <div class="col-md-6">-->
+<!--                  <div >-->
+<%#= @project.site_office_address %>
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div class="form-row pt-2">-->
+<!--                <div class="col-md-4">-->
+<!--                  <strong>Project lead:</strong>-->
+<!--                </div>-->
+<!--                <div class="col-md-6">-->
+<!--                  <div >-->
+<%#= @project.project_lead rescue nil %>
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div class="form-row pt-2">-->
+<!--                <div class="col-md-4">-->
+<!--                  <strong>Company:</strong>-->
+<!--                </div>-->
+<!--                <div class="col-md-6">-->
+<!--                  <div >-->
+<%#= @project.client_companies.last.company_name %>
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div class="row">-->
+<!--                <div class="col-md-3"></div>-->
+<!--                <div class="col-md-3">-->
+<!--                  <div class="form-group mt-3 mb-0">-->
+<!--                    <div class="actions">-->
+<%#= link_to 'Edit', edit_project_path(@project), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="col-md-3">-->
+<!--                  <div class="form-group mt-3 mb-0">-->
+<!--                    <div class="actions">-->
+<%#= link_to 'Back', projects_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="col-md-3"></div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </main>-->
+<!--</div>-->
+
+
 <div id="layoutAuthentication_content">
   <main>
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-header"><h3 class="text-center font-weight-light my-4">Project</h3></div>
             <div class="card-body">
-              <% if notice.present? %>
-                <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
-              <% end %>
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Project name:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div >
-                    <%= @project.project_name %>
+              <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                <div class="row">
+                  <div class="col-md-3">
+                    <%= link_to 'Employees', employees_path, style: "font-weight:bold; color: white; margin: 20px; width: 130px; height: 50px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
-                </div>
-              </div>
+                  <div class="col-md-3">
+                    <%= link_to 'Plant Itmes', plants_path, style: "font-weight:bold; color: white; margin: 20px; width: 130px; height: 50px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  <div class="col-md-3">
+                    <%= link_to 'Client', client_companies_path, style: "font-weight:bold; color: white; margin: 20px; width: 130px; height: 50px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  <div class="col-md-3">
+                    <%= link_to 'Enter Hours', cost_codes_path, style: "font-weight:bold; color: white; margin: 20px; width: 130px; height: 50px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  </div>
 
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Address:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div >
-                    <%= @project.site_office_address %>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= link_to 'Project Employees', project_employees_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= link_to 'Cost Codes', cost_codes_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= link_to 'Other Managers', other_managers_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Project lead:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div >
-                    <%= @project.project_lead rescue nil %>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= link_to 'Plant/Equipment List', plants_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= link_to 'Budget Holders', project_employees_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= link_to 'Employee Types', employee_types_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Company:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div >
-                    <%= @project.client_companies.last.company_name %>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= link_to 'Companies', project_companies_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= link_to 'Foreman', foremen_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                  </div>
+                  <div class="col-md-4">
+                    <%= link_to 'Plant Types', plant_types_path, style: "font-weight:bold; color: white; margin: 20px; width: 210px; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Edit', edit_project_path(@project), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Back', projects_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3"></div>
-              </div>
+            </div>
             </div>
           </div>
         </div>
+        <div class="col-lg-1"></div>
       </div>
-    </div>
   </main>
 </div>

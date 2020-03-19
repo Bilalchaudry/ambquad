@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  total_hours: 2020-03-18 15:15:49
+  contract_start_date: 2020-03-18
+  contract_end_date: 2020-03-18
+  employee: one
+  employee_type: one
+  project: one
+
+two:
+  total_hours: 2020-03-18 15:15:49
+  contract_start_date: 2020-03-18
+  contract_end_date: 2020-03-18
+  employee: two
+  employee_type: two
+  project: two

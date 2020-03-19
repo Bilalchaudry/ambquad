@@ -1,0 +1,6 @@
+<h1>Editing Employee</h1>
+<div class="card-header"><h3 class="text-center font-weight-light my-4">Edit <%= "#{@employee.first_name} #{@employee.last_name}" %></h3></div>
+<%= render 'form', employee: @employee %>
+
+<%= link_to 'Show', @employee %> |
+<%= link_to 'Back', employees_path %>
