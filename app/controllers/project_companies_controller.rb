@@ -28,7 +28,6 @@ class ProjectCompaniesController < ApplicationController
 
     respond_to do |format|
       if @project_company.save
-        # @project.client_companies << ClientCompany.find_by_id(params[:project][:client_company_id])
         @project_company.projects << Project.find_by_id(params[:project_company][:project_id])
         format.html { redirect_to @project_company, notice: 'Project company was successfully created.' }
         format.json { render :show, status: :created, location: @project_company }
