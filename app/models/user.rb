@@ -12,8 +12,14 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
 
   enum role: {
-      Admin: 0,
-      User: 1,
+      User: 0,
+      Admin: 1,
       Client: 2
   }
+
+  enum status: {
+      Active: 0,
+      Inactive: 1
+  }
+
 end

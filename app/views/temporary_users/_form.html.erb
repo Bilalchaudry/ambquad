@@ -83,9 +83,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%#= form.select :role,  User.roles.keys, :class => "form-control py-2" %>
                       <select name="temporary_user[role]" id="role" class="form-control">
-                        <option value=" "></option>
                         <% User.roles.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
@@ -112,6 +110,25 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="user[status]" id="role" class="form-control">
+                        <% User.statuses.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
                 <hr>
                 <div class="row">
                   <div class="col-md-3"></div>
