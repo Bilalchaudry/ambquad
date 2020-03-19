@@ -32,6 +32,12 @@ class TemporaryUsersController < ApplicationController
     @user = User.new(temporary_user_params)
     @user.phone_no = '+' + code + @user.phone_no
     @user.save
+
+    @user.set_confirmation_token
+    @user.save(validate: false)
+    MailSendJob.perform_later(@user)
+    # UserMailer.registration_confirmation(@user).deliver_now
+
     respond_to do |format|
       if @temporary_user.save
         format.html {redirect_to @user, notice: 'Temporary user was successfully created.'}
@@ -77,7 +83,7 @@ class TemporaryUsersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def temporary_user_params
     pp = params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
-                                                :password, :encrypted_password, :client_company_id, :country_name)
+                                                :password, :encrypted_password, :client_company_id, :country_name, :active_user, :email_confirmed, :confirm_token)
     pp[:role] = params[:temporary_user][:role].to_i
     return pp
   end
