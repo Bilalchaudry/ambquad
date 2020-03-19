@@ -1,10 +1,13 @@
 class EmployeesController < ApplicationController
+  include EmployeesHelper
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
+  before_action :client_company_project_employees, only: [:index]
 
   # GET /employees
   # GET /employees.json
   def index
-    @employees = Employee.all
+    @employees = @client_company_project_employees
+
   end
 
   # GET /employees/1
