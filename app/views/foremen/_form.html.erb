@@ -24,7 +24,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="foreman[employee_id]" id="foreman" class="form-control">
+                      <select name="foreman[employee_id]" id="foreman" class="form-control" required :true>
                         <% @employees_except_foreman.all.each do |employee| %>
                           <option value="<%= employee.id %>">
                             <%= "#{employee.first_name} #{employee.last_name}" %>

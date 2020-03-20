@@ -35,7 +35,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="other_manager[employee_id]" id="other_manager" class="form-control">
+                      <select name="other_manager[employee_id]" id="other_manager" class="form-control" required :true>
                         <% @employees_except_manager.all.each do |employee| %>
                           <option value="<%= employee.id %>">
                             <%= "#{employee.first_name} #{employee.last_name}" %>
