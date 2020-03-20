@@ -1,5 +1,5 @@
 class Plant < ApplicationRecord
-  validates_uniqueness_of :plant_name
+
   validates :contract_start_date, :contract_end_date, presence: true
   validate :contract_end_date_after_contract_start_date
   validate :start_date_equar_or_greater_today_date
