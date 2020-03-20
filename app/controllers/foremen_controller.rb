@@ -2,11 +2,13 @@ class ForemenController < ApplicationController
   include ForemenHelper
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
   before_action :employe_except_foreman, only: [:new, :edit]
+  before_action :client_company_projects_foreman, only:  :index
 
   # GET /foremen
   # GET /foremen.json
   def index
-    @foremen = Foreman.all
+    # @foremen = Foreman.all
+     @foremen = @client_company_project_foreman
   end
 
   # GET /foremen/1
