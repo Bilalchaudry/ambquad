@@ -25,6 +25,7 @@ class ProjectCompaniesController < ApplicationController
   # POST /project_companies.json
   def create
     @project_company = ProjectCompany.new(project_company_params)
+    @project_company.client_company_id = current_user.client_company.id
 
     respond_to do |format|
       if @project_company.save

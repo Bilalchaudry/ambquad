@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
     if current_user.role.eql?("Admin")
       @projects = Project.all
     else
-      @projects = current_user.client_company.projects rescue nil
+      @projects = current_user.client_company.projects rescue []
     end
   end
 
