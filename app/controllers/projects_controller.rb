@@ -1,5 +1,4 @@
 class ProjectsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   # GET /projects
@@ -8,7 +7,7 @@ class ProjectsController < ApplicationController
     if current_user.role.eql?("Admin")
       @projects = Project.all
     else
-      @projects = current_user.client_company.projects rescue nil
+      @projects = current_user.client_company.projects rescue []
     end
   end
 

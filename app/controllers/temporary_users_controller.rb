@@ -77,7 +77,8 @@ class TemporaryUsersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def temporary_user_params
     pp = params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
-                                                :password, :encrypted_password, :client_company_id, :country_name)
+                                                :password, :encrypted_password, :client_company_id,:country_name,
+                                                :status)
     pp[:role] = params[:temporary_user][:role].to_i
     return pp
   end

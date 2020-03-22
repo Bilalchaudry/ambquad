@@ -29,14 +29,15 @@ class PlantsController < ApplicationController
   # POST /plants.json
   def create
     @plant = Plant.new(plant_params)
-
+    @plant.foreman_start_date = @plant.contract_start_date
+    @plant.foreman_end_date = @plant.contract_end_date
     respond_to do |format|
       if @plant.save
-        format.html { redirect_to @plant, notice: 'Plant was successfully created.' }
-        format.json { render :show, status: :created, location: @plant }
+        format.html {redirect_to @plant, notice: 'Plant was successfully created.'}
+        format.json {render :show, status: :created, location: @plant}
       else
-        format.html { render :new }
-        format.json { render json: @plant.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @plant.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -44,13 +45,30 @@ class PlantsController < ApplicationController
   # PATCH/PUT /plants/1
   # PATCH/PUT /plants/1.json
   def update
+
     respond_to do |format|
-      if @plant.update(plant_params)
-        format.html { redirect_to @plant, notice: 'Plant was successfully updated.' }
-        format.json { render :show, status: :ok, location: @plant }
+      if @plant.foreman_id.eql?(params[:plant][:foreman_id])
+        if @plant.update(plant_params)
+
+          format.html {redirect_to @plant, notice: 'Plant was successfully updated.'}
+          format.json {render :show, status: :ok, location: @plant}
+        else
+          format.html {render :edit}
+          format.json {render json: @plant.errors, status: :unprocessable_entity}
+        end
       else
-        format.html { render :edit }
-        format.json { render json: @plant.errors, status: :unprocessable_entity }
+        @duplicate_record = @plant.dup
+        @duplicate_record.foreman_id = params[:plant][:foreman_id]
+        @duplicate_record.foreman_start_date = Date.today
+        @duplicate_record.foreman_end_date = duplicate_record.contract_end_date
+
+        if @duplicate_record.save && @plant.update(foremane_end_date: Date.today)
+          format.html {redirect_to @duplicate_record, notice: 'Plant was successfully updated.'}
+          format.json {render :show, status: :ok, location: @duplicate_record}
+        else
+          format.html {render :edit}
+          format.json {render json: @duplicate_record.errors, status: :unprocessable_entity}
+        end
       end
     end
   end
@@ -60,19 +78,21 @@ class PlantsController < ApplicationController
   def destroy
     @plant.destroy
     respond_to do |format|
-      format.html { redirect_to plants_url, notice: 'Plant was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to plants_url, notice: 'Plant was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_plant
-      @plant = Plant.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def plant_params
-      params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id, :contract_start_date, :contract_end_date, :market_value, :status)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_plant
+    @plant = Plant.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def plant_params
+    params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
+                                  :contract_start_date, :contract_end_date, :market_value, :status)
+  end
 end

@@ -25,6 +25,8 @@
                   <th>Plant Type</th>
                   <th>Contract Start Date</th>
                   <th>Contract End Date</th>
+                  <th>Foreman Start Date</th>
+                  <th>Foreman End Date</th>
                   <th>Market Value</th>
                   <th>Actions</th>
                 </tr>
@@ -38,6 +40,8 @@
                     <td><%= plant.plant_type_id %></td>
                     <td><%= plant.contract_start_date %></td>
                     <td><%= plant.contract_end_date %></td>
+                    <td><%= plant.foreman_start_date %></td>
+                    <td><%= plant.foreman_end_date %></td>
                     <td><%= plant.market_value %></td>
                     <td>
                       <%= link_to "View", plant_path(plant), :class => "btn btn-outline-dark" %>

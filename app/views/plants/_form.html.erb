@@ -20,7 +20,7 @@
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :plant_ID, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :plant_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
@@ -61,6 +61,41 @@
                         <% PlantType.all.each do |type| %>
                           <option value="<%= type.id %>">
                             <%= type.type_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :forman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="plant[plant_type_id]" id="plant_type_id" class="form-control">
+                        <% Foreman.all.each do |forman| %>
+                          <option value="<%= forman.id %>">
+                            <%= forman.employee.first_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :other_manager, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="plant[plant_type_id]" id="plant_type_id" class="form-control">
+                        <% OtherManager.all.each do |manager| %>
+                          <option value="<%= manager.id %>">
+                            <%= manager.employee.first_name %>
                           </option>
                         <% end %>
                       </select>
