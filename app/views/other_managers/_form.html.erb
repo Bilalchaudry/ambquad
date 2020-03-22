@@ -1,0 +1,74 @@
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-body">
+              <%= form_with(model: other_manager, local: true) do |form| %>
+                <% if other_manager.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(other_manager.errors.count, "error") %> prohibited this other_manager from being
+                      saved:</h2>
+
+                    <ul>
+                      <% other_manager.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :manager_type, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :manager_type, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :select_Manager, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="other_manager[employee_id]" id="other_manager" class="form-control" required :true>
+                        <% @employees_except_manager.all.each do |employee| %>
+                          <option value="<%= employee.id %>">
+                            <%= "#{employee.first_name} #{employee.last_name}" %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", other_managers_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

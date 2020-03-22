@@ -1,0 +1,75 @@
+<!--<p id="notice"><%#= notice %></p>-->
+
+<!--<h1>Employees</h1>-->
+
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <h1 class="mt-4">Employees</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-3 col-md-4">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "New Employee", new_employee_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>First name</th>
+                  <th>Last name</th>
+                  <th>Employee</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Gender</th>
+                  <th>Home company role</th>
+                  <th>Contract start date</th>
+                  <th>Contract end date</th>
+                  <th>Status</th>
+<!--                  <th>Project company</th>-->
+                  <th>Project</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @employees.each do |employee| %>
+                  <tr>
+                    <td><%= employee.first_name %></td>
+                    <td><%= employee.last_name %></td>
+                    <td><%= employee.employee_id %></td>
+                    <td><%= employee.phone %></td>
+                    <td><%= employee.email %></td>
+                    <td><%= employee.gender %></td>
+                    <td><%= employee.home_company_role %></td>
+                    <td><%= employee.contract_start_date %></td>
+                    <td><%= employee.contract_end_date %></td>
+                    <td><%= employee.status %></td>
+<!--                    <td><%#= employee.project_company_id %></td>-->
+                    <td><%= employee.project.project_name %></td>
+                    <td><%= link_to 'View', employee, :class => "btn btn-outline-dark" %>
+                      <%= link_to 'Edit', edit_employee_path(employee), :class => "btn btn-outline-info" %>
+                      <%= link_to 'Destroy', employee, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+
+              <br>
+
+              <%#= link_to 'New Employee', new_employee_path %>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

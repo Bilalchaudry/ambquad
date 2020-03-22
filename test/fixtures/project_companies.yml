@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company_summary: MyText
+  project_role: MyText
+  address: MyString
+  phone: MyString
+  primary_poc_first_name: MyString
+  primary_poc_last_name: MyString
+  poc_email: MyString
+  poc_phone: MyString
+  client_company: one
+  project: one
+
+two:
+  company_summary: MyText
+  project_role: MyText
+  address: MyString
+  phone: MyString
+  primary_poc_first_name: MyString
+  primary_poc_last_name: MyString
+  poc_email: MyString
+  poc_phone: MyString
+  client_company: two
+  project: two
