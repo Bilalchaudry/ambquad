@@ -1,12 +1,11 @@
 class EmployeesController < ApplicationController
   include EmployeesHelper
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
-  before_action :client_company_project_employees, only: :index
 
   # GET /employees
   # GET /employees.json
   def index
-    @employees = @client_company_project_employees
+    @employees = current_user.client_company.employees
 
   end
 
@@ -28,6 +27,7 @@ class EmployeesController < ApplicationController
   # POST /employees.json
   def create
     @employee = Employee.new(employee_params)
+    @employee.client_company_id = current_user.client_company_id
 
     respond_to do |format|
       if @employee.save

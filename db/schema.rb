@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_22_121659) do
+ActiveRecord::Schema.define(version: 2020_03_22_174714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,8 @@ ActiveRecord::Schema.define(version: 2020_03_22_121659) do
     t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_company_id"
+    t.boolean "temporary_clost", default: false
   end
 
   create_table "employee_types", force: :cascade do |t|
@@ -79,6 +81,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_121659) do
     t.bigint "other_manager_id"
     t.bigint "employee_type_id"
     t.bigint "project_company_id"
+    t.integer "client_company_id"
     t.index ["employee_type_id"], name: "index_employees_on_employee_type_id"
     t.index ["foreman_id"], name: "index_employees_on_foreman_id"
     t.index ["other_manager_id"], name: "index_employees_on_other_manager_id"
@@ -90,6 +93,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_121659) do
     t.bigint "employee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_company_id"
     t.index ["employee_id"], name: "index_foremen_on_employee_id"
   end
 
@@ -98,6 +102,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_121659) do
     t.bigint "employee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_company_id"
     t.index ["employee_id"], name: "index_other_managers_on_employee_id"
   end
 
@@ -122,6 +127,7 @@ ActiveRecord::Schema.define(version: 2020_03_22_121659) do
     t.integer "other_manager_id"
     t.date "foreman_start_date"
     t.date "foreman_end_date"
+    t.boolean "offload", default: false
   end
 
   create_table "project_and_project_companies", force: :cascade do |t|

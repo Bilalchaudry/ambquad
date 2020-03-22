@@ -4,7 +4,7 @@ class CostCodesController < ApplicationController
   # GET /cost_codes
   # GET /cost_codes.json
   def index
-    @cost_codes = CostCode.all
+    @cost_codes = current_user.client_company.cost_codes
   end
 
   # GET /cost_codes/1
@@ -25,7 +25,7 @@ class CostCodesController < ApplicationController
   # POST /cost_codes.json
   def create
     @cost_code = CostCode.new(cost_code_params)
-
+    @cost_code.client_company_id = current_user.client_company_id
     respond_to do |format|
       if @cost_code.save
         format.html { redirect_to @cost_code, notice: 'Cost code was successfully created.' }

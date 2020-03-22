@@ -1,14 +1,11 @@
 class ForemenController < ApplicationController
   include ForemenHelper
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
-  before_action :employe_except_foreman, only: [:new, :edit]
-  before_action :client_company_projects_foreman, only:  :index
 
   # GET /foremen
   # GET /foremen.json
   def index
-    # @foremen = Foreman.all
-     @foremen = @client_company_project_foreman
+     @foremens = current_user.client_company.foremen
   end
 
   # GET /foremen/1
@@ -29,7 +26,7 @@ class ForemenController < ApplicationController
   # POST /foremen.json
   def create
     @foreman = Foreman.new(foreman_params)
-
+    @foreman.client_company_id = current_user.client_company_id
     respond_to do |format|
       if @foreman.save
         format.html { redirect_to @foreman, notice: 'Foreman was successfully created.' }
