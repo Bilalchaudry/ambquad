@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   resources :client_companies
   resources :users
   resources :plant_types
+  resources :cost_codes
 end
