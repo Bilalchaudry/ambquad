@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :budget_holders
   resources :project_companies
   resources :project_employees
   resources :other_managers
