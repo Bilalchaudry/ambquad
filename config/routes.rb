@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :budget_holders
   resources :project_companies
   resources :project_employees
   resources :other_managers
@@ -8,6 +9,10 @@ Rails.application.routes.draw do
   resources :plants
   devise_for :users
   root to: 'admin_dashboard#dashboard'
+
+  # devise_for :users
+  # root to: 'admin_dashboard#dashboard'
+
   resources :employee_types
   resources :projects
   resources :client_companies

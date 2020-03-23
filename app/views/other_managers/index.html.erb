@@ -20,8 +20,8 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Type</th>
-                  <th>Employee</th>
+                  <th>Employee Name</th>
+                  <th>Manager Type</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -29,8 +29,8 @@
                 <tbody>
                 <% @other_managers.each do |other_manager| %>
                   <tr>
-                    <td><%= other_manager.manager_type %></td>
                     <td><%="#{other_manager.employee.first_name} #{other_manager.employee.last_name}"%></td>
+                    <td><%= other_manager.manager_type %></td>
                     <td><%= link_to 'View', other_manager, :class => "btn btn-outline-dark" %>
                     <%= link_to 'Edit', edit_other_manager_path(other_manager), :class => "btn btn-outline-info" %>
                     <%= link_to 'Destroy', other_manager, method: :delete, data: {confirm: 'Are you sure?'} , :class => "btn btn-outline-danger"%></td>
@@ -47,3 +47,10 @@
     </main>
   </div>
 </div>
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $('#dataTable').DataTable();
+</script>

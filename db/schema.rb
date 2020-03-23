@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_20_151420) do
+ActiveRecord::Schema.define(version: 2020_03_22_174714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "budget_holders", force: :cascade do |t|
+    t.integer "employee_id"
+    t.integer "client_company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "client_companies", force: :cascade do |t|
     t.string "email"
@@ -46,6 +53,8 @@ ActiveRecord::Schema.define(version: 2020_03_20_151420) do
     t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_company_id"
+    t.boolean "temporary_clost", default: false
   end
 
   create_table "employee_types", force: :cascade do |t|
@@ -72,6 +81,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_151420) do
     t.bigint "other_manager_id"
     t.bigint "employee_type_id"
     t.bigint "project_company_id"
+    t.integer "client_company_id"
     t.index ["employee_type_id"], name: "index_employees_on_employee_type_id"
     t.index ["foreman_id"], name: "index_employees_on_foreman_id"
     t.index ["other_manager_id"], name: "index_employees_on_other_manager_id"
@@ -83,6 +93,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_151420) do
     t.bigint "employee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_company_id"
     t.index ["employee_id"], name: "index_foremen_on_employee_id"
   end
 
@@ -91,6 +102,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_151420) do
     t.bigint "employee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_company_id"
     t.index ["employee_id"], name: "index_other_managers_on_employee_id"
   end
 
@@ -115,6 +127,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_151420) do
     t.integer "other_manager_id"
     t.date "foreman_start_date"
     t.date "foreman_end_date"
+    t.boolean "offload", default: false
   end
 
   create_table "project_and_project_companies", force: :cascade do |t|
@@ -209,8 +222,8 @@ ActiveRecord::Schema.define(version: 2020_03_20_151420) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "country_name"
     t.integer "status"
+    t.string "country_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -18,7 +18,7 @@ class UsersController < ApplicationController
       @user.destroy
       redirect_to users_path
     else
-      @user = User.find(params[:id])
+      @user = User.find_by_id(params[:id])
     end
   end
 

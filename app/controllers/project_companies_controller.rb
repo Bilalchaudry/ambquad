@@ -4,7 +4,7 @@ class ProjectCompaniesController < ApplicationController
   # GET /project_companies
   # GET /project_companies.json
   def index
-    @project_companies = ProjectCompany.all
+    @project_companies = current_user.client_company.project_companies
   end
 
   # GET /project_companies/1

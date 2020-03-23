@@ -20,15 +20,15 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Foremen</th>
+                  <th>Foremen Name</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <% @foremen.each do |foreman| %>
+                <% @foremens.each do |foreman| %>
                   <tr>
-                    <td><%= "#{foreman.first_name} #{foreman.last_name}" %> </td>
+                    <td><%= "#{foreman.employee.first_name} #{foreman.employee.last_name}" %> </td>
                     <td><%= link_to 'View', foreman, :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', edit_foreman_path(foreman), :class => "btn btn-outline-info" %>
                       <%= link_to 'Destroy', foreman, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
@@ -44,4 +44,12 @@
     </main>
   </div>
 </div>
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+
+<script>
+    $('#dataTable').DataTable();
+</script>
 

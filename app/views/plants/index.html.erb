@@ -27,6 +27,7 @@
                   <th>Contract End Date</th>
                   <th>Foreman Start Date</th>
                   <th>Foreman End Date</th>
+                  <th>Off Load</th>
                   <th>Market Value</th>
                   <th>Actions</th>
                 </tr>
@@ -42,6 +43,7 @@
                     <td><%= plant.contract_end_date %></td>
                     <td><%= plant.foreman_start_date %></td>
                     <td><%= plant.foreman_end_date %></td>
+                    <td><%= plant.offload %></td>
                     <td><%= plant.market_value %></td>
                     <td>
                       <%= link_to "View", plant_path(plant), :class => "btn btn-outline-dark" %>
@@ -73,7 +75,6 @@
     </footer>
   </div>
 </div>
-
 
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>

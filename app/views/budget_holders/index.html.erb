@@ -2,13 +2,13 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
-        <h1 class="mt-4">Plant Types</h1>
+        <h1 class="mt-4">Budget Holders</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Plant Type", new_plant_type_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Budget Holder", new_budget_holder_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
         </div>
@@ -18,19 +18,21 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Plant Types</th>
+                  <th>Budget Holder</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <% @plant_types.each do |plant_type| %>
+                <% @budget_holders.each do |budget_holder| %>
                   <tr>
-                    <td><%= plant_type.type_name%></td>
+                    <td><%= budget_holder.employee.first_name %></td>
                     <td>
-                      <%= link_to "View", plant_type_path(plant_type), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_plant_type_path(plant_type), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/plant_types/#{plant_type.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "View", budget_holder_path(budget_holder), :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", edit_budget_holder_path(budget_holder), :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", "/budget_holders/#{budget_holder.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
+
+
                     </td>
                   </tr>
                 <% end %>
@@ -43,10 +45,6 @@
     </main>
   </div>
 </div>
-
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-
 
 <script>
     $('#dataTable').DataTable();

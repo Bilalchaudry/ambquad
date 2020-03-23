@@ -6,7 +6,7 @@ class OtherManagersController < ApplicationController
   # GET /other_managers
   # GET /other_managers.json
   def index
-    @other_managers = OtherManager.all
+    @other_managers = current_user.client_company.other_managers
   end
 
   # GET /other_managers/1
@@ -27,6 +27,7 @@ class OtherManagersController < ApplicationController
   # POST /other_managers.json
   def create
     @other_manager = OtherManager.new(other_manager_params)
+    @other_manager.client_company_id = current_user.client_company_id
 
     respond_to do |format|
       if @other_manager.save!

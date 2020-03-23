@@ -1,0 +1,45 @@
+<!--<p id="notice"><%#= notice %></p>-->
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-header"><h3 class="text-center font-weight-light my-4">Budget Holder</h3></div>
+            <div class="card-body">
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Budget Holder Name:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= "#{@budget_holder.employee.first_name} #{@budget_holder.employee.last_name}" %>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Edit', edit_budget_holder_path(@budget_holder), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Back', budget_holders_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

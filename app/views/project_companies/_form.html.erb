@@ -25,9 +25,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%#= form.text_field :project_id, :class => "form-control py-2", :required => true %>
                       <select name="project_company[project_id]" id="project_id" class="form-control">
-                        <% Project.all.each do |project| %>
+                        <% current_user.client_company.projects.each do |project| %>
                           <option value="<%= project.id %>">
                             <%= project.project_name%>
                           </option>
