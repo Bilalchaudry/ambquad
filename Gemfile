@@ -26,6 +26,8 @@ gem 'jquery-rails'
 gem 'devise'
 gem 'pg'
 gem 'countries'
+gem 'roo'
+gem 'roo-xls'
 
 gem 'devise-bootstrap-views', '~> 1.0'
 # Use Redis adapter to run Action Cable in production
