@@ -65,6 +65,22 @@ class EmployeeTypesController < ApplicationController
     end
   end
 
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
+    EmployeeType.import(params[:file])
+    redirect_to employee_types_url, notice: "created"
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/employee_type_template.csv",
+        filename: "employee_type_template.csv",
+        )
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_employee_type

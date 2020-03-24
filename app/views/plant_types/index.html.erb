@@ -10,6 +10,13 @@
             <div class="card bg-success text-white mb-3">
               <%= link_to "Add New Plant Type", new_plant_type_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
+
+            <%= form_tag import_plant_types_path, multipart: true do %>
+              <%= file_field_tag :file %>
+              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+            <% end %>
+            <%= link_to 'Download Template', download_template_plant_types_path, :class => "btn btn-dark", style: "color: white" %>
+
           </div>
         </div>
         <div class="card mb-4">
