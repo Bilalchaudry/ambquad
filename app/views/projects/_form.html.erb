@@ -1,3 +1,8 @@
+<style>
+  .hidden_option{
+    display: none;
+  }
+</style>
 <div id="layoutAuthentication_content">
   <main>
     <div class="container">
@@ -7,7 +12,7 @@
             <div class="card-body">
               <%= form_with(model: project, local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
-
+                <div class="hidden_option">
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -47,6 +52,7 @@
                     </div>
                   </div>
                 </div>
+                </div>
 
                 <div class="row">
                   <div class="col-md-4">
@@ -55,7 +61,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
 
-                      <select name="project[client_company_id]" id="client_company_id" class="form-control">
+                      <select name="project[client_company_id]" id="company_id" class="form-control">
+                        <option value=" "></option>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
@@ -93,3 +100,12 @@
     </div>
   </main>
 </div>
+<script>
+    $(document).ready(function(){
+        $("#company_id").change(function(){
+            if($("#company_id").val() != ""){
+                $(".hidden_option").fadeIn('fast');
+            }
+        });
+    });
+</script>

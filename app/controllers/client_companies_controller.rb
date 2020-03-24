@@ -35,8 +35,8 @@ class ClientCompaniesController < ApplicationController
 
     respond_to do |format|
       if @client_company.save
-        format.html { redirect_to @client_company, notice: 'Company was successfully created.' }
-        format.json { render :show, status: :created, location: @client_company}
+        format.html { redirect_to client_companies_url, notice: 'Company is successfully created.' }
+        format.json { render :show, status: :created, location: @client_company }
       else
         format.html { render :new }
         format.json { render json: @client_company.errors, status: :unprocessable_entity }
@@ -61,23 +61,30 @@ class ClientCompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
-    @client_company.destroy
-    respond_to do |format|
-      format.html { redirect_to client_companies_url, notice: 'Company was successfully destroyed.' }
-      format.json { head :no_content }
+    if @client_company.users.present?
+      redirect_to client_companies_url, :notice => "Company has users."
+    elsif @client_company.projects.present?
+      redirect_to client_companies_url, :notice => "Company has Projects."
+    else
+      @client_company.destroy
+      respond_to do |format|
+        format.html { redirect_to client_companies_url, notice: 'Company was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_company
-      @client_company = ClientCompany.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def company_params
-      params.require(:client_company).permit(:company_name, :company_id, :address, :phone, :number_of_users,
-                                             :primary_poc_first_name, :primary_poc_last_name, :poc_email,
-                                             :poc_phone, :status, :client_po_number, :closed_at, :country_name )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_company
+    @client_company = ClientCompany.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def company_params
+    params.require(:client_company).permit(:company_name, :company_id, :address, :phone, :number_of_users,
+                                           :primary_poc_first_name, :primary_poc_last_name, :poc_email,
+                                           :poc_phone, :status, :client_po_number, :closed_at, :country_name)
+  end
 end

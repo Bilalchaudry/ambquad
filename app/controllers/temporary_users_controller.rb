@@ -34,7 +34,7 @@ class TemporaryUsersController < ApplicationController
     @user.save
     respond_to do |format|
       if @temporary_user.save
-        format.html {redirect_to @user, notice: 'Temporary user was successfully created.'}
+        format.html {redirect_to users_path, notice: 'User is successfully created.'}
         format.json {render :show, status: :created, location: @temporary_user}
       else
         format.html {render :new}

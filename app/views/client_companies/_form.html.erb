@@ -37,7 +37,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :address, :class => "form-control py-3", :required => true %>
+                      <%= form.text_field :address, :id => "autocomplete_address", :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -78,7 +78,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.number_field :number_of_users, :class => "form-control py-3", :required => true %>
+                      <%= form.number_field :number_of_users, :class => "form-control py-3", :required => true , :readonly => true %>
                     </div>
                   </div>
                 </div>
