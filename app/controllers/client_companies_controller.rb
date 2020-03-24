@@ -1,5 +1,6 @@
 class ClientCompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :check_user_and_project , only: :destroy
 
   # GET /companies
   # GET /companies.json
@@ -61,17 +62,20 @@ class ClientCompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
+      @client_company.destroy
+      respond_to do |format|
+        format.html { redirect_to client_companies_url, notice: 'Company is successfully destroyed.' }
+        format.json { head :no_content }
+      # end
+    end
+  end
+
+  def check_user_and_project
     if @client_company.users.present?
       redirect_to client_companies_url, :notice => "Company has users."
     elsif @client_company.projects.present?
       redirect_to client_companies_url, :notice => "Company has Projects."
-    else
-      @client_company.destroy
-      respond_to do |format|
-        format.html { redirect_to client_companies_url, notice: 'Company was successfully destroyed.' }
-        format.json { head :no_content }
       end
-    end
   end
 
   private
