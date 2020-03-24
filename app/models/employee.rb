@@ -1,6 +1,5 @@
 class Employee < ApplicationRecord
-  belongs_to :project
-  belongs_to :project_company
+  belongs_to :project_company, optional: true
   enum gender: {
       Male: 0,
       Female: 1

@@ -104,33 +104,10 @@
 
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :contract_start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :contract_end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.date_field :contract_end_date, :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-4">
                     <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%#= form.number_field :status, :class => "form-control py-2", :required => true %>
                       <select name="employee[status]" id="status" class="form-control">
                         <% Employee.statuses.each do |key, value| %>
                           <option value="<%= value %>">
@@ -142,92 +119,6 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :project_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="employee[project_id]" id="project_id" class="form-control">
-                        <% Project.all.each do |project| %>
-                          <option value="<%= project.id %>">
-                            <%= project.project_name %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :employee_type, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="employee[employee_type_id]" id="employee_type_id" class="form-control">
-                        <% EmployeeType.all.each do |employee_type| %>
-                          <option value="<%= employee_type.id %>">
-                            <%= employee_type.employee_type %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :foreman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="employee[foreman_id]" id="forman_id" class="form-control">
-                        <% Foreman.all.each do |forman| %>
-                          <option value="<%= forman.id %>">
-                            <%= "#{forman.employee.first_name} #{forman.employee.last_name}" %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :other_manager, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="employee[other_manager_id]" id="other_manager_id" class="form-control">
-                        <% OtherManager.all.each do |manager| %>
-                          <option value="<%= manager.id %>">
-                            <%= "#{manager.employee.first_name} #{manager.employee.last_name}" %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :project_company_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%#= form.number_field :project_company_id, :class => "form-control py-2", :required => true %>
-                      <select name="employee[project_company_id]" id="other_manager_id" class="form-control">
-                        <% ProjectCompany.all.each do |company| %>
-                          <option value="<%= company.id %>">
-                            <%= company.company_name %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
                 <hr>
                 <div class="row">
                   <div class="col-md-3"></div>

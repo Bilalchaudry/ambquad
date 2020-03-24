@@ -33,11 +33,10 @@ class ProjectsController < ApplicationController
   # POST /projects.json
   def create
     @project = Project.new(project_params)
-    @project.client_company_id = current_user.client_company_id
     respond_to do |format|
       if params[:project][:client_company_id].present?
         if @project.save
-          format.html {redirect_to @project, notice: 'Project was successfully created.'}
+          format.html {redirect_to projects_path, notice: 'Project was successfully created.'}
           format.json {render :show, status: :created, location: @project}
         else
           format.html {render :new}

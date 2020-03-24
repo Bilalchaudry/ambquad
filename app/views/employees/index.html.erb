@@ -25,10 +25,8 @@
                   <th>Email</th>
                   <th>Gender</th>
                   <th>Home company role</th>
-                  <th>Contract start date</th>
-                  <th>Contract end date</th>
                   <th>Status</th>
-                  <th>Project</th>
+
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -43,10 +41,8 @@
                     <td><%= employee.email %></td>
                     <td><%= employee.gender %></td>
                     <td><%= employee.home_company_role %></td>
-                    <td><%= employee.contract_start_date %></td>
-                    <td><%= employee.contract_end_date %></td>
                     <td><%= employee.status %></td>
-                    <td><%= employee.project.project_name %></td>
+<!--                    <td><%#= employee.project.project_name %></td>-->
                     <td><%= link_to 'View', employee, :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', edit_employee_path(employee), :class => "btn btn-outline-info" %>
                       <%= link_to 'Destroy', employee, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>

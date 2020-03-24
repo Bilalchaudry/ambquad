@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_22_174714) do
+ActiveRecord::Schema.define(version: 2020_03_24_140455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,13 +54,14 @@ ActiveRecord::Schema.define(version: 2020_03_22_174714) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "client_company_id"
-    t.boolean "temporary_clost", default: false
+    t.boolean "temporary_close", default: false
   end
 
   create_table "employee_types", force: :cascade do |t|
     t.string "employee_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_company_id"
   end
 
   create_table "employees", force: :cascade do |t|
@@ -166,6 +167,8 @@ ActiveRecord::Schema.define(version: 2020_03_22_174714) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "total_hours"
+    t.integer "foreman_id"
+    t.integer "other_manager_id"
     t.index ["employee_id"], name: "index_project_employees_on_employee_id"
     t.index ["employee_type_id"], name: "index_project_employees_on_employee_type_id"
     t.index ["project_id"], name: "index_project_employees_on_project_id"
@@ -222,8 +225,9 @@ ActiveRecord::Schema.define(version: 2020_03_22_174714) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "status"
     t.string "country_name"
+    t.integer "status"
+    t.string "confirm_password"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
