@@ -64,17 +64,34 @@ class EmployeesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_employee
-      @employee = Employee.find(params[:id])
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
     end
+    Employee.import(params[:file])
+    redirect_to employees_url, notice: "created"
+  end
 
-    # Only allow a list of trusted parameters through.
-    def employee_params
-      employe_params = params.require(:employee).permit(:first_name, :last_name, :employee_id, :phone, :email, :gender, :home_company_role, :contract_start_date, :contract_end_date, :status, :project_company_id, :project_id, :other_manager_id, :foreman_id, :employee_type_id)
-      employe_params[:gender] = params[:employee][:gender].to_i
-      employe_params[:status] = params[:employee][:status].to_i
-      return employe_params
-    end
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/etemplate.csv",
+        filename: "etemplate.csv",
+        )
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_employee
+    @employee = Employee.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def employee_params
+    employe_params = params.require(:employee).permit(:first_name, :last_name, :employee_id, :phone, :email, :gender, :home_company_role, :contract_start_date, :contract_end_date, :status, :project_company_id, :project_id, :other_manager_id, :foreman_id, :employee_type_id)
+    employe_params[:gender] = params[:employee][:gender].to_i
+    employe_params[:status] = params[:employee][:status].to_i
+    return employe_params
+  end
 end

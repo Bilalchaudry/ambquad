@@ -7,9 +7,14 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
-              <div class="card bg-success text-white mb-3">
-                <%= link_to 'New Cost Code', new_cost_code_path, :class => "btn btn-dark", style: "color: white" %>
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'New Cost Code', new_cost_code_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
+            <%= form_tag import_cost_codes_path, multipart: true do %>
+              <%= file_field_tag :file %>
+              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white"%>
+            <% end %>
+            <%= link_to 'Download Template', download_template_cost_codes_path, :class => "btn btn-dark", style: "color: white" %>
           </div>
         </div>
         <div class="card mb-4">
@@ -30,11 +35,11 @@
                   <tr>
                     <td><%= cost_code.cost_code_id %></td>
                     <td><%= cost_code.cost_code_description %></td>
-                    <td><%= cost_code.project.project_name rescue "N/A"%></td>
+                    <td><%= cost_code.project.project_name rescue "N/A" %></td>
                     <td>
                       <%= link_to 'View', cost_code, :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', edit_cost_code_path(cost_code), :class => "btn btn-outline-info" %>
-                      <%= link_to 'Delete', cost_code, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger"  %>
+                      <%= link_to 'Delete', cost_code, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %>
                     </td>
                   </tr>
                 <% end %>
