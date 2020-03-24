@@ -66,8 +66,19 @@ class CostCodesController < ApplicationController
   end
 
   def import
+    file = params[:file]
+    File.open(Rails.root.join('public','documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
     CostCode.import(params[:file])
     redirect_to cost_codes_url, notice: "created"
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/cctemplate.csv",
+        filename: "cctemplate.csv",
+        )
   end
 
   private
