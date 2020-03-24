@@ -4,7 +4,13 @@ Rails.application.routes.draw do
   resources :project_employees
   resources :other_managers
   resources :foremen
-  resources :employees
+
+  resources :employees do
+    collection do
+      post :import
+    end
+  end
+
   resources :temporary_users
   resources :plants
   devise_for :users
