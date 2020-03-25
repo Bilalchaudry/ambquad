@@ -1,6 +1,6 @@
 class PlantTypesController < ApplicationController
   before_action :set_plant_type, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
   # GET /plant_types
   # GET /plant_types.json
   def index

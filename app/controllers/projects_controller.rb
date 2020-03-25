@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
   # GET /projects
@@ -36,7 +37,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if params[:project][:client_company_id].present?
         if @project.save
-          format.html {redirect_to projects_path, notice: 'Project was successfully created.'}
+          format.html {redirect_to @project, notice: 'Project was successfully created.'}
           format.json {render :show, status: :created, location: @project}
         else
           format.html {render :new}

@@ -2,7 +2,7 @@ class OtherManagersController < ApplicationController
   include OtherManagersHelper
   before_action :set_other_manager, only: [:show, :edit, :update, :destroy]
   before_action :employee_except_manager, only: [:new, :edit]
-
+  load_and_authorize_resource
   # GET /other_managers
   # GET /other_managers.json
   def index

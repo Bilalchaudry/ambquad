@@ -1,6 +1,6 @@
 class ProjectEmployeesController < ApplicationController
   before_action :set_project_employee, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
   # GET /project_employees
   # GET /project_employees.json
   def index

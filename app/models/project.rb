@@ -8,6 +8,8 @@ class Project < ApplicationRecord
   has_many :project_companies, :through => :project_and_project_companies, dependent: :destroy
   has_many :project_and_project_companies
   has_many :employees
+  has_many :employee_types
+  has_many :foremen
   validates_uniqueness_of :project_name
 
 end

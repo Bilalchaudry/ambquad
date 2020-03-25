@@ -1,12 +1,11 @@
 class EmployeesController < ApplicationController
   include EmployeesHelper
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
   # GET /employees
   # GET /employees.json
   def index
     @employees = current_user.client_company.employees
-
   end
 
   # GET /employees/1
@@ -84,7 +83,7 @@ class EmployeesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_employee
-    @employee = Employee.find(params[:id])
+    @employee = Employee.find_by_id(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

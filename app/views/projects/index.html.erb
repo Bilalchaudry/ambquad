@@ -7,11 +7,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
-            <% if current_user.role.eql?("Admin") %>
-              <div class="card bg-success text-white mb-3">
-                <%= link_to "Add New Project", new_project_path, :class => "btn btn-dark", style: "color: white" %>
-            <% end %>
-            </div>
+              <%= link_to "Add New Project", new_project_path, :class => "btn btn-dark", style: "color: white" if can? :create, Project %>
           </div>
         </div>
         <div class="card mb-4">

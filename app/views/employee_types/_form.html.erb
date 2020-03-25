@@ -5,7 +5,7 @@
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-body">
-              <%= form_with(model: employee_type, local: true) do |form| %>
+              <%= form_with(model: [@project, employee_type], local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
 
                 <div class="row">
@@ -18,6 +18,12 @@
                     </div>
                   </div>
                 </div>
+
+                <select class="selectpicker" multiple data-live-search="true">
+                  <option>Mustard</option>
+                  <option>Ketchup</option>
+                  <option>Relish</option>
+                </select>
 
                 <hr>
                 <div class="row">
@@ -32,7 +38,7 @@
                   <div class="col-md-3">
                     <div class="form-group mt-3 mb-0">
                       <div class="actions">
-                        <%= link_to "Cancel", employee_types_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                        <%= link_to "Cancel", project_employee_types_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                       </div>
                     </div>
                   </div>
@@ -46,3 +52,8 @@
     </div>
   </main>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').selectpicker();
+    });
+</script>
