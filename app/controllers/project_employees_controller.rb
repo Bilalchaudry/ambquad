@@ -69,6 +69,8 @@ class ProjectEmployeesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def project_employee_params
-      params.require(:project_employee).permit(:total_hours, :contract_start_date, :contract_end_date, :employee_id, :employee_type_id, :project_id)
+      params.require(:project_employee).permit(:total_hours, :contract_start_date, :contract_end_date,
+                                               :employee_id, :employee_type_id, :project_id, :foreman_id,
+                                               :other_manager_id)
     end
 end

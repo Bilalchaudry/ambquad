@@ -68,6 +68,22 @@ class ProjectCompaniesController < ApplicationController
     end
   end
 
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
+    ProjectCompany.import(params[:file])
+    redirect_to project_companies_url, notice: "created"
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/project_company_template.csv",
+        filename: "project_company_template.csv",
+        )
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project_company

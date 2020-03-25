@@ -35,7 +35,6 @@ class ProjectsController < ApplicationController
   # POST /projects.json
   def create
     @project = Project.new(project_params)
-    @project.client_company_id = params[:project][:client_company_id]
     respond_to do |format|
       if params[:project][:client_company_id].present?
         if @project.save!

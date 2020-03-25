@@ -35,7 +35,7 @@
                   <tr>
                     <td><%= project.project_name %></td>
                     <td><%= project.site_office_address %></td>
-                    <td><%= project.client_companies.last.company_name rescue nil %></td>
+                    <td><%= project.client_company.company_name rescue nil %></td>
                     <td>
                       <%= link_to "View", project_path(project), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" %>

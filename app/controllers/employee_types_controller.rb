@@ -4,7 +4,7 @@ class EmployeeTypesController < ApplicationController
   # GET /employee_types
   # GET /employee_types.json
   def index
-    @employee_types = EmployeeType.all
+    @employee_types = current_user.client_company.employee_types
   end
 
   # GET /employee_types/1
@@ -29,7 +29,7 @@ class EmployeeTypesController < ApplicationController
   # POST /employee_types.json
   def create
     @employee_type = EmployeeType.new(employee_type_params)
-
+    @employee_type.client_company_id = current_user.client_company_id
     respond_to do |format|
       if @employee_type.save
         format.html { redirect_to @employee_type, notice: 'Employee type was successfully created.' }
@@ -63,6 +63,22 @@ class EmployeeTypesController < ApplicationController
       format.html { redirect_to employee_types_url, notice: 'Employee type was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
+    EmployeeType.import(params[:file])
+    redirect_to employee_types_url, notice: "created"
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/employee_type_template.csv",
+        filename: "employee_type_template.csv",
+        )
   end
 
   private

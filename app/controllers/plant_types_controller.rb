@@ -65,6 +65,23 @@ class PlantTypesController < ApplicationController
     end
   end
 
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
+    PlantType.import(params[:file])
+    redirect_to plant_types_url, notice: "created"
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/plant_type_template.csv",
+        filename: "plant_type_template.csv",
+        )
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_plant_type

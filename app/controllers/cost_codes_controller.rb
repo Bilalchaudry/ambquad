@@ -4,7 +4,11 @@ class CostCodesController < ApplicationController
   # GET /cost_codes
   # GET /cost_codes.json
   def index
-    @cost_codes = current_user.client_company.cost_codes
+    if current_user.role.eql?("Admin")
+      @cost_codes = CostCode.all
+    else
+      @cost_codes = current_user.client_company.cost_codes rescue []
+    end
   end
 
   # GET /cost_codes/1
@@ -59,6 +63,22 @@ class CostCodesController < ApplicationController
       format.html { redirect_to cost_codes_url, notice: 'Cost code was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public','documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
+    CostCode.import(params[:file])
+    redirect_to cost_codes_url, notice: "created"
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/cctemplate.csv",
+        filename: "cctemplate.csv",
+        )
   end
 
   private

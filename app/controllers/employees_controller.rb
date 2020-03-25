@@ -66,11 +66,28 @@ class EmployeesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_employee
-      @employee = Employee.find(params[:id])
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
     end
+    Employee.import(params[:file])
+    redirect_to employees_url, notice: "created"
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/etemplate.csv",
+        filename: "etemplate.csv",
+        )
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_employee
+    @employee = Employee.find(params[:id])
+  end
 
     # Only allow a list of trusted parameters through.
     def employee_params
