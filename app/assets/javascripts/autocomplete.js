@@ -2,11 +2,10 @@ $(document).on('turbolinks:load', function() {
     function initializeAutocomplete(id) {
         var element = document.getElementById(id);
         if (element) {
-            var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {country: 'us'} });
+            var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'], componentRestrictions: {'country': ['us', 'ind', 'pk']} });
             google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
         }
     }
-
     function onPlaceChanged() {
         var place = this.getPlace();
 
@@ -22,7 +21,8 @@ $(document).on('turbolinks:load', function() {
             }
         }
     }
-    google.maps.event.addDomListener(window, 'load', function() {
+    google.maps.event.addDomListener($(document).ready(function() {
         initializeAutocomplete('autocomplete_address');
-    });
+    })
+);
 });

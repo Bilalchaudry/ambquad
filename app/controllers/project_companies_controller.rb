@@ -26,6 +26,11 @@ class ProjectCompaniesController < ApplicationController
   def create
     @project_company = ProjectCompany.new(project_company_params)
     @project_company.client_company_id = current_user.client_company.id
+    code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
+    @project_company.phone = '+' + code + @project_company.phone
+
+    poc_code = ISO3166::Country.find_country_by_name(@project_company.poc_country).country_code
+    @project_company.poc_phone = '+' + poc_code + @project_company.poc_phone
 
     respond_to do |format|
       if @project_company.save
@@ -71,6 +76,6 @@ class ProjectCompaniesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def project_company_params
-      params.require(:project_company).permit(:company_summary, :project_role, :address, :phone, :primary_poc_first_name, :primary_poc_last_name, :poc_email, :poc_phone, :client_company_id, :project_id, :company_name)
+      params.require(:project_company).permit(:company_summary, :project_role, :address, :phone, :primary_poc_first_name, :primary_poc_last_name, :poc_email, :poc_phone, :client_company_id, :project_id, :company_name, :country_name, :poc_country)
     end
 end

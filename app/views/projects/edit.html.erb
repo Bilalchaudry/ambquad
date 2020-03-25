@@ -1,6 +1,102 @@
 <h1>Editing Project</h1>
 <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit <%= @project.project_name %></h3></div>
-<%= render 'form', project: @project %>
+<%#= render 'form', project: @project %>
 
-<%= link_to 'Show', @project %> |
-<%= link_to 'Back', projects_path %>
+<!--<%#= link_to 'Show', @project %> |-->
+<%#= link_to 'Back', projects_path %>
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-body">
+              <%= form_with(model: @project, local: true) do |form| %>
+                <%= render 'layouts/error_messages', object: form.object %>
+                <div class="hidden_option">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :project_name, :class => "form-control py-2", :required => true %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :site_office_address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :site_office_address, :class => "form-control py-2", :required => true %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <select name="project[client_company_id]" id="client_company_id" class="form-control">
+                          <% Employee.all.each do |employee| %>
+                            <option value="<%= employee.id %>">
+                              <%= employee.first_name%>
+                            </option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :company_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+
+                      <select name="project[client_company_id]" id="company_id" class="form-control">
+                        <% ClientCompany.all.each do |company| %>
+                          <option value="<%= company.id %>">
+                            <%= company.company_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", projects_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
+                </div>
+
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
