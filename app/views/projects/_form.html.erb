@@ -29,7 +29,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :site_office_address, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :site_office_address, :id => "autocomplete_address", :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -42,7 +42,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="project[client_company_id]" id="client_company_id" class="form-control">
+                      <select name="project[employee_id]" id="employee_id" class="form-control">
                         <% Employee.all.each do |employee| %>
                           <option value="<%= employee.id %>">
                             <%= employee.first_name%>

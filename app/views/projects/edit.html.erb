@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <select name="project[client_company_id]" id="client_company_id" class="form-control">
+                        <select name="project[employee_id]" id="employee_id" class="form-control">
                           <% Employee.all.each do |employee| %>
                             <option value="<%= employee.id %>">
                               <%= employee.first_name%>
@@ -63,6 +63,8 @@
                     <div class="form-group">
 
                       <select name="project[client_company_id]" id="company_id" class="form-control">
+                        <option value="<%= @project_company.id %>">
+                          <%= @project_company.company_name %>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>

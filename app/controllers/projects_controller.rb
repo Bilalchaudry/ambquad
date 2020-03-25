@@ -27,6 +27,8 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
+    project_company_id = @project.client_company_id
+    @project_company = ClientCompany.find(project_company_id)
   end
 
   # POST /projects
