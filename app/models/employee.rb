@@ -11,14 +11,13 @@ class Employee < ApplicationRecord
       Closed: 2
   }
 
-  def self.import(file)
+  def self.import(file, user)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
-        employee = Employee.create(first_name: row[0], last_name: row[1], employee_id: row[2], phone: row[3], email: row[4],
-                                   gender: row[5], home_company_role: row[6], contract_start_date: row[7], contract_end_date: row[8],
-                                   status: row[9], project_id: row[10], employee_type_id: row[11], foreman_id: row[12],
-                                   other_manager_id: row[13], project_company_id: row[14], client_company_id: row[15])
+        employee = Employee.create(first_name: row[0], last_name: row[1], employee_id: row[2], phone: row[3], email: row[4], gender: row[5], home_company_role: row[6],
+                                   contract_start_date: row[7], contract_end_date: row[8], status: row[9], project_id: row[10], employee_type_id: row[11],
+                                   foreman_id: row[12], other_manager_id: row[13], project_company_id: row[14], client_company_id: user.client_company_id)
       end
     else
       spreadsheet = open_spreadsheet(file)
