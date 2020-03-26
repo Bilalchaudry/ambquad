@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   load_and_authorize_resource
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :check_company , only: :destroy
 
   # GET /projects
   # GET /projects.json
@@ -28,6 +29,13 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1/edit
   def edit
+    project_company_id = @project.client_company_id
+    @project_company = ClientCompany.find(project_company_id) rescue nil
+    @client_companies = ClientCompany.all.where.not(id: project_company_id) rescue nil
+
+    project_employee_id = @project.employee_id
+    @project_employee = Employee.find(project_employee_id) rescue nil
+    @employees = Employee.all.where.not(id: project_employee_id) rescue nil
   end
 
   # POST /projects
@@ -37,7 +45,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if params[:project][:client_company_id].present?
         if @project.save
-          format.html {redirect_to @project, notice: 'Project was successfully created.'}
+          format.html {redirect_to projects_path, notice: 'Project is successfully created.'}
           format.json {render :show, status: :created, location: @project}
         else
           format.html {render :new}
@@ -74,6 +82,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def check_company
+    if @project.client_company_id.present?
+      redirect_to projects_url, :notice => "Project is linked."
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -83,6 +97,6 @@ class ProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:project_name, :site_office_address, :client_company_id)
+    params.require(:project).permit(:project_name, :site_office_address, :client_company_id, :employee_id )
   end
 end

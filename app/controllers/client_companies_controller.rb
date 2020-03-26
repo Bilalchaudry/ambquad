@@ -33,11 +33,14 @@ class ClientCompaniesController < ApplicationController
     code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code
     @client_company.phone = '+' + code + @client_company.phone
 
+    poc_code = ISO3166::Country.find_country_by_name(@client_company.poc_country).country_code
+    @client_company.poc_phone = '+' + poc_code + @client_company.poc_phone
+
 
     respond_to do |format|
       if @client_company.save
-        format.html {redirect_to @client_company, notice: 'Company was successfully created.'}
-        format.json {render :show, status: :created, location: @client_company}
+        format.html { redirect_to client_companies_url, notice: 'Company is successfully created.' }
+        format.json { render :show, status: :created, location: @client_company }
       else
         format.html {render :new}
         format.json {render json: @client_company.errors, status: :unprocessable_entity}
@@ -62,10 +65,10 @@ class ClientCompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
-    @client_company.destroy
-    respond_to do |format|
-      format.html {redirect_to client_companies_url, notice: 'Company was successfully destroyed.'}
-      format.json {head :no_content}
+      @client_company.destroy
+      respond_to do |format|
+        format.html { redirect_to client_companies_url, notice: 'Company is successfully destroyed.' }
+        format.json { head :no_content }
     end
   end
 

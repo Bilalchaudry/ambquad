@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(version: 2020_03_26_055358) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "client_company_id"
-    t.integer "project_id"
   end
 
   create_table "employees", force: :cascade do |t|

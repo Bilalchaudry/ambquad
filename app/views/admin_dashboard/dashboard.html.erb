@@ -1,6 +1,9 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
+      <% flash.each do |name, msg| %>
+        <%= content_tag(:div, msg, class: "alert alert-success") if msg.length > 0 %>
+      <% end %>
       <div class="container-fluid">
         <h1 class="mt-4">Dashboard</h1>
         <div class="row">

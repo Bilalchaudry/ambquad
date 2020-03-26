@@ -72,7 +72,8 @@ class CostCodesController < ApplicationController
     File.open(Rails.root.join('public','documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    CostCode.import(params[:file])
+    user = current_user
+    CostCode.import(params[:file], user)
     redirect_to cost_codes_url, notice: "created"
   end
 

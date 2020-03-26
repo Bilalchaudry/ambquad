@@ -45,7 +45,7 @@
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
-                  <strong>Phome:</strong>
+                  <strong>Phone:</strong>
                 </div>
                 <div class="col-md-6">
                   <div >
@@ -83,6 +83,28 @@
                 <div class="col-md-6">
                   <div >
                     <%= @client_company.primary_poc_last_name %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Primary poc Email:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @client_company.poc_email %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Primary poc Phone:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div >
+                    <%= @client_company.poc_phone %>
                   </div>
                 </div>
               </div>
