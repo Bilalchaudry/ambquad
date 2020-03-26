@@ -19,6 +19,9 @@ class ProjectCompaniesController < ApplicationController
 
   # GET /project_companies/1/edit
   def edit
+    project_id = @project_company.project_id
+    @company_project= current_user.client_company.projects.find(project_id) rescue nil
+    @company_projects = current_user.client_company.projects.all.where.not(id: project_id) rescue nil
   end
 
   # POST /project_companies

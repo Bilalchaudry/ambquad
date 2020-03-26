@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   load_and_authorize_resource
   before_action :set_project, only: [:show, :edit, :update, :destroy]
+  before_action :check_company , only: :destroy
 
   # GET /projects
   # GET /projects.json
@@ -78,6 +79,12 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html {redirect_to projects_url, notice: 'Project was successfully destroyed.'}
       format.json {head :no_content}
+    end
+  end
+
+  def check_company
+    if @project.client_company_id.present?
+      redirect_to projects_url, :notice => "Project is linked."
     end
   end
 
