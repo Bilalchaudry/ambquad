@@ -5,12 +5,13 @@ class ProjectCompany < ApplicationRecord
   has_many :project_and_project_companies
   has_many :projects, :through => :project_and_project_companies, dependent: :destroy
 
-  def self.import(file)
+  def self.import(file, user)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
         employee = ProjectCompany.create( project_id: row[0], company_name: row[1], company_summary: row[2], project_role: row[3], address: row[4],
-                                          phone: row[5], primary_poc_first_name: row[6], primary_poc_last_name: row[7], poc_email: row[8], poc_phone: row[9] )
+                                          phone: row[5], primary_poc_first_name: row[6], primary_poc_last_name: row[7], poc_email: row[8],
+                                          poc_phone: row[9], client_company_id: user.client_company.id)
       end
     else
       spreadsheet = open_spreadsheet(file)

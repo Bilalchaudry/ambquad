@@ -68,7 +68,8 @@ class EmployeesController < ApplicationController
     File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    Employee.import(params[:file])
+    user = current_user
+    Employee.import(params[:file], user)
     redirect_to employees_url, notice: "created"
   end
 
