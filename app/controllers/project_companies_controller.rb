@@ -73,7 +73,8 @@ class ProjectCompaniesController < ApplicationController
     File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    ProjectCompany.import(params[:file])
+    user = current_user
+    ProjectCompany.import(params[:file], user)
     redirect_to project_companies_url, notice: "created"
   end
 
