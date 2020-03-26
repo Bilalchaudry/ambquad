@@ -1,8 +1,12 @@
+
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
-        <h1 class="mt-4">Companies</h1>
+        <center>
+          <h3 class="alert-info mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-2">Companies</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
@@ -13,7 +17,6 @@
           </div>
 
         </div>
-
         <div class="card mb-4">
           <div class="card-body">
             <div class="table-responsive">
@@ -23,6 +26,7 @@
                   <th>Company Name</th>
                   <th>Phone Number</th>
                   <th>Address</th>
+                  <th>Number of Users</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -33,6 +37,7 @@
                     <td><%= company.company_name %></td>
                     <td><%= company.phone %></td>
                     <td><%= company.address %></td>
+                    <td><%= company.users.count %></td>
                     <td>
                       <%= link_to "View", client_company_path(company), :class => "btn btn-outline-success" %>
                       <%= link_to "Edit", edit_client_company_path(company), :class => "btn btn-outline-info" %>

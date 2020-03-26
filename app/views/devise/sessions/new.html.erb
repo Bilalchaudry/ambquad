@@ -9,7 +9,7 @@
       <center><h1><%= t('.sign_in') %></h1></center>
 
         <% flash.each do |name, msg| %>
-          <%= content_tag(:div, msg, class: "alert alert-danger") %>
+          <%= content_tag(:div, msg, class: "alert alert-danger") if msg.length > 0 %>
         <% end %>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>

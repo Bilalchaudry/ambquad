@@ -5,7 +5,7 @@ class Project < ApplicationRecord
   has_many :user_projects
   has_many :users, :through => :user_projects
   has_many :project_employees
-  has_many :project_companies, :through => :project_and_project_companies, dependent: :destroy
+  has_many :project_companies, :through => :project_and_project_companies
   has_many :project_and_project_companies
   has_many :employees
   has_many :employee_types

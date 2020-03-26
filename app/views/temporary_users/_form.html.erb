@@ -1,3 +1,4 @@
+
 <div id="layoutAuthentication_content">
   <main>
     <div class="container">
@@ -17,6 +18,7 @@
                     </ul>
                   </div>
                 <% end %>
+                <div class="hidden_option">
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :first_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -113,6 +115,25 @@
                     </div>
                   </div>
                 </div>
+
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <select name="user[status]" id="role" class="form-control">
+                          <% User.statuses.each do |key, value| %>
+                            <option value="<%= value %>">
+                              <%= key %>
+                            </option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :Comapny, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -130,25 +151,6 @@
                     </div>
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="user[status]" id="role" class="form-control">
-                        <% User.statuses.each do |key, value| %>
-                          <option value="<%= value %>">
-                            <%= key %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-
                 <hr>
                 <div class="row">
                   <div class="col-md-3"></div>
@@ -176,3 +178,14 @@
     </div>
   </main>
 </div>
+
+
+<script>
+    $(document).ready(function(){
+        $("#company_id").change(function(){
+            if($("#company_id").val() != ""){
+                $(".hidden_option").fadeIn('fast');
+            }
+        });
+    });
+</script>
