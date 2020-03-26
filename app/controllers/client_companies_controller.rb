@@ -1,6 +1,7 @@
 class ClientCompaniesController < ApplicationController
   # load_and_authorize_resource
   before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :check_user_and_project , only: :destroy
 
   # GET /companies
   # GET /companies.json
@@ -59,6 +60,14 @@ class ClientCompaniesController < ApplicationController
         format.html {render :edit}
         format.json {render json: @client_company.errors, status: :unprocessable_entity}
       end
+    end
+  end
+
+  def check_user_and_project
+    if @client_company.users.present?
+      redirect_to client_companies_url, :notice => "Company has users."
+    elsif @client_company.projects.present?
+      redirect_to client_companies_url, :notice => "Company has Projects."
     end
   end
 
