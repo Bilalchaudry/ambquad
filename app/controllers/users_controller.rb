@@ -29,6 +29,9 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    user_company_id = @user.client_company_id
+    @user_company = ClientCompany.find(user_company_id) rescue nil
+    @client_companies = ClientCompany.all.where.not(id: user_company_id) rescue nil
   end
 
   # POST /users

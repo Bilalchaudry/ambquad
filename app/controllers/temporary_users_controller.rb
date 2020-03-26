@@ -34,11 +34,12 @@ class TemporaryUsersController < ApplicationController
     @user.save
     respond_to do |format|
       if @temporary_user.save
-        format.html {redirect_to users_path, notice: 'User is successfully created.'}
-        format.json {render :show, status: :created, location: @temporary_user}
+        @temporary_user.client_company.number_of_users = + 1
+        format.html { redirect_to users_path, notice: 'User is successfully created.' }
+        format.json { render :show, status: :created, location: @temporary_user }
       else
-        format.html {render :new}
-        format.json {render json: @temporary_user.errors, status: :unprocessable_entity}
+        format.html { render :new }
+        format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -48,11 +49,11 @@ class TemporaryUsersController < ApplicationController
   def update
     respond_to do |format|
       if @temporary_user.update(temporary_user_params)
-        format.html {redirect_to @temporary_user, notice: 'Temporary user was successfully updated.'}
-        format.json {render :show, status: :ok, location: @temporary_user}
+        format.html { redirect_to @temporary_user, notice: 'Temporary user was successfully updated.' }
+        format.json { render :show, status: :ok, location: @temporary_user }
       else
-        format.html {render :edit}
-        format.json {render json: @temporary_user.errors, status: :unprocessable_entity}
+        format.html { render :edit }
+        format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -62,8 +63,8 @@ class TemporaryUsersController < ApplicationController
   def destroy
     @temporary_user.destroy
     respond_to do |format|
-      format.html {redirect_to temporary_users_url, notice: 'Temporary user was successfully destroyed.'}
-      format.json {head :no_content}
+      format.html { redirect_to temporary_users_url, notice: 'Temporary user was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
@@ -77,7 +78,7 @@ class TemporaryUsersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def temporary_user_params
     pp = params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
-                                                :password, :encrypted_password, :client_company_id,:country_name,
+                                                :password, :encrypted_password, :client_company_id, :country_name,
                                                 :status)
     pp[:role] = params[:temporary_user][:role].to_i
     return pp

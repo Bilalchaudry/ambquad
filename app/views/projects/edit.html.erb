@@ -1,9 +1,5 @@
 <h1>Editing Project</h1>
 <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit <%= @project.project_name %></h3></div>
-<%#= render 'form', project: @project %>
-
-<!--<%#= link_to 'Show', @project %> |-->
-<%#= link_to 'Back', projects_path %>
 <div id="layoutAuthentication_content">
   <main>
     <div class="container">
@@ -13,7 +9,6 @@
             <div class="card-body">
               <%= form_with(model: @project, local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
-                <div class="hidden_option">
                   <div class="row">
                     <div class="col-md-4">
                       <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -44,7 +39,9 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <select name="project[employee_id]" id="employee_id" class="form-control">
-                          <% Employee.all.each do |employee| %>
+                          <option value="<%= @project_employee.id rescue nil%>">
+                            <%= @project_employee.first_name rescue nil %>
+                          <% @employees.all.each do |employee| %>
                             <option value="<%= employee.id %>">
                               <%= employee.first_name%>
                             </option>
@@ -53,7 +50,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
 
                 <div class="row">
                   <div class="col-md-4">
@@ -65,7 +61,7 @@
                       <select name="project[client_company_id]" id="company_id" class="form-control">
                         <option value="<%= @project_company.id %>">
                           <%= @project_company.company_name %>
-                        <% ClientCompany.all.each do |company| %>
+                        <% @client_companies.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
                           </option>

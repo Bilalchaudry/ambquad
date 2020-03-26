@@ -67,7 +67,6 @@ class ClientCompaniesController < ApplicationController
       respond_to do |format|
         format.html { redirect_to client_companies_url, notice: 'Company is successfully destroyed.' }
         format.json { head :no_content }
-      # end
     end
   end
 
