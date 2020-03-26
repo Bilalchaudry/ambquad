@@ -34,6 +34,9 @@ class ClientCompaniesController < ApplicationController
     code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code
     @client_company.phone = '+' + code + @client_company.phone
 
+    poc_code = ISO3166::Country.find_country_by_name(@client_company.poc_country).country_code
+    @client_company.poc_phone = '+' + poc_code + @client_company.poc_phone
+
 
     respond_to do |format|
       if @client_company.save
