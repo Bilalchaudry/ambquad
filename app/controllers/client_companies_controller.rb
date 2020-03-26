@@ -1,5 +1,5 @@
 class ClientCompaniesController < ApplicationController
-  load_and_authorize_resource
+  # load_and_authorize_resource
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
   # GET /companies
@@ -36,11 +36,11 @@ class ClientCompaniesController < ApplicationController
 
     respond_to do |format|
       if @client_company.save
-        format.html { redirect_to @client_company, notice: 'Company was successfully created.' }
-        format.json { render :show, status: :created, location: @client_company}
+        format.html {redirect_to @client_company, notice: 'Company was successfully created.'}
+        format.json {render :show, status: :created, location: @client_company}
       else
-        format.html { render :new }
-        format.json { render json: @client_company.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @client_company.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -50,11 +50,11 @@ class ClientCompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @client_company.update(company_params)
-        format.html { redirect_to @client_company, notice: 'Company was successfully updated.' }
-        format.json { render :show, status: :ok, location: @client_company }
+        format.html {redirect_to @client_company, notice: 'Company was successfully updated.'}
+        format.json {render :show, status: :ok, location: @client_company}
       else
-        format.html { render :edit }
-        format.json { render json: @client_company.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @client_company.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -64,21 +64,23 @@ class ClientCompaniesController < ApplicationController
   def destroy
     @client_company.destroy
     respond_to do |format|
-      format.html { redirect_to client_companies_url, notice: 'Company was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to client_companies_url, notice: 'Company was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_company
-      @client_company = ClientCompany.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def company_params
-      params.require(:client_company).permit(:company_name, :company_id, :address, :phone, :number_of_users,
-                                             :primary_poc_first_name, :primary_poc_last_name, :poc_email,
-                                             :poc_phone, :status, :client_po_number, :closed_at, :country_name )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_company
+    @client_company = ClientCompany.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def company_params
+    params.require(:client_company).permit(:company_name, :address, :phone, :number_of_users,
+                                           :primary_poc_first_name, :primary_poc_last_name, :poc_email,
+                                           :poc_phone, :status, :client_po_number, :closed_at,
+                                           :country_name)
+  end
 end

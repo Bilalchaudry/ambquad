@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_25_075732) do
+ActiveRecord::Schema.define(version: 2020_03_26_055358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_03_25_075732) do
     t.integer "client_company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "project_id"
   end
 
   create_table "client_companies", force: :cascade do |t|
@@ -115,6 +116,7 @@ ActiveRecord::Schema.define(version: 2020_03_25_075732) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "project_id"
+    t.integer "client_company_id"
   end
 
   create_table "plants", force: :cascade do |t|
@@ -134,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_03_25_075732) do
     t.date "foreman_end_date"
     t.boolean "offload", default: false
     t.integer "project_id"
+    t.integer "client_company_id"
   end
 
   create_table "project_and_project_companies", force: :cascade do |t|

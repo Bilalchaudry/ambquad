@@ -1,6 +1,7 @@
 class CostCodesController < ApplicationController
   load_and_authorize_resource
   before_action :set_cost_code, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
 
   # GET /cost_codes
   # GET /cost_codes.json
@@ -29,11 +30,11 @@ class CostCodesController < ApplicationController
   # POST /cost_codes
   # POST /cost_codes.json
   def create
-    @cost_code = CostCode.new(cost_code_params)
+    @cost_code = @project.cost_codes.new(cost_code_params)
     @cost_code.client_company_id = current_user.client_company_id
     respond_to do |format|
       if @cost_code.save
-        format.html { redirect_to @cost_code, notice: 'Cost code was successfully created.' }
+        format.html { redirect_to "/projects/#{@project.id}/cost_codes/#{@cost_code.id}", notice: 'Cost code was successfully created.' }
         format.json { render :show, status: :created, location: @cost_code }
       else
         format.html { render :new }
@@ -47,7 +48,7 @@ class CostCodesController < ApplicationController
   def update
     respond_to do |format|
       if @cost_code.update(cost_code_params)
-        format.html { redirect_to @cost_code, notice: 'Cost code was successfully updated.' }
+        format.html { redirect_to "/projects/#{@project.id}/cost_codes/#{@cost_code.id}", notice: 'Cost code was successfully updated.' }
         format.json { render :show, status: :ok, location: @cost_code }
       else
         format.html { render :edit }
@@ -88,8 +89,12 @@ class CostCodesController < ApplicationController
       @cost_code = CostCode.find(params[:id])
     end
 
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
+
     # Only allow a list of trusted parameters through.
     def cost_code_params
-      params.require(:cost_code).permit(:cost_code_id, :cost_code_description, :project_id)
+      params.require(:cost_code).permit(:cost_code_id, :cost_code_description)
     end
 end
