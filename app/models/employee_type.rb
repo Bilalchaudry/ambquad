@@ -1,6 +1,7 @@
 class EmployeeType < ApplicationRecord
 
-  belongs_to :client_company
+  belongs_to :project
+
   validates :employee_type, presence: true, uniqueness: true
 
   def self.import(file)

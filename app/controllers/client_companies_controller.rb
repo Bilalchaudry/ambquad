@@ -1,4 +1,5 @@
 class ClientCompaniesController < ApplicationController
+  load_and_authorize_resource
   before_action :set_company, only: [:show, :edit, :update, :destroy]
   before_action :check_user_and_project , only: :destroy
 

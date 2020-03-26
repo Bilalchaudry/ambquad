@@ -1,10 +1,12 @@
 class EmployeeTypesController < ApplicationController
+  load_and_authorize_resource
   before_action :set_employee_type, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
 
   # GET /employee_types
   # GET /employee_types.json
   def index
-    @employee_types = current_user.client_company.employee_types
+    @employee_types = @project.employee_types rescue []
   end
 
   # GET /employee_types/1
@@ -28,11 +30,10 @@ class EmployeeTypesController < ApplicationController
   # POST /employee_types
   # POST /employee_types.json
   def create
-    @employee_type = EmployeeType.new(employee_type_params)
-    @employee_type.client_company_id = current_user.client_company_id
+    @employee_type = @project.employee_types.new(employee_type_params)
     respond_to do |format|
       if @employee_type.save
-        format.html { redirect_to @employee_type, notice: 'Employee type was successfully created.' }
+        format.html { redirect_to "/projects/#{@project.id}/employee_types/#{@employee_type.id}", notice: 'Employee type was successfully created.' }
         format.json { render :show, status: :created, location: @employee_type }
       else
         format.html { render :new }
@@ -46,7 +47,7 @@ class EmployeeTypesController < ApplicationController
   def update
     respond_to do |format|
       if @employee_type.update(employee_type_params)
-        format.html { redirect_to @employee_type, notice: 'Employee type was successfully updated.' }
+        format.html { redirect_to "/projects/#{@project.id}/employee_types/#{@employee_type.id}", notice: 'Employee type was successfully updated.' }
         format.json { render :show, status: :ok, location: @employee_type }
       else
         format.html { render :edit }
@@ -60,7 +61,7 @@ class EmployeeTypesController < ApplicationController
   def destroy
     @employee_type.destroy
     respond_to do |format|
-      format.html { redirect_to employee_types_url, notice: 'Employee type was successfully destroyed.' }
+      format.html { redirect_to project_employee_types_url, notice: 'Employee type was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -86,6 +87,10 @@ class EmployeeTypesController < ApplicationController
     def set_employee_type
       @employee_type = EmployeeType.find(params[:id])
     end
+
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
 
     # Only allow a list of trusted parameters through.
     def employee_type_params

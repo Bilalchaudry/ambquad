@@ -1,11 +1,13 @@
 class ForemenController < ApplicationController
   include ForemenHelper
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
+  load_and_authorize_resource
 
   # GET /foremen
   # GET /foremen.json
   def index
-     @foremens = current_user.client_company.foremen
+    @foremens = @project.foremens rescue []
   end
 
   # GET /foremen/1
@@ -25,15 +27,14 @@ class ForemenController < ApplicationController
   # POST /foremen
   # POST /foremen.json
   def create
-    @foreman = Foreman.new(foreman_params)
-    @foreman.client_company_id = current_user.client_company_id
+    @foreman = @project.foremans.new(foreman_params)
     respond_to do |format|
       if @foreman.save
-        format.html { redirect_to @foreman, notice: 'Foreman was successfully created.' }
-        format.json { render :show, status: :created, location: @foreman }
+        format.html {redirect_to project_foremans_path(@project), notice: 'Foreman was successfully created.'}
+        format.json {render :show, status: :created, location: @foreman}
       else
-        format.html { render :new }
-        format.json { render json: @foreman.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @foreman.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -43,11 +44,11 @@ class ForemenController < ApplicationController
   def update
     respond_to do |format|
       if @foreman.update(foreman_params)
-        format.html { redirect_to @foreman, notice: 'Foreman was successfully updated.' }
-        format.json { render :show, status: :ok, location: @foreman }
+        format.html {redirect_to @foreman, notice: 'Foreman was successfully updated.'}
+        format.json {render :show, status: :ok, location: @foreman}
       else
-        format.html { render :edit }
-        format.json { render json: @foreman.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @foreman.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -57,8 +58,8 @@ class ForemenController < ApplicationController
   def destroy
     @foreman.destroy
     respond_to do |format|
-      format.html { redirect_to foremen_url, notice: 'Foreman was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to foremen_url, notice: 'Foreman was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
@@ -67,13 +68,18 @@ class ForemenController < ApplicationController
   # end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_foreman
-      @foreman = Foreman.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def foreman_params
-      params.require(:foreman).permit(:employee_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_foreman
+    @foreman = @project.formans.find(params[:id])
+  end
+
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def foreman_params
+    params.require(:foreman).permit(:employee_id)
+  end
 end

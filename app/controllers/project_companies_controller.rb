@@ -1,6 +1,6 @@
 class ProjectCompaniesController < ApplicationController
   before_action :set_project_company, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
   # GET /project_companies
   # GET /project_companies.json
   def index

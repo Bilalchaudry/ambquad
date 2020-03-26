@@ -8,14 +8,17 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Employee Types", new_employee_type_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Employee Types", new_project_employee_type_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
-            <%= form_tag import_employee_types_path, multipart: true do %>
-              <%= file_field_tag :file %>
-              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
-            <% end %>
-            <%= link_to 'Download Template', download_template_employee_types_path, :class => "btn btn-dark", style: "color: white" %>
+
+            <%#= form_tag import_employee_types_path, multipart: true do %>
+              <%#= file_field_tag :file %>
+              <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+            <% #end %>
+            <%#= link_to 'Download Template', download_template_employee_types_path, :class => "btn btn-dark", style: "color: white" %>
+
           </div>
+
         </div>
         <div class="card mb-4">
           <div class="card-body">
@@ -33,9 +36,9 @@
                   <tr>
                     <td><%= employee_type.employee_type %></td>
                     <td>
-                    <%= link_to "View", employee_type_path(employee_type), :class => "btn btn-outline-dark" %>
-                    <%= link_to "Edit", edit_employee_type_path(employee_type), :class => "btn btn-outline-info" %>
-                    <%= link_to "Delete", "/employee_types/#{employee_type.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
+                    <%= link_to "View", project_employee_types_path(employee_type), :class => "btn btn-outline-dark" %>
+                    <%= link_to "Edit", "/projects/#{@project.id}/employee_types/#{employee_type.id}/edit", :class => "btn btn-outline-info" %>
+                    <%= link_to "Delete", "/projects/#{@project.id}/employee_types/#{employee_type.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
 
 
                     </td>
