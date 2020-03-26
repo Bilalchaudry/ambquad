@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   resources :budget_holders
 
   resources :projects do
-    resources :foremen
+    resources :foremen do
+      collection do
+        get :crew
+      end
+    end
     resources :plants do
       collection do
         post :import
