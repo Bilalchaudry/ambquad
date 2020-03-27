@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <%= form.text_field :project_name, :class => "form-control py-2", :required => true %>
+                        <%= form.text_field :project_name, :class => "form-control py-2", :required => true , :readonly => true %>
                       </div>
                     </div>
                   </div>
@@ -32,24 +32,16 @@
 
                   <div class="form-row">
                   </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <select name="project[employee_id]" id="employee_id" class="form-control">
-                          <option value="<%= @project_employee.id rescue nil%>">
-                            <%= @project_employee.first_name rescue nil %>
-                          <% @employees.all.each do |employee| %>
-                            <option value="<%= employee.id %>">
-                              <%= employee.first_name%>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :project_lead, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
+                </div>
 
                 <div class="row">
                   <div class="col-md-4">
