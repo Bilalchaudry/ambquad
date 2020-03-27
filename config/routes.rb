@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'timesheet/index'
   resources :budget_holders
 
   resources :projects do
