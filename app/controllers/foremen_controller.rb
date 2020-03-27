@@ -1,7 +1,7 @@
 class ForemenController < ApplicationController
   include ForemenHelper
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :crew]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :crew, :project_foreman_list]
   load_and_authorize_resource
 
   # GET /foremen
@@ -11,7 +11,11 @@ class ForemenController < ApplicationController
   end
 
   def crew
-    @foreman_employees = @project.employees.where(foreman_id: @project.employee_id)
+    @foremens = Foreman.where(project_id: @project.id)
+  end
+
+  def project_foreman_list
+    @foreman_employees = @project.employees.where(foreman_id: params[:project_id])
   end
 
   # GET /foremen/1

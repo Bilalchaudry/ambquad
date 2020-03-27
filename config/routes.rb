@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :foremen do
       collection do
         get :crew
+        get :project_foreman_list
       end
     end
     resources :plants do
