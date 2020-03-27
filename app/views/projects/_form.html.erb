@@ -32,22 +32,16 @@
 
                 <div class="form-row">
                 </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="project[employee_id]" id="employee_id" class="form-control">
-                        <% Employee.all.each do |employee| %>
-                          <option value="<%= employee.id %>">
-                            <%= employee.first_name%>
-                          </option>
-                        <% end %>
-                      </select>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :project_lead, :class => "form-control py-2", :required => true %>
+                      </div>
                     </div>
                   </div>
-                </div>
                 </div>
 
                 <div class="row">
