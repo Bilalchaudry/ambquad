@@ -1,5 +1,6 @@
 class PlantsController < ApplicationController
   before_action :set_plant, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:index, :show, :edit, :update, :destroy]
   load_and_authorize_resource
   # GET /plants
   # GET /plants.json
@@ -89,7 +90,7 @@ class PlantsController < ApplicationController
       f.write(file.read)
     end
     Plant.import(params[:file])
-    redirect_to plants_url, notice: "created"
+    redirect_to project_plants_path, notice: "created"
   end
 
   def download_template
@@ -101,6 +102,9 @@ class PlantsController < ApplicationController
 
   private
 
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
   # Use callbacks to share common setup or constraints between actions.
   def set_plant
     @plant = Plant.find(params[:id])

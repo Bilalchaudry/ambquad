@@ -74,7 +74,7 @@ class CostCodesController < ApplicationController
     end
     user = current_user
     CostCode.import(params[:file], user)
-    redirect_to cost_codes_url, notice: "created"
+    redirect_to project_cost_codes_path, notice: "created"
   end
 
   def download_template

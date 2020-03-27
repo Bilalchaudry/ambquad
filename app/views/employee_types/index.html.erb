@@ -11,12 +11,13 @@
               <%= link_to "Add New Employee Types", new_project_employee_type_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
 
-            <%#= form_tag import_employee_types_path, multipart: true do %>
-              <%#= file_field_tag :file %>
-              <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
-            <% #end %>
-            <%#= link_to 'Download Template', download_template_employee_types_path, :class => "btn btn-dark", style: "color: white" %>
-
+            <div class="row" style="margin-left: 1px">
+            <%= form_tag import_project_employee_types_path, multipart: true do %>
+              <%= file_field_tag :file %>
+              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+            <% end %>
+            <%= link_to 'Download Template', download_template_project_employee_types_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
           </div>
 
         </div>
