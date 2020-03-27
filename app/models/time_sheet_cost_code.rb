@@ -1,0 +1,2 @@
+class TimeSheetCostCode < ApplicationRecord
+end
