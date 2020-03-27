@@ -1,0 +1,57 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <h1 class="mt-4">Employees</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-3 col-md-4"></div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>First name</th>
+                  <th>Last name</th>
+                  <th>Employee</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Gender</th>
+                  <th>Home company role</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @foreman_employees.each do |employee| %>
+                  <tr>
+                    <td><%= employee.first_name %></td>
+                    <td><%= employee.last_name %></td>
+                    <td><%= employee.employee_id %></td>
+                    <td><%= employee.phone %></td>
+                    <td><%= employee.email %></td>
+                    <td><%= employee.gender %></td>
+                    <td><%= employee.home_company_role %></td>
+                    <td><%= employee.status %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $('#dataTable').DataTable();
+</script>

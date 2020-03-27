@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Cost code:</strong>
+  <%= @time_sheet_cost_code.cost_code %>
+</p>
+
+<p>
+  <strong>Cost code:</strong>
+  <%= @time_sheet_cost_code.cost_code_id %>
+</p>
+
+<p>
+  <strong>Hrs:</strong>
+  <%= @time_sheet_cost_code.hrs %>
+</p>
+
+<%= link_to 'Edit', edit_time_sheet_cost_code_path(@time_sheet_cost_code) %> |
+<%= link_to 'Back', time_sheet_cost_codes_path %>

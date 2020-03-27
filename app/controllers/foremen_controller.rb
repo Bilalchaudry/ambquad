@@ -1,13 +1,21 @@
 class ForemenController < ApplicationController
   include ForemenHelper
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :crew, :project_foreman_list]
   load_and_authorize_resource
 
   # GET /foremen
   # GET /foremen.json
   def index
-    @foremens = @project.foremens rescue []
+    @foremens = @project.foremen
+  end
+
+  def crew
+    @foremens = Foreman.where(project_id: @project.id)
+  end
+
+  def project_foreman_list
+    @foreman_employees = @project.employees.where(foreman_id: params[:project_id])
   end
 
   # GET /foremen/1

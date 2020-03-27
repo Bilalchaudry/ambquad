@@ -1,0 +1,57 @@
+<%= form_with(model: plant_time_sheet, local: true) do |form| %>
+  <% if plant_time_sheet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(plant_time_sheet.errors.count, "error") %> prohibited this plant_time_sheet from being saved:</h2>
+
+      <ul>
+      <% plant_time_sheet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :plant_id %>
+    <%= form.text_field :plant_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :plant_name %>
+    <%= form.text_field :plant_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :plant_id %>
+    <%= form.number_field :plant_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :company %>
+    <%= form.text_field :company %>
+  </div>
+
+  <div class="field">
+    <%= form.label :project_company_id %>
+    <%= form.number_field :project_company_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :manager %>
+    <%= form.text_field :manager %>
+  </div>
+
+  <div class="field">
+    <%= form.label :foreman_id %>
+    <%= form.number_field :foreman_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total_hours %>
+    <%= form.text_field :total_hours %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

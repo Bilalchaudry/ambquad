@@ -1,0 +1,32 @@
+<%= form_with(model: time_sheet_cost_code, local: true) do |form| %>
+  <% if time_sheet_cost_code.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(time_sheet_cost_code.errors.count, "error") %> prohibited this time_sheet_cost_code from being saved:</h2>
+
+      <ul>
+      <% time_sheet_cost_code.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :cost_code %>
+    <%= form.text_field :cost_code %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cost_code_id %>
+    <%= form.number_field :cost_code_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :hrs %>
+    <%= form.text_field :hrs %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

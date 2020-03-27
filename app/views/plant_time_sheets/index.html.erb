@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Plant Time Sheets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Plant</th>
+      <th>Plant name</th>
+      <th>Plant</th>
+      <th>Company</th>
+      <th>Project company</th>
+      <th>Manager</th>
+      <th>Foreman</th>
+      <th>Total hours</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @plant_time_sheets.each do |plant_time_sheet| %>
+      <tr>
+        <td><%= plant_time_sheet.plant_id %></td>
+        <td><%= plant_time_sheet.plant_name %></td>
+        <td><%= plant_time_sheet.plant_id %></td>
+        <td><%= plant_time_sheet.company %></td>
+        <td><%= plant_time_sheet.project_company_id %></td>
+        <td><%= plant_time_sheet.manager %></td>
+        <td><%= plant_time_sheet.foreman_id %></td>
+        <td><%= plant_time_sheet.total_hours %></td>
+        <td><%= link_to 'Show', plant_time_sheet %></td>
+        <td><%= link_to 'Edit', edit_plant_time_sheet_path(plant_time_sheet) %></td>
+        <td><%= link_to 'Destroy', plant_time_sheet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Plant Time Sheet', new_plant_time_sheet_path %>
