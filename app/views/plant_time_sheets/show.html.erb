@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Plant:</strong>
+  <%= @plant_time_sheet.plant_id %>
+</p>
+
+<p>
+  <strong>Plant name:</strong>
+  <%= @plant_time_sheet.plant_name %>
+</p>
+
+<p>
+  <strong>Plant:</strong>
+  <%= @plant_time_sheet.plant_id %>
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @plant_time_sheet.company %>
+</p>
+
+<p>
+  <strong>Project company:</strong>
+  <%= @plant_time_sheet.project_company_id %>
+</p>
+
+<p>
+  <strong>Manager:</strong>
+  <%= @plant_time_sheet.manager %>
+</p>
+
+<p>
+  <strong>Foreman:</strong>
+  <%= @plant_time_sheet.foreman_id %>
+</p>
+
+<p>
+  <strong>Total hours:</strong>
+  <%= @plant_time_sheet.total_hours %>
+</p>
+
+<%= link_to 'Edit', edit_plant_time_sheet_path(@plant_time_sheet) %> |
+<%= link_to 'Back', plant_time_sheets_path %>

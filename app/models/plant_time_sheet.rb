@@ -1,0 +1,2 @@
+class PlantTimeSheet < ApplicationRecord
+end

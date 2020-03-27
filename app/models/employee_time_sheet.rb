@@ -1,0 +1,2 @@
+class EmployeeTimeSheet < ApplicationRecord
+end
