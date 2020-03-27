@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         get :crew
       end
     end
+
     resources :plants do
       collection do
         post :import
@@ -37,6 +38,8 @@ Rails.application.routes.draw do
         get :download_template
       end
     end
+
+    resources :other_managers
 
   end
 

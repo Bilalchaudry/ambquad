@@ -10,6 +10,9 @@ class Project < ApplicationRecord
   has_many :employees
   has_many :employee_types
   has_many :foremen
+  has_many :other_managers
+  has_many :plants
+  has_many :plant_types
   validates_uniqueness_of :project_name
 
 end

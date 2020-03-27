@@ -1,10 +1,11 @@
 class PlantsController < ApplicationController
   before_action :set_plant, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
   load_and_authorize_resource
   # GET /plants
   # GET /plants.json
   def index
-    @plants = Plant.all
+    @plants = @project.plants.all
   end
 
   # GET /plants/1
@@ -28,7 +29,7 @@ class PlantsController < ApplicationController
   # POST /plants
   # POST /plants.json
   def create
-    @plant = Plant.new(plant_params)
+    @plant = @project.plants.new(plant_params)
     @plant.foreman_start_date = @plant.contract_start_date
     @plant.foreman_end_date = @plant.contract_end_date
     respond_to do |format|
@@ -104,6 +105,10 @@ class PlantsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_plant
     @plant = Plant.find(params[:id])
+  end
+
+  def get_project
+    @project = Project.find(params[:project_id])
   end
 
   # Only allow a list of trusted parameters through.

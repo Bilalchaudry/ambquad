@@ -1,7 +1,7 @@
 class EmployeeTypesController < ApplicationController
-  load_and_authorize_resource
   before_action :set_employee_type, only: [:show, :edit, :update, :destroy]
   before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
+  load_and_authorize_resource
 
   # GET /employee_types
   # GET /employee_types.json
