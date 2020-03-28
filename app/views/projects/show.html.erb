@@ -38,7 +38,7 @@
 
                 <div class="row">
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Companies', project_companies_path, style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                    <%= link_to 'Companies', "/projects/#{@project.id}/project_companies", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                   <div class="col-md-4 pt-4">
                     <%= link_to 'Foreman', "/projects/#{@project.id}/foremen", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
