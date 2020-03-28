@@ -9,18 +9,18 @@
               <center>
                 <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
               </center>
-              <h3 class="text-center font-weight-light my-3">Project</h3></div>
+              <h3 class="text-center font-weight-light my-3"><%= @project.project_name %></h3></div>
             <div class="card-body">
               <div class="" id="nav-tab" role="tablist">
                 <div class="row">
                   <div class="col-md-4 pt-2">
-                    <%= link_to 'Project Employees', project_employees_path, style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                    <%= link_to 'Project Employees', "/projects/#{@project.id}/project_employees", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                   <div class="col-md-4 pt-2">
                     <%= link_to 'Cost Codes', "/projects/#{@project.id}/cost_codes", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                   <div class="col-md-4 pt-2">
-                    <%= link_to 'Other Managers', @project_other_managers_path, style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                    <%= link_to 'Other Managers', "/projects/#{@project.id}/other_managers", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                 </div>
 
@@ -29,7 +29,7 @@
                     <%= link_to 'Plant/Equipment List', "/projects/#{@project.id}/plants", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Budget Holders', project_employees_path, style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                    <%= link_to 'Budget Holders', "/projects/#{@project.id}/budget_holders", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                   <div class="col-md-4 pt-4">
                     <%= link_to 'Employee Types', "/projects/#{@project.id}/employee_types", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
@@ -38,7 +38,7 @@
 
                 <div class="row">
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Companies', project_companies_path, style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
+                    <%= link_to 'Companies', "/projects/#{@project.id}/project_companies", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>
                   </div>
                   <div class="col-md-4 pt-4">
                     <%= link_to 'Foreman', "/projects/#{@project.id}/foremen", style: "font-weight:bold; color: white; height: 90px;", :class => "nav-item nav-link btn btn-dark" %>

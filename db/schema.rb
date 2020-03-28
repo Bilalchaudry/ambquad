@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_27_120451) do
+ActiveRecord::Schema.define(version: 2020_03_28_102610) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,20 @@ ActiveRecord::Schema.define(version: 2020_03_27_120451) do
     t.datetime "updated_at", null: false
     t.integer "client_company_id"
     t.boolean "temporary_close", default: false
+  end
+
+  create_table "employee_time_sheets", force: :cascade do |t|
+    t.string "employee"
+    t.integer "employee_id"
+    t.string "labour_type"
+    t.integer "employee_type_id"
+    t.string "company"
+    t.integer "project_company_id"
+    t.string "manager"
+    t.integer "foreman_id"
+    t.float "total_hours"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employee_types", force: :cascade do |t|
@@ -111,6 +125,18 @@ ActiveRecord::Schema.define(version: 2020_03_27_120451) do
     t.integer "client_company_id"
     t.integer "project_id"
     t.index ["employee_id"], name: "index_other_managers_on_employee_id"
+  end
+
+  create_table "plant_time_sheets", force: :cascade do |t|
+    t.integer "plant_id"
+    t.string "plant_name"
+    t.string "company"
+    t.integer "project_company_id"
+    t.string "manager"
+    t.integer "foreman_id"
+    t.float "total_hours"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "plant_types", force: :cascade do |t|
@@ -181,9 +207,17 @@ ActiveRecord::Schema.define(version: 2020_03_27_120451) do
     t.float "total_hours"
     t.integer "foreman_id"
     t.integer "other_manager_id"
+    t.integer "project_company_id"
     t.index ["employee_id"], name: "index_project_employees_on_employee_id"
     t.index ["employee_type_id"], name: "index_project_employees_on_employee_type_id"
     t.index ["project_id"], name: "index_project_employees_on_project_id"
+  end
+
+  create_table "project_project_employees", force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "project_employee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "projects", force: :cascade do |t|
@@ -217,6 +251,14 @@ ActiveRecord::Schema.define(version: 2020_03_27_120451) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "country_name"
+  end
+
+  create_table "time_sheet_cost_codes", force: :cascade do |t|
+    t.string "cost_code"
+    t.integer "cost_code_id"
+    t.float "hrs"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "user_client_companies", force: :cascade do |t|

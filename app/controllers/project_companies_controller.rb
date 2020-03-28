@@ -1,10 +1,12 @@
 class ProjectCompaniesController < ApplicationController
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
   before_action :set_project_company, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
+
   # GET /project_companies
   # GET /project_companies.json
   def index
-    @project_companies = current_user.client_company.project_companies
+    @project_companies = @project.project_companies
   end
 
   # GET /project_companies/1
@@ -20,15 +22,16 @@ class ProjectCompaniesController < ApplicationController
   # GET /project_companies/1/edit
   def edit
     project_id = @project_company.project_id
-    @company_project= current_user.client_company.projects.find(project_id) rescue nil
+    @company_project = current_user.client_company.projects.find(project_id) rescue nil
     @company_projects = current_user.client_company.projects.all.where.not(id: project_id) rescue nil
   end
 
   # POST /project_companies
   # POST /project_companies.json
   def create
-    @project_company = ProjectCompany.new(project_company_params)
-    @project_company.client_company_id = current_user.client_company.id
+    @project_company = @project.project_companies.new(project_company_params)
+    @project_company.client_company_id = @project.client_company.id
+
     code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
     @project_company.phone = '+' + code + @project_company.phone
 
@@ -37,12 +40,12 @@ class ProjectCompaniesController < ApplicationController
 
     respond_to do |format|
       if @project_company.save
-        @project_company.projects << Project.find_by_id(params[:project_company][:project_id])
-        format.html { redirect_to @project_company, notice: 'Project company was successfully created.' }
-        format.json { render :show, status: :created, location: @project_company }
+        @project_company.projects << @project
+        format.html {redirect_to project_project_companies_path, notice: 'Project company was successfully created.'}
+        format.json {render :show, status: :created, location: @project_company}
       else
-        format.html { render :new }
-        format.json { render json: @project_company.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @project_company.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -52,11 +55,11 @@ class ProjectCompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @project_company.update(project_company_params)
-        format.html { redirect_to @project_company, notice: 'Project company was successfully updated.' }
-        format.json { render :show, status: :ok, location: @project_company }
+        format.html {redirect_to project_project_companies_path, notice: 'Project company was successfully updated.'}
+        format.json {render :show, status: :ok, location: @project_company}
       else
-        format.html { render :edit }
-        format.json { render json: @project_company.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @project_company.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -66,8 +69,8 @@ class ProjectCompaniesController < ApplicationController
   def destroy
     @project_company.destroy
     respond_to do |format|
-      format.html { redirect_to project_companies_url, notice: 'Project company was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to project_project_companies_path, notice: 'Project company was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
@@ -85,17 +88,24 @@ class ProjectCompaniesController < ApplicationController
     send_file(
         "#{Rails.root}/public/documents/project_company_template.csv",
         filename: "project_company_template.csv",
-        )
+    )
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project_company
-      @project_company = ProjectCompany.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def project_company_params
-      params.require(:project_company).permit(:company_summary, :project_role, :address, :phone, :primary_poc_first_name, :primary_poc_last_name, :poc_email, :poc_phone, :client_company_id, :project_id, :company_name, :country_name, :poc_country)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project_company
+    @project_company = ProjectCompany.find(params[:id])
+  end
+
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def project_company_params
+    params.require(:project_company).permit(:company_summary, :project_role, :address, :phone,
+                                            :primary_poc_first_name, :primary_poc_last_name, :poc_email,
+                                            :poc_phone, :project_id, :company_name, :country_name, :poc_country)
+  end
 end

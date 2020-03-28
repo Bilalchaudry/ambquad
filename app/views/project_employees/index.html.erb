@@ -11,7 +11,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to 'Add Project Employee', new_project_employee_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to 'Add Project Employee', new_project_project_employee_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
 
@@ -24,8 +24,7 @@
                 <thead>
                 <tr>
                   <th>Name</th>
-                  <th>type</th>
-                  <th>Project</th>
+                  <th>Type</th>
                   <th>Foreman</th>
                   <th>Other Manager</th>
                   <th>Total hours</th>
@@ -40,15 +39,14 @@
                   <tr>
                     <td><%= project_employee.employee.first_name + " " + project_employee.employee.last_name %></td>
                     <td><%= project_employee.employee_type.employee_type %></td>
-                    <td><%= project_employee.project.project_name %></td>
                     <td><%= project_employee.foreman.employee.first_name rescue "N/A" %></td>
                     <td><%= project_employee.other_manager.employee.first_name rescue "N/A" %></td>
                     <td><%= project_employee.total_hours %></td>
                     <td><%= project_employee.contract_start_date %></td>
                     <td><%= project_employee.contract_end_date %></td>
-                    <td><%= link_to 'Show', project_employee, :class => "btn btn-outline-dark" %>
-                      <%= link_to 'Edit', edit_project_employee_path(project_employee), :class => "btn btn-outline-info" %>
-                      <%= link_to 'Destroy', project_employee, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
+                    <td><%= link_to 'View', "/projects/#{@project.id}/project_employees/#{project_employee.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/project_employees/#{project_employee.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to 'Destroy', "/projects/#{@project.id}/project_employees/#{project_employee.id}"+ "?delete=true", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
                   </tr>
                 <% end %>
                 </tbody>

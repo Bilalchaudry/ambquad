@@ -10,7 +10,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to 'Add New Manager', new_other_manager_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to 'Add New Manager', new_project_other_manager_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
         </div>
@@ -31,9 +31,9 @@
                   <tr>
                     <td><%="#{other_manager.employee.first_name} #{other_manager.employee.last_name}"%></td>
                     <td><%= other_manager.manager_type %></td>
-                    <td><%= link_to 'View', other_manager, :class => "btn btn-outline-dark" %>
-                    <%= link_to 'Edit', edit_other_manager_path(other_manager), :class => "btn btn-outline-info" %>
-                    <%= link_to 'Destroy', other_manager, method: :delete, data: {confirm: 'Are you sure?'} , :class => "btn btn-outline-danger"%></td>
+                    <td><%= link_to 'View', project_other_managers_path, :class => "btn btn-outline-dark" %>
+                    <%= link_to 'Edit', "/projects/#{@project.id}/other_managers/#{other_manager.id}/edit", :class => "btn btn-outline-info" %>
+                    <%= link_to 'Destroy', "/projects/#{@project.id}/other_managers/#{other_manager.id}/", method: :delete, data: {confirm: 'Are you sure?'} , :class => "btn btn-outline-danger"%></td>
                   </tr>
                 <% end %>
                 </tbody>

@@ -1,6 +1,3 @@
 <h1>Editing Foreman</h1>
 <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit Foreman <%= "#{@foreman.employee.first_name} #{@foreman.employee.last_name}"  %></h3></div>
 <%= render 'form', foreman: @foreman %>
-
-<%= link_to 'Show', @foreman %> |
-<%= link_to 'Back', foremen_path %>
