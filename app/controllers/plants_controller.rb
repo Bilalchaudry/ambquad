@@ -1,6 +1,6 @@
 class PlantsController < ApplicationController
   before_action :set_plant, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
   load_and_authorize_resource
   # GET /plants
   # GET /plants.json
@@ -34,7 +34,7 @@ class PlantsController < ApplicationController
     @plant.foreman_end_date = @plant.contract_end_date
     respond_to do |format|
       if @plant.save
-        format.html {redirect_to @plant, notice: 'Plant was successfully created.'}
+        format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
         format.json {render :show, status: :created, location: @plant}
       else
         format.html {render :new}
@@ -51,7 +51,7 @@ class PlantsController < ApplicationController
       if @plant.foreman_id.eql?(params[:plant][:foreman_id])
         if @plant.update(plant_params)
 
-          format.html {redirect_to @plant, notice: 'Plant was successfully updated.'}
+          format.html {redirect_to project_plants_path, notice: 'Plant was successfully updated.'}
           format.json {render :show, status: :ok, location: @plant}
         else
           format.html {render :edit}
@@ -79,7 +79,7 @@ class PlantsController < ApplicationController
   def destroy
     @plant.destroy
     respond_to do |format|
-      format.html {redirect_to plants_url, notice: 'Plant was successfully destroyed.'}
+      format.html {redirect_to project_plants_path, notice: 'Plant was successfully destroyed.'}
       format.json {head :no_content}
     end
   end

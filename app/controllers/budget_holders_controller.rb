@@ -1,6 +1,6 @@
 class BudgetHoldersController < ApplicationController
-  before_action :set_budget_holder, only: [:show, :edit, :update, :destroy]
   before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
+  before_action :set_budget_holder, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
   # GET /budget_holders
