@@ -1,6 +1,6 @@
 class PlantTypesController < ApplicationController
   before_action :set_plant_type, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
   load_and_authorize_resource
 
   # GET /plant_types

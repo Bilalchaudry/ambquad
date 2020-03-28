@@ -2,6 +2,9 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <center>
+          <h3 class="alert-success mt-1"><%= notice %></h3>
+        </center>
         <h1 class="mt-4">Plant Types</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
@@ -35,9 +38,9 @@
                   <tr>
                     <td><%= plant_type.type_name%></td>
                     <td>
-                      <%= link_to "View", project_plant_types_path(plant_type), :class => "btn btn-outline-dark" %>
+                      <%= link_to "View", "/projects/#{@project.id}/plant_types/#{plant_type.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/plant_types/#{plant_type.id}/edit", :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/projects/#{@project.id}/plant_types/#{plant_type.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/plant_types/#{plant_type.id}" + "?delete=true", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete %>
                     </td>
                   </tr>
                 <% end %>

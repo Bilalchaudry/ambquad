@@ -18,6 +18,25 @@
                     </ul>
                   </div>
                 <% end %>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :Comapny, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="temporary_user[client_company_id]" id="company_id" class="form-control">
+                        <option value=" "></option>
+                        <% ClientCompany.all.each do |company| %>
+                          <option value="<%= company.id %>">
+                            <%= company.company_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="hidden_option">
                 <div class="row">
                   <div class="col-md-4">
@@ -134,23 +153,7 @@
                   </div>
 
                 </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :Comapny, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="temporary_user[client_company_id]" id="company_id" class="form-control">
-                        <option value=" "></option>
-                        <% ClientCompany.all.each do |company| %>
-                          <option value="<%= company.id %>">
-                            <%= company.company_name %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+
                 <hr>
                 <div class="row">
                   <div class="col-md-3"></div>

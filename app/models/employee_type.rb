@@ -2,7 +2,7 @@ class EmployeeType < ApplicationRecord
 
   belongs_to :project
 
-  validates :employee_type, presence: true, uniqueness: true
+  validates_uniqueness_of :employee_type, :scope => :project_id
 
   def self.import(file)
     if File.extname(file.original_filename) == '.csv'

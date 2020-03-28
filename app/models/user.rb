@@ -13,8 +13,7 @@ class User < ApplicationRecord
 
   enum role: {
       User: 0,
-      Admin: 1,
-      Client: 2
+      Admin: 1
   }
 
   enum status: {

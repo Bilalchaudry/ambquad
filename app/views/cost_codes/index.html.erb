@@ -2,6 +2,9 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <center>
+          <h3 class="alert-success mt-1"><%= notice %></h3>
+        </center>
         <h1 class="mt-4">Cost Codes</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
@@ -11,11 +14,11 @@
               <%= link_to 'New Cost Code', new_project_cost_code_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
             <div class="row" style="margin-left: 1px">
-            <%= form_tag import_project_cost_codes_path, multipart: true do %>
-              <%= file_field_tag :file %>
-              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white"%>
-            <% end %>
-            <%= link_to 'Download Template', download_template_project_cost_codes_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= form_tag import_project_cost_codes_path, multipart: true do %>
+                <%= file_field_tag :file %>
+                <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+              <% end %>
+              <%= link_to 'Download Template', download_template_project_cost_codes_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
         </div>
@@ -27,7 +30,6 @@
                 <tr>
                   <th>Cost Code</th>
                   <th>Cost Code Description</th>
-                  <th>Project</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -37,7 +39,6 @@
                   <tr>
                     <td><%= cost_code.cost_code_id %></td>
                     <td><%= cost_code.cost_code_description %></td>
-                    <td><%= cost_code.project.project_name rescue "N/A" %></td>
                     <td>
                       <%= link_to 'View', "/projects/#{@project.id}/cost_codes/#{cost_code.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', "/projects/#{@project.id}/cost_codes/#{cost_code.id}/edit", :class => "btn btn-outline-info" %>
