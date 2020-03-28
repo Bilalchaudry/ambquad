@@ -12,8 +12,8 @@
             </div>
 
             <%#= form_tag import_plants_path, multipart: true do %>
-              <%#= file_field_tag :file %>
-              <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+            <%#= file_field_tag :file %>
+            <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
             <%# end %>
             <%#= link_to 'Download Template', download_template_plants_path, :class => "btn btn-dark", style: "color: white" %>
 
@@ -43,7 +43,7 @@
                 <tbody>
                 <% @plants.each do |plant| %>
                   <tr>
-                    <td><%= plant.plant_name%></td>
+                    <td><%= plant.plant_name %></td>
                     <td><%= plant.plant_id %></td>
                     <td><%= plant.plant_type_id %></td>
                     <td><%= plant.contract_start_date %></td>
@@ -54,8 +54,8 @@
                     <td><%= plant.market_value %></td>
                     <td>
                       <%= link_to "View", project_plants_path(plant), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_plant_path(plant), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/plants/#{plant.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "Edit", "/projects/#{@project.id}/employee_types/#{plant.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/employee_types/#{plant.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
                     </td>
                   </tr>
                 <% end %>

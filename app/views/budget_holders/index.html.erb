@@ -8,7 +8,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Budget Holder", new_budget_holder_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Budget Holder", new_project_budget_holder_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
         </div>
@@ -28,11 +28,9 @@
                   <tr>
                     <td><%= budget_holder.employee.first_name %></td>
                     <td>
-                      <%= link_to "View", budget_holder_path(budget_holder), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_budget_holder_path(budget_holder), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/budget_holders/#{budget_holder.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
-
-
+                      <%= link_to "View", project_budget_holder_path(budget_holder), :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", "/projects/#{@project.id}/budget_holders/#{budget_holder.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/budget_holders/#{budget_holder.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
                     </td>
                   </tr>
                 <% end %>

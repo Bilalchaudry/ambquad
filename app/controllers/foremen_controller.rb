@@ -1,7 +1,8 @@
 class ForemenController < ApplicationController
   include ForemenHelper
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :crew, :destroy]
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :crew]
+
   load_and_authorize_resource
 
   # GET /foremen
@@ -31,10 +32,10 @@ class ForemenController < ApplicationController
   # POST /foremen
   # POST /foremen.json
   def create
-    @foreman = @project.foremans.new(foreman_params)
+    @foreman = @project.foremen.new(foreman_params)
     respond_to do |format|
       if @foreman.save
-        format.html {redirect_to project_foremans_path(@project), notice: 'Foreman was successfully created.'}
+        format.html {redirect_to project_foremen_path(@project), notice: 'Foreman was successfully created.'}
         format.json {render :show, status: :created, location: @foreman}
       else
         format.html {render :new}
@@ -48,7 +49,7 @@ class ForemenController < ApplicationController
   def update
     respond_to do |format|
       if @foreman.update(foreman_params)
-        format.html {redirect_to @foreman, notice: 'Foreman was successfully updated.'}
+        format.html {redirect_to project_foremen_path(@project), notice: 'Foreman was successfully updated.'}
         format.json {render :show, status: :ok, location: @foreman}
       else
         format.html {render :edit}
@@ -62,7 +63,7 @@ class ForemenController < ApplicationController
   def destroy
     @foreman.destroy
     respond_to do |format|
-      format.html {redirect_to foremen_url, notice: 'Foreman was successfully destroyed.'}
+      format.html {redirect_to project_foremen_path(@project), notice: 'Foreman was successfully destroyed.'}
       format.json {head :no_content}
     end
   end
@@ -75,7 +76,7 @@ class ForemenController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_foreman
-    @foreman = @project.formans.find(params[:id])
+    @foreman = @project.foremen.find(params[:id])
   end
 
   def get_project

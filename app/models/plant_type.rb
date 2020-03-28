@@ -1,4 +1,7 @@
 class PlantType < ApplicationRecord
+
+  belongs_to :project
+
   validates :type_name, presence: true, uniqueness: true
 
   def self.import(file)
