@@ -1,5 +1,6 @@
 class PlantTypesController < ApplicationController
   before_action :set_plant_type, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
   load_and_authorize_resource
   # GET /plant_types
   # GET /plant_types.json
@@ -71,25 +72,29 @@ class PlantTypesController < ApplicationController
       f.write(file.read)
     end
     PlantType.import(params[:file])
-    redirect_to plant_types_url, notice: "created"
+    redirect_to project_plant_types_path, notice: "created"
   end
 
   def download_template
     send_file(
         "#{Rails.root}/public/documents/plant_type_template.csv",
         filename: "plant_type_template.csv",
-        )
+    )
   end
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_plant_type
-      @plant_type = PlantType.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_plant_type
+    @plant_type = PlantType.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def plant_type_params
-      params.require(:plant_type).permit(:type_name)
-    end
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def plant_type_params
+    params.require(:plant_type).permit(:type_name)
+  end
 end

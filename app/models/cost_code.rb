@@ -8,7 +8,7 @@ class CostCode < ApplicationRecord
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
-        cost_code = CostCode.create(cost_code_id: row[0], cost_code_description: row[1], project_id: row[2], client_company_id: user.client_company.id)
+        cost_code = CostCode.create(cost_code_id: row[0], cost_code_description: row[1], project_id: row[2])
       end
     else
       spreadsheet = open_spreadsheet(file)

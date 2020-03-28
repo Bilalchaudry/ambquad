@@ -5,7 +5,7 @@ class PlantType < ApplicationRecord
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
-        employee = PlantType.create(type_name: row[0])
+        employee = PlantType.create(type_name: row[0], project_id: row[1])
       end
     else
       spreadsheet = open_spreadsheet(file)
