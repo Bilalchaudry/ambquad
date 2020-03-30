@@ -10,22 +10,26 @@ class ProjectCompany < ApplicationRecord
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
-        employee = ProjectCompany.create( project_id: row[0], company_name: row[1], company_summary: row[2], project_role: row[3], address: row[4],
-                                          phone: row[5], primary_poc_first_name: row[6], primary_poc_last_name: row[7], poc_email: row[8],
-                                          poc_phone: row[9], client_company_id: user.client_company.id)
+        employee = ProjectCompany.create(project_id: row[0], company_name: row[1], company_summary: row[2], project_role: row[3], address: row[4],
+                                         phone: row[5], primary_poc_first_name: row[6], primary_poc_last_name: row[7], poc_email: row[8],
+                                         poc_phone: row[9], client_company_id: user.client_company.id)
       end
     else
       spreadsheet = open_spreadsheet(file)
-      header = spreadsheet.row(1)
-      (2..spreadsheet.last_row).each do |i|
-        begin
-          row = Hash[[header, spreadsheet.row(i)].transpose]
-          employee = ProjectCompany.create( project_id: row['project_id'], company_name: row['company_name'], company_summary: row['company_summary'],
-                                           project_role: row['project_role'], address: row['address'], phone: row['phone'],
-                                           primary_poc_first_name: row['primary_poc_first_name'], primary_poc_last_name: row['primary_poc_last_name'],
-                                           poc_email: row['poc_email'], poc_phone: row['poc_phone'] )
-          employee.save!
+      if spreadsheet != false
+        header = spreadsheet.row(1)
+        (2..spreadsheet.last_row).each do |i|
+          begin
+            row = Hash[[header, spreadsheet.row(i)].transpose]
+            employee = ProjectCompany.create(project_id: row['project_id'], company_name: row['company_name'], company_summary: row['company_summary'],
+                                             project_role: row['project_role'], address: row['address'], phone: row['phone'],
+                                             primary_poc_first_name: row['primary_poc_first_name'], primary_poc_last_name: row['primary_poc_last_name'],
+                                             poc_email: row['poc_email'], poc_phone: row['poc_phone'])
+            employee.save!
+          end
         end
+      else
+        return false
       end
     end
   end
@@ -39,7 +43,7 @@ class ProjectCompany < ApplicationRecord
     when ".xls" then
       Roo::Excel.new(file.path)
     else
-      raise "Unknown file type: #{file.original_filename}"
+      return false
     end
   end
 

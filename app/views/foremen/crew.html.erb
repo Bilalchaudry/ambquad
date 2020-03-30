@@ -24,7 +24,7 @@
                   <tr>
                     <td><%= "#{foreman.employee.first_name} #{foreman.employee.last_name}" %> </td>
                     <td>
-                      <%= link_to 'Crew List', project_foreman_list_project_foremen_path(foreman), :class => "btn btn-outline-dark" %>
+                      <%= link_to 'Employees', project_foreman_list_project_foremen_path(foreman: foreman.id), :class => "btn btn-outline-dark" %>
                     </td>
                   </tr>
                 <% end %>
