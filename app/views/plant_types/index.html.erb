@@ -2,21 +2,24 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <center>
+          <h3 class="alert-success mt-1"><%= notice %></h3>
+        </center>
         <h1 class="mt-4">Plant Types</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Plant Type", new_plant_type_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Plant Type", new_project_plant_type_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
-
-            <%= form_tag import_plant_types_path, multipart: true do %>
+            <div class="row" style="margin-left: 1px">
+            <%= form_tag import_project_plant_types_path, multipart: true do %>
               <%= file_field_tag :file %>
               <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
             <% end %>
-            <%= link_to 'Download Template', download_template_plant_types_path, :class => "btn btn-dark", style: "color: white" %>
-
+            <%= link_to 'Download Template', download_template_project_plant_types_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
           </div>
         </div>
         <div class="card mb-4">
@@ -35,9 +38,9 @@
                   <tr>
                     <td><%= plant_type.type_name%></td>
                     <td>
-                      <%= link_to "View", plant_type_path(plant_type), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_plant_type_path(plant_type), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/plant_types/#{plant_type.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "View", "/projects/#{@project.id}/plant_types/#{plant_type.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", "/projects/#{@project.id}/plant_types/#{plant_type.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/plant_types/#{plant_type.id}" + "?delete=true", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete %>
                     </td>
                   </tr>
                 <% end %>

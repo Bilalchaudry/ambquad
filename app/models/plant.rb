@@ -1,5 +1,7 @@
 class Plant < ApplicationRecord
 
+  belongs_to :project
+
   validates :contract_start_date, :contract_end_date, presence: true
   validate :contract_end_date_after_contract_start_date
   validate :start_date_equar_or_greater_today_date
@@ -21,7 +23,7 @@ class Plant < ApplicationRecord
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
         employee = Plant.create(plant_name: row[0], plant_id: row[1], contract_start_date: row[2], foreman_start_date: row[2], contract_end_date: row[3], foreman_end_date: row[3],
-                                plant_type_id: row[4], foreman_id: row[5], other_manager_id: row[6], market_value: row[7])
+                                plant_type_id: row[4], foreman_id: row[5], other_manager_id: row[6], market_value: row[7], project_id: row[8])
       end
     else
       spreadsheet = open_spreadsheet(file)

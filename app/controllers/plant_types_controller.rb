@@ -1,10 +1,12 @@
 class PlantTypesController < ApplicationController
   before_action :set_plant_type, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
   load_and_authorize_resource
+
   # GET /plant_types
   # GET /plant_types.json
   def index
-    @plant_types = PlantType.all
+    @plant_types = @project.plant_types
   end
 
   # GET /plant_types/1
@@ -12,7 +14,7 @@ class PlantTypesController < ApplicationController
   def show
     if params[:delete].present?
       @plant_type.destroy
-      redirect_to plant_types_path
+      redirect_to project_plant_types_path
     end
   end
 
@@ -28,15 +30,15 @@ class PlantTypesController < ApplicationController
   # POST /plant_types
   # POST /plant_types.json
   def create
-    @plant_type = PlantType.new(plant_type_params)
+    @plant_type = @project.plant_types.new(plant_type_params)
 
     respond_to do |format|
       if @plant_type.save
-        format.html { redirect_to @plant_type, notice: 'Plant type was successfully created.' }
-        format.json { render :show, status: :created, location: @plant_type }
+        format.html {redirect_to "/projects/#{@project.id}/plant_types", notice: 'Plant type was successfully created.'}
+        format.json {render :show, status: :created, location: @plant_type}
       else
-        format.html { render :new }
-        format.json { render json: @plant_type.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @plant_type.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -46,11 +48,11 @@ class PlantTypesController < ApplicationController
   def update
     respond_to do |format|
       if @plant_type.update(plant_type_params)
-        format.html { redirect_to @plant_type, notice: 'Plant type was successfully updated.' }
-        format.json { render :show, status: :ok, location: @plant_type }
+        format.html {redirect_to "/projects/#{@project.id}/plant_types", notice: 'Plant type was successfully updated.'}
+        format.json {render :show, status: :ok, location: @plant_type}
       else
-        format.html { render :edit }
-        format.json { render json: @plant_type.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @plant_type.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -60,8 +62,8 @@ class PlantTypesController < ApplicationController
   def destroy
     @plant_type.destroy
     respond_to do |format|
-      format.html { redirect_to plant_types_url, notice: 'Plant type was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to "/projects/#{@project.id}/plant_types", notice: 'Plant type was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
@@ -71,25 +73,30 @@ class PlantTypesController < ApplicationController
       f.write(file.read)
     end
     PlantType.import(params[:file])
-    redirect_to plant_types_url, notice: "created"
+    redirect_to project_plant_types_path, notice: "created"
   end
 
   def download_template
     send_file(
         "#{Rails.root}/public/documents/plant_type_template.csv",
         filename: "plant_type_template.csv",
-        )
+    )
   end
 
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_plant_type
-      @plant_type = PlantType.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def plant_type_params
-      params.require(:plant_type).permit(:type_name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_plant_type
+    @plant_type = PlantType.find(params[:id])
+  end
+
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def plant_type_params
+    params.require(:plant_type).permit(:type_name)
+  end
 end

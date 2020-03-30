@@ -18,14 +18,34 @@
                     </ul>
                   </div>
                 <% end %>
-                <div class="hidden_option">
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :Comapny, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+<!--                      <select name="temporary_user[client_company_id]" id="company_id" class="form-control", selected = "form.object.client_company_id">-->
+<!--                        <option value=" "></option>-->
+                        <%# ClientCompany.all.each do |company| %>
+<!--                          <option value="<%#= company.id %>">-->
+                            <%#= company.company_name %>
+<!--                          </option>-->
+                        <%# end %>
+<!--                      </select>-->
+                      <%= form.select :client_company_id, ClientCompany.all.collect{ |p| [ p.company_name, p.id] },{ prompt: '--Select Company--'} , :id => "client_company_id", :required => true, class: 'form-control'%>
+                    </div>
+                  </div>
+                </div>
+
+<!--                <div class="hidden_option">-->
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :first_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :first_name, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :first_name, :class => "form-control py-2 read-only", :required => true, :readonly=>"true" %>
                     </div>
                   </div>
                 </div>
@@ -35,7 +55,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :last_name, validate: true, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :last_name, validate: true, :class => "form-control py-2 read-only", :required => true, :readonly=>"true" %>
                     </div>
                   </div>
                 </div>
@@ -46,7 +66,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="temporary_user[country_name]" id="country" class="form-control">
+                      <select name="temporary_user[country_name]" id="country" class="form-control dropd" disabled="true">
                         <option value=" "></option>
                         <% @country = ISO3166::Country.countries.sort %>
                         <% @country.each do |c| %>
@@ -65,7 +85,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :phone_no, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :phone_no, :class => "form-control py-2 read-only", :required => true , :readonly=>"true" %>
                     </div>
                   </div>
                 </div>
@@ -75,7 +95,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.email_field :email, validate: true, :class => "form-control py-2", :required => true %>
+                      <%= form.email_field :email, validate: true, :class => "form-control py-2 read-only", :required => true, :readonly=>"true" %>
                     </div>
                   </div>
                 </div>
@@ -85,7 +105,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :username, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :username, :class => "form-control py-2 read-only", :required => true, :readonly=>"true" %>
                     </div>
                   </div>
                 </div>
@@ -95,7 +115,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.password_field :password, validate: true, :class => "form-control py-2", :required => true %>
+                      <%= form.password_field :password, validate: true, :class => "form-control py-2 read-only", :required => true, :readonly=>"true" %>
                     </div>
                   </div>
                 </div>
@@ -105,7 +125,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="temporary_user[role]" id="role" class="form-control">
+                      <select name="temporary_user[role]" id="role" class="form-control dropd" disabled="true">
                         <% User.roles.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
@@ -122,7 +142,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <select name="user[status]" id="role" class="form-control">
+                        <select name="user[status]" id="role" class="form-control dropd" disabled="true">
                           <% User.statuses.each do |key, value| %>
                             <option value="<%= value %>">
                               <%= key %>
@@ -134,23 +154,7 @@
                   </div>
 
                 </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :Comapny, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="temporary_user[client_company_id]" id="company_id" class="form-control">
-                        <option value=" "></option>
-                        <% ClientCompany.all.each do |company| %>
-                          <option value="<%= company.id %>">
-                            <%= company.company_name %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+
                 <hr>
                 <div class="row">
                   <div class="col-md-3"></div>
@@ -174,7 +178,7 @@
             </div>
           </div>
         </div>
-      </div>
+<!--      </div>-->
     </div>
   </main>
 </div>
@@ -182,10 +186,12 @@
 
 <script>
     $(document).ready(function(){
-        $("#company_id").change(function(){
-            if($("#company_id").val() != ""){
-                $(".hidden_option").fadeIn('fast');
-            }
+        $("#client_company_id").change(function(){
+            if($("#client_company_id").val() != ""){
+                debugger
+               $('.read-only').attr('readonly', false);
+               $(".dropd").prop("disabled", false);
+           }
         });
     });
 </script>

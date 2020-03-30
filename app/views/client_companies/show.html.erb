@@ -4,7 +4,8 @@
       <div class="row justify-content-center">
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header"><h3 class="text-center font-weight-light my-4"><%= @client_company.company_name %></h3></div>
+            <div class="card-header">
+              <h3 class="text-center font-weight-light my-4"><%= @client_company.company_name %></h3></div>
             <div class="card-body">
               <% if notice.present? %>
                 <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
@@ -15,8 +16,8 @@
                   <strong>Name:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
-                    <%= @client_company.company_name  %>
+                  <div>
+                    <%= @client_company.company_name %>
                   </div>
                 </div>
               </div>
@@ -26,7 +27,7 @@
                   <strong>Company ID:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
+                  <div>
                     <%= @client_company.company_id %>
                   </div>
                 </div>
@@ -37,7 +38,7 @@
                   <strong>Address:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
+                  <div>
                     <%= @client_company.address %>
                   </div>
                 </div>
@@ -48,7 +49,7 @@
                   <strong>Phone:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
+                  <div>
                     <%= @client_company.phone %>
                   </div>
                 </div>
@@ -59,7 +60,7 @@
                   <strong>Number of users:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
+                  <div>
                     <%= @client_company.number_of_users %>
                   </div>
                 </div>
@@ -70,7 +71,7 @@
                   <strong>Primary poc First Name:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
+                  <div>
                     <%= @client_company.primary_poc_first_name %>
                   </div>
                 </div>
@@ -81,7 +82,7 @@
                   <strong>Primary poc Last Name:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
+                  <div>
                     <%= @client_company.primary_poc_last_name %>
                   </div>
                 </div>
@@ -92,7 +93,7 @@
                   <strong>Primary poc Email:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
+                  <div>
                     <%= @client_company.poc_email %>
                   </div>
                 </div>
@@ -103,7 +104,7 @@
                   <strong>Primary poc Phone:</strong>
                 </div>
                 <div class="col-md-6">
-                  <div >
+                  <div>
                     <%= @client_company.poc_phone %>
                   </div>
                 </div>
@@ -114,14 +115,18 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', edit_client_company_path(@client_company), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', edit_client_company_path(@client_company), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' if can? :update, Project %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Back', client_companies_path , :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <% if current_user.role.eql?("Admin") %>
+                        <%= link_to 'Back', client_companies_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <% else %>
+                        <%= link_to 'Back', root_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <% end %>
                     </div>
                   </div>
                 </div>

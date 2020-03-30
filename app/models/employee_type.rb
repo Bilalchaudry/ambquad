@@ -2,13 +2,13 @@ class EmployeeType < ApplicationRecord
 
   belongs_to :project
 
-  validates :employee_type, presence: true, uniqueness: true
+  validates_uniqueness_of :employee_type, :scope => :project_id
 
   def self.import(file)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
-        employee = EmployeeType.create(employee_type: row[0])
+        employee = EmployeeType.create(employee_type: row[0], project_id: row[1])
       end
     else
       spreadsheet = open_spreadsheet(file)

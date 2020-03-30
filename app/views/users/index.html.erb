@@ -27,7 +27,6 @@
                   <th>Email</th>
                   <th>Role</th>
                   <th>Company</th>
-                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -39,7 +38,6 @@
                     <td><%= user.email %></td>
                     <td><%= user.role %></td>
                     <td><%= user.client_company.company_name rescue nil %></td>
-                    <td><%= user.status rescue nil %></td>
                     <td>
                       <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>

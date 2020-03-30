@@ -1,0 +1,26 @@
+<table class="table table-bordered" id="dataTable123" width="100%" cellspacing="0">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Phone Number</th>
+    <th>Address</th>
+    <th>Users</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+
+  <tbody>
+
+    <tr>
+      <td><%= current_user.client_company.company_name %></td>
+      <td><%= current_user.client_company.phone %></td>
+      <td><%= current_user.client_company.address %></td>
+      <td><%= current_user.client_company.number_of_users %></td>
+      <td>
+        <%= link_to "View", client_company_path(current_user.client_company), :class => "btn btn-outline-success" %>
+      </td>
+    </tr>
+
+
+  </tbody>
+</table>

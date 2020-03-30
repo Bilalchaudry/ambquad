@@ -5,19 +5,22 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <center>
+          <h3 class="alert-success mt-1"><%= notice %></h3>
+        </center>
         <h1 class="mt-4">Project Companies</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to 'New Project Company', new_project_company_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to 'New Project Company', new_project_project_company_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
-            <%= form_tag import_project_companies_path, multipart: true do %>
-              <%= file_field_tag :file %>
-              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
-            <% end %>
-            <%= link_to 'Download Template', download_template_project_companies_path, :class => "btn btn-dark", style: "color: white" %>
+            <%#= form_tag import_project_companies_path, multipart: true do %>
+              <%#= file_field_tag :file %>
+              <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+            <% #end %>
+            <%#= link_to 'Download Template', download_template_project_companies_path, :class => "btn btn-dark", style: "color: white" %>
           </div>
         </div>
         <div class="card mb-4">
@@ -35,8 +38,6 @@
                   <th>Primary poc last name</th>
                   <th>Poc email</th>
                   <th>Poc phone</th>
-                  <th>Client company</th>
-                  <th>Project</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -53,11 +54,9 @@
                     <td><%= project_company.primary_poc_last_name %></td>
                     <td><%= project_company.poc_email %></td>
                     <td><%= project_company.poc_phone %></td>
-                    <td><%= project_company.client_company.company_name %></td>
-                    <td><%= project_company.project.project_name %></td>
-                    <td><%= link_to 'Show', project_company, :class => "btn btn-outline-dark" %>
-                      <%= link_to 'Edit', edit_project_company_path(project_company), :class => "btn btn-outline-info" %>
-                      <%= link_to 'Destroy', project_company, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
+                    <td><%= link_to 'View', "/projects/#{@project.id}/project_companies/#{project_company.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/project_companies/#{project_company.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to 'Destroy', "/projects/#{@project.id}/project_companies/#{project_company.id}" + "?delete=true", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
                   </tr>
                 <% end %>
                 </tbody>

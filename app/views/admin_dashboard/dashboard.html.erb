@@ -19,12 +19,20 @@
                         <a style="background: #1466FB; color: white; margin: 20px; width: 120px; border-radius: 10px;" class="nav-item nav-link" id="nav-projects-tab" data-toggle="tab" href="#projects-table" role="tab" aria-controls="nav-home" aria-selected="true">
                           <div class="card-body ">Projects</div>
                         </a>
-                        <a style="background: #FFC300; color: white; margin: 20px; width: 120px; border-radius: 10px;" class="nav-item nav-link" id="nav-users-tab" data-toggle="tab" href="#users-table" role="tab" aria-controls="nav-profile" aria-selected="false">
-                          <div class="card-body">Ambquad TM Users</div>
-                        </a>
-                        <a style="background: #00B249; color: white; margin: 20px; width: 120px; border-radius: 10px;" class="nav-item nav-link" id="nav-companies-tab" data-toggle="tab" href="#companies-table" role="tab" aria-controls="nav-contact" aria-selected="false">
-                          <div class="card-body">Client Companies</div>
-                        </a>
+                        <% if current_user.role.eql?("Admin") %>
+
+                          <a style="background: #FFC300; color: white; margin: 20px; width: 120px; border-radius: 10px;" class="nav-item nav-link" id="nav-users-tab" data-toggle="tab" href="#users-table" role="tab" aria-controls="nav-profile" aria-selected="false">
+                            <div class="card-body">Ambquad TM Users</div>
+                          </a>
+
+                          <a style="background: #00B249; color: white; margin: 20px; width: 120px; border-radius: 10px;" class="nav-item nav-link" id="nav-companies-tab" data-toggle="tab" href="#companies-table" role="tab" aria-controls="nav-contact" aria-selected="false">
+                            <div class="card-body">Client Companies</div>
+                          </a>
+                        <% else %>
+                          <a style="background: #00B249; color: white; margin: 20px; width: 120px; border-radius: 10px;" class="nav-item nav-link" id="client_company-tab" data-toggle="tab" href="#client_company" role="tab" aria-controls="nav-contact" aria-selected="false">
+                            <div class="card-body">Client Info</div>
+                          </a>
+                        <% end %>
                       </div>
                     </nav>
                     <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
@@ -37,6 +45,11 @@
                       <div class="tab-pane fade" id="companies-table" role="tabpanel" aria-labelledby="nav-companies-tab">
                         <%= render 'shared/client_compnies_table' %>
                       </div>
+                      <% unless current_user.role.eql?("Admin") %>
+                        <div class="tab-pane fade" id="client_company" role="tabpanel" aria-labelledby="client_company-tab">
+                          <%= render 'shared/company' %>
+                        </div>
+                      <% end %>
                     </div>
                   </div>
                 </div>
