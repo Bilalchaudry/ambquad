@@ -12,13 +12,17 @@ class PlantType < ApplicationRecord
       end
     else
       spreadsheet = open_spreadsheet(file)
-      header = spreadsheet.row(1)
-      (2..spreadsheet.last_row).each do |i|
-        begin
-          row = Hash[[header, spreadsheet.row(i)].transpose]
-          employee = PlantType.create(type_name: row['type_name'])
-          employee.save!
+      if spreadsheet != false
+        header = spreadsheet.row(1)
+        (2..spreadsheet.last_row).each do |i|
+          begin
+            row = Hash[[header, spreadsheet.row(i)].transpose]
+            employee = PlantType.create(type_name: row['type_name'])
+            employee.save!
+          end
         end
+      else
+        return false
       end
     end
   end
@@ -32,7 +36,7 @@ class PlantType < ApplicationRecord
     when ".xls" then
       Roo::Excel.new(file.path)
     else
-      raise "Unknown file type: #{file.original_filename}"
+      return false
     end
   end
 

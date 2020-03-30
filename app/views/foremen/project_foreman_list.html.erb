@@ -1,45 +1,47 @@
+<!--<p id="notice"><%#= notice %></p>-->
+
+<!--<h1>Project Employees</h1>-->
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
-        <h1 class="mt-4">Employees</h1>
+        <h1 class="mt-4">Foreman Employees</h1>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4"></div>
         </div>
+
         <div class="card mb-4">
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Employee</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th>Gender</th>
-                  <th>Home company role</th>
-                  <th>Status</th>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Foreman</th>
+                  <th>Other Manager</th>
+                  <th>Total hours</th>
+                  <th>Contract start date</th>
+                  <th>Contract end date</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <% @foreman_employees.each do |employee| %>
+                <% @project_employees.each do |project_employee| %>
                   <tr>
-                    <td><%= employee.first_name %></td>
-                    <td><%= employee.last_name %></td>
-                    <td><%= employee.employee_id %></td>
-                    <td><%= employee.phone %></td>
-                    <td><%= employee.email %></td>
-                    <td><%= employee.gender %></td>
-                    <td><%= employee.home_company_role %></td>
-                    <td><%= employee.status %></td>
-                  </tr>
+                    <td><%= project_employee.employee.first_name + " " + project_employee.employee.last_name %></td>
+                    <td><%= project_employee.employee_type.employee_type %></td>
+                    <td><%= project_employee.foreman.employee.first_name rescue "N/A" %></td>
+                    <td><%= project_employee.other_manager.employee.first_name rescue "N/A" %></td>
+                    <td><%= project_employee.total_hours %></td>
+                    <td><%= project_employee.contract_start_date %></td>
+                    <td><%= project_employee.contract_end_date %></td>
                 <% end %>
                 </tbody>
               </table>
+
               <br>
             </div>
           </div>
@@ -51,6 +53,7 @@
 
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
 
 <script>
     $('#dataTable').DataTable();

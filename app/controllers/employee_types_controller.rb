@@ -71,8 +71,13 @@ class EmployeeTypesController < ApplicationController
     File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    EmployeeType.import(params[:file])
-    redirect_to project_employee_types_path, notice: "created"
+    errors = EmployeeType.import(params[:file])
+    if errors == false
+      flash[:notice] = 'File Format not Supported'
+    else
+      flash[:notice] = 'File has been imported successfully.'
+    end
+    redirect_to project_employee_types_path
   end
 
   def download_template

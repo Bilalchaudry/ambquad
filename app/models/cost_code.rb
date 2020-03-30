@@ -12,13 +12,17 @@ class CostCode < ApplicationRecord
       end
     else
       spreadsheet = open_spreadsheet(file)
-      header = spreadsheet.row(1)
-      (2..spreadsheet.last_row).each do |i|
-        begin
-          row = Hash[[header, spreadsheet.row(i)].transpose]
-          cost_code = CostCode.create(cost_code_id: row['cost_code_id'], cost_code_description: row['cost_code_description'], project_id: row['project_id'], client_company_id: user.client_company.id )
-          cost_code.save!
+      if spreadsheet != false
+        header = spreadsheet.row(1)
+        (2..spreadsheet.last_row).each do |i|
+          begin
+            row = Hash[[header, spreadsheet.row(i)].transpose]
+            cost_code = CostCode.create(cost_code_id: row['cost_code_id'], cost_code_description: row['cost_code_description'], project_id: row['project_id'], client_company_id: user.client_company.id)
+            cost_code.save!
+          end
         end
+      else
+        return false
       end
     end
   end
@@ -32,7 +36,7 @@ class CostCode < ApplicationRecord
     when ".xls" then
       Roo::Excel.new(file.path)
     else
-      raise "Unknown file type: #{file.original_filename}"
+      return false
     end
   end
 

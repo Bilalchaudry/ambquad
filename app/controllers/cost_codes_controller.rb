@@ -69,8 +69,13 @@ class CostCodesController < ApplicationController
       f.write(file.read)
     end
     user = current_user
-    CostCode.import(params[:file], user)
-    redirect_to project_cost_codes_path, notice: "created"
+    errors = CostCode.import(params[:file], user)
+    if errors == false
+      flash[:notice] = 'File Format not Supported'
+    else
+      flash[:notice] = 'File has been imported successfully.'
+    end
+    redirect_to project_cost_codes_path
   end
 
   def download_template

@@ -15,7 +15,7 @@
             </div>
             <div class="row" style="margin-left: 1px">
               <%= form_tag import_project_cost_codes_path, multipart: true do %>
-                <%= file_field_tag :file %>
+                <%= file_field_tag :file, :required => true %>
                 <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
               <% end %>
               <%= link_to 'Download Template', download_template_project_cost_codes_path, :class => "btn btn-dark", style: "color: white" %>
