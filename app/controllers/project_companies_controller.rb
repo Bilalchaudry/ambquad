@@ -31,22 +31,25 @@ class ProjectCompaniesController < ApplicationController
   def create
     @project_company = @project.project_companies.new(project_company_params)
     @project_company.client_company_id = @project.client_company.id
+    if @project_company.country_name != " "
+      code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
+      @project_company.phone = '+' + code + @project_company.phone
 
-    code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
-    @project_company.phone = '+' + code + @project_company.phone
+      poc_code = ISO3166::Country.find_country_by_name(@project_company.poc_country).country_code
+      @project_company.poc_phone = '+' + poc_code + @project_company.poc_phone
 
-    poc_code = ISO3166::Country.find_country_by_name(@project_company.poc_country).country_code
-    @project_company.poc_phone = '+' + poc_code + @project_company.poc_phone
-
-    respond_to do |format|
-      if @project_company.save
-        @project_company.projects << @project
-        format.html {redirect_to project_project_companies_path, notice: 'Project company was successfully created.'}
-        format.json {render :show, status: :created, location: @project_company}
-      else
-        format.html {render :new}
-        format.json {render json: @project_company.errors, status: :unprocessable_entity}
+      respond_to do |format|
+        if @project_company.save
+          @project_company.projects << @project
+          format.html { redirect_to project_project_companies_path, notice: 'Project company was successfully created.' }
+          format.json { render :show, status: :created, location: @project_company }
+        else
+          format.html { render :new }
+          format.json { render json: @project_company.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to new_project_project_company_path, notice: 'Please Provide the Country Name'
     end
   end
 
@@ -55,11 +58,11 @@ class ProjectCompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @project_company.update(project_company_params)
-        format.html {redirect_to project_project_companies_path, notice: 'Project company was successfully updated.'}
-        format.json {render :show, status: :ok, location: @project_company}
+        format.html { redirect_to project_project_companies_path, notice: 'Project company was successfully updated.' }
+        format.json { render :show, status: :ok, location: @project_company }
       else
-        format.html {render :edit}
-        format.json {render json: @project_company.errors, status: :unprocessable_entity}
+        format.html { render :edit }
+        format.json { render json: @project_company.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -69,8 +72,8 @@ class ProjectCompaniesController < ApplicationController
   def destroy
     @project_company.destroy
     respond_to do |format|
-      format.html {redirect_to project_project_companies_path, notice: 'Project company was successfully destroyed.'}
-      format.json {head :no_content}
+      format.html { redirect_to project_project_companies_path, notice: 'Project company was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
