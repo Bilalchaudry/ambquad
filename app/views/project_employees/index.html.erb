@@ -5,11 +5,20 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
         <h1 class="mt-4">Project Employees</h1>
         <div class="row">
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-3 col-md-4">
+          <div class="col-xl-6 col-md-6"></div>
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-3">
               <%= link_to 'Add Project Employee', new_project_project_employee_path, :class => "btn btn-dark", style: "color: white" %>
             </div>

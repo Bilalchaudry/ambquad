@@ -1,6 +1,5 @@
 class ClientCompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
-  before_action :check_user_and_project , only: :destroy
   # load_and_authorize_resource
 
   # GET /companies
@@ -40,8 +39,8 @@ class ClientCompaniesController < ApplicationController
 
     respond_to do |format|
       if @client_company.save
-        format.html { redirect_to client_companies_url, notice: 'Company is successfully created.' }
-        format.json { render :show, status: :created, location: @client_company }
+        format.html {redirect_to client_companies_url, notice: 'Company is successfully created.'}
+        format.json {render :show, status: :created, location: @client_company}
       else
         format.html {render :new}
         format.json {render json: @client_company.errors, status: :unprocessable_entity}
@@ -63,21 +62,24 @@ class ClientCompaniesController < ApplicationController
     end
   end
 
-  def check_user_and_project
-    if @client_company.users.present?
-      redirect_to client_companies_url, :notice => "Company has users."
-    elsif @client_company.projects.present?
-      redirect_to client_companies_url, :notice => "Company has Projects."
-    end
-  end
-
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
-      @client_company.destroy
-      respond_to do |format|
-        format.html { redirect_to client_companies_url, notice: 'Company is successfully destroyed.' }
-        format.json { head :no_content }
+    begin
+      if @client_company.destroy
+        respond_to do |format|
+          format.html {redirect_to client_companies_url, notice: 'Company is successfully destroyed.'}
+          format.json {head :no_content}
+        else
+          format.html {render :edit}
+          format.json {render json: @client_company.errors, status: :unprocessable_entity}
+        end
+      else
+        format.html {redirect_to client_companies_url, notice: 'Company is successfully destroyed.'}
+      end
+
+    rescue => e
+      redirect_to client_companies_url, notice: 'Company can not deleted because it is linked with Project.'
     end
   end
 
