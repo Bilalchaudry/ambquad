@@ -4,11 +4,11 @@ class EmployeeType < ApplicationRecord
 
   validates_uniqueness_of :employee_type, :scope => :project_id
 
-  def self.import(file)
+  def self.import(file, project)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
-        employee = EmployeeType.create(employee_type: row[0], project_id: row[1])
+        employee = EmployeeType.create(employee_type: row[0], project_id: project.id)
       end
     else
       spreadsheet = open_spreadsheet(file)
@@ -17,7 +17,7 @@ class EmployeeType < ApplicationRecord
         (2..spreadsheet.last_row).each do |i|
           begin
             row = Hash[[header, spreadsheet.row(i)].transpose]
-            employee_type = EmployeeType.create(employee_type: row['employee_type'])
+            employee_type = EmployeeType.create(employee_type: row['employee_type'], project_id: project.id)
             employee_type.save!
           end
         end
