@@ -36,16 +36,15 @@ class ForemenController < ApplicationController
   # POST /foremen
   # POST /foremen.json
   def create
-    @foreman = Foreman.create(project_id: @project.id, employee_id: )
-    respond_to do |format|
-      if @foreman.save
-        format.html {redirect_to project_foremen_path(@project), notice: 'Foreman was successfully created.'}
-        format.json {render :show, status: :created, location: @foreman}
-      else
-        format.html {render :new}
-        format.json {render json: @foreman.errors, status: :unprocessable_entity}
+    params[:foreman][:employee_ids].each do |employee_id|
+      begin
+        Foreman.create(project_id: @project.id, employee_id: employee_id.to_i,
+                       client_company_id: @project.client_company_id)
+      rescue => e
+        puts e.inspect
       end
     end
+    redirect_to project_foremen_path(@project), notice: 'Foreman was successfully created.'
   end
 
   # PATCH/PUT /foremen/1
