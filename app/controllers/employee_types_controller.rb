@@ -59,10 +59,14 @@ class EmployeeTypesController < ApplicationController
   # DELETE /employee_types/1
   # DELETE /employee_types/1.json
   def destroy
-    @employee_type.destroy
-    respond_to do |format|
-      format.html { redirect_to project_employee_types_url, notice: 'Employee type was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      @employee_type.destroy
+      respond_to do |format|
+        format.html { redirect_to project_employee_types_url, notice: 'Employee type was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    rescue => e
+      redirect_to project_employee_types_path, notice: 'Employee Type can not deleted because it is linked with Employee.'
     end
   end
 
