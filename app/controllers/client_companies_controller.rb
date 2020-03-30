@@ -55,11 +55,11 @@ class ClientCompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @client_company.update(company_params)
-        format.html { redirect_to @client_company, notice: 'Company was successfully updated.' }
-        format.json { render :show, status: :ok, location: @client_company }
+        format.html {redirect_to @client_company, notice: 'Company was successfully updated.'}
+        format.json {render :show, status: :ok, location: @client_company}
       else
-        format.html { render :edit }
-        format.json { render json: @client_company.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @client_company.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -75,10 +75,21 @@ class ClientCompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
-    @client_company.destroy
-    respond_to do |format|
-      format.html { redirect_to client_companies_url, notice: 'Company is successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      if @client_company.destroy
+        respond_to do |format|
+          format.html {redirect_to client_companies_url, notice: 'Company is successfully destroyed.'}
+          format.json {head :no_content}
+        else
+          format.html {render :edit}
+          format.json {render json: @client_company.errors, status: :unprocessable_entity}
+        end
+      else
+        format.html {redirect_to client_companies_url, notice: 'Company is successfully destroyed.'}
+      end
+
+    rescue => e
+      redirect_to client_companies_url, notice: 'Company can not deleted because it is linked with Project.'
     end
   end
 

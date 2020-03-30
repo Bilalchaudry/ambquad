@@ -1,7 +1,6 @@
 class ProjectsController < ApplicationController
   load_and_authorize_resource
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-  before_action :check_company , only: :destroy
 
   # GET /projects
   # GET /projects.json
@@ -75,18 +74,17 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
-    @project.destroy
-    respond_to do |format|
-      format.html {redirect_to projects_url, notice: 'Project was successfully destroyed.'}
-      format.json {head :no_content}
+    begin
+      @project.destroy
+      respond_to do |format|
+        format.html {redirect_to projects_url, notice: 'Project was successfully destroyed.'}
+        format.json {head :no_content}
+      end
+    rescue => e
+      redirect_to projects_path, notice: 'Project can not deleted because it is linked with its assosiative records'
     end
   end
 
-  def check_company
-    if @project.client_company_id.present?
-      redirect_to projects_url, :notice => "Project is linked."
-    end
-  end
 
   private
 
@@ -97,6 +95,6 @@ class ProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:project_name, :site_office_address, :client_company_id, :employee_id, :project_lead )
+    params.require(:project).permit(:project_name, :site_office_address, :client_company_id, :employee_id, :project_lead)
   end
 end
