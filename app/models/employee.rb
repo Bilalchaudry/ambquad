@@ -1,4 +1,5 @@
 class Employee < ApplicationRecord
+  validates :phone, :email, uniqueness: true
   belongs_to :project_company, optional: true
   enum gender: {
       Male: 0,

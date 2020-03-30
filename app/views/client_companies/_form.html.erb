@@ -105,35 +105,35 @@
                   </div>
                 </div>
 
-<!--                <div class="form-row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :primary_poc_country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-<!--                      <select name="client_company[poc_country]" id="poc_country" class="form-control">-->
-<!--                        <option value=" "></option>-->
-                        <%# @country = ISO3166::Country.countries.sort %>
-                        <%# @country.each do |c| %>
-<!--                          <option value="<%#= c.name %>">-->
-                            <%#= c.name %>
-<!--                          </option>-->
-                        <%# end %>
-<!--                      </select>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :primary_poc_country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="client_company[poc_country]" id="country" class="form-control">
+                        <option value=" "></option>
+                        <% @country = ISO3166::Country.countries.sort %>
+                        <% @country.each do |c| %>
+                          <option value="<%= c.name %>">
+                            <%= c.name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
 
-<!--                <div class="form-row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :primary_poc_phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.text_field :poc_phone, :class => "form-control py-3", :required => true %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :primary_poc_phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :poc_phone, :class => "form-control py-3", :required => true %>
+                    </div>
+                  </div>
+                </div>
 
                 <hr>
                 <div class="row">

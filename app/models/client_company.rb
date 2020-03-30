@@ -7,7 +7,7 @@ class ClientCompany < ApplicationRecord
   has_many :cost_codes, dependent: :destroy
 
   validates :phone, :address, :number_of_users, presence: true
-  validates :company_name, :phone, uniqueness: true
+  validates :company_name, :phone, :poc_phone, :poc_email, uniqueness: true
 
   before_destroy :check_for_projects, prepend: true
 
