@@ -5,7 +5,7 @@ class EmployeesController < ApplicationController
   # GET /employees
   # GET /employees.json
   def index
-    @employees = current_user.client_company.employees
+    @employees = current_user.client_company.nil? ? Employee.all : current_user.client_company.employees
   end
 
   # GET /employees/1
@@ -26,9 +26,9 @@ class EmployeesController < ApplicationController
   # POST /employees.json
   def create
     @employee = Employee.new(employee_params)
-    @employee.client_company_id = current_user.client_company_id
-    code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code
-    @employee.phone = '+' + code + @employee.phone
+    @employee.client_company_id = current_user.client_company_id rescue nil
+    code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
+    @employee.phone = '+' + code + @employee.phone rescue nil
 
     respond_to do |format|
       if @employee.save

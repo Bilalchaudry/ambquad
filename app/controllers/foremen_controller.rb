@@ -36,7 +36,7 @@ class ForemenController < ApplicationController
   # POST /foremen
   # POST /foremen.json
   def create
-    @foreman = @project.foremen.new(foreman_params)
+    @foreman = Foreman.create(project_id: @project.id, employee_id: )
     respond_to do |format|
       if @foreman.save
         format.html {redirect_to project_foremen_path(@project), notice: 'Foreman was successfully created.'}
