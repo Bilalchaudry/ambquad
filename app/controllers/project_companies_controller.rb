@@ -1,5 +1,5 @@
 class ProjectCompaniesController < ApplicationController
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
   before_action :set_project_company, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
@@ -80,8 +80,13 @@ class ProjectCompaniesController < ApplicationController
       f.write(file.read)
     end
     user = current_user
-    ProjectCompany.import(params[:file], user)
-    redirect_to project_companies_url, notice: "created"
+    errors = ProjectCompany.import(params[:file], user)
+    if errors == false
+      flash[:notice] = 'File Format not Supported'
+    else
+      flash[:notice] = 'File has been imported successfully.'
+    end
+    redirect_to project_project_companies_path
   end
 
   def download_template

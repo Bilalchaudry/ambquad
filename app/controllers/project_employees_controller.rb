@@ -27,6 +27,7 @@ class ProjectEmployeesController < ApplicationController
   # POST /project_employees.json
   def create
     @project_employee = @project.project_employees.new(project_employee_params)
+    @project_employee.project_id = params[:project_id]
 
     respond_to do |format|
       if @project_employee.save
