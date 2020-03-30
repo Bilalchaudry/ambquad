@@ -1,7 +1,7 @@
 class CostCodesController < ApplicationController
   load_and_authorize_resource
   before_action :set_cost_code, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
 
   # GET /cost_codes
   # GET /cost_codes.json
@@ -68,8 +68,7 @@ class CostCodesController < ApplicationController
     File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    user = current_user
-    errors = CostCode.import(params[:file], user)
+    errors = CostCode.import(params[:file], current_user, @project)
     if errors == false
       flash[:notice] = 'File Format not Supported'
     else

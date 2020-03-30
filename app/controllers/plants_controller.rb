@@ -1,6 +1,6 @@
 class PlantsController < ApplicationController
   before_action :set_plant, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
   load_and_authorize_resource
   # GET /plants
   # GET /plants.json
@@ -89,7 +89,7 @@ class PlantsController < ApplicationController
     File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    errors = Plant.import(params[:file])
+    errors = Plant.import(params[:file], @project)
     if errors == false
       flash[:notice] = 'File Format not Supported'
     else
