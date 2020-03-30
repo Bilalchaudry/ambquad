@@ -1,5 +1,6 @@
 class ClientCompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :check_user_and_project, only: :destroy
   # load_and_authorize_resource
 
   # GET /companies
@@ -45,6 +46,8 @@ class ClientCompaniesController < ApplicationController
         format.html {render :new}
         format.json {render json: @client_company.errors, status: :unprocessable_entity}
       end
+    else
+      redirect_to new_client_company_path, notice: 'Please Provide the Country Name'
     end
   end
 
@@ -59,6 +62,14 @@ class ClientCompaniesController < ApplicationController
         format.html {render :edit}
         format.json {render json: @client_company.errors, status: :unprocessable_entity}
       end
+    end
+  end
+
+  def check_user_and_project
+    if @client_company.users.present?
+      redirect_to client_companies_url, :notice => "Company has users."
+    elsif @client_company.projects.present?
+      redirect_to client_companies_url, :notice => "Company has Projects."
     end
   end
 

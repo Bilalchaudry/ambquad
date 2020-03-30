@@ -24,10 +24,10 @@ class TemporaryUsersController < ApplicationController
   # POST /temporary_users
   # POST /temporary_users.json
   def create
-
     @temporary_user = TemporaryUser.new(temporary_user_params)
-    code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
-    @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
+    if @temporary_user.country_name != " "
+      code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
+      @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
 
     @user = User.new(temporary_user_params)
     @user.phone_no = '+' + code + @user.phone_no
@@ -41,6 +41,9 @@ class TemporaryUsersController < ApplicationController
         format.html { render :new }
         format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
       end
+      end
+    else
+      redirect_to new_temporary_user_path, notice: 'Please Provide the Country Name'
     end
   end
 

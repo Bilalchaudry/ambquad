@@ -2,5 +2,5 @@
 <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit <%= @plant.plant_name %></h3></div>
 <%= render 'form', plant: @plant %>
 
-<%= link_to 'Show', @plant %> |
-<%= link_to 'Back', plants_path %>
+<%= link_to 'Show', "/projects/#{@project.id}/plants/#{@plant.id}" %> |
+<%= link_to 'Back', "/projects/#{@project.id}/plants" %>

@@ -1,6 +1,6 @@
 class EmployeeTypesController < ApplicationController
   before_action :set_employee_type, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import]
   load_and_authorize_resource
 
   # GET /employee_types
@@ -71,7 +71,7 @@ class EmployeeTypesController < ApplicationController
     File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    errors = EmployeeType.import(params[:file])
+    errors = EmployeeType.import(params[:file], @project)
     if errors == false
       flash[:notice] = 'File Format not Supported'
     else
