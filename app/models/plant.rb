@@ -27,15 +27,19 @@ class Plant < ApplicationRecord
       end
     else
       spreadsheet = open_spreadsheet(file)
-      header = spreadsheet.row(1)
-      (2..spreadsheet.last_row).each do |i|
-        begin
-          row = Hash[[header, spreadsheet.row(i)].transpose]
-          employee = Plant.create(plant_name: row['plant_name'], plant_id: row['plant_id'], contract_start_date: ['contract_start_date'],
-                                  contract_end_date: ['contract_end_date'], plant_type_id: ['plant_type_id'], foreman_id: row['foreman_id'],
-                                  other_manager_id: ['other_manager_id'], market_value: row['market_value'])
-          employee.save!
+      if spreadsheet != false
+        header = spreadsheet.row(1)
+        (2..spreadsheet.last_row).each do |i|
+          begin
+            row = Hash[[header, spreadsheet.row(i)].transpose]
+            employee = Plant.create(plant_name: row['plant_name'], plant_id: row['plant_id'], contract_start_date: ['contract_start_date'],
+                                    contract_end_date: ['contract_end_date'], plant_type_id: ['plant_type_id'], foreman_id: row['foreman_id'],
+                                    other_manager_id: ['other_manager_id'], market_value: row['market_value'])
+            employee.save!
+          end
         end
+      else
+        return false
       end
     end
   end
@@ -49,7 +53,7 @@ class Plant < ApplicationRecord
     when ".xls" then
       Roo::Excel.new(file.path)
     else
-      raise "Unknown file type: #{file.original_filename}"
+      return false
     end
   end
 
