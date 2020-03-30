@@ -1,6 +1,6 @@
 class ClientCompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
-  before_action :check_user_and_project , only: :destroy
+  before_action :check_user_and_project, only: :destroy
   # load_and_authorize_resource
 
   # GET /companies
@@ -31,21 +31,22 @@ class ClientCompaniesController < ApplicationController
   # POST /companies.json
   def create
     @client_company = ClientCompany.new(company_params)
-    code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code
-    @client_company.phone = '+' + code + @client_company.phone
-
-    # poc_code = ISO3166::Country.find_country_by_name(@client_company.poc_country).country_code
-    # @client_company.poc_phone = '+' + poc_code + @client_company.poc_phone
-
-
-    respond_to do |format|
-      if @client_company.save
-        format.html { redirect_to client_companies_url, notice: 'Company is successfully created.' }
-        format.json { render :show, status: :created, location: @client_company }
-      else
-        format.html {render :new}
-        format.json {render json: @client_company.errors, status: :unprocessable_entity}
+    if @client_company.country_name != " "
+      code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code
+      @client_company.phone = '+' + code + @client_company.phone
+      # poc_code = ISO3166::Country.find_country_by_name(@client_company.poc_country).country_code
+      # @client_company.poc_phone = '+' + poc_code + @client_company.poc_phone
+      respond_to do |format|
+        if @client_company.save
+          format.html { redirect_to client_companies_url, notice: 'Company is successfully created.' }
+          format.json { render :show, status: :created, location: @client_company }
+        else
+          format.html { render :new }
+          format.json { render json: @client_company.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      redirect_to new_client_company_path, notice: 'Please Provide the Country Name'
     end
   end
 
@@ -54,11 +55,11 @@ class ClientCompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @client_company.update(company_params)
-        format.html {redirect_to @client_company, notice: 'Company was successfully updated.'}
-        format.json {render :show, status: :ok, location: @client_company}
+        format.html { redirect_to @client_company, notice: 'Company was successfully updated.' }
+        format.json { render :show, status: :ok, location: @client_company }
       else
-        format.html {render :edit}
-        format.json {render json: @client_company.errors, status: :unprocessable_entity}
+        format.html { render :edit }
+        format.json { render json: @client_company.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,10 +75,10 @@ class ClientCompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
-      @client_company.destroy
-      respond_to do |format|
-        format.html { redirect_to client_companies_url, notice: 'Company is successfully destroyed.' }
-        format.json { head :no_content }
+    @client_company.destroy
+    respond_to do |format|
+      format.html { redirect_to client_companies_url, notice: 'Company is successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
