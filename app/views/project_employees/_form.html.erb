@@ -121,7 +121,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="project_employee[project_company_id]" id="other_manager_id" class="form-control">
-                        <% ProjectCompany.all.each do |company| %>
+                        <% @project.project_companies.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
                           </option>
