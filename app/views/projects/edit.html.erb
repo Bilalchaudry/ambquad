@@ -51,11 +51,11 @@
                     <div class="form-group">
 
                       <select name="project[client_company_id]" id="company_id" class="form-control">
-                        <option value="<%= @project_company.id %>">
-                          <%= @project_company.company_name %>
+                        <option value="<%= @project_company.id rescue nil %>">
+                          <%= @project_company.company_name rescue nil %>
                         <% @client_companies.all.each do |company| %>
-                          <option value="<%= company.id %>">
-                            <%= company.company_name %>
+                          <option value="<%= company.id rescue nil %>">
+                            <%= company.company_name rescue nil %>
                           </option>
                         <% end %>
                       </select>
