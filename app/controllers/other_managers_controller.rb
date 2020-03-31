@@ -66,7 +66,7 @@ class OtherManagersController < ApplicationController
   def destroy
     @other_manager.destroy
     respond_to do |format|
-      format.html {redirect_to other_managers_url, notice: 'Other manager was successfully destroyed.'}
+      format.html {redirect_to project_other_managers_path, notice: 'Other manager was successfully destroyed.'}
       format.json {head :no_content}
     end
   end
