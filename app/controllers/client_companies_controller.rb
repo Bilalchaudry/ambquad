@@ -69,9 +69,9 @@ class ClientCompaniesController < ApplicationController
 
   def check_user_and_project
     if @client_company.users.present?
-      redirect_to client_companies_url, :notice => "Company has users."
+      redirect_to client_companies_url, :notice => "Company can not deleted because it is linked with users."
     elsif @client_company.projects.present?
-      redirect_to client_companies_url, :notice => "Company has Projects."
+      redirect_to client_companies_url, :notice => "Company can not deleted because it is linked with Projects."
     end
   end
 

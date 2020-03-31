@@ -32,6 +32,7 @@ class PlantsController < ApplicationController
     @plant = @project.plants.new(plant_params)
     @plant.foreman_start_date = @plant.contract_start_date
     @plant.foreman_end_date = @plant.contract_end_date
+    @plant.client_company_id = @project.client_company_id
     respond_to do |format|
       if @plant.save
         format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
