@@ -29,18 +29,21 @@ class TemporaryUsersController < ApplicationController
       code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
       @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
 
-    @user = User.new(temporary_user_params)
-    @user.phone_no = '+' + code + @user.phone_no
-    @user.save
-    respond_to do |format|
-      if @temporary_user.save
-        @temporary_user.client_company.increment!(:number_of_users)
-        format.html { redirect_to users_path, notice: 'User is successfully created.' }
-        format.json { render :show, status: :created, location: @temporary_user }
-      else
-        format.html { render :new }
-        format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
+      @user = User.new(temporary_user_params)
+      if params[:user][:status] == "1"
+        @user.status = "Inactive"
       end
+      @user.phone_no = '+' + code + @user.phone_no
+      @user.save
+      respond_to do |format|
+        if @temporary_user.save
+          @temporary_user.client_company.increment!(:number_of_users)
+          format.html { redirect_to users_path, notice: 'User is successfully created.' }
+          format.json { render :show, status: :created, location: @temporary_user }
+        else
+          format.html { render :new }
+          format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
+        end
       end
     else
       redirect_to new_temporary_user_path, notice: 'Please Provide the Country Name'
