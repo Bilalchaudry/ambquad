@@ -18,7 +18,10 @@ class SessionsController < Devise::SessionsController
   def create
     @user = User.find_by_email(params[:user][:email])
     if @user.present?
-      if @user.status == 'Inactive'
+      if @user.status == 'Inactive' && @user.email_confirmed == "false"
+        set_flash_message!(:notice, :verify)
+        redirect_to '/users/sign_in'
+      elsif @user.status == 'Inactive' && @user.email_confirmed == "true"
         set_flash_message!(:notice, :blocked_user)
         redirect_to '/users/sign_in'
       else

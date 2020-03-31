@@ -50,6 +50,7 @@ en:
       signed_in: "Signed in successfully."
       blocked_user: "Your Account is Blocked by Admin"
       not_found: "User Not Found"
+      verify: "Please Verify your Account"
       signed_out: "Signed out successfully."
       already_signed_out: "Signed out successfully."
     unlocks:
