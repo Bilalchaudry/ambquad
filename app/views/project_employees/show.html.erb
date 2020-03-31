@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @project_employee.project.project_name %>
+                    <%= Project.find_by_id(@project_employee.project_id).project_name rescue "N/A"%>
                   </div>
                 </div>
               </div>
@@ -79,14 +79,14 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', edit_project_employee_path(@project_employee), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/project_employees/#{@project_employee.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Back', project_employees_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Back', project_project_employees_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>

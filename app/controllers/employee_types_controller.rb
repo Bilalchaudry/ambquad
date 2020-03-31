@@ -33,7 +33,7 @@ class EmployeeTypesController < ApplicationController
     @employee_type = @project.employee_types.new(employee_type_params)
     respond_to do |format|
       if @employee_type.save
-        format.html { redirect_to "/projects/#{@project.id}/employee_types/#{@employee_type.id}", notice: 'Employee type was successfully created.' }
+        format.html { redirect_to "/projects/#{@project.id}/employee_types", notice: 'Employee type was successfully created.' }
         format.json { render :show, status: :created, location: @employee_type }
       else
         format.html { render :new }
