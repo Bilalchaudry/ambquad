@@ -1,4 +1,3 @@
-
 <div id="layoutAuthentication_content">
   <main>
     <div class="container-fluid">
@@ -20,7 +19,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="temporary_user[client_company_id]" id="company_id" class="form-control", selected = "form.object.client_company_id">
+                      <select name="temporary_user[client_company_id]" id="company_id" class="form-control">
                         <option value=" "></option>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
@@ -28,7 +27,6 @@
                           </option>
                         <% end %>
                       </select>
-                      <%#= form.select :client_company_id, ClientCompany.all.collect{ |p| [ p.company_name, p.id] },{ prompt: '--Select Company--'} , :id => "client_company_id", :required => true, class: 'form-control'%>
                     </div>
                   </div>
                 </div>
@@ -50,7 +48,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :last_name, validate: true, :class => "form-control py-2 ", :required => true %>
+                      <%= form.text_field :last_name, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -90,7 +88,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.email_field :email, validate: true, :class => "form-control py-2", :required => true%>
+                      <%= form.email_field :email, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -100,7 +98,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :username, :class => "form-control py-2", :required => true%>
+                      <%= form.text_field :username, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -110,7 +108,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.password_field :password, validate: true, :class => "form-control py-2", :required => true%>
+                      <%= form.password_field :password, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -131,22 +129,22 @@
                   </div>
                 </div>
 
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <select name="user[status]" id="role" class="form-control">
-                          <% User.statuses.each do |key, value| %>
-                            <option value="<%= value %>">
-                              <%= key %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="user[status]" id="role" class="form-control">
+                        <% User.statuses.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
+                </div>
 
                 </div>
 
@@ -180,13 +178,11 @@
 
 
 <script>
-    $(document).ready(function(){
-        $("#company_id").change(function(){
-            if($("#company_id").val() != ""){
+    $(document).ready(function () {
+        $("#company_id").change(function () {
+            if ($("#company_id").val() != "") {
                 $(".hidden_option").fadeIn('fast');
-               // $('.read-only').attr('readonly', false);
-               // $(".dropd").prop("disabled", false);
-           }
+            }
         });
     });
 </script>
