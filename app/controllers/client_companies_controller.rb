@@ -105,6 +105,6 @@ class ClientCompaniesController < ApplicationController
     params.require(:client_company).permit(:company_name, :address, :phone, :number_of_users,
                                            :primary_poc_first_name, :primary_poc_last_name, :poc_email,
                                            :poc_phone, :status, :client_po_number, :closed_at,
-                                           :country_name)
+                                           :country_name, :company_id)
   end
 end
