@@ -17,15 +17,20 @@ class SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     @user = User.find_by_email(params[:user][:email])
-    if @user.status == "Inactive"
-      set_flash_message!(:notice, :blocked_user)
-      redirect_to '/users/sign_in'
+    if @user.present?
+      if @user.status == 'Inactive'
+        set_flash_message!(:notice, :blocked_user)
+        redirect_to '/users/sign_in'
+      else
+        self.resource = warden.authenticate!(auth_options)
+        set_flash_message!(:notice, :signed_in)
+        sign_in(resource_name, resource)
+        yield resource if block_given?
+        respond_with resource, location: after_sign_in_path_for(resource)
+      end
     else
-      self.resource = warden.authenticate!(auth_options)
-      set_flash_message!(:notice, :signed_in)
-      sign_in(resource_name, resource)
-      yield resource if block_given?
-      respond_with resource, location: after_sign_in_path_for(resource)
+      set_flash_message!(:notice, :not_found)
+      redirect_to '/users/sign_in'
     end
   end
 
