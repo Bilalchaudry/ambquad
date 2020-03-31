@@ -83,7 +83,7 @@ class ProjectCompaniesController < ApplicationController
       f.write(file.read)
     end
     user = current_user
-    errors = ProjectCompany.import(params[:file], user)
+    errors = ProjectCompany.import(params[:file], user, @project)
     if errors == false
       flash[:notice] = 'File Format not Supported'
     else
