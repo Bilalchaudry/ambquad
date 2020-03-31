@@ -31,7 +31,7 @@ class PlantTypesController < ApplicationController
   # POST /plant_types.json
   def create
     @plant_type = @project.plant_types.new(plant_type_params)
-
+    @plant_type.client_company_id = @project.client_company_id
     respond_to do |format|
       if @plant_type.save
         format.html {redirect_to "/projects/#{@project.id}/plant_types", notice: 'Plant type was successfully created.'}
