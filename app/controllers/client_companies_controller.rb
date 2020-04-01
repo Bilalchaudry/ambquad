@@ -1,6 +1,5 @@
 class ClientCompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
-  before_action :check_user_and_project, only: :destroy
   # load_and_authorize_resource
 
   # GET /companies
@@ -41,11 +40,11 @@ class ClientCompaniesController < ApplicationController
 
       respond_to do |format|
         if @client_company.save
-          format.html { redirect_to client_companies_url, notice: 'Company is successfully created.' }
-          format.json { render :show, status: :created, location: @client_company }
+          format.html {redirect_to client_companies_url, notice: 'Company is successfully created.'}
+          format.json {render :show, status: :created, location: @client_company}
         else
-          format.html { render :new }
-          format.json { render json: @client_company.errors, status: :unprocessable_entity }
+          format.html {render :new}
+          format.json {render json: @client_company.errors, status: :unprocessable_entity}
         end
       end
     else
@@ -67,32 +66,19 @@ class ClientCompaniesController < ApplicationController
     end
   end
 
-  def check_user_and_project
-    if @client_company.users.present?
-      redirect_to client_companies_url, :notice => "Company can not deleted because it is linked with users."
-    elsif @client_company.projects.present?
-      redirect_to client_companies_url, :notice => "Company can not deleted because it is linked with Projects."
-    end
-  end
-
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
-    begin
-      if @client_company.destroy
-        respond_to do |format|
-          format.html {redirect_to client_companies_url, notice: 'Company is successfully destroyed.'}
-          format.json {head :no_content}
-        else
-          format.html {render :edit}
-          format.json {render json: @client_company.errors, status: :unprocessable_entity}
-        end
-      else
-        format.html {redirect_to client_companies_url, notice: 'Company is successfully destroyed.'}
+    if @client_company.projects.present?
+      respond_to do |format|
+        format.js
       end
-
-    rescue => e
-      redirect_to client_companies_url, notice: 'Company can not deleted because it is linked with Project.'
+    else
+      @client_company.destroy
+      @destroy = true
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
@@ -108,6 +94,6 @@ class ClientCompaniesController < ApplicationController
     params.require(:client_company).permit(:company_name, :address, :phone, :number_of_users,
                                            :primary_poc_first_name, :primary_poc_last_name, :poc_email,
                                            :poc_phone, :status, :client_po_number, :closed_at,
-                                           :country_name, :poc_country,:company_id)
+                                           :country_name, :poc_country, :company_id)
   end
 end

@@ -97,6 +97,6 @@ class CostCodesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def cost_code_params
-    params.require(:cost_code).permit(:cost_code_id, :cost_code_description)
+    params.require(:cost_code).permit(:cost_code_id, :cost_code_description, :budget_holder_id)
   end
 end
