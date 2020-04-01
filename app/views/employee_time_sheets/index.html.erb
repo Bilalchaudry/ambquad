@@ -41,118 +41,22 @@
                 </thead>
 
                 <tbody>
-                  <tr>
-                    <td>AMB 001</td>
-                    <td>Engineer</td>
-                    <td>Hyndai</td>
-                    <td>Steve Jobs</td>
-                    <td>John</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                  </tr>
-                  <tr>
-                    <td>AMB 001</td>
-                    <td>Labour</td>
-                    <td>Hyndai</td>
-                    <td>Steve Jobs</td>
-                    <td>Tony</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                  </tr>
-                  <tr>
-                    <td>AMB 001</td>
-                    <td>Engineer</td>
-                    <td>Hyndai</td>
-                    <td>Steve Jobs</td>
-                    <td>John</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                  </tr>
-                  <tr>
-                    <td>AMB 001</td>
-                    <td>Labour</td>
-                    <td>Hyndai</td>
-                    <td>Steve Jobs</td>
-                    <td>Steve</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                  </tr>
-                  <tr>
-                    <td>AMB 001</td>
-                    <td>Engineer</td>
-                    <td>Hyndai</td>
-                    <td>Steve Jobs</td>
-                    <td>Mark</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                  </tr>
-                  <tr>
-                    <td>AMB 001</td>
-                    <td>Labour</td>
-                    <td>Hyndai</td>
-                    <td>Steve Jobs</td>
-                    <td>Wakanda</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                  </tr>
-                  <tr>
-                    <td>AMB 001</td>
-                    <td>Engineer</td>
-                    <td>Hyndai</td>
-                    <td>Steve Jobs</td>
-                    <td>Shuri</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                  </tr>
-                  <tr>
-                    <td>AMB 001</td>
-                    <td>Labour</td>
-                    <td>Hyndai</td>
-                    <td>Steve Jobs</td>
-                    <td>Stark</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                  </tr>
+                <tr>
+                <% @employee_time_sheets.each do |employee_time_sheet| %>
+                  <td><%= employee_time_sheet.employee %></td>
+                  <td><%= employee_time_sheet.labour_type %></td>
+                  <td><%= employee_time_sheet.project_company_id %></td>
+                  <td><%= employee_time_sheet.manager %></td>
+                  <td><%= employee_time_sheet.foreman_name%></td>
+                  <td><%= employee_time_sheet.total_hours%></td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                    </tr>
+                <% end %>
                 </tbody>
               </table>
 
@@ -161,28 +65,28 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Copy from Previous Timesheet', timesheet_index_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Copy from Previous Timesheet', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Save Progress', timesheet_index_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Save Progress', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Update Timesheets', timesheet_index_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Update Timesheets', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Submit Timesheets', timesheet_index_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Submit Timesheets', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
