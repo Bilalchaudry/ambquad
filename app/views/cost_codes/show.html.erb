@@ -32,6 +32,17 @@
                 </div>
               </div>
 
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Budget Holder:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.budget_holder.employee.first_name + " " +  @cost_code.budget_holder.employee.last_name rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-3">

@@ -9,9 +9,9 @@
       <div class="row justify-content-center">
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
-<!--            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Company</h3></div>-->
+            <!--            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Company</h3></div>-->
             <div class="card-body">
-              <%= form_with(model: client_company , local: true) do |form| %>
+              <%= form_with(model: client_company, remote: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
 
                 <div class="form-row">
@@ -31,7 +31,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :company_id, validate: true , :class => "form-control py-3", :required => true %>
+                      <%= form.text_field :company_id, validate: true, :class => "form-control py-3", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -110,35 +110,35 @@
                   </div>
                 </div>
 
-<!--                <div class="form-row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :primary_poc_country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-<!--                      <select name="client_company[poc_country]" id="poc_country" class="form-control">-->
-<!--                        <option value=" "></option>-->
-                        <%# @country = ISO3166::Country.countries.sort %>
-                        <%# @country.each do |c| %>
-<!--                          <option value="<%#= c.name %>">-->
-                            <%#= c.name %>
-<!--                          </option>-->
-                        <%# end %>
-<!--                      </select>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :primary_poc_country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="client_company[poc_country]" id="country" class="form-control">
+                        <option value=" "></option>
+                        <% @country = ISO3166::Country.countries.sort %>
+                        <% @country.each do |c| %>
+                          <option value="<%= c.name %>">
+                            <%= c.name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
 
-<!--                <div class="form-row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :primary_poc_phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.text_field :poc_phone, :class => "form-control py-3", :required => true %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :primary_poc_phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :poc_phone, :class => "form-control py-3", :required => true %>
+                    </div>
+                  </div>
+                </div>
 
                 <hr>
                 <div class="row">

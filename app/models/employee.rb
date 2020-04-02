@@ -1,4 +1,5 @@
 class Employee < ApplicationRecord
+  validates :phone, :email, uniqueness: true
   belongs_to :project_company, optional: true
   belongs_to :client_company
 

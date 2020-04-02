@@ -32,6 +32,22 @@
                   </div>
                 </div>
 
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :budget_holder, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control" required :true>
+                        <% @project.budget_holders.each do |budget_holder| %>
+                          <option value="<%= budget_holder.id %>">
+                            <%= "#{budget_holder.employee.first_name} #{budget_holder.employee.last_name}" %>
+                          </option>
+                        <% end %>
+                      </select>                    </div>
+                  </div>
+                </div>
+
                 <hr>
                 <div class="row">
                   <div class="col-md-3"></div>

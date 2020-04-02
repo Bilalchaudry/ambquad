@@ -2,7 +2,8 @@ class PlantType < ApplicationRecord
 
   belongs_to :project
 
-  validates :type_name, presence: true, uniqueness: true
+  validates_uniqueness_of :type_name, :scope => :project_id
+
 
   def self.import(file, project)
     if File.extname(file.original_filename) == '.csv'

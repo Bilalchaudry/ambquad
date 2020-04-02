@@ -4,6 +4,7 @@
       <div class="container-fluid">
         <center>
             <h3 class="alert-success mt-1"><%= notice %></h3>
+            <h3 id="client-error-div" class="alert-success mt-1"></h3>
         </center>
         <h1 class="mt-2">Companies</h1>
         <div class="row">
@@ -40,9 +41,8 @@
                     <td>
                       <%= link_to "View", client_company_path(company), :class => "btn btn-outline-success" if can? :view, ClientCompany %>
                       <%= link_to "Edit", edit_client_company_path(company), :class => "btn btn-outline-info" if can? :update, ClientCompany %>
-                      <%= link_to 'Destroy', "/client_companies/#{company.id}" + "?delete=true",
-                                  method: :delete,
-                                  data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" if can? :destroy, ClientCompany %>
+                      <%= link_to 'Destroy', "/client_companies/#{company.id}", method: :delete, data: {confirm: 'Are you sure?'},
+                                  :class => "btn btn-outline-danger", remote: true if can? :destroy, ClientCompany %>
                     </td>
                   </tr>
                 <% end %>
@@ -57,7 +57,12 @@
     </main>
   </div>
 </div>
-
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script>
-    $('#dataTable').DataTable();
+    $('#dataTable').dataTable( {
+        "columnDefs": [
+            { "searchable": false, "targets": 4 }
+        ]
+    } );
 </script>

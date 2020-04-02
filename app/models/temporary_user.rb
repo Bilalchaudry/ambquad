@@ -1,5 +1,5 @@
 class TemporaryUser < ApplicationRecord
-  validates :email, uniqueness: true
+  validates :email, :phone_no, uniqueness: true
   belongs_to :client_company, optional: true
   enum role: {
       Admin: 0,

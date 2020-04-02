@@ -30,17 +30,15 @@ class BudgetHoldersController < ApplicationController
   # POST /budget_holders
   # POST /budget_holders.json
   def create
-    @budget_holder = @project.budget_holders.new(budget_holder_params)
-    @budget_holder.client_company_id = current_user.client_company_id
-    respond_to do |format|
-      if @budget_holder.save
-        format.html {redirect_to "/projects/#{@project.id}/budget_holders", notice: 'Budget holder was successfully created.'}
-        format.json {render :show, status: :created, location: @budget_holder}
-      else
-        format.html {render :new}
-        format.json {render json: @budget_holder.errors, status: :unprocessable_entity}
+    params[:budget_holder][:employee_ids].each do |employee_id|
+      begin
+        BudgetHolder.create(project_id: @project.id, employee_id: employee_id.to_i,
+                            client_company_id: @project.client_company_id)
+      rescue => e
+        puts e.inspect
       end
     end
+    redirect_to project_budget_holders_path(@project), notice: 'Budget Holder was successfully created.'
   end
 
   # PATCH/PUT /budget_holders/1
