@@ -5,6 +5,7 @@ class ClientCompany < ApplicationRecord
   has_many :employees, dependent: :destroy
   has_many :project_companies, dependent: :destroy
   has_many :cost_codes, dependent: :destroy
+  has_many :plants, dependent: :destroy
 
   validates :phone, :address, :number_of_users, presence: true
   validates :company_name, :phone, :poc_phone, :poc_email, uniqueness: true

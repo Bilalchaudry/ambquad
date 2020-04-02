@@ -7,10 +7,10 @@ class Project < ApplicationRecord
   has_many :plants, dependent: :destroy
   has_many :budget_holders, dependent: :destroy
   has_many :plant_types, dependent: :destroy
-  # has_many :user_projects, dependent: :destroy
   has_many :employees, dependent: :destroy
   has_many :employee_types, dependent: :destroy
   has_many :foremen, dependent: :destroy
+  has_many :project_plants, dependent: :destroy
 
   has_many :users, :through => :user_projects
 

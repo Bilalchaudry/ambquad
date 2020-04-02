@@ -24,7 +24,7 @@
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
-                  <strong>Plant:</strong>
+                  <strong>Plant ID:</strong>
                 </div>
                 <div class="col-md-6">
                   <div>
@@ -33,60 +33,6 @@
                 </div>
               </div>
 
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Plant type:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div >
-                    <%= @plant.plant_type_id %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Contract start date:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @plant.contract_start_date %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Contract end date:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @plant.contract_end_date %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Foreman start date:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @plant.foreman_start_date %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Foreman end date:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @plant.foreman_end_date %>
-                  </div>
-                </div>
-              </div>
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
@@ -104,14 +50,14 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', "/projects/#{@project.id}/plants/#{@plant.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', "/plants/#{@plant.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Back', project_plants_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Back', plants_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>

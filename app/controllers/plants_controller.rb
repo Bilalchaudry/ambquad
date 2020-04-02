@@ -1,20 +1,16 @@
 class PlantsController < ApplicationController
   before_action :set_plant, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
   load_and_authorize_resource
   # GET /plants
   # GET /plants.json
   def index
-    @plants = @project.plants.all
+    @plants = current_user.client_company.nil? ? Plant.all : current_user.client_company.plants
+    # @plants = @project.plants.all
   end
 
   # GET /plants/1
   # GET /plants/1.json
   def show
-    if params[:delete].present?
-      @plant.destroy
-      redirect_to plants_path
-    end
   end
 
   # GET /plants/new
@@ -29,29 +25,40 @@ class PlantsController < ApplicationController
   # POST /plants
   # POST /plants.json
   def create
-    @plant = @project.plants.new(plant_params)
-    @plant.foreman_start_date = @plant.contract_start_date
-    @plant.foreman_end_date = @plant.contract_end_date
-    @plant.client_company_id = @project.client_company_id
+    @plant = Plant.new(plant_params)
+    @plant.client_company_id = current_user.client_company_id
     respond_to do |format|
       if @plant.save
-        manager_id = params[:plant][:other_manager_id]
-        plant_manager = OtherManager.find(manager_id).employee.first_name
-        foreman_id = params[:plant][:other_manager_id]
-        plant_foreman = Foreman.find(foreman_id).employee.first_name
-        PlantTimeSheet.create(plant_id: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
-                              project_company_id: params[:plant][:project_company_id],
-                              foreman_id: params[:plant][:foreman_id], manager: plant_manager,
-                              project_company_id: @project.client_company_id,
-                              company: @project.client_company.company_name, foreman_name: plant_foreman)
-
-        format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
-        format.json {render :show, status: :created, location: @plant}
+        format.html { redirect_to plants_path, notice: 'Plant was successfully created.' }
+        format.json { render :show, status: :created, location: @plant }
       else
-        format.html {render :new}
-        format.json {render json: @plant.errors, status: :unprocessable_entity}
+        format.html { render :new }
+        format.json { render json: @plant.errors, status: :unprocessable_entity }
       end
     end
+    # @plant = @project.plants.new(plant_params)
+    # @plant.foreman_start_date = @plant.contract_start_date
+    # @plant.foreman_end_date = @plant.contract_end_date
+    # @plant.client_company_id = @project.client_company_id
+    # respond_to do |format|
+    #   if @plant.save
+    #     manager_id = params[:plant][:other_manager_id]
+    #     plant_manager = OtherManager.find(manager_id).employee.first_name
+    #     foreman_id = params[:plant][:other_manager_id]
+    #     plant_foreman = Foreman.find(foreman_id).employee.first_name
+    #     PlantTimeSheet.create(plant_id: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
+    #                           project_company_id: params[:plant][:project_company_id],
+    #                           foreman_id: params[:plant][:foreman_id], manager: plant_manager,
+    #                           project_company_id: @project.client_company_id,
+    #                           company: @project.client_company.company_name, foreman_name: plant_foreman)
+    #
+    #     format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
+    #     format.json {render :show, status: :created, location: @plant}
+    #   else
+    #     format.html {render :new}
+    #     format.json {render json: @plant.errors, status: :unprocessable_entity}
+    #   end
+    # end
   end
 
   # PATCH/PUT /plants/1
@@ -59,29 +66,29 @@ class PlantsController < ApplicationController
   def update
 
     respond_to do |format|
-      if @plant.foreman_id.eql?(params[:plant][:foreman_id])
+      # if @plant.foreman_id.eql?(params[:plant][:foreman_id])
         if @plant.update(plant_params)
 
-          format.html {redirect_to project_plants_path, notice: 'Plant was successfully updated.'}
+          format.html {redirect_to plants_path, notice: 'Plant was successfully updated.'}
           format.json {render :show, status: :ok, location: @plant}
         else
           format.html {render :edit}
           format.json {render json: @plant.errors, status: :unprocessable_entity}
         end
-      else
-        @duplicate_record = @plant.dup
-        @duplicate_record.foreman_id = params[:plant][:foreman_id]
-        @duplicate_record.foreman_start_date = Date.today
-        @duplicate_record.foreman_end_date = duplicate_record.contract_end_date
-
-        if @duplicate_record.save && @plant.update(foremane_end_date: Date.today)
-          format.html {redirect_to @duplicate_record, notice: 'Plant was successfully updated.'}
-          format.json {render :show, status: :ok, location: @duplicate_record}
-        else
-          format.html {render :edit}
-          format.json {render json: @duplicate_record.errors, status: :unprocessable_entity}
-        end
-      end
+      # else
+      #   @duplicate_record = @plant.dup
+      #   @duplicate_record.foreman_id = params[:plant][:foreman_id]
+      #   @duplicate_record.foreman_start_date = Date.today
+      #   @duplicate_record.foreman_end_date = duplicate_record.contract_end_date
+      #
+      #   if @duplicate_record.save && @plant.update(foremane_end_date: Date.today)
+      #     format.html {redirect_to @duplicate_record, notice: 'Plant was successfully updated.'}
+      #     format.json {render :show, status: :ok, location: @duplicate_record}
+      #   else
+      #     format.html {render :edit}
+      #     format.json {render json: @duplicate_record.errors, status: :unprocessable_entity}
+      #   end
+      # end
     end
   end
 
@@ -90,7 +97,7 @@ class PlantsController < ApplicationController
   def destroy
     @plant.destroy
     respond_to do |format|
-      format.html {redirect_to project_plants_path, notice: 'Plant was successfully destroyed.'}
+      format.html {redirect_to plants_path, notice: 'Plant was successfully destroyed.'}
       format.json {head :no_content}
     end
   end
@@ -118,9 +125,6 @@ class PlantsController < ApplicationController
 
   private
 
-  def get_project
-    @project = Project.find(params[:project_id])
-  end
   # Use callbacks to share common setup or constraints between actions.
   def set_plant
     @plant = Plant.find(params[:id])

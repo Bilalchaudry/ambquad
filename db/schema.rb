@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_01_125847) do
+ActiveRecord::Schema.define(version: 2020_04_02_112429) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,6 +214,23 @@ ActiveRecord::Schema.define(version: 2020_04_01_125847) do
     t.index ["employee_id"], name: "index_project_employees_on_employee_id"
     t.index ["employee_type_id"], name: "index_project_employees_on_employee_type_id"
     t.index ["project_id"], name: "index_project_employees_on_project_id"
+  end
+
+  create_table "project_plants", force: :cascade do |t|
+    t.integer "plant_id"
+    t.integer "plant_type_id"
+    t.integer "project_company_id"
+    t.date "contract_start_date"
+    t.date "contract_end_date"
+    t.integer "foreman_id"
+    t.integer "other_manager_id"
+    t.integer "status"
+    t.integer "client_company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "project_id"
+    t.date "foreman_start_date"
+    t.date "foreman_end_date"
   end
 
   create_table "project_project_employees", force: :cascade do |t|
