@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_125847) do
     t.float "total_hours"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "foreman_name"
   end
 
   create_table "employee_types", force: :cascade do |t|
@@ -129,7 +130,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_125847) do
   end
 
   create_table "plant_time_sheets", force: :cascade do |t|
-    t.integer "plant_id"
+    t.string "plant_id"
     t.string "plant_name"
     t.string "company"
     t.integer "project_company_id"
@@ -138,6 +139,7 @@ ActiveRecord::Schema.define(version: 2020_04_01_125847) do
     t.float "total_hours"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "foreman_name"
   end
 
   create_table "plant_types", force: :cascade do |t|
