@@ -1,3 +1,4 @@
+
 <div id="layoutAuthentication_content">
   <main>
     <div class="container-fluid">
@@ -42,7 +43,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :address, :id => "autocomplete_address", :class => "form-control py-3", :required => true %>
+                      <%= form.text_field :address, :id => "pac-input", :class => "form-control py-3", :required => true, placeholder: "Enter address"%>
                     </div>
                   </div>
                 </div>
@@ -167,3 +168,24 @@
     </div>
   </main>
 </div>
+<script>
+    function initAutocomplete() {
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+            var places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+        });
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDGzNf9YIv5BasHa88gAf9AK71HL19sR4&libraries=places&callback=initAutocomplete"
+        async defer></script>
