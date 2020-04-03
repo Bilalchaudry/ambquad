@@ -5,3 +5,6 @@ email_password: "Nokia.5130"
 username: "khurramrashid"
 address: "smtp.sendgrid.net"
 domain: "gmail.com"
+
+development_host: "localhost:3000"
+production_host: "https://ambquad-stagging.herokuapp.com/"

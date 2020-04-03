@@ -55,9 +55,6 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(update_params)
-        if params[:temporary_user][:status] == "1"
-          @user.update(status: "Inactive")
-        end
         format.html {redirect_to @user, notice: 'User was successfully updated.'}
         format.json {render :show, status: :ok, location: @user}
       else
@@ -107,7 +104,7 @@ class UsersController < ApplicationController
                                       :email, :username, :encrypted_password,
                                       :password, :status, :client_company_id)
     pp[:role] = params[:user][:role].to_i
-    pp[:status] = params[:user][:status].to_i
+    pp[:status] = params[:temporary_user][:status].to_i
     return pp
   end
 end

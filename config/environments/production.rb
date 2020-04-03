@@ -95,7 +95,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.default_options = { from: ENV["email_id"] }
-  config.action_mailer.default_url_options = { host:'https://ambquad-stagging.herokuapp.com/'}
+  config.action_mailer.default_url_options = { host: ENV["production_host"] }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"

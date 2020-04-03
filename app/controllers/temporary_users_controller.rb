@@ -30,9 +30,7 @@ class TemporaryUsersController < ApplicationController
       @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
 
       @user = User.new(temporary_user_params)
-      # if params[:user][:status] == "1"
-        @user.status = "Inactive"
-      # end
+      @user.status = "Inactive"
       @user.phone_no = '+' + code + @user.phone_no
       @user.save
 
