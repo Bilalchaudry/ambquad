@@ -2,6 +2,35 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <div class="modal fade" id="myModal" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="col-md-6">
+                  <div class="form-group">
+                <%#= select :employee_ids, options_for_select(Employee.all.map{|c| [c.first_name + " " + c.last_name , c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                <select class="js-example-basic-single" name="state" class="form-control w-100">
+                  <% Employee.all.each do |employee_type| %>
+                    <option value="<%= employee_type.id %>">
+                      <%= employee_type.first_name %>
+                    </option>
+                  <% end %>
+                </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
         <center>
           <h3 class="alert-info mt-1"><%= notice %></h3>
         </center>
@@ -39,17 +68,19 @@
                   <th>Hrs</th>
                 </tr>
                 </thead>
-
                 <tbody>
-                <tr>
                 <% @employee_time_sheets.each do |employee_time_sheet| %>
+                  <tr>
                   <td><%= employee_time_sheet.employee %></td>
                   <td><%= employee_time_sheet.labour_type %></td>
                   <td><%= employee_time_sheet.project_company_id %></td>
                   <td><%= employee_time_sheet.manager %></td>
                   <td><%= employee_time_sheet.foreman_name%></td>
                   <td><%= employee_time_sheet.total_hours%></td>
-                  <td>20CP01</td>
+                  <td>
+                    <button class="w-100" onclick="my()">+</button>
+                    <%#= link_to '+', employee_time_sheets_path, :class => 'btn btn-default w-100', :style => 'font-weight:bold;', :onclick => my() %>
+                  </td>
                   <td>9.50</td>
                   <td>20CP01</td>
                   <td>9.50</td>
@@ -99,6 +130,8 @@
     </main>
   </div>
 </div>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
 <!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js" crossorigin="anonymous"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" crossorigin="anonymous"></script>
@@ -106,7 +139,47 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
-<script>
+<script type="text/javascript">
+  function my() {
+      // $.confirm({
+      //     title: 'Prompt!',
+      //     content: '' +
+      //         '<form action="" class="formName">' +
+      //         '<div class="form-group">' +
+      //         '<label>Enter something here</label>' +
+      //         '<input type="text" placeholder="Your name" class="name form-control" required />' +
+      //         '</div>' +
+      //         '</form>',
+      //     buttons: {
+      //         formSubmit: {
+      //             text: 'Submit',
+      //             btnClass: 'btn-blue',
+      //             action: function () {
+      //                 var name = this.$content.find('.name').val();
+      //                 if (!name) {
+      //                     $.alert('provide a valid name');
+      //                     return false;
+      //                 }
+      //                 $.alert('Your name is ' + name);
+      //             }
+      //         },
+      //         cancel: function () {
+      //             //close
+      //         },
+      //     },
+      //     onContentReady: function () {
+      //         // bind to events
+      //         var jc = this;
+      //         this.$content.find('form').on('submit', function (e) {
+      //             // if the user submits the form by pressing enter in the field.
+      //             e.preventDefault();
+      //             jc.$$formSubmit.trigger('click'); // reference the button and click it
+      //         });
+      //     }
+      // });
+      $("#myModal").modal();
+      $('.js-example-basic-single').select2();
+  }
     // $(document).ready(function() {
     $('#example').DataTable( {
         dom: 'Bfrtip',
@@ -118,4 +191,8 @@
     $('#datepicker').datepicker({
         uiLibrary: 'bootstrap'
     });
+  // $(document).ready(function () {
+  //     $('.js-example-basic-single').select2();
+  // });
+
 </script>
