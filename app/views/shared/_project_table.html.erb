@@ -10,7 +10,7 @@
 
   <tbody>
 
-  <% if current_user.role.eql?("Admin") %>
+  <% if current_user.role.eql?("SuperAdmin") %>
     <% Project.all.each do |project| %>
       <tr>
         <td><%= project.project_name %></td>
