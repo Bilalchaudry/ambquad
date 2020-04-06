@@ -64,6 +64,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def confirm_email
+    user = User.find_by_confirm_token(params[:token])
+    if user
+      user.validate_email
+      user.save(validate: false)
+      redirect_to root_url
+    else
+      flash[:error] = "Sorry. User does not exist"
+      redirect_to root_url
+    end
+  end
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
@@ -93,7 +104,7 @@ class UsersController < ApplicationController
                                       :email, :username, :encrypted_password,
                                       :password, :status, :client_company_id)
     pp[:role] = params[:user][:role].to_i
-    pp[:status] = params[:user][:status].to_i
+    pp[:status] = params[:temporary_user][:status].to_i
     return pp
   end
 end
