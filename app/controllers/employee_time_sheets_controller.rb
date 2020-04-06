@@ -4,10 +4,14 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets
   # GET /employee_time_sheets.json
   def index
-    @employee_time_sheets = EmployeeTimeSheet.all
-    respond_to do |f|
-      f.js
-      f.html
+    if params[:date].present? && params[:search_date].present?
+      @employee_time_sheets = EmployeeTimeSheet.where(employee_create_date: params[:date])
+      respond_to do |f|
+        f.js
+        f.html
+      end
+    else
+      @employee_time_sheets = EmployeeTimeSheet.all
     end
   end
 
