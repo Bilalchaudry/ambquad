@@ -37,7 +37,6 @@ class ProjectEmployeesController < ApplicationController
                                foreman_id: params[:project_employee][:foreman_id], other_manager_id: params[:project_employee][:other_manager_id],
                                project_company_id: params[:project_employee][:project_company_id],
                                employee_id: employee_id.to_i)
-
         ProjectProjectEmployee.create(project_id: @project.id, project_employee_id: project_employee.id)
 
         EmployeeTimeSheet.create(employee: project_employee.employee.first_name + ' ' + project_employee.employee.last_name,

@@ -24,6 +24,8 @@ class TimeSheetCostCodesController < ApplicationController
   # POST /time_sheet_cost_codes
   # POST /time_sheet_cost_codes.json
   def create
+    raise params.inspect
+    
     @time_sheet_cost_code = TimeSheetCostCode.new(time_sheet_cost_code_params)
 
     respond_to do |format|
