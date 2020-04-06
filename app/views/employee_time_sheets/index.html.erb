@@ -6,35 +6,35 @@
 
         <div class="modal fade" id="myModal" role="dialog">
           <%#= form_with(model: @time_sheet_cost_code, remote: true) do |form| %>
-            <%#= csrf_meta_tag %>
-            <div class="modal-dialog">
+          <%#= csrf_meta_tag %>
+          <div class="modal-dialog">
 
-              <!-- Modal content-->
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%#= form.select :cost_code_id, CostCode.all.collect {|p| [ p.cost_code_id, p.id ] },{}, :onchange => "abc()"%>
-                      <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="abc()" id="cost_code">
-                        <option value=""> --- Select Cost Code ---</option>
-                        <% CostCode.all.each do |cost_code| %>
-                          <option value="<%= cost_code.id %>">
-                            <%= cost_code.cost_code_description %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <%#= form.select :cost_code_id, CostCode.all.collect {|p| [ p.cost_code_id, p.id ] },{}, :onchange => "abc()"%>
+                    <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
+                      <option value=""> --- Select Cost Code ---</option>
+                      <% CostCode.all.each do |cost_code| %>
+                        <option value="<%= cost_code.id %>">
+                          <%= cost_code.cost_code_description %>
+                        </option>
+                      <% end %>
+                    </select>
                   </div>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
               </div>
-
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
             </div>
+
+          </div>
           <%# end %>
         </div>
         <center>
@@ -58,6 +58,7 @@
                 <thead>
                 <tr>
                   <th rowspan="2">Employee</th>
+                  <th rowspan="2">Employee ID</th>
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -78,19 +79,33 @@
                 <% @employee_time_sheets.each do |employee_time_sheet| %>
                   <tr>
                     <td><%= employee_time_sheet.employee %></td>
+                    <td><%= employee_time_sheet.employee_id %></td>
                     <td><%= employee_time_sheet.labour_type %></td>
                     <td><%= employee_time_sheet.project_company_id %></td>
                     <td><%= employee_time_sheet.manager %></td>
                     <td><%= employee_time_sheet.foreman_name %></td>
                     <td><%= employee_time_sheet.total_hours %></td>
                     <td>
-                      <button class="w-100" onclick="my()">+</button>
-                      <%#= link_to '+', employee_time_sheets_path, :class => 'btn btn-default w-100', :style => 'font-weight:bold;', :onclick => my() %>
+                      <% a = TimeSheetCostCode.where(employee_id: employee_time_sheet.employee_id) %>
+                      <% if a.first.present? %>
+                        <%= a.first.cost_code %>
+                      <% else %>
+                        <button class="w-100 bilal">+</button>
+                      <% end %>
                     </td>
                     <td>9.50</td>
-                    <td>20CP01</td>
+                    <td>
+                      <% if a.second.present? %>
+                        <%= a.second.cost_code %>
+                      <% else %>
+                        <button class="w-100 bilal">+</button>
+                      <% end %></td>
                     <td>9.50</td>
-                    <td>20CP01</td>
+                    <td> <% if a.third.present? %>
+                        <%= a.third.cost_code %>
+                      <% else %>
+                        <button class="w-100 bilal">+</button>
+                      <% end %></td>
                     <td>9.50</td>
                   </tr>
                 <% end %>
@@ -146,39 +161,33 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    function my() {
+    $('.bilal').click(function () {
+        employee_id = $(this).parent().siblings()[1].textContent;
         $("#myModal").modal();
         $('.js-example-basic-single').select2();
-    }
-
-
-    function abc() {
-        // var ab = $('#cost_code').val();
-        // var fd = new FormData();
-        // fd.append('cost_code', 'Chris');
-        var asd = {cost_code_id: 2, cost_code: 'ok'};
+    });
+    function add_cost_code() {
+        debugger
+        cost_code_id = $('#cost_code').val();
+       cost_code = $( "#cost_code option:selected" ).text()
         $.ajax({
             headers: {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'POST',
-            url: 'time_sheet_cost_codes',
-            data: {cost_code_id: 2, cost_code: 'ok'},
-            cache: false
-            // contentType: false,
-            // success: alert("ok")
+            url: '/time_sheet_cost_codes',
+            data: {cost_code_id: cost_code_id, cost_code: cost_code, employee_id: employee_id},
+            cache: false,
+            success: $("#myModal").hide()
         });
 
     }
-
-    // $(document).ready(function() {
     $('#example').DataTable({
         dom: 'Bfrtip',
         buttons: [
             'csv', 'excel', 'pdf', 'print'
         ]
     });
-    // } );
     $('#datepicker').datepicker({
         uiLibrary: 'bootstrap'
     });

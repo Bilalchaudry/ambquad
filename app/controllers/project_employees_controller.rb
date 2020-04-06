@@ -46,7 +46,7 @@ class ProjectEmployeesController < ApplicationController
                                  foreman_name: project_employee.foreman.employee.first_name,
                                  total_hours: params[:project_employee][:total_hours],
                                  employee_type_id: params[:project_employee][:employee_type_id],
-                                 manager: params[:project_employee][:foreman_id])
+                                 manager: params[:project_employee][:foreman_id], employee_id: employee_id.to_i)
       rescue => e
       end
     end
