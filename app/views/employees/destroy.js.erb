@@ -1,0 +1,8 @@
+<% if @destroy %>
+var client_companies_path = "/employees"
+location.href = client_companies_path
+alert("Employee deleted successfully")
+<% else %>
+alert("Employee can not deleted because Employee is linked with associative records.")
+
+<% end %>

@@ -30,25 +30,17 @@ class ClientCompaniesController < ApplicationController
   # POST /companies.json
   def create
     @client_company = ClientCompany.new(company_params)
-    if @client_company.country_name != " "
-      code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code
-      @client_company.phone = '+' + code + @client_company.phone
+    @client_company.phone_country_code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code rescue "N/A"
+    @client_company.primary_poc_country_code = ISO3166::Country.find_country_by_name(@client_company.poc_country).country_code rescue "N/A"
 
-      poc_code = ISO3166::Country.find_country_by_name(@client_company.poc_country).country_code
-      @client_company.poc_phone = '+' + poc_code + @client_company.poc_phone
-
-
-      respond_to do |format|
-        if @client_company.save
-          format.html {redirect_to client_companies_url, notice: 'Company is successfully created.'}
-          format.json {render :show, status: :created, location: @client_company}
-        else
-          format.html {render :new}
-          format.json {render json: @client_company.errors, status: :unprocessable_entity}
-        end
+    respond_to do |format|
+      if @client_company.save
+        format.html {redirect_to client_companies_url, notice: 'Company is successfully created.'}
+        format.json {render :show, status: :created, location: @client_company}
+      else
+        format.html {render :new}
+        format.json {render json: @client_company.errors, status: :unprocessable_entity}
       end
-    else
-      redirect_to new_client_company_path, notice: 'Please Provide the Country Name'
     end
   end
 
@@ -69,16 +61,20 @@ class ClientCompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
-    if @client_company.projects.present?
-      respond_to do |format|
-        format.js
+    begin
+      if @client_company.projects.present?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @client_company.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
       end
-    else
-      @client_company.destroy
-      @destroy = true
-      respond_to do |format|
-        format.js
-      end
+    rescue => e
+      redirect_to projects_path, notice: 'Project can not deleted because it is linked with its assosiative records'
     end
   end
 

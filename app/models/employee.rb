@@ -1,7 +1,13 @@
 class Employee < ApplicationRecord
   validates :phone, :email, uniqueness: true
-  belongs_to :project_company, optional: true
+  # belongs_to :project_company, optional: true
+
   belongs_to :client_company
+  has_many :project_employees
+  has_many :foremen
+  has_many :other_managers
+  has_many :budget_holders
+  has_many :employee_types
 
   enum gender: {
       Male: 0,

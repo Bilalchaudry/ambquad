@@ -37,7 +37,7 @@ class TemporaryUsersController < ApplicationController
       @user.save
       respond_to do |format|
         if @temporary_user.save
-          @temporary_user.client_company.increment!(:number_of_users)
+          @temporary_user.client_company.update(number_of_users: @temporary_user.client_company.number_of_users + 1)
           format.html { redirect_to users_path, notice: 'User is successfully created.' }
           format.json { render :show, status: :created, location: @temporary_user }
         else

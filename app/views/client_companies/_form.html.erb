@@ -1,3 +1,4 @@
+
 <div id="layoutAuthentication_content">
   <main>
     <div class="container-fluid">
@@ -9,9 +10,8 @@
       <div class="row justify-content-center">
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <!--            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Company</h3></div>-->
             <div class="card-body">
-              <%= form_with(model: client_company, remote: true) do |form| %>
+              <%= form_with(model: client_company, local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
 
                 <div class="form-row">
@@ -42,7 +42,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :address, :id => "autocomplete_address", :class => "form-control py-3", :required => true %>
+                      <%= form.text_field :address, :id => "pac-input", :class => "form-control py-3", :required => true, placeholder: "Enter address"%>
                     </div>
                   </div>
                 </div>
@@ -54,7 +54,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="client_company[country_name]" id="country" class="form-control">
-                        <option value=" "></option>
+                        <option value=""><%= @client_company.country_name.present? ? @client_company.country_name : "None" %></option>
+<!--                        <option value="<%#= params[:client_company][:country_name].present? ? params[:client_company][:country_name] : "None" %>"><%#= params[:client_company][:country_name].present? ? params[:client_company][:country_name] : "None" %></option>-->
                         <% @country = ISO3166::Country.countries.sort %>
                         <% @country.each do |c| %>
                           <option value="<%= c.name %>">
@@ -117,11 +118,11 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="client_company[poc_country]" id="country" class="form-control">
-                        <option value=" "></option>
-                        <% @country = ISO3166::Country.countries.sort %>
+                        <option value=""><%= @client_company.poc_country .present? ? @client_company.poc_country : "None" %></option>
+                        <% @country = ISO3166::Country.countries %>
                         <% @country.each do |c| %>
                           <option value="<%= c.name %>">
-                            <%= c.name %>
+                            <%= c.emoji_flag + " " + c.name %>
                           </option>
                         <% end %>
                       </select>
@@ -167,3 +168,24 @@
     </div>
   </main>
 </div>
+<script>
+    function initAutocomplete() {
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+            var places = searchBox.getPlaces();
+
+            if (places.length == 0) {
+                return;
+            }
+        });
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDGzNf9YIv5BasHa88gAf9AK71HL19sR4&libraries=places&callback=initAutocomplete"
+        async defer></script>
