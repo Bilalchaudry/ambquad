@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :projects, :through => :user_projects
 
 
-  belongs_to :client_company, optional: true
+  belongs_to :client_company
   validates :email, uniqueness: true
 
   enum role: {

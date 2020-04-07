@@ -27,7 +27,7 @@
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :company_ID, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :company_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
@@ -54,8 +54,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="client_company[country_name]" id="country" class="form-control">
-                        <option value=""><%= @client_company.country_name.present? ? @client_company.country_name : "None" %></option>
-<!--                        <option value="<%#= params[:client_company][:country_name].present? ? params[:client_company][:country_name] : "None" %>"><%#= params[:client_company][:country_name].present? ? params[:client_company][:country_name] : "None" %></option>-->
+                        <option value="<%= @client_company.country_name.present? ? @client_company.country_name : "None" %>"><%= @client_company.country_name.present? ? @client_company.country_name : "None" %></option>
                         <% @country = ISO3166::Country.countries.sort %>
                         <% @country.each do |c| %>
                           <option value="<%= c.name %>">
@@ -118,8 +117,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="client_company[poc_country]" id="country" class="form-control">
-                        <option value=""><%= @client_company.poc_country .present? ? @client_company.poc_country : "None" %></option>
-                        <% @country = ISO3166::Country.countries %>
+                        <option value="<%= @client_company.poc_country.present? ? @client_company.poc_country : "None" %>"><%= @client_company.country_name.present? ? @client_company.country_name : "None" %></option>                        <% @country = ISO3166::Country.countries %>
                         <% @country.each do |c| %>
                           <option value="<%= c.name %>">
                             <%= c.emoji_flag + " " + c.name %>
