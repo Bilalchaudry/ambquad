@@ -56,21 +56,21 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Save Progress', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Save Progress', project_employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Update Timesheets', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Update Timesheets', project_employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Submit Timesheets', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Submit Timesheets', project_employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
@@ -111,8 +111,8 @@
 
         $.ajax({
             type: "GET",
-            url: "/employee_time_sheets",
-            data: { date: formated_date , search_date: 'true'}
+            url: '/projects/<%= @project.id %>/employee_time_sheets',
+            data: { date: formated_date , search_date: 'true' }
         })
         // alert(id)
     });
@@ -128,8 +128,8 @@
 
         $.ajax({
             type: "GET",
-            url: "/employee_time_sheets",
-            data: { date: formated_date }
+            url: "/projects/<%= @project.id %>/employee_time_sheets",
+            data: { date: formated_date , copy_from_previous: 'true' }
         })
         // alert(id)
     });

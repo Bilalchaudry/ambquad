@@ -47,7 +47,7 @@ class ProjectEmployeesController < ApplicationController
                                  foreman_name: project_employee.foreman.employee.first_name,
                                  total_hours: params[:project_employee][:total_hours],
                                  employee_type_id: params[:project_employee][:employee_type_id],
-                                 manager: params[:project_employee][:foreman_id], employee_create_date: Time.now.strftime("%Y-%m-%d") )
+                                 employee_create_date: Time.now.strftime("%Y-%m-%d"), project_id: @project.id )
       rescue => e
       end
     end

@@ -34,7 +34,9 @@
                   <button class="btn w-100 text-white" style="background-color: #843B0C">Client</button>
                 </div>
                 <div class="col-md-2 pt-2">
-                  <button class="btn text-white" style="background-color: #843B0C; width: 114px">Enter Hours</button>
+                  <%= link_to 'Enter Hours', "/projects/#{@project.id}/employee_time_sheets", :class => "btn text-white", :style => "background-color: #843B0C; width: 114px;" %>
+
+                  <!--                  <button class="btn text-white" style="background-color: #843B0C; width: 114px">Enter Hours</button>-->
                 </div>
               </div>
             </div>

@@ -2,6 +2,7 @@ class Project < ApplicationRecord
 
   belongs_to :client_company
 
+  has_many :employee_time_sheets
   has_many :cost_codes, dependent: :destroy
   has_many :other_managers, dependent: :destroy
   has_many :plants, dependent: :destroy
