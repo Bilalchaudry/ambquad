@@ -6,6 +6,10 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets.json
   def index
     @employee_time_sheets = @project.employee_time_sheets
+    respond_to do |f|
+      f.js
+      f.html
+    end
   end
 
   # GET /employee_time_sheets/1

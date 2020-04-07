@@ -1,0 +1,34 @@
+<% @employee_time_sheets.each do |employee_time_sheet| %>
+  <tr>
+    <td><%= employee_time_sheet.employee %></td>
+    <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
+    <td><%= employee_time_sheet.labour_type %></td>
+    <td><%= employee_time_sheet.project_company_id %></td>
+    <td><%= employee_time_sheet.manager %></td>
+    <td><%= employee_time_sheet.foreman_name %></td>
+    <td><%= employee_time_sheet.total_hours %></td>
+    <td>
+      <% cost_codes = TimeSheetCostCode.where(employee_id: employee_time_sheet.employee_id) %>
+      <% if cost_codes.first.present? %>
+        <%= cost_codes.first.cost_code %>
+      <% else %>
+        <button class="w-100 cost-bot">+</button>
+      <% end %>
+    </td>
+    <td>9.50</td>
+    <td>
+      <% if cost_codes.second.present? %>
+        <%= cost_codes.second.cost_code %>
+      <% else %>
+        <button class="w-100 cost-bot">+</button>
+      <% end %></td>
+    <td>9.50</td>
+    <td>
+      <% if cost_codes.third.present? %>
+        <%= cost_codes.third.cost_code %>
+      <% else %>
+        <button class="w-100 cost-bot">+</button>
+      <% end %></td>
+    <td>9.50</td>
+  </tr>
+<% end %>

@@ -54,11 +54,11 @@
               <input id="datepicker" width="270" placeholder="Select Date"/>
             </div>
           </div>
-
         </div>
         <div class="card mb-4">
           <div class="card-body">
             <div class="table-responsive">
+
               <table id="example" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
@@ -81,49 +81,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% @employee_time_sheets.each do |employee_time_sheet| %>
-                  <tr>
-                    <td><%= employee_time_sheet.employee %></td>
-                    <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
-                    <td><%= employee_time_sheet.labour_type %></td>
-                    <td><%= employee_time_sheet.project_company_id %></td>
-                    <td><%= employee_time_sheet.manager %></td>
-                    <td><%= employee_time_sheet.foreman_name %></td>
-                    <td><%= employee_time_sheet.total_hours %></td>
-                    <td>
-                      <% cost_codes = TimeSheetCostCode.where(employee_id: employee_time_sheet.employee_id) %>
-                      <% if cost_codes.first.present? %>
-                        <%= cost_codes.first.cost_code %>
-                      <% else %>
-                        <button class="w-100 cost-bot">+</button>
-                      <% end %>
-                    </td>
-                    <td>9.50</td>
-                    <td>
-                      <% if cost_codes.second.present? %>
-                        <%= cost_codes.second.cost_code %>
-                      <% else %>
-                        <button class="w-100 cost-bot">+</button>
-                      <% end %></td>
-                    <td>9.50</td>
-                    <td>
-                      <% if cost_codes.third.present? %>
-                        <%= cost_codes.third.cost_code %>
-                      <% else %>
-                        <button class="w-100 cost-bot">+</button>
-                      <% end %></td>
-                    <td>9.50</td>
-                  </tr>
-                <% end %>
+                <%= render 'time_sheet_table_data' %>
                 </tbody>
               </table>
-
               <br>
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Copy from Previous Timesheet', "/projects/#{@project.id}/employee_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <button id="datepicker1" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy from Previous Timesheet</button>
                     </div>
                   </div>
                 </div>
@@ -197,5 +163,22 @@
     $('#datepicker').datepicker({
         uiLibrary: 'bootstrap'
     });
+
+    $('#datepicker1').datepicker({
+        dateFormat: 'dd-mm-yy',
+        uiLibrary: 'bootstrap'
+    });
+
+    $('#datepicker1').change(function ()
+    {
+        var id = $("#datepicker1").val();
+        $.ajax({
+            type: "GET",
+            url: "/employee_time_sheets",
+            data: { date: id }
+        })
+        // alert(id)
+    });
+
 
 </script>
