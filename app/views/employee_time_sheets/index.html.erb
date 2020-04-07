@@ -5,10 +5,7 @@
 
 
         <div class="modal fade" id="myModal" role="dialog">
-          <%#= form_with(model: @time_sheet_cost_code, remote: true) do |form| %>
-          <%#= csrf_meta_tag %>
           <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
@@ -17,10 +14,9 @@
               <div class="modal-body">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <%#= form.select :cost_code_id, CostCode.all.collect {|p| [ p.cost_code_id, p.id ] },{}, :onchange => "abc()"%>
                     <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
                       <option value=""> --- Select Cost Code ---</option>
-                      <% CostCode.all.each do |cost_code| %>
+                      <% @project_cost_codes.all.each do |cost_code| %>
                         <option value="<%= cost_code.id %>">
                           <%= cost_code.cost_code_description %>
                         </option>
@@ -42,6 +38,15 @@
         </center>
         <h1 class="mt-2">Employees Time Sheet</h1>
         <div class="row">
+          <div class="col-xl-6 col-md-6"></div>
+          <div class="col-xl-2 col-md-2"></div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
@@ -58,7 +63,7 @@
                 <thead>
                 <tr>
                   <th rowspan="2">Employee</th>
-                  <th rowspan="2">Employee ID</th>
+                  <th rowspan="2" class="emp_id">Employee ID</th>
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -79,32 +84,33 @@
                 <% @employee_time_sheets.each do |employee_time_sheet| %>
                   <tr>
                     <td><%= employee_time_sheet.employee %></td>
-                    <td><%= employee_time_sheet.employee_id %></td>
+                    <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
                     <td><%= employee_time_sheet.labour_type %></td>
                     <td><%= employee_time_sheet.project_company_id %></td>
                     <td><%= employee_time_sheet.manager %></td>
                     <td><%= employee_time_sheet.foreman_name %></td>
                     <td><%= employee_time_sheet.total_hours %></td>
                     <td>
-                      <% a = TimeSheetCostCode.where(employee_id: employee_time_sheet.employee_id) %>
-                      <% if a.first.present? %>
-                        <%= a.first.cost_code %>
+                      <% cost_codes = TimeSheetCostCode.where(employee_id: employee_time_sheet.employee_id) %>
+                      <% if cost_codes.first.present? %>
+                        <%= cost_codes.first.cost_code %>
                       <% else %>
-                        <button class="w-100 bilal">+</button>
+                        <button class="w-100 cost-bot">+</button>
                       <% end %>
                     </td>
                     <td>9.50</td>
                     <td>
-                      <% if a.second.present? %>
-                        <%= a.second.cost_code %>
+                      <% if cost_codes.second.present? %>
+                        <%= cost_codes.second.cost_code %>
                       <% else %>
-                        <button class="w-100 bilal">+</button>
+                        <button class="w-100 cost-bot">+</button>
                       <% end %></td>
                     <td>9.50</td>
-                    <td> <% if a.third.present? %>
-                        <%= a.third.cost_code %>
+                    <td>
+                      <% if cost_codes.third.present? %>
+                        <%= cost_codes.third.cost_code %>
                       <% else %>
-                        <button class="w-100 bilal">+</button>
+                        <button class="w-100 cost-bot">+</button>
                       <% end %></td>
                     <td>9.50</td>
                   </tr>
@@ -117,28 +123,28 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Copy from Previous Timesheet', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Copy from Previous Timesheet', "/projects/#{@project.id}/employee_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Save Progress', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Save Progress', "/projects/#{@project.id}/employee_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Update Timesheets', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Update Timesheets', "/projects/#{@project.id}/employee_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Submit Timesheets', employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Submit Timesheets', "/projects/#{@project.id}/employee_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
@@ -151,8 +157,6 @@
     </main>
   </div>
 </div>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
 <!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js" crossorigin="anonymous"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" crossorigin="anonymous"></script>
@@ -161,15 +165,16 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    $('.bilal').click(function () {
+    $('.cost-bot').click(function () {
         employee_id = $(this).parent().siblings()[1].textContent;
         $("#myModal").modal();
         $('.js-example-basic-single').select2();
     });
+
     function add_cost_code() {
         debugger
         cost_code_id = $('#cost_code').val();
-       cost_code = $( "#cost_code option:selected" ).text()
+        cost_code = $("#cost_code option:selected").text()
         $.ajax({
             headers: {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -182,6 +187,7 @@
         });
 
     }
+
     $('#example').DataTable({
         dom: 'Bfrtip',
         buttons: [

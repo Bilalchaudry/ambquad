@@ -24,12 +24,10 @@ class TimeSheetCostCodesController < ApplicationController
   # POST /time_sheet_cost_codes
   # POST /time_sheet_cost_codes.json
   def create
-    params[:cost_code_id]
     @time_sheet_cost_code = TimeSheetCostCode.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_id: params[:employee_id])
-
     respond_to do |format|
       if @time_sheet_cost_code.save
-        format.html { redirect_to employee_time_sheets_path, notice: 'Cost code added successfully.' }
+        format.html { redirect_to request.referer, notice: 'Cost code added successfully.' }
         format.json { render :show, status: :created, location: @time_sheet_cost_code }
       else
         format.html { render :new }
