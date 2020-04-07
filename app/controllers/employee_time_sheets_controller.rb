@@ -10,7 +10,7 @@ class EmployeeTimeSheetsController < ApplicationController
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:date])
       if @employee_time_sheets.empty?
         @project_employees = @project.project_employees
-        if !@project_employees.empty?
+        unless @project_employees.empty?
           @employee_time_sheets = []
           @project_employees.each do |project_employee|
             @employee_time_sheet_data = @project.employee_time_sheets.create(employee: project_employee.employee.first_name + ' ' + project_employee.employee.last_name,
