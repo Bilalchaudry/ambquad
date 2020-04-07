@@ -7,28 +7,17 @@
     <td><%= employee_time_sheet.manager %></td>
     <td><%= employee_time_sheet.foreman_name %></td>
     <td><%= employee_time_sheet.total_hours %></td>
-    <td>
-      <% cost_codes = TimeSheetCostCode.where(employee_id: employee_time_sheet.employee_id) %>
-      <% if cost_codes.first.present? %>
-        <%= cost_codes.first.cost_code %>
+    <% cost_codes = TimeSheetCostCode.where(employee_id: employee_time_sheet.employee_id).to_a %>
+    <% for i in 0..2 %>
+      <% if cost_codes[i].present? %>
+        <td><%= cost_codes[i].cost_code %></td>
+        <td>9.50</td>
       <% else %>
-        <button class="w-100 cost-bot">+</button>
+        <td>
+          <button class="w-100 cost-bot">+</button>
+        </td>
+        <td>9.50</td>
       <% end %>
-    </td>
-    <td>9.50</td>
-    <td>
-      <% if cost_codes.second.present? %>
-        <%= cost_codes.second.cost_code %>
-      <% else %>
-        <button class="w-100 cost-bot">+</button>
-      <% end %></td>
-    <td>9.50</td>
-    <td>
-      <% if cost_codes.third.present? %>
-        <%= cost_codes.third.cost_code %>
-      <% else %>
-        <button class="w-100 cost-bot">+</button>
-      <% end %></td>
-    <td>9.50</td>
+    <% end %>
   </tr>
 <% end %>

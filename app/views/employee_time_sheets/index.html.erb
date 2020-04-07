@@ -4,7 +4,7 @@
       <div class="container-fluid">
 
 
-        <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal fade" id="cost_code_modal" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -133,12 +133,11 @@
 <script type="text/javascript">
     $('.cost-bot').click(function () {
         employee_id = $(this).parent().siblings()[1].textContent;
-        $("#myModal").modal();
+        $("#cost_code_modal").modal();
         $('.js-example-basic-single').select2();
     });
 
     function add_cost_code() {
-        debugger
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
         $.ajax({
@@ -177,8 +176,6 @@
             url: "/employee_time_sheets",
             data: { date: id }
         })
-        // alert(id)
     });
-
 
 </script>
