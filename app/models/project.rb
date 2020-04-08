@@ -20,6 +20,8 @@ class Project < ApplicationRecord
   has_many :project_project_employees
   has_many :project_employees, :through => :project_project_employees
 
+  has_many :time_sheet_cost_codes
+
   validates_uniqueness_of :project_name
 
   before_destroy :check_for_projects, prepend: true

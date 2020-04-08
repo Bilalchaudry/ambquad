@@ -72,7 +72,7 @@ class EmployeeTimeSheetsController < ApplicationController
   def get_project
     @project = Project.find(params[:project_id])
     @cost_codes = @project.cost_codes rescue nil
-    used_cost_code = TimeSheetCostCode.all.pluck(:cost_code_id)
+    used_cost_code = @project.time_sheet_cost_codes.all.pluck(:cost_code_id)
     @project_cost_codes = @cost_codes.where.not(id: used_cost_code) rescue nil
   end
 

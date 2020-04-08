@@ -140,13 +140,14 @@
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
+        project_id = <%= params[:project_id] %>
         $.ajax({
             headers: {
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
             type: 'POST',
             url: '/time_sheet_cost_codes',
-            data: {cost_code_id: cost_code_id, cost_code: cost_code, employee_id: employee_id},
+            data: {cost_code_id: cost_code_id, cost_code: cost_code, employee_id: employee_id, project_id: project_id},
             cache: false,
             success: $("#myModal").hide()
         });
