@@ -69,7 +69,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="project_employee[employee_type_id]" id="employee_type_id" class="form-control">
+                      <select name="project_employee[employee_type_id]" id="employee_type_id" class="form-control" required>
                         <% @project.employee_types.each do |employee_type| %>
                           <option value="<%= employee_type.id %>">
                             <%= employee_type.employee_type %>
@@ -120,7 +120,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="project_employee[project_company_id]" id="other_manager_id" class="form-control">
+                      <select name="project_employee[project_company_id]" id="other_manager_id" class="form-control" required>
                         <% @project.project_companies.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>

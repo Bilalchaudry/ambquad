@@ -1,6 +1,15 @@
 // Place all the styles related to the projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.hidden_option{
+.hidden_option {
   display: none;
+}
+
+.bold-title {
+  font-weight: bold !important;
+}
+
+.bold-title-with-color {
+  color: green !important;
+  font-weight: bold !important;
 }

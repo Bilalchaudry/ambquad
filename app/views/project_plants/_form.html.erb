@@ -1,0 +1,145 @@
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-body">
+              <%= form_with(model: [@project, project_plant], local: true) do |form| %>
+                <%= render 'layouts/error_messages', object: form.object %>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :plants, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.select :plant_ids, options_for_select(@project.client_company.plants.map{|c| [c.plant_name, c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :contract_end_date, validate: true, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :plant_type, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="project_plant[plant_type_id]" id="plant_type_id" class="form-control">
+                        <% @project.plant_types.each do |type| %>
+                          <option value="<%= type.id %>">
+                            <%= type.type_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :forman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="project_plant[foreman_id]" id="plant_type_id" class="form-control">
+                        <% @project.foremen.each do |forman| %>
+                          <option value="<%= forman.id %>">
+                            <%= forman.employee.first_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :other_manager, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="project_plant[other_manager_id]" id="plant_type_id" class="form-control">
+                        <% @project.other_managers.each do |manager| %>
+                          <option value="<%= manager.id %>">
+                            <%= manager.employee.first_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_company_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="project_plant[project_company_id]" id="other_manager_id" class="form-control">
+                        <% @project.project_companies.each do |company| %>
+                          <option value="<%= company.id %>">
+                            <%= company.company_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", project_project_plants_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').selectpicker();
+    });
+</script>

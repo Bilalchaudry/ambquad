@@ -25,31 +25,26 @@ class TemporaryUsersController < ApplicationController
   # POST /temporary_users.json
   def create
     @temporary_user = TemporaryUser.new(temporary_user_params)
-    if @temporary_user.country_name != " "
-      code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
-      @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
+    code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
+    @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
 
-      @user = User.new(temporary_user_params)
-      @user.phone_no = '+' + code + @user.phone_no
-      @user.save
-
-      @user.set_confirmation_token
-      @user.save(validate: false)
-      MailSendJob.perform_later(@user)
-
-      respond_to do |format|
-        if @temporary_user.save
-          @temporary_user.client_company.increment!(:number_of_users)
-          format.html { redirect_to users_path, notice: 'User is successfully created.' }
-          format.json { render :show, status: :created, location: @temporary_user }
-        else
-          format.html { render :new }
-          format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
-        end
+    @user = User.new(temporary_user_params)
+    @user.phone_no = '+' + code + @user.phone_no
+    @user.save
+    @user.set_confirmation_token
+    @user.save(validate: false)
+    MailSendJob.perform_later(@user)
+    respond_to do |format|
+      if @temporary_user.save
+        @temporary_user.client_company.update(number_of_users: @temporary_user.client_company.number_of_users + 1)
+        format.html {redirect_to users_path, notice: 'User is successfully created.'}
+        format.json {render :show, status: :created, location: @temporary_user}
+      else
+        format.html {render :new}
+        format.json {render json: @temporary_user.errors, status: :unprocessable_entity}
       end
-    else
-      redirect_to new_temporary_user_path, notice: 'Please Provide the Country Name'
     end
+
   end
 
   # PATCH/PUT /temporary_users/1
@@ -57,11 +52,11 @@ class TemporaryUsersController < ApplicationController
   def update
     respond_to do |format|
       if @temporary_user.update(temporary_user_params)
-        format.html { redirect_to @temporary_user, notice: 'Temporary user was successfully updated.' }
-        format.json { render :show, status: :ok, location: @temporary_user }
+        format.html {redirect_to @temporary_user, notice: 'Temporary user was successfully updated.'}
+        format.json {render :show, status: :ok, location: @temporary_user}
       else
-        format.html { render :edit }
-        format.json { render json: @temporary_user.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @temporary_user.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -71,8 +66,8 @@ class TemporaryUsersController < ApplicationController
   def destroy
     @temporary_user.destroy
     respond_to do |format|
-      format.html { redirect_to temporary_users_url, notice: 'Temporary user was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to temporary_users_url, notice: 'Temporary user was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
@@ -89,6 +84,7 @@ class TemporaryUsersController < ApplicationController
                                                 :password, :encrypted_password, :client_company_id, :country_name,
                                                 :status)
     pp[:role] = params[:temporary_user][:role].to_i
+    pp[:role] = params[:temporary_user][:status].to_i
     return pp
   end
 end

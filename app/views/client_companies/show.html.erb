@@ -46,6 +46,17 @@
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
+                  <strong>Country:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @client_company.country_name %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
                   <strong>Phone:</strong>
                 </div>
                 <div class="col-md-6">
@@ -95,6 +106,28 @@
                 <div class="col-md-6">
                   <div>
                     <%= @client_company.poc_email %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>POC Country:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @client_company.poc_country %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Primary POC Phone:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @client_company.poc_phone %>
                   </div>
                 </div>
               </div>

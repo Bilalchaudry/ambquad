@@ -1,0 +1,8 @@
+<% if @destroy %>
+var client_companies_path = "/projects"
+location.href = client_companies_path
+alert("Project deleted successfully")
+<% else %>
+alert("Projec can not deleted because Project is linked with associative records.")
+
+<% end %>

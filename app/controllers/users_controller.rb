@@ -78,6 +78,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    TemporaryUser.find_by_email(@user.email).destroy rescue nil
     @user.destroy
     @user.client_company.decrement!(:number_of_users)
     respond_to do |format|

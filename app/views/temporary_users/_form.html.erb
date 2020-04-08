@@ -59,8 +59,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="temporary_user[country_name]" id="country" class="form-control">
-                        <option value=" "></option>
+                      <select name="temporary_user[country_name]" id="country" class="form-control" required>
+                        <option value="<%= @temporary_user.country_name .present? ? @temporary_user.country_name : "None" %>"><%= @temporary_user.country_name .present? ? @temporary_user.country_name : "None" %></option>
                         <% @country = ISO3166::Country.countries.sort %>
                         <% @country.each do |c| %>
                           <option value="<%= c.name %>">
@@ -83,6 +83,7 @@
                   </div>
                 </div>
                 <div class="row">
+
                   <div class="col-md-4">
                     <%= form.label :email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>

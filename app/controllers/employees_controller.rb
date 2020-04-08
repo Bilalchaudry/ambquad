@@ -5,7 +5,7 @@ class EmployeesController < ApplicationController
   # GET /employees
   # GET /employees.json
   def index
-    @employees = current_user.client_company.nil? ? Employee.all : current_user.client_company.employees
+    @employees = (current_user.client_company.eql?("Ambquad") &&  current_user.role.eql?("Admin")) ? Employee.all : current_user.client_company.employees
   end
 
   # GET /employees/1
@@ -26,7 +26,7 @@ class EmployeesController < ApplicationController
   # POST /employees.json
   def create
     @employee = Employee.new(employee_params)
-    @employee.client_company_id = params[:employee][:client_company_id].present? ?  params[:employee][:client_company_id] : current_user.client_company_id rescue nil
+    @employee.client_company_id = params[:employee][:client_company_id].present? ? params[:employee][:client_company_id] : current_user.client_company_id rescue nil
     code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
     @employee.phone = '+' + code + @employee.phone rescue nil
 
@@ -58,10 +58,20 @@ class EmployeesController < ApplicationController
   # DELETE /employees/1
   # DELETE /employees/1.json
   def destroy
-    @employee.destroy
-    respond_to do |format|
-      format.html {redirect_to employees_url, notice: 'Employee was successfully destroyed.'}
-      format.json {head :no_content}
+    begin
+      if @employee.project_employees.present? || @employee.other_managers.present? || @employee.budget_holders.present?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @employee.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to employees_url, notice: e.message
     end
   end
 

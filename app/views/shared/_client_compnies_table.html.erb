@@ -19,7 +19,9 @@
       <td>
         <%= link_to "View", client_company_path(company), :class => "btn btn-outline-success" %>
         <%= link_to "Edit", edit_client_company_path(company), :class => "btn btn-outline-info" %>
-        <%= link_to "Delete", client_company_path(company), :class => "btn btn-outline-danger", method: :delete %>
+        <% unless company.company_name.eql?("Ambquad") %>
+          <%= link_to "Delete", client_company_path(company), data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true if can? :destroy, ClientCompany %>
+        <% end %>
       </td>
     </tr>
   <% end %>
