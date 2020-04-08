@@ -18,7 +18,7 @@ class ProjectCompany < ApplicationRecord
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
         employee = ProjectCompany.create(company_name: row[1], company_summary: row[2], project_role: row[3], address: row[4],
                                          phone: row[5], primary_poc_first_name: row[6], primary_poc_last_name: row[7], poc_email: row[8],
-                                         poc_phone: row[9], client_company_id: client_company, project_id: project.id)
+                                         poc_phone: row[9], client_company_id: project.client_company.id, project_id: project.id)
       end
     else
       spreadsheet = open_spreadsheet(file)

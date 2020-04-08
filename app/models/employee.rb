@@ -23,6 +23,23 @@ class Employee < ApplicationRecord
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
+        if row[5] == 'm' || row[5] == 'M' || row[5] == 'Male' || row[5] == 'male'
+          row[5] = "Male"
+        elsif row[5] == 'f' || row[5] == 'F' || row[5] == 'Female' || row[5] == 'female'
+          row[5] = "Female"
+        else
+          row[5] = "Male"
+        end
+
+        if row[9] == 'Active' || row[9] == 'a' || row[9] == 'A' || row[9] == 'active'
+          row[9] = "Active"
+        elsif row[9] == 'Closed' || row[9] == 'closed' || row[9] == 'c' || row[9] == 'c' || row[9] == 'close' || row[9] == 'Close'
+          row[9] = "Closed"
+        elsif row[9] == 'Onhold' || row[9] == 'onhold' || row[9] == 'o' || row[9] == 'O' || row[9] == 'OnHold' || row[9] == 'onHold'
+          row[9] = "Onhold"
+        else
+          row[9] = "Active"
+        end
         employee = Employee.create(first_name: row[0], last_name: row[1], employee_id: row[2], phone: row[3], email: row[4], gender: row[5], home_company_role: row[6],
                                    contract_start_date: row[7], contract_end_date: row[8], status: row[9], project_id: row[10], employee_type_id: row[11],
                                    foreman_id: row[12], other_manager_id: row[13], project_company_id: row[14], client_company_id: user.client_company_id)

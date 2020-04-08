@@ -21,4 +21,17 @@ class User < ApplicationRecord
       Inactive: 1
   }
 
+
+  def set_confirmation_token
+    if self.confirm_token.blank?
+      self.confirm_token = SecureRandom.urlsafe_base64.to_s
+    end
+  end
+
+  def validate_email
+    self.email_confirmed = true
+    self.confirm_token = nil
+    self.status = "Active"
+  end
+
 end

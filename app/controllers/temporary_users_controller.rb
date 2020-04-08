@@ -31,6 +31,9 @@ class TemporaryUsersController < ApplicationController
     @user = User.new(temporary_user_params)
     @user.phone_no = '+' + code + @user.phone_no
     @user.save
+    @user.set_confirmation_token
+    @user.save(validate: false)
+    MailSendJob.perform_later(@user)
     respond_to do |format|
       if @temporary_user.save
         @temporary_user.client_company.update(number_of_users: @temporary_user.client_company.number_of_users + 1)
