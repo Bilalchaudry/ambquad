@@ -42,51 +42,103 @@
 
             <div class="card-body">
               <div class="" id="nav-tab" role="tablist">
+
                 <div class="row">
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Project Employees', "/projects/#{@project.id}/project_employees", style: "font-weight:bold;", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.project_employees.present? %>
+                      <%= link_to 'Project Employees', "/projects/#{@project.id}/project_employees", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Project Employees', "/projects/#{@project.id}/project_employees", :class => "bold-title nav-item nav-link btn btn-dark bold-title" %>
+                    <% end %>
                   </div>
+
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Cost Codes', "/projects/#{@project.id}/cost_codes", style: "font-weight:bold;", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.cost_codes.present? %>
+                      <%= link_to 'Cost Codes', "/projects/#{@project.id}/cost_codes", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Cost Codes', "/projects/#{@project.id}/cost_codes", :class => "bold-title nav-item nav-link btn btn-dark" %>
+
+                    <% end %>
                   </div>
+
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Other Managers', "/projects/#{@project.id}/other_managers", style: "font-weight:bold;", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.other_managers.present? %>
+                      <%= link_to 'Other Managers', "/projects/#{@project.id}/other_managers", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Other Managers', "/projects/#{@project.id}/other_managers", :class => "bold-title nav-item nav-link btn btn-dark" %>
+
+                    <% end %>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Project Equipment List', "/projects/#{@project.id}/project_plants", style: "font-weight:bold;", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.plants.present? %>
+                      <%= link_to 'Project Equipment List', "/projects/#{@project.id}/project_plants", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Project Equipment List', "/projects/#{@project.id}/project_plants", :class => "bold-title nav-item nav-link btn btn-dark" %>
+
+                    <% end %>
                   </div>
+
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Budget Holders', "/projects/#{@project.id}/budget_holders", style: "font-weight:bold;", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.budget_holders.present? %>
+                      <%= link_to 'Budget Holders', "/projects/#{@project.id}/budget_holders", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Budget Holders', "/projects/#{@project.id}/budget_holders", :class => "bold-title nav-item nav-link btn btn-dark" %>
+                    <% end %>
                   </div>
+
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Employee Types', "/projects/#{@project.id}/employee_types", style: "font-weight:bold", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.employee_types.present? %>
+                      <%= link_to 'Employee Types', "/projects/#{@project.id}/employee_types", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Employee Types', "/projects/#{@project.id}/employee_types", :class => "bold-title nav-item nav-link btn btn-dark" %>
+                    <% end %>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Companies', "/projects/#{@project.id}/project_companies", style: "font-weight:bold;", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.project_companies.present? %>
+                      <%= link_to 'Companies', "/projects/#{@project.id}/project_companies", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Companies', "/projects/#{@project.id}/project_companies", :class => "bold-title nav-item nav-link btn btn-dark" %>
+
+                    <% end %>
                   </div>
+
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Foreman', "/projects/#{@project.id}/foremen", style: "font-weight:bold;;", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.foremen.present? %>
+                      <%= link_to 'Foreman', "/projects/#{@project.id}/foremen", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Foreman', "/projects/#{@project.id}/foremen", :class => "bold-title nav-item nav-link btn btn-dark" %>
+
+                    <% end %>
                   </div>
+
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Plant Types', "/projects/#{@project.id}/plant_types", style: "font-weight:bold", :class => "nav-item nav-link btn btn-dark" %>
+                    <% if @project.plant_types.present? %>
+                      <%= link_to 'Plant Types', "/projects/#{@project.id}/plant_types", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Plant Types', "/projects/#{@project.id}/plant_types", :class => "bold-title nav-item nav-link btn btn-dark" %>
+                    <% end %>
                   </div>
                 </div>
+
                 <div class="row">
                   <div class="col-md-4 pt-4">
-                    <%= link_to 'Crew', crew_project_foremen_path(@project.id), style: "font-weight:bold;", :class => "nav-item nav-link btn btn-dark" %>
+                    <%# if @project.crews.present? %>
+                    <%= link_to 'Crew', crew_project_foremen_path(@project.id), :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <%# else %>
+                    <%#= link_to 'Crew', crew_project_foremen_path(@project.id), :class => "bold-title nav-item nav-link btn btn-dark" %>
+                    <%# end %>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
