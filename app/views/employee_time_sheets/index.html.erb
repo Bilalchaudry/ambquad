@@ -178,7 +178,7 @@
             url: '/projects/<%= @project.id %>/employee_time_sheets',
             data: { date: formated_date , search_date: 'true' }
         })
-        // alert(id)
+       
     });
 
     $('#datepicker1').datepicker({
@@ -195,7 +195,6 @@
             url: "/projects/<%= @project.id %>/employee_time_sheets",
             data: { date: formated_date , copy_from_previous: 'true' }
         })
-        // alert(id)
     });
 
     function formatDate(date) {
