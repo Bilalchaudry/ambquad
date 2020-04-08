@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get 'timesheet/index'
   resources :budget_holders
+  resources :plants
 
   resources :projects do
     resources :employee_time_sheets
@@ -48,6 +49,8 @@ Rails.application.routes.draw do
 
     resources :project_employees
 
+    resources :project_plants
+
     resources :project_companies do
       collection do
         post :import
@@ -63,6 +66,9 @@ Rails.application.routes.draw do
       get :download_template
     end
   end
+
+
+
   resources :temporary_users
   resources :plants
   devise_for :users, :controllers => {:sessions => "sessions"}

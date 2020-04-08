@@ -9,6 +9,7 @@ class Ability
         can [:read, :view], ClientCompany
         can [:read, :view], Project, client_company_id: user.client_company_id
         can :manage, Employee, client_company_id: user.client_company_id
+        can [:read, :view, :update], User
         can :manage, ProjectEmployee
         can :manage, CostCode, client_company_id: user.client_company_id
         can :manage, OtherManager, client_company_id: user.client_company_id

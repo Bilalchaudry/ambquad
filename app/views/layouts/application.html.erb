@@ -6,7 +6,7 @@
   <%= csp_meta_tag %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  <%#= javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAFRIlxZO7SeVsJDEech0k8hYVN4CLs4jY" %>
+  <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyClJtGSwVPsmcMzzhJP7CWjPtmhI6Sev3I" %>
   <%= action_cable_meta_tag %>
   <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
@@ -77,6 +77,12 @@
                 <div class="sb-nav-link-icon"><i class="fa fa-tasks"></i></div>
                 Employees
               </a>
+
+              <a class="nav-link" href="/plants/">
+                <div class="sb-nav-link-icon"><i class="fa fa-tasks"></i></div>
+                Plants
+              </a>
+              <%= link_to 'Employee Time Sheet', employee_time_sheets_path , :class => "nav-link sb-nav-link-icon"%>
               <%#= link_to 'Employee Time Sheet', employee_time_sheets_path , :class => "nav-link sb-nav-link-icon"%>
               <%#= link_to 'Time Sheet', timesheet_index_path , :class => "nav-link sb-nav-link-icon"%>
               <%#= link_to 'Plant Time Sheet', plant_time_sheets_path , :class => "nav-link sb-nav-link-icon"%>
@@ -104,6 +110,10 @@
               <a class="nav-link" href="/employees/">
                 <div class="sb-nav-link-icon"><i class="fa fa-tasks"></i></div>
                 Employees
+              </a>
+              <a class="nav-link" href="/plants/">
+                <div class="sb-nav-link-icon"><i class="fa fa-tasks"></i></div>
+                Plants
               </a>
               <%#= link_to 'Employee Time Sheet', employee_time_sheets_path , :class => "nav-link sb-nav-link-icon"%>
               <%#= link_to 'Plant Time Sheet', plant_time_sheets_path , :class => "nav-link sb-nav-link-icon"%>

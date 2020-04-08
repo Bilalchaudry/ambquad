@@ -8,7 +8,8 @@
         <center>
           <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
         </center>
-        <h1 class="mt-4">Project Employees</h1>
+        <h5 class="mt-2">Project Employees</h5>
+        <%= render 'shared/client_and_project_info' %>
         <div class="row">
           <div class="col-xl-6 col-md-6"></div>
 
@@ -36,6 +37,7 @@
                   <th>Type</th>
                   <th>Foreman</th>
                   <th>Other Manager</th>
+                  <th>Project Company</th>
                   <th>Total hours</th>
                   <th>Contract start date</th>
                   <th>Contract end date</th>
@@ -50,6 +52,7 @@
                     <td><%= project_employee.employee_type.employee_type %></td>
                     <td><%= project_employee.foreman.employee.first_name rescue "N/A" %></td>
                     <td><%= project_employee.other_manager.employee.first_name rescue "N/A" %></td>
+                    <td><%= project_employee.project_company.company_name rescue "N/A" %></td>
                     <td><%= project_employee.total_hours %></td>
                     <td><%= project_employee.contract_start_date %></td>
                     <td><%= project_employee.contract_end_date %></td>

@@ -5,7 +5,8 @@
         <center>
           <h3 class="alert-success mt-1"><%= notice %></h3>
         </center>
-        <h1 class="mt-4">Budget Holders</h1>
+        <h5 class="mt-2">Budget Holders</h5>
+        <%= render 'shared/client_and_project_info' %>
         <div class="row">
           <div class="col-xl-6 col-md-6"></div>
 
@@ -39,7 +40,7 @@
                     <td>
                       <%= link_to "View", "/projects/#{@project.id}/budget_holders/#{budget_holder.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/budget_holders/#{budget_holder.id}/edit", :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/projects/#{@project.id}/budget_holders/#{budget_holder.id}" + "?delete=true", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/budget_holders/#{budget_holder.id}", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete %>
                     </td>
                   </tr>
                 <% end %>

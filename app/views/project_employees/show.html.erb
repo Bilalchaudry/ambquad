@@ -36,7 +36,18 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= Project.find_by_id(@project_employee.project_id).project_name rescue "N/A"%>
+                    <%= @project.project_name rescue "N/A"%>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Project Company:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @project_employee.project_company.company_name rescue "N/A"%>
                   </div>
                 </div>
               </div>

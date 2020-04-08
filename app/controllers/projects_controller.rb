@@ -15,10 +15,6 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
-    if params[:delete].present?
-      @project.destroy
-      redirect_to projects_path
-    end
   end
 
   # GET /projects/new
@@ -75,10 +71,18 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1.json
   def destroy
     begin
-      @project.destroy
-      respond_to do |format|
-        format.html {redirect_to projects_url, notice: 'Project was successfully destroyed.'}
-        format.json {head :no_content}
+      if @project.project_employees.present? || @project.project_companies.present? || @project.foremen.present? ||
+          @project.cost_codes.present? || @project.other_managers.present? || @project.budget_holders.present? ||
+          @project.employees.present? || @project.plant_types.present?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @project.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
       end
     rescue => e
       redirect_to projects_path, notice: 'Project can not deleted because it is linked with its assosiative records'
@@ -95,6 +99,7 @@ class ProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:project_name, :site_office_address, :client_company_id, :employee_id, :project_lead)
+    params.require(:project).permit(:project_name, :site_office_address,
+                                    :client_company_id, :employee_id, :project_lead)
   end
 end

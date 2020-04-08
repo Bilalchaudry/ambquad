@@ -5,27 +5,23 @@
         <center>
           <h3 class="alert-success mt-1"><%= notice %></h3>
         </center>
-        <h1 class="mt-4">Plants</h1>
+        <h5 class="mt-2">Plants</h5>
+        <%= render 'shared/client_and_project_info' %>
         <div class="row">
           <div class="col-xl-6 col-md-6"></div>
 
           <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-3">
-              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Add New Plant", new_plant_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
-          </div>
+<!--            <div class="row" style="margin-left: 1px">-->
 
-          <div class="col-xl-3 col-md-3">
-            <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Plant", new_project_plant_path, :class => "btn btn-dark", style: "color: white" %>
-            </div>
-            <div class="row" style="margin-left: 1px">
-            <%= form_tag import_project_plants_path, multipart: true do %>
-              <%= file_field_tag :file, :required => true  %>
-              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
-            <% end %>
-            <%= link_to 'Download Template', download_template_project_plants_path, :class => "btn btn-dark", style: "color: white" %>
-            </div>
+            <%#= form_tag import_project_plants_path, multipart: true do %>
+              <%#= file_field_tag :file, :required => true  %>
+              <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+            <%# end %>
+            <%#= link_to 'Download Template', download_template_project_plants_path, :class => "btn btn-dark", style: "color: white" %>
+<!--            </div>-->
           </div>
 
         </div>
@@ -38,12 +34,6 @@
                 <tr>
                   <th>Plant Name</th>
                   <th>Plant ID</th>
-                  <th>Plant Type</th>
-                  <th>Contract Start Date</th>
-                  <th>Contract End Date</th>
-                  <th>Foreman Start Date</th>
-                  <th>Foreman End Date</th>
-                  <th>Off Load</th>
                   <th>Market Value</th>
                   <th>Actions</th>
                 </tr>
@@ -54,17 +44,11 @@
                   <tr>
                     <td><%= plant.plant_name %></td>
                     <td><%= plant.plant_id %></td>
-                    <td><%= plant.plant_type_id %></td>
-                    <td><%= plant.contract_start_date %></td>
-                    <td><%= plant.contract_end_date %></td>
-                    <td><%= plant.foreman_start_date %></td>
-                    <td><%= plant.foreman_end_date %></td>
-                    <td><%= plant.offload %></td>
                     <td><%= plant.market_value %></td>
                     <td>
-                      <%= link_to "View", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", "/projects/#{@project.id}/plants/#{plant.id}/edit", :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/projects/#{@project.id}/plants/#{plant.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'} %>
+                      <%= link_to "View", "/plants/#{plant.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", "/plants/#{plant.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", "/plants/#{plant.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'} %>
                     </td>
                   </tr>
                 <% end %>
