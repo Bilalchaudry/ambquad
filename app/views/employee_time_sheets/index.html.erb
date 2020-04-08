@@ -146,4 +146,15 @@
         return [year, month, day].join('-');
     }
 
+    function myFunction(total_hour, data_id) {
+
+        var person = prompt("Please Enter Total Hour:", total_hour);
+
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/employee_time_sheets",
+            data: { total_hour: person , update_total_hour: 'true', data_id: data_id }
+        })
+    }
+
 </script>

@@ -32,9 +32,17 @@ class EmployeeTimeSheetsController < ApplicationController
       respond_to do |f|
       f.js
       f.html
-    end
+      end
+    elsif params[:total_hour].present? && params[:update_total_hour].present? && params[:data_id]
+      @employee_time_sheet_data = @project.employee_time_sheets.where(id: params[:data_id])
+      @employee_time_sheet_data.update(total_hours: params[:total_hour])
+      @employee_time_sheets = @project.employee_time_sheets.order :id
+      respond_to do |f|
+        f.js
+        f.html
+      end
     else
-      @employee_time_sheets = @project.employee_time_sheets
+      @employee_time_sheets = @project.employee_time_sheets.order :id
     end
   end
 
