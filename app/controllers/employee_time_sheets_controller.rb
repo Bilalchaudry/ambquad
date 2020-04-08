@@ -10,17 +10,16 @@ class EmployeeTimeSheetsController < ApplicationController
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:date])
       if @employee_time_sheets.empty?
         @project_employees = @project.project_employees
-        unless @project_employees.empty?
-          @employee_time_sheets = []
-          @project_employees.each do |project_employee|
-            @employee_time_sheet_data = @project.employee_time_sheets.create(employee: project_employee.employee.first_name + ' ' + project_employee.employee.last_name,
-                                                                             labour_type: project_employee.employee_type.employee_type, project_company_id: project_employee.project_company_id,
-                                                                             manager: project_employee.other_manager.employee.first_name, foreman_name: project_employee.foreman.employee.first_name,
-                                                                             total_hours: 0, employee_type_id: project_employee.employee_type_id,
-                                                                             employee_create_date: params[:date], project_id: @project.id)
-            @employee_time_sheets.push(@employee_time_sheet_data)
-          end
+        @employee_time_sheets = []
+        @project_employees.each do |project_employee|
+          @employee_time_sheets << @project.employee_time_sheets.new(employee: project_employee.employee.first_name + ' ' + project_employee.employee.last_name,
+                                                                           labour_type: project_employee.employee_type.employee_type, project_company_id: project_employee.project_company_id,
+                                                                           manager: project_employee.other_manager.employee.first_name, foreman_name: project_employee.foreman.employee.first_name,
+                                                                           total_hours: 0, employee_type_id: project_employee.employee_type_id,
+                                                                           employee_create_date: params[:date], project_id: @project.id)
+          # @employee_time_sheets.push(@employee_time_sheet_data)
         end
+        EmployeeTimeSheet.import @employee_time_sheets
       end
       respond_to do |f|
         f.js
@@ -30,8 +29,8 @@ class EmployeeTimeSheetsController < ApplicationController
       @employee_time_sheets = @project.employee_time_sheets
 
       respond_to do |f|
-      f.js
-      f.html
+        f.js
+        f.html
       end
     elsif params[:total_hour].present? && params[:update_total_hour].present? && params[:data_id]
       @employee_time_sheet_data = @project.employee_time_sheets.where(id: params[:data_id])
