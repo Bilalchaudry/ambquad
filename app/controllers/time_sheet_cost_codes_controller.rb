@@ -1,4 +1,5 @@
 class TimeSheetCostCodesController < ApplicationController
+  before_action :get_project, only: :create
   before_action :set_time_sheet_cost_code, only: [:show, :edit, :update, :destroy]
 
   # GET /time_sheet_cost_codes
@@ -24,11 +25,10 @@ class TimeSheetCostCodesController < ApplicationController
   # POST /time_sheet_cost_codes
   # POST /time_sheet_cost_codes.json
   def create
-    @time_sheet_cost_code = TimeSheetCostCode.new(time_sheet_cost_code_params)
-
+    @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_id: params[:employee_id])
     respond_to do |format|
       if @time_sheet_cost_code.save
-        format.html { redirect_to @time_sheet_cost_code, notice: 'Time sheet cost code was successfully created.' }
+        format.js { redirect_to request.referer}
         format.json { render :show, status: :created, location: @time_sheet_cost_code }
       else
         format.html { render :new }
@@ -62,6 +62,10 @@ class TimeSheetCostCodesController < ApplicationController
   end
 
   private
+
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
     # Use callbacks to share common setup or constraints between actions.
     def set_time_sheet_cost_code
       @time_sheet_cost_code = TimeSheetCostCode.find(params[:id])

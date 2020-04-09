@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_05_134947) do
+ActiveRecord::Schema.define(version: 2020_04_08_071156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,9 @@ ActiveRecord::Schema.define(version: 2020_04_05_134947) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "foreman_name"
+    t.string "cost_code"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_employee_time_sheets_on_project_id"
   end
 
   create_table "employee_types", force: :cascade do |t|
@@ -283,6 +286,9 @@ ActiveRecord::Schema.define(version: 2020_04_05_134947) do
     t.float "hrs"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "employee_id"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_time_sheet_cost_codes_on_project_id"
   end
 
   create_table "user_client_companies", force: :cascade do |t|
@@ -313,6 +319,7 @@ ActiveRecord::Schema.define(version: 2020_04_05_134947) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "employee_time_sheets", "projects"
   add_foreign_key "employees", "employee_types"
   add_foreign_key "employees", "foremen"
   add_foreign_key "employees", "other_managers"
@@ -327,4 +334,5 @@ ActiveRecord::Schema.define(version: 2020_04_05_134947) do
   add_foreign_key "project_employees", "employee_types"
   add_foreign_key "project_employees", "employees"
   add_foreign_key "project_employees", "projects"
+  add_foreign_key "time_sheet_cost_codes", "projects"
 end

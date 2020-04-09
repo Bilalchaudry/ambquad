@@ -2,10 +2,50 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+
+
+        <div class="modal fade" id="cost_code_modal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
+                      <option value=""> --- Select Cost Code ---</option>
+                      <% @project_cost_codes.all.each do |cost_code| %>
+                        <option value="<%= cost_code.id %>">
+                          <%= cost_code.cost_code_description %>
+                        </option>
+                      <% end %>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+          <%# end %>
+        </div>
         <center>
           <h3 class="alert-info mt-1"><%= notice %></h3>
         </center>
         <h1 class="mt-2">Employees Time Sheet</h1>
+        <div class="row">
+          <div class="col-xl-6 col-md-6"></div>
+          <div class="col-xl-2 col-md-2"></div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
@@ -19,10 +59,11 @@
           <div class="card-body">
             <div class="table-responsive">
 
-              <table id="example" class="table-bordered" width="100%" cellspacing="0">
+              <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
                   <th rowspan="2">Employee</th>
+                  <th rowspan="2" class="emp_id">Employee ID</th>
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -37,7 +78,10 @@
                   <th>Hrs</th>
                   <th>Costcode</th>
                   <th>Hrs</th>
-                </tr>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,21 +100,21 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Save Progress', project_employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Save Progress', "/projects/#{@project.id}/employee_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Update Timesheets', project_employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Update Timesheets', "/projects/#{@project.id}/employee_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Submit Timesheets', project_employee_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Submit Timesheets', "/projects/#{@project.id}/employee_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
@@ -90,17 +134,37 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
-<script>
-    // $(document).ready(function() {
-    $('#example').DataTable( {
+<script type="text/javascript">
+    $('.cost-bot').click(function () {
+        employee_id = $(this).parent().siblings()[1].textContent;
+        $("#cost_code_modal").modal();
+        $('.js-example-basic-single').select2();
+    });
+
+    function add_cost_code() {
+        cost_code_id = $('#cost_code').val();
+        cost_code = $("#cost_code option:selected").text()
+        project_id = <%= params[:project_id] %>
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: '/time_sheet_cost_codes',
+            data: {cost_code_id: cost_code_id, cost_code: cost_code, employee_id: employee_id, project_id: project_id},
+            cache: false,
+            success: $("#cost_code_modal").hide()
+        });
+
+    }
+
+    $('#table').DataTable({
         dom: 'Bfrtip',
         buttons: [
             'csv', 'excel', 'pdf', 'print'
         ]
-    } );
-    // } );
+    });
     $('#datepicker').datepicker({
-
         uiLibrary: 'bootstrap'
     });
 
@@ -114,7 +178,7 @@
             url: '/projects/<%= @project.id %>/employee_time_sheets',
             data: { date: formated_date , search_date: 'true' }
         })
-        // alert(id)
+       
     });
 
     $('#datepicker1').datepicker({
@@ -131,7 +195,6 @@
             url: "/projects/<%= @project.id %>/employee_time_sheets",
             data: { date: formated_date , copy_from_previous: 'true' }
         })
-        // alert(id)
     });
 
     function formatDate(date) {

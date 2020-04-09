@@ -1,5 +1,5 @@
 class AddProjectIdToEmployeeTimeSheet < ActiveRecord::Migration[5.2]
   def change
-    add_column :employee_time_sheets, :project_id, :integer
+    add_reference :employee_time_sheets, :project, foreign_key: true
   end
 end

@@ -1,7 +1,6 @@
 class EmployeeTimeSheetsController < ApplicationController
+  before_action :get_project, only: :index
   before_action :set_employee_time_sheet, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:index]
-
 
   # GET /employee_time_sheets
   # GET /employee_time_sheets.json
@@ -17,7 +16,6 @@ class EmployeeTimeSheetsController < ApplicationController
                                                                            manager: project_employee.other_manager.employee.first_name, foreman_name: project_employee.foreman.employee.first_name,
                                                                            total_hours: 0, employee_type_id: project_employee.employee_type_id,
                                                                            employee_create_date: params[:date], project_id: @project.id)
-          # @employee_time_sheets.push(@employee_time_sheet_data)
         end
         EmployeeTimeSheet.import @employee_time_sheets
       end
@@ -101,18 +99,20 @@ class EmployeeTimeSheetsController < ApplicationController
 
   private
 
+  # Use callbacks to share common setup or constraints between actions.
   def get_project
     @project = Project.find(params[:project_id])
+    @cost_codes = @project.cost_codes rescue nil
+    used_cost_code = @project.time_sheet_cost_codes.all.pluck(:cost_code_id)
+    @project_cost_codes = @cost_codes.where.not(id: used_cost_code) rescue nil
   end
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_employee_time_sheet
     @employee_time_sheet = EmployeeTimeSheet.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def employee_time_sheet_params
-    params.require(:employee_time_sheet).permit(:employee, :employee_id, :labour_type, :employee_type_id,
-                                                :company, :project_company_id, :manager, :foreman_id, :total_hours, :project_id)
+    params.require(:employee_time_sheet).permit(:employee, :employee_id, :labour_type, :employee_type_id, :company, :project_company_id, :manager, :foreman_id, :total_hours)
   end
 end

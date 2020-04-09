@@ -1,6 +1,7 @@
 <% @employee_time_sheets.each do |employee_time_sheet| %>
   <tr>
     <td><%= employee_time_sheet.employee %></td>
+    <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
     <td><%= employee_time_sheet.labour_type %></td>
     <td><%= employee_time_sheet.project_company_id %></td>
     <td><%= employee_time_sheet.manager %></td>
@@ -8,11 +9,17 @@
     <td>
       <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
     </td>
-    <td>20CP01</td>
-    <td>9.50</td>
-    <td>20CP01</td>
-    <td>9.50</td>
-    <td>20CP01</td>
-    <td>9.50</td>
+    <% cost_codes = @project.time_sheet_cost_codes.where(employee_id: employee_time_sheet.employee_id).to_a %>
+    <% for i in 0..4 %>
+      <% if cost_codes[i].present? %>
+        <td><%= cost_codes[i].cost_code %></td>
+        <td>9.50</td>
+      <% else %>
+        <td>
+          <button class="w-100 cost-bot">+</button>
+        </td>
+        <td>9.50</td>
+      <% end %>
+    <% end %>
   </tr>
 <% end %>

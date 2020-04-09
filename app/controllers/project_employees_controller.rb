@@ -37,17 +37,8 @@ class ProjectEmployeesController < ApplicationController
                                foreman_id: params[:project_employee][:foreman_id], other_manager_id: params[:project_employee][:other_manager_id],
                                project_company_id: params[:project_employee][:project_company_id],
                                employee_id: employee_id.to_i)
-
         ProjectProjectEmployee.create(project_id: @project.id, project_employee_id: project_employee.id)
 
-        EmployeeTimeSheet.create(employee: project_employee.employee.first_name + ' ' + project_employee.employee.last_name,
-                                 labour_type: project_employee.employee_type.employee_type,
-                                 project_company_id: params[:project_employee][:project_company_id],
-                                 manager: project_employee.other_manager.employee.first_name,
-                                 foreman_name: project_employee.foreman.employee.first_name,
-                                 total_hours: params[:project_employee][:total_hours],
-                                 employee_type_id: params[:project_employee][:employee_type_id],
-                                 employee_create_date: Time.now.strftime("%Y-%m-%d"), project_id: @project.id )
       rescue => e
       end
     end

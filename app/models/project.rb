@@ -1,7 +1,6 @@
 class Project < ApplicationRecord
 
   belongs_to :client_company
-
   has_many :employee_time_sheets
   has_many :cost_codes, dependent: :destroy
   has_many :other_managers, dependent: :destroy
@@ -20,6 +19,8 @@ class Project < ApplicationRecord
 
   has_many :project_project_employees
   has_many :project_employees, :through => :project_project_employees
+
+  has_many :time_sheet_cost_codes
 
   validates_uniqueness_of :project_name
 
