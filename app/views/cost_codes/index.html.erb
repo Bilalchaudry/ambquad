@@ -38,6 +38,16 @@
                 <tr>
                   <th>Cost Code</th>
                   <th>Cost Code Description</th>
+                  <th>WBS_01</th>
+                  <th>WBS_01 Description</th>
+                  <th>WBS_02</th>
+                  <th>WBS_02 Description</th>
+                  <th>WBS_03</th>
+                  <th>WBS_03 Description</th>
+                  <th>WBS_04</th>
+                  <th>WBS_04 Description</th>
+                  <th>WBS_05</th>
+                  <th>WBS_05 Description</th>
                   <th>Budget Holder</th>
                   <th>Actions</th>
                 </tr>
@@ -46,9 +56,23 @@
                 <tbody>
                 <% @cost_codes.each do |cost_code| %>
                   <tr>
+                    <td><%= cost_code.budget_holder.employee.first_name + " " +  cost_code.budget_holder.employee.last_name rescue "N/A" %></td>
                     <td><%= cost_code.cost_code_id %></td>
                     <td><%= cost_code.cost_code_description %></td>
-                    <td><%= cost_code.budget_holder.employee.first_name + " " +  cost_code.budget_holder.employee.last_name rescue "N/A" %></td>
+                    <td><%= cost_code.WBS_01 %></td>
+                    <td><%= cost_code.WBS_01_Description %></td>
+
+                    <td><%= cost_code.WBS_02 %></td>
+                    <td><%= cost_code.WBS_02_Description %></td>
+
+                    <td><%= cost_code.WBS_03 %></td>
+                    <td><%= cost_code.WBS_03_Description %></td>
+
+                    <td><%= cost_code.WBS_04 %></td>
+                    <td><%= cost_code.WBS_04_Description %></td>
+
+                    <td><%= cost_code.WBS_05 %></td>
+                    <td><%= cost_code.WBS_05_Description %></td>
                     <td>
                       <%= link_to 'View', "/projects/#{@project.id}/cost_codes/#{cost_code.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', "/projects/#{@project.id}/cost_codes/#{cost_code.id}/edit", :class => "btn btn-outline-info" %>

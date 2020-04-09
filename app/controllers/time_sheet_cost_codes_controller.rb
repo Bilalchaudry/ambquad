@@ -27,6 +27,17 @@ class TimeSheetCostCodesController < ApplicationController
   def create
     if params[:plant_id]
       @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], plant_id: params[:plant_id])
+      respond_to do |format|
+        if @time_sheet_cost_code.save
+          @plant_time_sheets = @project.plant_time_sheets
+          format.js
+          format.html
+          # format.json { render :show, status: :created, location: @time_sheet_cost_code }
+        else
+          format.html { render :new }
+          format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
+        end
+      end
     else
       @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_id: params[:employee_id])
       respond_to do |format|

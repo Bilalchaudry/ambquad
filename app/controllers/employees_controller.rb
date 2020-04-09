@@ -1,11 +1,12 @@
 class EmployeesController < ApplicationController
   include EmployeesHelper
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import]
   load_and_authorize_resource
   # GET /employees
   # GET /employees.json
   def index
-    @employees = (current_user.client_company.eql?("Ambquad") &&  current_user.role.eql?("Admin")) ? Employee.all : current_user.client_company.employees
+    @employees = @project.employees
   end
 
   # GET /employees/1
@@ -25,14 +26,13 @@ class EmployeesController < ApplicationController
   # POST /employees
   # POST /employees.json
   def create
-    @employee = Employee.new(employee_params)
-    @employee.client_company_id = params[:employee][:client_company_id].present? ? params[:employee][:client_company_id] : current_user.client_company_id rescue nil
-    code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
-    @employee.phone = '+' + code + @employee.phone rescue nil
+    @employee = @project.employees.new(employee_params)
+    @employee.client_company_id = @project.client_company_id
+    @employee.country_code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
 
     respond_to do |format|
       if @employee.save
-        format.html {redirect_to employees_path, notice: 'Employee was successfully created.'}
+        format.html {redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully created.'}
         format.json {render :show, status: :created, location: @employee}
       else
         format.html {render :new}
@@ -46,7 +46,7 @@ class EmployeesController < ApplicationController
   def update
     respond_to do |format|
       if @employee.update(employee_params)
-        format.html {redirect_to @employee, notice: 'Employee was successfully updated.'}
+        format.html {redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully updated.'}
         format.json {render :show, status: :ok, location: @employee}
       else
         format.html {render :edit}
@@ -71,7 +71,7 @@ class EmployeesController < ApplicationController
         end
       end
     rescue => e
-      redirect_to employees_url, notice: e.message
+      redirect_to project_employees_path, notice: e.message
     end
   end
 
@@ -102,6 +102,10 @@ class EmployeesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_employee
     @employee = Employee.find_by_id(params[:id])
+  end
+
+  def get_project
+    @project = Project.find(params[:project_id])
   end
 
   # Only allow a list of trusted parameters through.

@@ -5,7 +5,45 @@ class PlantTimeSheetsController < ApplicationController
   # GET /plant_time_sheets
   # GET /plant_time_sheets.json
   def index
-    @plant_time_sheets = PlantTimeSheet.all
+    if params[:date].present? && params[:search_date].present?
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:date])
+      if @plant_time_sheets.empty?
+        @project_plant = @project.project_plants
+        @plant_time_sheets = []
+        @project_plant.each do |project_plant|
+
+          plant_name = Plant.find(project_plant.plant_id.to_i).plant_name
+          manager_first_name = OtherManager.find(project_plant.other_manager_id).employee.first_name
+          manager_last_name = OtherManager.find(project_plant.other_manager_id).employee.last_name
+          @plant_time_sheets << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name:  plant_name, project_company_id: project_plant.project_company_id,
+                                foreman_id: project_plant.foreman_id,project_id: project_plant.project_id, plant_create_date: params[:date],
+                                manager: manager_first_name + ' ' + manager_last_name, total_hours: 0 )
+          
+        end
+        PlantTimeSheet.import @plant_time_sheets
+      end
+      respond_to do |f|
+        f.js
+        f.html
+      end
+    elsif params[:date].present? && params[:copy_from_previous].present?
+      @plant_time_sheets = @project.plant_time_sheets
+
+      respond_to do |f|
+        f.js
+        f.html
+      end
+    elsif params[:total_hour].present? && params[:update_total_hour].present? && params[:data_id]
+      @plant_time_sheets = @project.plant_time_sheets.where(id: params[:data_id])
+      @plant_time_sheets.update(total_hours: params[:total_hour])
+      @plant_time_sheets = @project.plant_time_sheets.order :id
+      respond_to do |f|
+        f.js
+        f.html
+      end
+    else
+      @plant_time_sheets = @project.plant_time_sheets.order :id
+    end
   end
 
   # GET /plant_time_sheets/1
