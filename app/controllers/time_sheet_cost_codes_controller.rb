@@ -25,7 +25,27 @@ class TimeSheetCostCodesController < ApplicationController
   # POST /time_sheet_cost_codes
   # POST /time_sheet_cost_codes.json
   def create
-    @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_id: params[:employee_id])
+    if params[:plant_id]
+      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], plant_id: params[:plant_id])
+      respond_to do |format|
+        if @time_sheet_cost_code.save
+          # @employee_time_sheets = @project.employee_time_sheets
+          # format.js
+          format.html
+        end
+      end
+    else
+      # @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_id: params[:employee_id])
+      respond_to do |format|
+        if @time_sheet_cost_code.save
+          @employee_time_sheets = @project.employee_time_sheets
+          format.js
+          format.html
+        end
+        end
+
+    end
+    # @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_id: params[:employee_id])
     respond_to do |format|
       if @time_sheet_cost_code.save
         @employee_time_sheets = @project.employee_time_sheets

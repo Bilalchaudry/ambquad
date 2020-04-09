@@ -97,7 +97,7 @@
                     <% cost_codes = @project.time_sheet_cost_codes.where(plant_id: plant_time_sheet.plant_id).to_a %>
                     <% for i in 0..4 %>
                       <% if cost_codes[i].present? %>
-                        <td><%= cost_codes[i].cost_code_id %></td>
+                        <td><%= cost_codes[i].cost_code %></td>
                         <td>9.50</td>
                       <% else %>
                         <td>
@@ -166,7 +166,6 @@
         $('.js-example-basic-single').select2();
     });
     function add_cost_code() {
-        // $("#cost_code_modal").modal("hide");
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
         project_id = <%= params[:project_id] %>
@@ -178,7 +177,10 @@
                 url: '/time_sheet_cost_codes',
                 data: {cost_code_id: cost_code_id, cost_code: cost_code, plant_id: plant_id, project_id: project_id},
                 cache: false,
-                success: $("#cost_code_modal").modal("hide")
+                success: function (data) {
+                    $("#cost_code :selected").remove();
+                    $("#cost_code_modal").modal("hide");
+                }
             });
 
     }
