@@ -74,9 +74,9 @@
                 <div class="row">
                   <div class="col-md-4 pt-4">
                     <% if @project.plants.present? %>
-                      <%= link_to 'Project Equipment List', "/projects/#{@project.id}/project_plants", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                      <%= link_to 'Project Equipment List', "/projects/#{@project.id}/plants", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
                     <% else %>
-                      <%= link_to 'Project Equipment List', "/projects/#{@project.id}/project_plants", :class => "bold-title nav-item nav-link btn btn-dark" %>
+                      <%= link_to 'Project Equipment List', "/projects/#{@project.id}/plants", :class => "bold-title nav-item nav-link btn btn-dark" %>
 
                     <% end %>
                   </div>
@@ -133,6 +133,13 @@
                     <%# else %>
                     <%#= link_to 'Crew', crew_project_foremen_path(@project.id), :class => "bold-title nav-item nav-link btn btn-dark" %>
                     <%# end %>
+                  </div>
+
+                  <div class="col-md-4 pt-4">
+                    <% if @project.employees.present? %>
+                    <%= link_to 'Employees', "/projects/#{@project.id}/employees", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% else %>
+                      <%= link_to 'Employees', "/projects/#{@project.id}/employees", :class => "bold-title nav-item nav-link btn btn-dark" %>                   <% end %>
                   </div>
                 </div>
 

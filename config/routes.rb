@@ -58,19 +58,19 @@ Rails.application.routes.draw do
       end
     end
 
-  end
-
-  resources :employees do
-    collection do
-      post :import
-      get :download_template
+    resources :employees do
+      collection do
+        post :import
+        get :download_template
+      end
     end
+
+    resources :plants
+
+
   end
-
-
 
   resources :temporary_users
-  resources :plants
   devise_for :users, :controllers => {:sessions => "sessions"}
   root to: 'admin_dashboard#dashboard'
   resources :client_companies

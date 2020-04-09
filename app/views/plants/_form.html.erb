@@ -5,7 +5,7 @@
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-body">
-              <%= form_with(model:  plant, local: true) do |form| %>
+              <%= form_with(model:  [@project, plant], local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
                 <div class="form-row">
                   <div class="col-md-4">

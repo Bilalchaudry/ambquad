@@ -23,20 +23,10 @@
                   <div class="col-md-4">
                     <%= form.label :employee_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.select :employee_ids, options_for_select(@project.client_company.employees.all.map{|c| [c.first_name + " " + c.last_name , c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :total_hours, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.number_field :total_hours,step: :any, :class => "form-control py-2", :required => true %>
+                      <%= form.select :employee_ids, options_for_select(@project.client_company.employees.map{|c| [c.first_name + " " + c.last_name , c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
                     </div>
                   </div>
                 </div>

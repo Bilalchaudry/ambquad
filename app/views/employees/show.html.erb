@@ -97,16 +97,16 @@
                 </div>
               </div>
 
-<!--              <div class="form-row pt-2">-->
-<!--                <div class="col-md-4">-->
-<!--                  <strong>Project company:</strong>-->
-<!--                </div>-->
-<!--                <div class="col-md-6">-->
-<!--                  <div>-->
-                    <%#= @employee.project_company_id %>
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Project company:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @employee.project_company.company_name %>
+                  </div>
+                </div>
+              </div>
 
 
               <div class="row">
@@ -114,14 +114,14 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', edit_employee_path(@employee), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', edit_project_employee_path(@employee), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Back', employees_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Back', project_employees_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_05_134947) do
+ActiveRecord::Schema.define(version: 2020_04_09_072622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,16 @@ ActiveRecord::Schema.define(version: 2020_04_05_134947) do
     t.integer "client_company_id"
     t.boolean "temporary_close", default: false
     t.integer "budget_holder_id"
+    t.string "WBS_01"
+    t.string "WBS_01_Description"
+    t.string "WBS_02"
+    t.string "WBS_02_Description"
+    t.string "WBS_03"
+    t.string "WBS_03_Description"
+    t.string "WBS_04"
+    t.string "WBS_04_Description"
+    t.string "WBS_05"
+    t.string "WBS_05_Description"
   end
 
   create_table "employee_time_sheets", force: :cascade do |t|
@@ -105,6 +115,7 @@ ActiveRecord::Schema.define(version: 2020_04_05_134947) do
     t.bigint "project_company_id"
     t.integer "client_company_id"
     t.string "country_name"
+    t.string "country_code"
     t.index ["employee_type_id"], name: "index_employees_on_employee_type_id"
     t.index ["foreman_id"], name: "index_employees_on_foreman_id"
     t.index ["other_manager_id"], name: "index_employees_on_other_manager_id"

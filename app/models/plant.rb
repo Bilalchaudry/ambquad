@@ -1,6 +1,8 @@
 class Plant < ApplicationRecord
 
   belongs_to :client_company
+  belongs_to :project_company
+  belongs_to :project
 
   # validates :contract_start_date, :contract_end_date, presence: true
   # validate :contract_end_date_after_contract_start_date

@@ -2,6 +2,7 @@ class ProjectCompany < ApplicationRecord
 
   belongs_to :client_company
   has_many :employees
+  has_many :plants
   has_many :project_plants
 
   has_many :project_and_project_companies
