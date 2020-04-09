@@ -93,7 +93,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="plant[foreman_id]" id="foreman_id" class="form-control" required>
+                      <select name="plant[foreman_id]" id="foreman_id" class="form-control" >
                         <option value="<%= @plant.foreman.present? ? @plant.foreman_id: "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.first_name: "None" %></option>
                         <% @project.foremen.each do |foreman| %>
                           <option value="<%= foreman.id %>">
@@ -112,7 +112,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="plant[other_manager_id]" id="other_manager_id" class="form-control" required>
+                      <select name="plant[other_manager_id]" id="other_manager_id" class="form-control" >
                         <option value="<%= @plant.other_manager.present? ? @plant.other_manager_id: "" %>"><%= @plant.other_manager.present? ? @plant.other_manager.employee.first_name + " " + + @plant.other_manager.employee.last_name: "None" %></option>
                         <% @project.other_managers.each do |other_manager| %>
                           <option value="<%= other_manager.id %>">

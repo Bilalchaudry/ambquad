@@ -61,9 +61,9 @@
                     <td><%= plant.project_company.company_name %></td>
                     <td><%= plant.contract_start_date %></td>
                     <td><%= plant.contract_end_date %></td>
-                    <td><%= plant.foreman.employee.first_name + " " + plant.foreman.employee.last_name %></td>
+                    <td><%= plant.foreman.employee.first_name + " " + plant.foreman.employee.last_name rescue "N/A"%></td>
                     <td><%= plant.market_value %></td>
-                    <td><%= plant.other_manager.employee.first_name + " " + plant.other_manager.employee.last_name %></td>
+                    <td><%= plant.other_manager.employee.first_name + " " + plant.other_manager.employee.last_name rescue "N/A"%></td>
                     <td>
                       <%= link_to "View", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/plants/#{plant.id}/edit", :class => "btn btn-outline-info" %>

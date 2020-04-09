@@ -84,7 +84,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @plant.foreman.employee.first_name + " " +  @plant.foreman.employee.last_name  %>
+                    <%= @plant.foreman.employee.first_name + " " +  @plant.foreman.employee.last_name  rescue "N/A"%>
                   </div>
                 </div>
               </div>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @plant.other_manager.employee.first_name + " " +  @plant.other_manager.employee.last_name  %>
+                    <%= @plant.other_manager.employee.first_name + " " +  @plant.other_manager.employee.last_name  rescue "N/A"%>
                   </div>
                 </div>
               </div>
@@ -117,7 +117,7 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', "/project/#{@project.id}/plants/#{@plant.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/plants/#{@plant.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>

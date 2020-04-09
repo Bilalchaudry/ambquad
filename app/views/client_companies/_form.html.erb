@@ -53,8 +53,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="client_company[country_name]" id="country" class="form-control">
-                        <option value="<%= @client_company.country_name.present? ? @client_company.country_name : "None" %>"><%= @client_company.country_name.present? ? @client_company.country_name : "None" %></option>
+                      <select name="client_company[country_name]" id="country" class="form-control" required>
+                        <option value="<%= @client_company.country_name.present? ? @client_company.country_name : "" %>"><%= @client_company.country_name.present? ? @client_company.country_name : "None" %></option>
                         <% @country = ISO3166::Country.countries.sort %>
                         <% @country.each do |c| %>
                           <option value="<%= c.name %>">
