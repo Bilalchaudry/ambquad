@@ -1,4 +1,5 @@
 class PlantTimeSheetsController < ApplicationController
+  before_action :get_project, only: :index
   before_action :set_plant_time_sheet, only: [:show, :edit, :update, :destroy]
 
   # GET /plant_time_sheets
@@ -63,6 +64,12 @@ class PlantTimeSheetsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+  def get_project
+    @project = Project.find(params[:project_id])
+    @cost_codes = @project.cost_codes rescue nil
+    used_cost_code = @project.time_sheet_cost_codes.all.pluck(:cost_code_id)
+    @project_cost_codes = @cost_codes.where.not(id: used_cost_code) rescue nil
+  end
     def set_plant_time_sheet
       @plant_time_sheet = PlantTimeSheet.find(params[:id])
     end

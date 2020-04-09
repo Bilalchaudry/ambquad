@@ -36,6 +36,14 @@ class ProjectPlantsController < ApplicationController
                                             project_company_id: params[:project_plant][:project_company_id],
                                             foreman_start_date: params[:project_plant][:contract_start_date],
                                             foreman_end_date: params[:project_plant][:contract_end_date])
+        if project_plant.save
+          plant_name = Plant.find(plant_id.to_i).plant_name
+          manager_first_name = OtherManager.find(project_plant.other_manager_id).employee.first_name
+          manager_last_name = OtherManager.find(project_plant.other_manager_id).employee.last_name
+        PlantTimeSheet.create(plant_id: project_plant.plant_id, plant_name:  plant_name, project_company_id: project_plant.project_company_id,
+                              foreman_id: project_plant.foreman_id,project_id: project_plant.project_id,
+                              manager: manager_first_name + ' ' + manager_last_name)
+        end
 
       rescue => e
       end

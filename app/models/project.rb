@@ -24,6 +24,8 @@ class Project < ApplicationRecord
 
   validates_uniqueness_of :project_name
 
+  has_many :plant_time_sheets
+
   before_destroy :check_for_projects, prepend: true
 
   private
