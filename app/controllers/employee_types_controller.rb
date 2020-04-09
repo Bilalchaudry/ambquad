@@ -12,10 +12,6 @@ class EmployeeTypesController < ApplicationController
   # GET /employee_types/1
   # GET /employee_types/1.json
   def show
-    if params[:delete].present?
-      @employee_type.destroy
-      redirect_to employee_types_path
-    end
   end
 
   # GET /employee_types/new

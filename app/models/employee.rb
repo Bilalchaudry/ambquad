@@ -3,6 +3,8 @@ class Employee < ApplicationRecord
   # belongs_to :project_company, optional: true
 
   belongs_to :client_company
+  belongs_to :project_company
+  belongs_to :project
   has_many :project_employees
   has_many :foremen
   has_many :other_managers

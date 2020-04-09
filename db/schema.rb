@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_09_121419) do
+ActiveRecord::Schema.define(version: 2020_04_05_134947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,16 @@ ActiveRecord::Schema.define(version: 2020_04_09_121419) do
     t.integer "client_company_id"
     t.boolean "temporary_close", default: false
     t.integer "budget_holder_id"
+    t.string "WBS_01"
+    t.string "WBS_01_Description"
+    t.string "WBS_02"
+    t.string "WBS_02_Description"
+    t.string "WBS_03"
+    t.string "WBS_03_Description"
+    t.string "WBS_04"
+    t.string "WBS_04_Description"
+    t.string "WBS_05"
+    t.string "WBS_05_Description"
   end
 
   create_table "employee_time_sheets", force: :cascade do |t|
