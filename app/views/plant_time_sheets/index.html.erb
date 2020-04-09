@@ -49,7 +49,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="text-white mb-3">
-              <input id="datepicker" width="270" placeholder="Select Date"/>
+              <input id="datepicker_search_bar" width="270" placeholder="Select Date"/>
             </div>
           </div>
 
@@ -86,28 +86,7 @@
                 </thead>
 
                 <tbody>
-                <% @plant_time_sheets.each do |plant_time_sheet| %>
-                  <tr>
-                    <td class="plant_id"><%= plant_time_sheet.plant_id %></td>
-                    <td><%= plant_time_sheet.plant_name %></td>
-                    <td><%= plant_time_sheet.project_company_id %></td>
-                    <td><%= plant_time_sheet.manager %></td>
-                    <td><%= plant_time_sheet.foreman_id %></td>
-                    <td><%= plant_time_sheet.total_hours %></td>
-                    <% cost_codes = @project.time_sheet_cost_codes.where(plant_id: plant_time_sheet.plant_id).to_a %>
-                    <% for i in 0..4 %>
-                      <% if cost_codes[i].present? %>
-                        <td><%= cost_codes[i].cost_code_id %></td>
-                        <td>9.50</td>
-                      <% else %>
-                        <td>
-                          <button class="w-100 cost-bot">+</button>
-                        </td>
-                        <td>9.50</td>
-                      <% end %>
-                    <% end %>
-                  </tr>
-                <% end %>
+                <%= render 'plant_time_sheet_table_data' %>
                 </tbody>
               </table>
 
@@ -116,7 +95,7 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <button id="datepicker1" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy from Previous Timesheet</button>
+                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy from Previous Timesheet</button>
                     </div>
                   </div>
                 </div>
@@ -190,7 +169,61 @@
             ]
         });
     });
-    $('#datepicker').datepicker({
+
+    $('#datepicker_search_bar').datepicker({
         uiLibrary: 'bootstrap'
     });
+
+    $('#datepicker_search_bar').change(function ()
+    {
+        var celender_date = $("#datepicker_search_bar").val();
+        var formated_date = formatDate(celender_date);
+
+        $.ajax({
+            type: "GET",
+            url: '/projects/<%= @project.id %>/plant_time_sheets',
+            data: { date: formated_date , search_date: 'true' }
+        })
+
+    });
+
+    $('#datepicker_copy_from_previous').datepicker({
+        uiLibrary: 'bootstrap'
+    });
+
+    $('#datepicker_copy_from_previous').change(function ()
+    {
+        var celender_date = $("#datepicker_copy_from_previous").val();
+        var formated_date = formatDate(celender_date);
+
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/plant_time_sheets",
+            data: { date: formated_date , copy_from_previous: 'true' }
+        })
+    });
+
+    function formatDate(date) {
+        var selected_date = new Date(date),
+            month = '' + (selected_date.getMonth() + 1),
+            day = '' + selected_date.getDate(),
+            year = selected_date.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
+    function updateTotalHours(total_hours, data_id) {
+
+        var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
+
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/plant_time_sheets",
+            data: { total_hour: new_total_hours , update_total_hour: 'true', data_id: data_id }
+        })
+    }
+
 </script>

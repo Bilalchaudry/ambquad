@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_071156) do
+ActiveRecord::Schema.define(version: 2020_04_09_121419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_071156) do
     t.datetime "updated_at", null: false
     t.string "foreman_name"
     t.string "cost_code"
+    t.date "employee_create_date"
     t.bigint "project_id"
     t.index ["project_id"], name: "index_employee_time_sheets_on_project_id"
   end
@@ -145,6 +146,9 @@ ActiveRecord::Schema.define(version: 2020_04_08_071156) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "foreman_name"
+    t.bigint "project_id"
+    t.date "plant_create_date"
+    t.index ["project_id"], name: "index_plant_time_sheets_on_project_id"
   end
 
   create_table "plant_types", force: :cascade do |t|
@@ -288,6 +292,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_071156) do
     t.datetime "updated_at", null: false
     t.integer "employee_id"
     t.bigint "project_id"
+    t.bigint "plant_id"
+    t.index ["plant_id"], name: "index_time_sheet_cost_codes_on_plant_id"
     t.index ["project_id"], name: "index_time_sheet_cost_codes_on_project_id"
   end
 
@@ -327,6 +333,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_071156) do
   add_foreign_key "employees", "projects"
   add_foreign_key "foremen", "employees"
   add_foreign_key "other_managers", "employees"
+  add_foreign_key "plant_time_sheets", "projects"
   add_foreign_key "project_and_project_companies", "project_companies"
   add_foreign_key "project_and_project_companies", "projects"
   add_foreign_key "project_companies", "client_companies"
@@ -334,5 +341,6 @@ ActiveRecord::Schema.define(version: 2020_04_08_071156) do
   add_foreign_key "project_employees", "employee_types"
   add_foreign_key "project_employees", "employees"
   add_foreign_key "project_employees", "projects"
+  add_foreign_key "time_sheet_cost_codes", "plants"
   add_foreign_key "time_sheet_cost_codes", "projects"
 end
