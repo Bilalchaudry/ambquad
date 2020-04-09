@@ -22,7 +22,8 @@
                             <%= "#{budget_holder.employee.first_name} #{budget_holder.employee.last_name}" %>
                           </option>
                         <% end %>
-                      </select>                    </div>
+                      </select>
+                    </div>
                   </div>
                 </div>
 
@@ -61,11 +62,46 @@
 
                 <div class="row">
                   <div class="col-md-4">
+                    <%= form.label :WBS_01_Description, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :WBS_01_Description, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :WBS_02, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :WBS_02, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="row">
+                  <div class="col-md-4">
                     <%= form.label :WBS_02_Description, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.text_field :WBS_02_Description, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :WBS_03, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :WBS_03, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -81,6 +117,19 @@
                   </div>
                 </div>
 
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :WBS_04, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :WBS_04, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :WBS_04_Description, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -88,6 +137,17 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.text_field :WBS_04_Description, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :WBS_05, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :WBS_05, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>

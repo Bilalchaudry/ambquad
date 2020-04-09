@@ -33,6 +33,62 @@
                 </div>
               </div>
 
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Plant Type:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @plant.plant_type.type_name  %>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Project Company:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @plant.project_company.company_name %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Contract Start Date:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @plant.contract_start_date %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Contract End Date:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @plant.contract_end_date %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Foreman:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @plant.foreman.employee.first_name + " " +  @plant.foreman.employee.last_name  %>
+                  </div>
+                </div>
+              </div>
+
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
@@ -45,19 +101,30 @@
                 </div>
               </div>
 
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>Other Manager:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @plant.other_manager.employee.first_name + " " +  @plant.other_manager.employee.last_name  %>
+                  </div>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', "/plants/#{@plant.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', "/project/#{@project.id}/plants/#{@plant.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Back', plants_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Back', project_plants_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>

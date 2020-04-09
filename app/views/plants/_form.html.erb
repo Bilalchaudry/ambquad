@@ -24,10 +24,106 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :plant_id, validate: true, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :plant_id, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :plant_type, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="plant[plant_type_id]" id="plant_type_id" class="form-control" required>
+                        <option value="<%= @plant.plant_type.present? ? @plant.plant_type_id: "" %>"><%= @plant.plant_type.present? ? @plant.plant_type.type_name : "None" %></option>
+                        <% @project.plant_types.each do |plant_type| %>
+                          <option value="<%= plant_type.id %>">
+                            <%= plant_type.type_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="plant[project_company_id]" id="project_company_id" class="form-control" required>
+                        <option value="<%= @plant.project_company.present? ? @plant.project_company_id: "" %>"><%= @plant.project_company.present? ? @plant.project_company.company_name : "None" %></option>
+                        <% @project.project_companies.each do |company| %>
+                          <option value="<%= company.id %>">
+                            <%= company.company_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :contract_end_date, validate: true, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :foreman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="plant[foreman_id]" id="foreman_id" class="form-control" required>
+                        <option value="<%= @plant.foreman.present? ? @plant.foreman_id: "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.first_name: "None" %></option>
+                        <% @project.foremen.each do |foreman| %>
+                          <option value="<%= foreman.id %>">
+                            <%= foreman.employee.first_name + " " + foreman.employee.last_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :other_manager, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="plant[other_manager_id]" id="other_manager_id" class="form-control" required>
+                        <option value="<%= @plant.other_manager.present? ? @plant.other_manager_id: "" %>"><%= @plant.other_manager.present? ? @plant.other_manager.employee.first_name + " " + + @plant.other_manager.employee.last_name: "None" %></option>
+                        <% @project.other_managers.each do |other_manager| %>
+                          <option value="<%= other_manager.id %>">
+                            <%= other_manager.employee.first_name + " " + other_manager.employee.last_name %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
 
                 <div class="form-row">
                   <div class="col-md-4">

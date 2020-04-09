@@ -1,6 +1,7 @@
 class PlantType < ApplicationRecord
 
   belongs_to :project
+  has_many :plants
 
   validates_uniqueness_of :type_name, :scope => :project_id
 
