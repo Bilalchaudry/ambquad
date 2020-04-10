@@ -1,5 +1,6 @@
 <% @plant_time_sheets.each do |plant_time_sheet| %>
   <tr>
+    <td style="display: none"><%= plant_time_sheet.id %></td>
     <td class="plant_id"><%= plant_time_sheet.plant_id %></td>
     <td><%= plant_time_sheet.plant_name %></td>
     <td><%= plant_time_sheet.project_company_id %></td>
@@ -12,7 +13,7 @@
     <% for i in 0..4 %>
       <% if cost_codes[i].present? %>
         <td><%= cost_codes[i].cost_code %></td>
-        <td>9.50</td>
+        <td><%= cost_codes[i].hrs %></td>
       <% else %>
         <td>
           <button class="w-100 cost-bot">+</button>

@@ -34,8 +34,14 @@ class PlantTimeSheetsController < ApplicationController
         f.html
       end
     elsif params[:total_hour].present? && params[:update_total_hour].present? && params[:data_id]
-      @plant_time_sheets = @project.plant_time_sheets.where(id: params[:data_id])
+      @plant_time_sheets = @project.plant_time_sheets.where(id: params[:data_id]).first
       @plant_time_sheets.update(total_hours: params[:total_hour])
+      @time_sheet_cost_code = TimeSheetCostCode.where(plant_id: @plant_time_sheets.plant_id, project_id: @plant_time_sheets.project_id,
+                                                      time_sheet_plant_id: @plant_time_sheets.id)
+      unless @time_sheet_cost_code.empty?
+        devided_time = params[:total_hour].to_f / @time_sheet_cost_code.count.to_f
+        @time_sheet_cost_code.update(hrs: devided_time)
+      end
       @plant_time_sheets = @project.plant_time_sheets.order :id
       respond_to do |f|
         f.js
