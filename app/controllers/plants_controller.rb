@@ -26,11 +26,11 @@ class PlantsController < ApplicationController
   # POST /plants
   # POST /plants.json
   def create
-    @plant = Plant.new(plant_params)
-    @plant.client_company_id = current_user.client_company_id
+    @plant = @project.plants.new(plant_params)
+    @plant.client_company_id = @project.client_company_id
     respond_to do |format|
       if @plant.save
-        format.html { redirect_to plants_path, notice: 'Plant was successfully created.' }
+        format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully created.' }
         format.json { render :show, status: :created, location: @plant }
       else
         format.html { render :new }
@@ -70,7 +70,7 @@ class PlantsController < ApplicationController
       # if @plant.foreman_id.eql?(params[:plant][:foreman_id])
         if @plant.update(plant_params)
 
-          format.html {redirect_to plants_path, notice: 'Plant was successfully updated.'}
+          format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.'}
           format.json {render :show, status: :ok, location: @plant}
         else
           format.html {render :edit}
@@ -98,7 +98,7 @@ class PlantsController < ApplicationController
   def destroy
     @plant.destroy
     respond_to do |format|
-      format.html {redirect_to plants_path, notice: 'Plant was successfully destroyed.'}
+      format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully destroyed.'}
       format.json {head :no_content}
     end
   end
@@ -139,6 +139,6 @@ class PlantsController < ApplicationController
   def plant_params
     params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
                                   :contract_start_date, :contract_end_date, :market_value,
-                                  :status, :offload)
+                                  :status, :offload, :foreman_id, :other_manager_id)
   end
 end

@@ -134,7 +134,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="employee[project_company_id]" id="project_company_id" class="form-control" required>
-                        <option value="<%= @employee.project_company.present? ? @employee.project_company.company_name : "x" %>"><%= @employee.project_company.present? ? @employee.project_company.company_name : "None" %></option>
+                        <option value="<%= @employee.project_company.present? ? @employee.project_company_id : "" %>"><%= @employee.project_company.present? ? @employee.project_company.company_name : "None" %></option>
                         <% @project.project_companies.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
