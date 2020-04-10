@@ -1,5 +1,5 @@
 class TimeSheetCostCodesController < ApplicationController
-  before_action :get_project, only: :create
+  before_action :get_project, only: [:create, :destroy]
   before_action :set_time_sheet_cost_code, only: [:show, :edit, :update, :destroy]
 
   # GET /time_sheet_cost_codes
@@ -32,7 +32,6 @@ class TimeSheetCostCodesController < ApplicationController
           @plant_time_sheets = @project.plant_time_sheets
           format.js
           format.html
-          # format.json { render :show, status: :created, location: @time_sheet_cost_code }
         else
           format.html { render :new }
           format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
@@ -52,18 +51,6 @@ class TimeSheetCostCodesController < ApplicationController
         end
       end
     end
-    # @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_id: params[:employee_id])
-    # respond_to do |format|
-    #   if @time_sheet_cost_code.save
-    #     @employee_time_sheets = @project.employee_time_sheets
-    #     format.js
-    #     format.html
-    #     # format.json { render :show, status: :created, location: @time_sheet_cost_code }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   # PATCH/PUT /time_sheet_cost_codes/1
@@ -85,8 +72,9 @@ class TimeSheetCostCodesController < ApplicationController
   def destroy
     @time_sheet_cost_code.destroy
     respond_to do |format|
-      format.html { redirect_to time_sheet_cost_codes_url, notice: 'Time sheet cost code was successfully destroyed.' }
-      format.json { head :no_content }
+      @employee_time_sheets = @project.employee_time_sheets
+      @plant_time_sheets = @project.plant_time_sheets
+      format.js
     end
   end
 

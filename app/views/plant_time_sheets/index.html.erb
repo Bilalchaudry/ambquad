@@ -140,7 +140,6 @@
 <script>
     $(document).on('click', '.cost-bot', function() {
         plant_id = $(this).parent().siblings()[0].textContent;
-        debugger
         $("#cost_code_modal").modal();
         $('.js-example-basic-single').select2();
     });
@@ -153,7 +152,7 @@
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',
-                url: '/time_sheet_cost_codes',
+                url: '/projects/<%= @project.id %>/time_sheet_cost_codes',
                 data: {cost_code_id: cost_code_id, cost_code: cost_code, plant_id: plant_id, project_id: project_id},
                 cache: false,
                 success: function (data) {
@@ -226,6 +225,19 @@
             url: "/projects/<%= @project.id %>/plant_time_sheets",
             data: { total_hour: new_total_hours , update_total_hour: 'true', data_id: data_id }
         })
+    }
+
+    function delete_cost_code_plant(cost_code_id, delete_id) {
+        var link_url =  "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "DELETE",
+            url: link_url,
+            data: {delete_id}
+        })
+        debugger
     }
 
 </script>

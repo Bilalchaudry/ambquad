@@ -8,10 +8,15 @@
     <td>
       <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= plant_time_sheet.total_hours %>, <%= plant_time_sheet.id %>)"><%= plant_time_sheet.total_hours %></button>
     </td>
-    <% cost_codes = @project.time_sheet_cost_codes.where(plant_id: plant_time_sheet.plant_id).to_a %>
+    <% cost_codes = @project.time_sheet_cost_codes.where(plant_id: plant_time_sheet.plant_id) %>
+    <% cost_codes_ar =  cost_codes.to_a %>
     <% for i in 0..4 %>
-      <% if cost_codes[i].present? %>
-        <td><%= cost_codes[i].cost_code %></td>
+      <% if cost_codes_ar[i].present? %>
+        <td><%= cost_codes_ar[i].cost_code %>
+          <% @cost_code_id = cost_codes_ar[i].cost_code_id %>
+          <% @cost_code_time_sheet_id = cost_codes.find_by(cost_code_id: @cost_code_id).id %>
+          <button onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>)" >x</button>
+        </td>
         <td>9.50</td>
       <% else %>
         <td>

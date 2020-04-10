@@ -92,7 +92,9 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy from Previous Timesheet</button>
+                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy
+                        from Previous Timesheet
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -150,7 +152,8 @@
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',
-                url: '/time_sheet_cost_codes',
+                // url: '/time_sheet_cost_codes',
+                url: '/projects/<%= @project.id %>/time_sheet_cost_codes',
                 data: {
                     cost_code_id: cost_code_id,
                     cost_code: cost_code,
@@ -178,15 +181,14 @@
         uiLibrary: 'bootstrap'
     });
 
-    $('#datepicker_search_bar').change(function ()
-    {
+    $('#datepicker_search_bar').change(function () {
         var celender_date = $("#datepicker_search_bar").val();
         var formated_date = formatDate(celender_date);
 
         $.ajax({
             type: "GET",
             url: '/projects/<%= @project.id %>/employee_time_sheets',
-            data: { date: formated_date , search_date: 'true' }
+            data: {date: formated_date, search_date: 'true'}
         })
 
     });
@@ -195,15 +197,14 @@
         uiLibrary: 'bootstrap'
     });
 
-    $('#datepicker_copy_from_previous').change(function ()
-    {
+    $('#datepicker_copy_from_previous').change(function () {
         var celender_date = $("#datepicker_copy_from_previous").val();
         var formated_date = formatDate(celender_date);
 
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
-            data: { date: formated_date , copy_from_previous: 'true' }
+            data: {date: formated_date, copy_from_previous: 'true'}
         })
     });
 
@@ -226,9 +227,20 @@
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
-            data: { total_hour: new_total_hours , update_total_hour: 'true', data_id: data_id }
+            data: {total_hour: new_total_hours, update_total_hour: 'true', data_id: data_id}
         })
     }
 
+    function delete_cost_code(cost_code_id, delete_id) {
+        var link_url =  "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "DELETE",
+            url: link_url,
+            data: {cost_code_id}
+        })
+    }
 
 </script>

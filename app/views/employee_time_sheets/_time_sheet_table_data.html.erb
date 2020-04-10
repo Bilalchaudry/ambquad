@@ -12,7 +12,11 @@
     <% cost_codes = @project.time_sheet_cost_codes.where(employee_id: employee_time_sheet.employee_id).to_a %>
     <% for i in 0..4 %>
       <% if cost_codes[i].present? %>
-        <td><%= cost_codes[i].cost_code %></td>
+        <td><%= cost_codes[i].cost_code %>
+          <% @cost_code_id = cost_codes[i].cost_code_id %>
+          <% @cost_code_time_sheet_id = @project.time_sheet_cost_codes.find_by(cost_code_id: @cost_code_id).id %>
+          <button onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>)" >x</button>
+        </td>
         <td>9.50</td>
       <% else %>
         <td>
