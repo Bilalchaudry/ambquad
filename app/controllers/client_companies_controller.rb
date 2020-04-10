@@ -27,7 +27,6 @@ class ClientCompaniesController < ApplicationController
   def create
     @client_company = ClientCompany.new(company_params)
     @client_company.phone_country_code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code rescue "N/A"
-    @client_company.primary_poc_country_code = ISO3166::Country.find_country_by_name(@client_company.poc_country).country_code rescue "N/A"
 
     respond_to do |format|
       if @client_company.save
@@ -86,6 +85,7 @@ class ClientCompaniesController < ApplicationController
     params.require(:client_company).permit(:company_name, :address, :phone, :number_of_users,
                                            :primary_poc_first_name, :primary_poc_last_name, :poc_email,
                                            :poc_phone, :status, :client_po_number, :closed_at,
-                                           :country_name, :poc_country, :company_id)
+                                           :country_name, :poc_country, :company_id, :phone_country_code,
+                                           :primary_poc_country_code)
   end
 end

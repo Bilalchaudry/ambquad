@@ -26,7 +26,7 @@
 
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.select :employee_ids, options_for_select(@project.client_company.employees.map{|c| [c.first_name + " " + c.last_name , c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+                      <%= form.select :employee_ids, options_for_select(@project.client_company.employees.map {|c| [c.first_name + " " + c.last_name, c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
                     </div>
                   </div>
                 </div>
@@ -48,6 +48,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+                      <%#= form.text_field :contract_end_date, :class => 'datepicker', 'placeholder' => "dd-mm-yyyy" %>
                       <%= form.date_field :contract_end_date , :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
@@ -153,3 +154,9 @@
         $('select').selectpicker();
     });
 </script>
+
+<!--<script>-->
+<!--    $(function() {-->
+<!--        $('.datepicker').datepicker();-->
+<!--    });-->
+<!--</script>-->
