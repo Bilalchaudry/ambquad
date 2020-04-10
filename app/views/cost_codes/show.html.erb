@@ -12,6 +12,17 @@
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
+                  <strong>Budget Holder:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.budget_holder.employee.first_name + " " + @cost_code.budget_holder.employee.last_name rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
                   <strong>Cost code:</strong>
                 </div>
                 <div class="col-md-6">
@@ -34,21 +45,123 @@
 
               <div class="form-row pt-2">
                 <div class="col-md-4">
-                  <strong>Budget Holder:</strong>
+                  <strong>WBS_01:</strong>
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @cost_code.budget_holder.employee.first_name + " " +  @cost_code.budget_holder.employee.last_name rescue "N/A" %>
+                    <%= @cost_code.WBS_01 rescue "N/A" %>
                   </div>
                 </div>
               </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_01_Description :</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_01_Description rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_02:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_02 rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_02_Description :</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_02_Description rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_03:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_03 rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_03_Description :</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_03_Description rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_04:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_04 rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_04_Description :</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_04_Description rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_05:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_05 rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-4">
+                  <strong>WBS_05_Description :</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @cost_code.WBS_05_Description rescue "N/A" %>
+                  </div>
+                </div>
+              </div>
+
 
               <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', edit_project_cost_code_path(@cost_code), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/cost_codes/#{@cost_code.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>

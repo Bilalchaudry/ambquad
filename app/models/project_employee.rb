@@ -15,7 +15,7 @@ class ProjectEmployee < ApplicationRecord
                               project_company_id: self.project_company_id,
                               manager: self.other_manager.employee.first_name,
                               foreman_name: self.foreman.employee.first_name,
-                              total_hours: self.total_hours,
+                              total_hours: 0,
                               employee_type_id: self.employee_type_id,
                               manager: self.foreman_id, employee_id: employee_id.to_i, project_id: self.project_id,
                               employee_create_date: Time.now.strftime("%Y-%m-%d"))

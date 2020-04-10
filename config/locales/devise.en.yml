@@ -50,7 +50,7 @@ en:
       signed_in: ""
       blocked_user: "Your Account is Blocked by Admin"
       not_found: "User Not Found"
-      verify: "Please Verify your Account"
+      verify: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.have sent you an email to your email address. Kindly confirm your email first"
       signed_out: "Signed out successfully."
       already_signed_out: "Signed out successfully."
     unlocks:

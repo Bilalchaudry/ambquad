@@ -3,6 +3,9 @@ class Plant < ApplicationRecord
   belongs_to :client_company
   belongs_to :project_company
   belongs_to :project
+  belongs_to :plant_type
+  belongs_to :foreman, optional: true
+  belongs_to :other_manager, optional: true
 
   # validates :contract_start_date, :contract_end_date, presence: true
   # validate :contract_end_date_after_contract_start_date

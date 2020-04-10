@@ -3,7 +3,6 @@
     <main>
       <div class="container-fluid">
 
-
         <div class="modal fade" id="cost_code_modal" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
@@ -136,30 +135,38 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    $(document).on('click', '.cost-bot', function() {
+    $(document).on('click', '.cost-bot', function () {
         employee_id = $(this).parent().siblings()[1].textContent;
         $("#cost_code_modal").modal();
         $('.js-example-basic-single').select2();
     });
 
     function add_cost_code() {
-        // $("#cost_code_modal").modal("hide");
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
         project_id = <%= params[:project_id] %>
-        $.ajax({
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: 'POST',
-            url: '/time_sheet_cost_codes',
-            data: {cost_code_id: cost_code_id, cost_code: cost_code, employee_id: employee_id, project_id: project_id},
-            cache: false,
-            success: $("#cost_code_modal").modal("hide")
-        });
+            $.ajax({
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '/time_sheet_cost_codes',
+                data: {
+                    cost_code_id: cost_code_id,
+                    cost_code: cost_code,
+                    employee_id: employee_id,
+                    project_id: project_id
+                },
+                cache: false,
+                success: function (data) {
+                    $("#cost_code :selected").remove();
+                    $("#cost_code_modal").modal("hide");
+                }
+            });
 
     }
-    $(document).ready(function() {
+
+    $(document).ready(function () {
         $('#table').DataTable({
             dom: 'Bfrtip',
             buttons: [
@@ -222,5 +229,6 @@
             data: { total_hour: new_total_hours , update_total_hour: 'true', data_id: data_id }
         })
     }
+
 
 </script>

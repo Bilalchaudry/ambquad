@@ -24,7 +24,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.select :employee_ids, options_for_select(@project.client_company.employees.all.map{|c| [c.first_name + " " + c.last_name , c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+                      <%= form.select :employee_ids, options_for_select(@project.employees.map{|c| [c.first_name + " " + c.last_name , c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
                     </div>
                   </div>
                 </div>

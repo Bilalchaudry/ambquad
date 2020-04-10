@@ -11,7 +11,7 @@
     <% cost_codes = @project.time_sheet_cost_codes.where(plant_id: plant_time_sheet.plant_id).to_a %>
     <% for i in 0..4 %>
       <% if cost_codes[i].present? %>
-        <td><%= cost_codes[i].cost_code_id %></td>
+        <td><%= cost_codes[i].cost_code %></td>
         <td>9.50</td>
       <% else %>
         <td>

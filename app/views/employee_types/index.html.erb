@@ -9,20 +9,30 @@
         <%= render 'shared/client_and_project_info' %>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-4 col-md-6"></div>
+
+
           <div class="col-xl-3 col-md-4">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "New Employee", new_project_employee_path, :class => "btn btn-dark", style: "color: white" %>
-            </div>
-            <div class="row" style="margin-left: 1px">
-              <%= form_tag "#", multipart: true do %>
-                <%= file_field_tag :file, :required => true %>
-                <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
-              <% end %>
-              <%= link_to 'Download Template', "#", :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Back to Project Setup", project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Add New Employee Type", new_project_employee_type_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+
+          <!--          <div class="row" style="margin-left: 1px">-->
+          <%#= form_tag "#", multipart: true do %>
+          <%#= file_field_tag :file, :required => true %>
+          <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+          <%# end %>
+          <%#= link_to 'Download Template', "#", :class => "btn btn-dark", style: "color: white" %>
+          <!--          </div>-->
+
         </div>
+
         <div class="card mb-4">
           <div class="card-body">
             <div class="table-responsive">
@@ -39,9 +49,9 @@
                   <tr>
                     <td><%= employee_type.employee_type %></td>
                     <td>
-                    <%= link_to "View", "/projects/#{@project.id}/employee_types/#{employee_type.id}", :class => "btn btn-outline-dark" %>
-                    <%= link_to "Edit", "/projects/#{@project.id}/employee_types/#{employee_type.id}/edit", :class => "btn btn-outline-info" %>
-                    <%= link_to "Delete", "/projects/#{@project.id}/employee_types/#{employee_type.id}" + "?delete=true", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete %>
+                      <%= link_to "View", "/projects/#{@project.id}/employee_types/#{employee_type.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", "/projects/#{@project.id}/employee_types/#{employee_type.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/employee_types/#{employee_type.id}" + "?delete=true", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete %>
 
 
                     </td>

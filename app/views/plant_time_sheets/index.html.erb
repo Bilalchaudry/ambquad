@@ -145,7 +145,6 @@
         $('.js-example-basic-single').select2();
     });
     function add_cost_code() {
-        // $("#cost_code_modal").modal("hide");
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
         project_id = <%= params[:project_id] %>
@@ -157,7 +156,10 @@
                 url: '/time_sheet_cost_codes',
                 data: {cost_code_id: cost_code_id, cost_code: cost_code, plant_id: plant_id, project_id: project_id},
                 cache: false,
-                success: $("#cost_code_modal").modal("hide")
+                success: function (data) {
+                    $("#cost_code :selected").remove();
+                    $("#cost_code_modal").modal("hide");
+                }
             });
 
     }
