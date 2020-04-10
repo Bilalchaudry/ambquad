@@ -71,7 +71,12 @@
                   <div class="col-md-4">
                     <%= form.label :phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <%= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag + " " + c.country_code]}, @client_company.phone_country_code.present? ? @client_company.phone_country_code: ""), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
                     <div class="form-group">
                       <%= form.text_field :phone, :class => "form-control py-3", :required => true %>
                     </div>
@@ -136,6 +141,11 @@
                     <%= form.label :primary_poc_phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <%= form.select :primary_poc_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag + " " + c.country_code]}, @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code: ""), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                      </div>
+                    </div>
                     <div class="form-group">
                       <%= form.text_field :poc_phone, :class => "form-control py-3", :required => true %>
                     </div>
