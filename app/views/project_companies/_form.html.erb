@@ -78,14 +78,14 @@
                       <%= form.select :country_name, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @project_company.country_name), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
 
                       <!--                      <select name="project_company[country_name]" id="country" class="form-control">-->
-<!--                        <option value=" "></option>-->
-                        <%# @country = ISO3166::Country.countries.sort %>
-                        <%# @country.each do |c| %>
-<!--                          <option value="<%#= c.name %>">-->
-                            <%#= c.name %>
-<!--                          </option>-->
-                        <%# end %>
-<!--                      </select>-->
+                      <!--                        <option value=" "></option>-->
+                      <%# @country = ISO3166::Country.countries.sort %>
+                      <%# @country.each do |c| %>
+                      <!--                          <option value="<%#= c.name %>">-->
+                      <%#= c.name %>
+                      <!--                          </option>-->
+                      <%# end %>
+                      <!--                      </select>-->
                     </div>
                   </div>
                 </div>
@@ -143,14 +143,14 @@
                       <%= form.select :poc_country, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @project_company.poc_country), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
 
                       <!--                      <select name="project_company[poc_country]" id="poc_country" class="form-control">-->
-<!--                        <option value=" "></option>-->
-                        <%# @country = ISO3166::Country.countries.sort %>
-                        <%# @country.each do |c| %>
-<!--                          <option value="<%#= c.name %>">-->
-                            <%#= c.name %>
-<!--                          </option>-->
-                        <%# end %>
-<!--                      </select>-->
+                      <!--                        <option value=" "></option>-->
+                      <%# @country = ISO3166::Country.countries.sort %>
+                      <%# @country.each do |c| %>
+                      <!--                          <option value="<%#= c.name %>">-->
+                      <%#= c.name %>
+                      <!--                          </option>-->
+                      <%# end %>
+                      <!--                      </select>-->
                     </div>
                   </div>
                 </div>

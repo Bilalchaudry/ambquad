@@ -31,8 +31,14 @@ class EmployeeTimeSheetsController < ApplicationController
         f.html
       end
     elsif params[:total_hour].present? && params[:update_total_hour].present? && params[:data_id]
-      @employee_time_sheet_data = @project.employee_time_sheets.where(id: params[:data_id])
+      @employee_time_sheet_data = @project.employee_time_sheets.where(id: params[:data_id]).first
       @employee_time_sheet_data.update(total_hours: params[:total_hour])
+      @time_sheet_cost_code = TimeSheetCostCode.where(employee_id: @employee_time_sheet_data.employee_id, project_id: @employee_time_sheet_data.project_id,
+                                                      time_sheet_employee_id: @employee_time_sheet_data.id)
+      unless @time_sheet_cost_code.empty?
+        devided_time = params[:total_hour].to_f / @time_sheet_cost_code.count.to_f
+        @time_sheet_cost_code.update(hrs: devided_time)
+      end
       @employee_time_sheets = @project.employee_time_sheets.order :id
       respond_to do |f|
         f.js

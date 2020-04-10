@@ -1,5 +1,6 @@
 <% @plant_time_sheets.each do |plant_time_sheet| %>
   <tr>
+    <td style="display: none"><%= plant_time_sheet.id %></td>
     <td class="plant_id"><%= plant_time_sheet.plant_id %></td>
     <td><%= plant_time_sheet.plant_name %></td>
     <td><%= plant_time_sheet.project_company_id %></td>
@@ -13,11 +14,12 @@
     <% for i in 0..4 %>
       <% if cost_codes_ar[i].present? %>
         <td><%= cost_codes_ar[i].cost_code %>
+        <td><%= cost_codes_ar[i].hrs %></td>
           <% @cost_code_id = cost_codes_ar[i].cost_code_id %>
           <% @cost_code_time_sheet_id = cost_codes.find_by(cost_code_id: @cost_code_id).id %>
           <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>)" >x</button>
         </td>
-        <td>9.50</td>
+        <td><%= cost_codes_ar[i].hrs %></td>
       <% else %>
         <td>
           <button class="w-100 cost-bot">+</button>

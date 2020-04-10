@@ -40,7 +40,7 @@ class ProjectPlantsController < ApplicationController
           plant_name = Plant.find(plant_id.to_i).plant_name
           manager_first_name = OtherManager.find(project_plant.other_manager_id).employee.first_name
           manager_last_name = OtherManager.find(project_plant.other_manager_id).employee.last_name
-        PlantTimeSheet.create!(plant_id: project_plant.plant_id, plant_name:  plant_name, project_company_id: project_plant.project_company_id,
+        PlantTimeSheet.create(plant_id: project_plant.plant_id, plant_name:  plant_name, project_company_id: project_plant.project_company_id,
                               foreman_id: project_plant.foreman_id,project_id: project_plant.project_id,
                               manager: manager_first_name + ' ' + manager_last_name, total_hours: 0, plant_create_date: Time.now.strftime("%Y-%m-%d"))
         end
