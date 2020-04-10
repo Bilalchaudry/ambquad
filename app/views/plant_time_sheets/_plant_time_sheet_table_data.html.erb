@@ -15,7 +15,7 @@
         <td><%= cost_codes_ar[i].cost_code %>
           <% @cost_code_id = cost_codes_ar[i].cost_code_id %>
           <% @cost_code_time_sheet_id = cost_codes.find_by(cost_code_id: @cost_code_id).id %>
-          <button onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>)" >x</button>
+          <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>)" >x</button>
         </td>
         <td>9.50</td>
       <% else %>
