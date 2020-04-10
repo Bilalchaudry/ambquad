@@ -38,7 +38,7 @@ class TimeSheetCostCodesController < ApplicationController
         end
       end
     else
-      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_id: params[:employee_id])
+      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code], employee_time_sheet_id: params[:employee_id])
       respond_to do |format|
         if @time_sheet_cost_code.save
           @employee_time_sheets = @project.employee_time_sheets

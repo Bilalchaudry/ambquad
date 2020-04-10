@@ -61,8 +61,9 @@
               <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
+                  <th rowspan="2" class="emp_id">Emp TS ID</th>
                   <th rowspan="2">Employee</th>
-                  <th rowspan="2" class="emp_id">Employee ID</th>
+<!--                  <th rowspan="2" class="emp_id">Employee ID</th>-->
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -138,7 +139,7 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(document).on('click', '.cost-bot', function () {
-        employee_id = $(this).parent().siblings()[1].textContent;
+        employee_id = $(this).parent().siblings()[0].textContent;
         $("#cost_code_modal").modal();
         $('.js-example-basic-single').select2();
     });
