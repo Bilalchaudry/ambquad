@@ -26,9 +26,12 @@ class TimeSheetCostCodesController < ApplicationController
   # POST /time_sheet_cost_codes.json
   def create
     if params[:plant_id]
-      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code],
-                                                                    plant_id: params[:plant_id], time_sheet_plant_id: params[:time_sheet_plant_id] )
-      @cost_code = @project.time_sheet_cost_codes.where(plant_id: params[:plant_id], time_sheet_plant_id: params[:time_sheet_plant_id] )
+      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
+                                                                    cost_code: params[:cost_code],
+                                                                    plant_id: params[:plant_id],
+                                                                    time_sheet_plant_id: params[:time_sheet_plant_id])
+      @cost_code = @project.time_sheet_cost_codes.where(plant_id: params[:plant_id],
+                                                        time_sheet_plant_id: params[:time_sheet_plant_id])
       unless @cost_code.empty?
         @total_hours = @project.plant_time_sheets.where(id: params[:time_sheet_plant_id]).first
         devided_time = @total_hours.total_hours.to_f / @cost_code.count.to_f
@@ -45,9 +48,12 @@ class TimeSheetCostCodesController < ApplicationController
         end
       end
     else
-      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id], cost_code: params[:cost_code],
-                                                                    employee_id: params[:employee_id], time_sheet_employee_id: params[:time_sheet_employee_id],employee_time_sheet_id: params[:time_sheet_employee_id])
-      @cost_code = @project.time_sheet_cost_codes.where(employee_id: params[:employee_id], time_sheet_employee_id: params[:time_sheet_employee_id] )
+      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
+                                                                    cost_code: params[:cost_code],
+                                                                    employee_id: params[:employee_id],
+                                                                    time_sheet_employee_id: params[:time_sheet_employee_id],
+                                                                    employee_time_sheet_id: params[:time_sheet_employee_id])
+      @cost_code = @project.time_sheet_cost_codes.where(employee_id: params[:employee_id], time_sheet_employee_id: params[:time_sheet_employee_id])
       unless @cost_code.empty?
         @total_hours = @project.employee_time_sheets.where(id: params[:time_sheet_employee_id]).first
         devided_time = @total_hours.total_hours.to_f / @cost_code.count.to_f

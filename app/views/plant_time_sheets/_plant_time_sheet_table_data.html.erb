@@ -14,7 +14,6 @@
     <% for i in 0..4 %>
       <% if cost_codes_ar[i].present? %>
         <td><%= cost_codes_ar[i].cost_code %>
-        <td><%= cost_codes_ar[i].hrs %></td>
           <% @cost_code_id = cost_codes_ar[i].cost_code_id %>
           <% @cost_code_time_sheet_id = cost_codes.find_by(cost_code_id: @cost_code_id).id %>
           <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>)" >x</button>
