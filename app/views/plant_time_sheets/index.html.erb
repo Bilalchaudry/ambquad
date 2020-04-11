@@ -139,7 +139,8 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script>
     $(document).on('click', '.cost-bot', function() {
-        time_sheet_plant_id = $(this).parent().siblings()[0].textContent;
+        time_sheet_plant_id = plant_id = $(this).parent().siblings()[0].textContent;
+        // time_sheet_plant_id = $(this).parent().siblings()[0].textContent;
         plant_id = $(this).parent().siblings()[1].textContent;
         debugger
         $("#cost_code_modal").modal();
@@ -154,8 +155,8 @@
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',
-                url: '/time_sheet_cost_codes',
-                data: {cost_code_id: cost_code_id, cost_code: cost_code, plant_id: plant_id, project_id: project_id, time_sheet_plant_id: time_sheet_plant_id},
+                url: '/projects/<%= @project.id %>/time_sheet_cost_codes',
+                data: {cost_code_id: cost_code_id, cost_code: cost_code, plant_id: plant_id, project_id: project_id},
                 cache: false,
                 success: function (data) {
                     $("#cost_code :selected").remove();
@@ -227,6 +228,19 @@
             url: "/projects/<%= @project.id %>/plant_time_sheets",
             data: { total_hour: new_total_hours , update_total_hour: 'true', data_id: data_id }
         })
+    }
+
+    function delete_cost_code_plant(cost_code_id, delete_id) {
+        var link_url =  "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "DELETE",
+            url: link_url,
+            data: {delete_id}
+        })
+        debugger
     }
 
 </script>

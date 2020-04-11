@@ -96,6 +96,7 @@ class EmployeeTimeSheetsController < ApplicationController
   # DELETE /employee_time_sheets/1
   # DELETE /employee_time_sheets/1.json
   def destroy
+    @employee_time_sheet = EmployeeTimeSheet.find(params[:id])
     @employee_time_sheet.destroy
     respond_to do |format|
       format.html { redirect_to employee_time_sheets_url, notice: 'Employee time sheet was successfully destroyed.' }
