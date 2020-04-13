@@ -49,7 +49,7 @@ class PlantTimeSheetsController < ApplicationController
           i=i+1
         end
       end
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d"))
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
       respond_to do |f|
         f.js
         f.html
@@ -62,13 +62,13 @@ class PlantTimeSheetsController < ApplicationController
         devided_time = (params[:total_hour].to_f / @time_sheet_cost_code.count.to_f).round(2)
         @time_sheet_cost_code.update(hrs: devided_time)
       end
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @plant_time_sheets.plant_create_date)
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @plant_time_sheets.plant_create_date).order(:id)
       respond_to do |f|
         f.js
         f.html
       end
     else
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d"))
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
     end
   end
 

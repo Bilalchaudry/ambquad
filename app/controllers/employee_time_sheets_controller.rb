@@ -50,7 +50,7 @@ class EmployeeTimeSheetsController < ApplicationController
         end
       end
 
-      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d"))
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
       respond_to do |f|
         f.js
         f.html
@@ -64,13 +64,13 @@ class EmployeeTimeSheetsController < ApplicationController
         devided_time = (params[:total_hour].to_f / @time_sheet_cost_code.count.to_f).round(2)
         @time_sheet_cost_code.update(hrs: devided_time)
       end
-      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @employee_time_sheet_data.employee_create_date)
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @employee_time_sheet_data.employee_create_date).order(:id)
       respond_to do |f|
         f.js
         f.html
       end
     else
-      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d"))
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
     end
   end
 
