@@ -63,7 +63,7 @@
                 <tr>
                   <th rowspan="2" class="emp_id">Emp TS ID</th>
                   <th rowspan="2">Employee</th>
-                  <!--                  <th rowspan="2" class="emp_id">Employee ID</th>-->
+                  <th rowspan="2" class="emp_id">Employee ID</th>
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -142,10 +142,10 @@
     $(document).on('click', '.cost-bot', function () {
         time_sheet_employee_id = $(this).parent().siblings()[0].textContent;
         total_hours = $(this).parent().siblings()[6].textContent;
-        if (total_hours > 0) {
+        // if (total_hours > 0) {
             $("#cost_code_modal").modal();
             $('.js-example-basic-single').select2();
-        }
+        // }
     });
 
     function add_cost_code() {
@@ -186,6 +186,7 @@
             ]
         });
     });
+
     $('#datepicker_search_bar').datepicker({
         uiLibrary: 'bootstrap'
     });
