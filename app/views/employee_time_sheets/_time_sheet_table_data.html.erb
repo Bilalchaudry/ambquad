@@ -18,10 +18,12 @@
           <% @cost_code_time_sheet_id = @project.time_sheet_cost_codes.find_by(cost_code_id: @cost_code_id).id %>
           <button class="cost-btn" , onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>)">x</button>
         </td>
+        <td class="emp_id"> <%= cost_codes[i].cost_code %></td>
         <td><%= cost_codes[i].hrs %></td>
       <% else %>
         <td>
           <button class="w-100 cost-bot">+</button>
+        <td class="emp_id">  </td>
         </td>
         <td>0</td>
       <% end %>
