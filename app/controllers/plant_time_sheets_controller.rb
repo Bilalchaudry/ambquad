@@ -27,8 +27,29 @@ class PlantTimeSheetsController < ApplicationController
         f.html
       end
     elsif params[:date].present? && params[:copy_from_previous].present?
-      @plant_time_sheets = @project.plant_time_sheets
+      @plant_time_sheets_previous_data = @project.plant_time_sheets.where(plant_create_date: params[:date])
+      unless @plant_time_sheets_previous_data.empty?
+        @plant_time_sheets_copy_data = []
+        @plant_time_sheets_previous_data.each do |project_plant|
+          @plant_time_sheets_copy_data << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
+                                                                         foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: Time.now.strftime("%Y-%m-%d"),
+                                                                         manager: project_plant.manager, total_hours: project_plant.total_hours )
+        end
+        PlantTimeSheet.import @plant_time_sheets_copy_data
 
+        i=0
+        for single_plant in @plant_time_sheets_previous_data
+          @new_cost_codes = []
+          @old_cost_code = TimeSheetCostCode.where(time_sheet_plant_id: single_plant.id)
+          @old_cost_code.each do |cost_code|
+            @new_cost_codes = @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
+                                                                    plant_id: cost_code.plant_id, hrs: cost_code.hrs,
+                                                                    time_sheet_plant_id: @plant_time_sheets_copy_data[i].id)
+          end
+          i=i+1
+        end
+      end
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d"))
       respond_to do |f|
         f.js
         f.html
@@ -36,19 +57,18 @@ class PlantTimeSheetsController < ApplicationController
     elsif params[:total_hour].present? && params[:update_total_hour].present? && params[:data_id]
       @plant_time_sheets = @project.plant_time_sheets.where(id: params[:data_id]).first
       @plant_time_sheets.update(total_hours: params[:total_hour])
-      @time_sheet_cost_code = TimeSheetCostCode.where(plant_id: @plant_time_sheets.plant_id, project_id: @plant_time_sheets.project_id,
-                                                      time_sheet_plant_id: @plant_time_sheets.id)
+      @time_sheet_cost_code = TimeSheetCostCode.where(time_sheet_plant_id: @plant_time_sheets.id)
       unless @time_sheet_cost_code.empty?
-        devided_time = params[:total_hour].to_f / @time_sheet_cost_code.count.to_f
+        devided_time = (params[:total_hour].to_f / @time_sheet_cost_code.count.to_f).round(2)
         @time_sheet_cost_code.update(hrs: devided_time)
       end
-      @plant_time_sheets = @project.plant_time_sheets.order :id
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @plant_time_sheets.plant_create_date)
       respond_to do |f|
         f.js
         f.html
       end
     else
-      @plant_time_sheets = @project.plant_time_sheets.order :id
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d"))
     end
   end
 

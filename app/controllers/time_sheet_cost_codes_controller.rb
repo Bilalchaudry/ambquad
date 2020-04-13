@@ -33,12 +33,12 @@ class TimeSheetCostCodesController < ApplicationController
       @cost_code = @project.time_sheet_cost_codes.where(time_sheet_plant_id: params[:time_sheet_plant_id])
       unless @cost_code.empty?
         @total_hours = @project.plant_time_sheets.where(id: params[:time_sheet_plant_id]).first
-        devided_time = @total_hours.total_hours.to_f / @cost_code.count.to_f
+        devided_time = (@total_hours.total_hours.to_f / @cost_code.count.to_f).round(2)
         @cost_code.update(hrs: devided_time)
       end
       respond_to do |format|
         if @time_sheet_cost_code.save
-          @plant_time_sheets = @project.plant_time_sheets.order(:id)
+          @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @total_hours.plant_create_date)
           format.js
           format.html
         else
@@ -55,12 +55,12 @@ class TimeSheetCostCodesController < ApplicationController
       @cost_code = @project.time_sheet_cost_codes.where(time_sheet_employee_id: params[:time_sheet_employee_id])
       unless @cost_code.empty?
         @total_hours = @project.employee_time_sheets.where(id: params[:time_sheet_employee_id]).first
-        devided_time = @total_hours.total_hours.to_f / @cost_code.count.to_f
+        devided_time = (@total_hours.total_hours.to_f / @cost_code.count.to_f).round(2)
         @cost_code.update(hrs: devided_time)
       end
       respond_to do |format|
         if @time_sheet_cost_code.save
-          @employee_time_sheets = @project.employee_time_sheets.order(:id)
+          @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @total_hours.employee_create_date)
           format.js
           format.html
           # format.json { render :show, status: :created, location: @time_sheet_cost_code }

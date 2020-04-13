@@ -18,14 +18,39 @@ class EmployeeTimeSheetsController < ApplicationController
                                                                            employee_create_date: params[:date], project_id: @project.id)
         end
         EmployeeTimeSheet.import @employee_time_sheets
+
       end
       respond_to do |f|
         f.js
         f.html
       end
     elsif params[:date].present? && params[:copy_from_previous].present?
-      @employee_time_sheets = @project.employee_time_sheets
+      @employee_time_sheets_previous_data = @project.employee_time_sheets.where(employee_create_date: params[:date])
+      unless @employee_time_sheets_previous_data.empty?
+        @employee_time_sheets_copy_data = []
+      @employee_time_sheets_previous_data.each do |project_employee|
+        @employee_time_sheets_copy_data << @project.employee_time_sheets.new(employee: project_employee.employee, labour_type: project_employee.labour_type,
+                                                                             project_company_id: project_employee.project_company_id, manager: project_employee.manager,
+                                                                             foreman_name: project_employee.foreman_name, total_hours: project_employee.total_hours,
+                                                                             employee_type_id: project_employee.employee_type_id, employee_id: project_employee.employee_id,
+                                                                             employee_create_date: Time.now.strftime("%Y-%m-%d"), project_id: @project.id)
+      end
+        EmployeeTimeSheet.import @employee_time_sheets_copy_data
 
+        i=0
+        for single_employee in @employee_time_sheets_previous_data
+          @new_cost_codes = []
+          @old_cost_code = TimeSheetCostCode.where(time_sheet_employee_id: single_employee.id)
+          @old_cost_code.each do |cost_code|
+            @new_cost_codes = @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
+                                                                    employee_id: cost_code.employee_id, hrs: cost_code.hrs,
+                                                                    time_sheet_employee_id: @employee_time_sheets_copy_data[i].id, employee_time_sheet_id: @employee_time_sheets_copy_data[i].id)
+          end
+          i=i+1
+        end
+      end
+
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d"))
       respond_to do |f|
         f.js
         f.html
@@ -36,16 +61,16 @@ class EmployeeTimeSheetsController < ApplicationController
       @time_sheet_cost_code = TimeSheetCostCode.where(employee_id: @employee_time_sheet_data.employee_id, project_id: @employee_time_sheet_data.project_id,
                                                       time_sheet_employee_id: @employee_time_sheet_data.id)
       unless @time_sheet_cost_code.empty?
-        devided_time = params[:total_hour].to_f / @time_sheet_cost_code.count.to_f
+        devided_time = (params[:total_hour].to_f / @time_sheet_cost_code.count.to_f).round(2)
         @time_sheet_cost_code.update(hrs: devided_time)
       end
-      @employee_time_sheets = @project.employee_time_sheets.order(:id)
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @employee_time_sheet_data.employee_create_date)
       respond_to do |f|
         f.js
         f.html
       end
     else
-      @employee_time_sheets = @project.employee_time_sheets.order(:id)
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d"))
     end
   end
 

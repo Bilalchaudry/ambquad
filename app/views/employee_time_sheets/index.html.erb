@@ -142,13 +142,13 @@
     $(document).on('click', '.cost-bot', function () {
         time_sheet_employee_id = $(this).parent().siblings()[0].textContent;
         total_hours = $(this).parent().siblings()[6].textContent;
-        if (total_hours > 0) {
+        // if (total_hours > 0) {
             $("#cost_code_modal").modal();
             $('.js-example-basic-single').select2();
-        }
-        else {
-            alert("First enter total hours.")
-        }
+        // }
+        // else {
+        //     alert("First enter total hours.")
+        // }
     });
 
     function add_cost_code() {
@@ -263,7 +263,7 @@
                 // console.log(data);
                 // abcde =(this.parentNode.parentNode.rowIndex);
                 // abcd = $(abc).parent().parent();
-                $("#row63").addClass("table-warning");
+                // $("#row63").addClass("table-warning");
             }
 
         })
