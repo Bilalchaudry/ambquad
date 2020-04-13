@@ -252,6 +252,7 @@
     // } );
     function delete_cost_code(cost_code_id, delete_id, row_data) {
         // time_sheet_employee_id = employee_id = $(abc).parent().siblings()[0].textContent;
+        if (confirm("Are you sure?")) {
         row = $(row_data).parent().parent();
         var link_url = "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
         $.ajax({
@@ -269,6 +270,8 @@
             }
 
         })
+        }
+        return false;
     }
 
 </script>

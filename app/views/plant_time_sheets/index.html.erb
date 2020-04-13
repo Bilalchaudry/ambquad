@@ -141,8 +141,14 @@
     $(document).on('click', '.cost-bot', function() {
         time_sheet_plant_id = $(this).parent().siblings()[0].textContent;
         plant_id = $(this).parent().siblings()[1].textContent;
-        $("#cost_code_modal").modal();
-        $('.js-example-basic-single').select2();
+        total_hours = $(this).parent().siblings()[6].textContent;
+        if (total_hours > 0) {
+            $("#cost_code_modal").modal();
+            $('.js-example-basic-single').select2();
+        }
+        else {
+            alert("First enter total hours.")
+        }
     });
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
@@ -229,6 +235,7 @@
     }
 
     function delete_cost_code_plant(cost_code_id, delete_id) {
+        if (confirm("Are you sure?")) {
         var link_url =  "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
         $.ajax({
             headers: {
@@ -239,5 +246,6 @@
             data: {delete_id}
         })
     }
-
+        return false;
+    }
 </script>
