@@ -39,19 +39,31 @@ class EmployeeTimeSheetsController < ApplicationController
         devided_time = params[:total_hour].to_f / @time_sheet_cost_code.count.to_f
         @time_sheet_cost_code.update(hrs: devided_time)
       end
-      @employee_time_sheets = @project.employee_time_sheets.order :id
+      @employee_time_sheets = @project.employee_time_sheets.order(:id)
       respond_to do |f|
         f.js
         f.html
       end
     else
-      @employee_time_sheets = @project.employee_time_sheets.order :id
+      @employee_time_sheets = @project.employee_time_sheets.order(:id)
     end
   end
 
   # GET /employee_time_sheets/1
   # GET /employee_time_sheets/1.json
   def show
+    # if params[:time_sheet_employee_id].present?
+    #   @project = Project.find(params[:project_id])
+    #   @cost_codes = @project.cost_codes rescue nil
+    #   used_cost_code = @project.time_sheet_cost_codes.all.pluck(:cost_code_id)
+    #   @project_cost_codes = @cost_codes.where.not(id: used_cost_code) rescue nil
+    #
+    #   return @project_cost_codes
+    #   respond_to do |f|
+    #     f.js
+    #     f.html
+    #   end
+    # end
   end
 
   # GET /employee_time_sheets/new
@@ -115,7 +127,11 @@ class EmployeeTimeSheetsController < ApplicationController
   end
 
   def set_employee_time_sheet
+    if params[:time_sheet_employee_id].present?
+      @employee_time_sheet = EmployeeTimeSheet.find(params[:time_sheet_employee_id])
+      else
     @employee_time_sheet = EmployeeTimeSheet.find(params[:id])
+    end
   end
 
   # Only allow a list of trusted parameters through.

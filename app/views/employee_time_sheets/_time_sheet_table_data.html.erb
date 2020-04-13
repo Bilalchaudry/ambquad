@@ -1,5 +1,5 @@
 <% @employee_time_sheets.each do |employee_time_sheet| %>
-  <tr>
+  <tr id="row<%= employee_time_sheet.id %>">
     <td class="emp_id"><%= employee_time_sheet.id %></td>
     <td><%= employee_time_sheet.employee %></td>
     <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
@@ -16,14 +16,14 @@
         <td><%= cost_codes[i].cost_code %>
           <% @cost_code_id = cost_codes[i].cost_code_id %>
           <% @cost_code_time_sheet_id = @project.time_sheet_cost_codes.find_by(cost_code_id: @cost_code_id).id %>
-          <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>)" >x</button>
+          <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>, this)" >x</button>
         </td>
         <td><%= cost_codes[i].hrs %></td>
       <% else %>
         <td>
           <button class="w-100 cost-bot">+</button>
         </td>
-        <td>9.50</td>
+        <td>0</td>
       <% end %>
     <% end %>
   </tr>

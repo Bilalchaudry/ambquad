@@ -38,7 +38,7 @@ class TimeSheetCostCodesController < ApplicationController
       end
       respond_to do |format|
         if @time_sheet_cost_code.save
-          @plant_time_sheets = @project.plant_time_sheets
+          @plant_time_sheets = @project.plant_time_sheets.order(:id)
           format.js
           format.html
         else
@@ -60,7 +60,7 @@ class TimeSheetCostCodesController < ApplicationController
       end
       respond_to do |format|
         if @time_sheet_cost_code.save
-          @employee_time_sheets = @project.employee_time_sheets
+          @employee_time_sheets = @project.employee_time_sheets.order(:id)
           format.js
           format.html
           # format.json { render :show, status: :created, location: @time_sheet_cost_code }
@@ -91,8 +91,8 @@ class TimeSheetCostCodesController < ApplicationController
   def destroy
     @time_sheet_cost_code.destroy
     respond_to do |format|
-      @employee_time_sheets = @project.employee_time_sheets
-      @plant_time_sheets = @project.plant_time_sheets
+      @employee_time_sheets = @project.employee_time_sheets.order(:id)
+      @plant_time_sheets = @project.plant_time_sheets.order(:id)
       format.js
     end
   end
