@@ -1,5 +1,6 @@
 <% if params[:delete_id].present? %>
 $('table#table tbody').html("<%= j render 'plant_time_sheets/plant_time_sheet_table_data' %>")
 <% else %>
+<%# params[:row_id] %>
 $('table#table tbody').html("<%= j render 'employee_time_sheets/time_sheet_table_data' %>")
 <% end %>
