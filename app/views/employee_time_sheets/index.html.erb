@@ -1,8 +1,8 @@
+al Ahmad  7:29 PM
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
-
         <div class="modal fade" id="cost_code_modal" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
@@ -28,7 +28,6 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
-
           </div>
           <%# end %>
         </div>
@@ -57,13 +56,11 @@
         <div class="card mb-4">
           <div class="card-body">
             <div class="table-responsive">
-
               <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
                   <th rowspan="2" class="emp_id">Emp TS ID</th>
                   <th rowspan="2">Employee</th>
-                  <!--                  <th rowspan="2" class="emp_id">Employee ID</th>-->
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -93,7 +90,9 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy from Previous Timesheet</button>
+                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy
+                        from Previous Timesheet
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -137,8 +136,6 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    // var ac = $('#table').DataTable();
-    // var allData = ac.rows().data();
     $(document).on('click', '.cost-bot', function () {
         time_sheet_employee_id = $(this).parent().siblings()[0].textContent;
         total_hours = $(this).parent().siblings()[6].textContent;
@@ -147,7 +144,6 @@
             $('.js-example-basic-single').select2();
         }
     });
-
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
@@ -172,9 +168,7 @@
                     $("#cost_code_modal").modal("hide");
                 }
             });
-
     }
-
     $(document).ready(function () {
         $('#table').DataTable({
             dom: 'Bfrtip',
@@ -189,57 +183,44 @@
     $('#datepicker_search_bar').datepicker({
         uiLibrary: 'bootstrap'
     });
-
     $('#datepicker_search_bar').change(function () {
         var celender_date = $("#datepicker_search_bar").val();
         var formated_date = formatDate(celender_date);
-
         $.ajax({
             type: "GET",
             url: '/projects/<%= @project.id %>/employee_time_sheets',
             data: {date: formated_date, search_date: 'true'}
         })
-
     });
-
     $('#datepicker_copy_from_previous').datepicker({
         uiLibrary: 'bootstrap'
     });
-
     $('#datepicker_copy_from_previous').change(function () {
         var celender_date = $("#datepicker_copy_from_previous").val();
         var formated_date = formatDate(celender_date);
-
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
             data: {date: formated_date, copy_from_previous: 'true'}
         })
     });
-
     function formatDate(date) {
         var selected_date = new Date(date),
             month = '' + (selected_date.getMonth() + 1),
             day = '' + selected_date.getDate(),
             year = selected_date.getFullYear();
-
         if (month.length < 2) month = '0' + month;
         if (day.length < 2) day = '0' + day;
-
         return [year, month, day].join('-');
     }
-
     function updateTotalHours(total_hours, data_id) {
-
         var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
-
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
             data: {total_hour: new_total_hours, update_total_hour: 'true', data_id: data_id}
         })
     }
-
     function delete_cost_code(cost_code_id, delete_id, row) {
         row_id = row.id
         if (confirm("Are you sure?")) {
@@ -258,5 +239,4 @@
         }
         return false;
     }
-
 </script>
