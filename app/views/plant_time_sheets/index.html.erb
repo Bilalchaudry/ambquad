@@ -60,7 +60,7 @@
               <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th rowspan="2" style="display: none">Plant Sheet ID</th>
+                  <th rowspan="2" class="plant_sheet_id" >Plant Sheet ID</th>
                   <th rowspan="2">Plant ID</th>
                   <th rowspan="2">Plant name</th>
 <!--                  <th rowspan="2">Plant</th>-->
@@ -142,8 +142,11 @@
     $(document).on('click', '.cost-bot', function() {
         time_sheet_plant_id = $(this).parent().siblings()[0].textContent;
         plant_id = $(this).parent().siblings()[1].textContent;
-        $("#cost_code_modal").modal();
-        $('.js-example-basic-single').select2();
+        total_hours = $(this).parent().siblings()[6].textContent;
+        if (total_hours > 0) {
+            $("#cost_code_modal").modal();
+            $('.js-example-basic-single').select2();
+        }
     });
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
@@ -229,7 +232,9 @@
         })
     }
 
-    function delete_cost_code_plant(cost_code_id, delete_id) {
+    function delete_cost_code_plant(cost_code_id, delete_id,row) {
+        row_id = row.id
+        if (confirm("Are you sure?")) {
         var link_url =  "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
         $.ajax({
             headers: {
@@ -237,8 +242,13 @@
             },
             type: "DELETE",
             url: link_url,
-            data: {delete_id}
+            data: {delete_id},
+            success: function () {
+                $('#'+row_id).addClass("table-dark");
+                // alert("Enter cost code to balance the hours.")
+            }
         })
     }
-
+        return false;
+    }
 </script>

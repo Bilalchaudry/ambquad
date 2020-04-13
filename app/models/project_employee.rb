@@ -13,11 +13,11 @@ class ProjectEmployee < ApplicationRecord
     EmployeeTimeSheet.create!(employee: self.employee.first_name + ' ' + self.employee.last_name,
                               labour_type: self.employee_type.employee_type,
                               project_company_id: self.project_company_id,
-                              manager: self.other_manager.employee.first_name,
-                              foreman_name: self.foreman.employee.first_name,
+                              manager: self.other_manager.employee.first_name + ' ' + self.other_manager.employee.last_name,
+                              foreman_name: self.foreman.employee.first_name + ' ' + self.foreman.employee.last_name,
                               total_hours: 0,
                               employee_type_id: self.employee_type_id,
-                              manager: self.foreman_id, employee_id: employee_id.to_i, project_id: self.project_id,
+                              employee_id: employee_id.to_i, project_id: self.project_id,
                               employee_create_date: Time.now.strftime("%Y-%m-%d"))
   end
 end

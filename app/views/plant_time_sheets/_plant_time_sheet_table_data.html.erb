@@ -1,6 +1,6 @@
 <% @plant_time_sheets.each do |plant_time_sheet| %>
-  <tr>
-    <td style="display: none"><%= plant_time_sheet.id %></td>
+  <tr id="row<%= plant_time_sheet.id %>">
+    <td class="plant_sheet_id"> <%= plant_time_sheet.id %></td>
     <td ><%= plant_time_sheet.plant_id %></td>
     <td><%= plant_time_sheet.plant_name %></td>
     <td><%= plant_time_sheet.project_company_id %></td>
@@ -16,7 +16,7 @@
         <td><%= cost_codes_ar[i].cost_code %>
           <% @cost_code_id = cost_codes_ar[i].cost_code_id %>
           <% @cost_code_time_sheet_id = cost_codes.find_by(cost_code_id: @cost_code_id).id %>
-          <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>)">x</button>
+          <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>, row<%= plant_time_sheet.id %>)">x</button>
         </td>
         <td><%= cost_codes_ar[i].hrs %></td>
       <% else %>
