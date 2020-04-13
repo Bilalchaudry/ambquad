@@ -75,17 +75,17 @@
 
 <script>
     $('#dataTable').DataTable();
-    // $('#table').DataTable(); comment this datatable maynot load twice nit confirm
-    // $(document).ready(function () {
-    //     $('#table').DataTable({
-    //         dom: 'Bfrtip',
-    //         buttons: [
-    //             'excelHtml5',
-    //             'csvHtml5',
-    //             'pdfHtml5',
-    //             'print'
-    //         ]
-    //     } );
-    // } );
+    //$('#table').DataTable(); comment this datatable maynot load twice nit confirm
+    $(document).ready(function () {
+        $('#table').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5',
+                'print'
+            ]
+        } );
+    } );
 
 </script>

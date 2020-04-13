@@ -63,7 +63,6 @@
                 <tr>
                   <th rowspan="2" class="emp_id">Emp TS ID</th>
                   <th rowspan="2">Employee</th>
-                  <!--                  <th rowspan="2" class="emp_id">Employee ID</th>-->
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -139,16 +138,13 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    // var ac = $('#table').DataTable();
-    // var allData = ac.rows().data();
     $(document).on('click', '.cost-bot', function () {
         time_sheet_employee_id = $(this).parent().siblings()[0].textContent;
         total_hours = $(this).parent().siblings()[6].textContent;
         if (total_hours > 0) {
             $("#cost_code_modal").modal();
             $('.js-example-basic-single').select2();
-        }
-        else {
+        } else {
             alert("First enter total hours.")
         }
     });
@@ -245,31 +241,21 @@
         })
     }
 
-
-    // $('#table tbody').on( 'click', 'tr', function () {
-    //     $(this).addClass("change");
-    //     alert( 'Row index: '+$('#table').DataTable().row( this ).index() );
-    // } );
-    function delete_cost_code(cost_code_id, delete_id, row_data) {
-        // time_sheet_employee_id = employee_id = $(abc).parent().siblings()[0].textContent;
+    function delete_cost_code(cost_code_id, delete_id, row) {
+        row_id = row.id
         if (confirm("Are you sure?")) {
-        row = $(row_data).parent().parent();
-        var link_url = "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
-        $.ajax({
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "DELETE",
-            url: link_url,
-            data: {cost_code_id},
-            success: function (data) {
-                // console.log(data);
-                // abcde =(this.parentNode.parentNode.rowIndex);
-                // abcd = $(abc).parent().parent();
-                $("#row63").addClass("table-warning");
-            }
-
-        })
+            var link_url = "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
+            $.ajax({
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "DELETE",
+                url: link_url,
+                data: {cost_code_id},
+                success: function () {
+                    $('#'+row_id).addClass("table-dark");
+                }
+            })
         }
         return false;
     }
