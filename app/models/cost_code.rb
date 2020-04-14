@@ -9,8 +9,12 @@ class CostCode < ApplicationRecord
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
-        id_budget_holder = Employee.where(first_name: row[12]).first.id
-        row[12] = BudgetHolder.where(employee_id: id_budget_holder).first.id
+        id_budget_holder = Employee.where(first_name: row[12]).first
+        if id_budget_holder.nil?
+          row[12] = ''
+        else
+          row[12] = id_budget_holder.id
+        end
         cost_code = project.cost_codes.create(cost_code_id: row[0], cost_code_description: row[1], WBS_01: row[2], WBS_01_Description: row[3],
                                               WBS_02: row[4], WBS_02_Description: row[5], WBS_03: row[6], WBS_03_Description: row[7],
                                               WBS_04: row[8], WBS_04_Description: row[9], WBS_05: row[10], WBS_05_Description: row[11], budget_holder_id: row[12])
