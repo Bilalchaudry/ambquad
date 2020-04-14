@@ -5,7 +5,21 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets
   # GET /employee_time_sheets.json
   def index
-    if params[:date].present? && params[:search_date].present?
+    if params[:find_emp_codes].present?
+    employee_used_time_sheet_code = @project.time_sheet_cost_codes.where(employee_time_sheet_id: params[:time_sheet_employee_id], employee_id: params[:emp_id], created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).pluck(:cost_code_id)
+    @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+    unused_codes_for_employee = @project.cost_codes.where.not(id: employee_used_time_sheet_code)
+    render json: unused_codes_for_employee
+
+    elsif params[:find_plant_codes].present?
+                                  # Project.first.time_sheet_cost_codes.where(time_sheet_plant_id: 49, plant_id: 1, created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).pluck(:cost_code_id)
+
+      plant_used_time_sheet_code = @project.time_sheet_cost_codes.where(plant_id: params[:plant_id], time_sheet_plant_id: params[:time_sheet_plant_id], created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).pluck(:cost_code_id)
+      @plant_time_sheets = @project.plant_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      unused_codes_for_plant = @project.cost_codes.where.not(id: plant_used_time_sheet_code)
+      render json: unused_codes_for_plant
+
+    elsif params[:date].present? && params[:search_date].present?
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:date])
       if @employee_time_sheets.empty?
         @project_employees = @project.project_employees
@@ -77,18 +91,6 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets/1
   # GET /employee_time_sheets/1.json
   def show
-    # if params[:time_sheet_employee_id].present?
-    #   @project = Project.find(params[:project_id])
-    #   @cost_codes = @project.cost_codes rescue nil
-    #   used_cost_code = @project.time_sheet_cost_codes.all.pluck(:cost_code_id)
-    #   @project_cost_codes = @cost_codes.where.not(id: used_cost_code) rescue nil
-    #
-    #   return @project_cost_codes
-    #   respond_to do |f|
-    #     f.js
-    #     f.html
-    #   end
-    # end
   end
 
   # GET /employee_time_sheets/new

@@ -13,12 +13,6 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
-                      <option value=""> --- Select Cost Code ---</option>
-                      <% @project_cost_codes.all.each do |cost_code| %>
-                        <option value="<%= cost_code.id %>">
-                          <%= cost_code.cost_code_description %>
-                        </option>
-                      <% end %>
                     </select>
                   </div>
                 </div>
@@ -153,6 +147,27 @@
             $('.js-example-basic-single').select2();
         }
     });
+
+    function cost_modal_plant(plant, plant_sheet_id) {
+        plant_id = plant
+        time_sheet_plant_id = plant_sheet_id
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/employee_time_sheets",
+            data: {plant_id, time_sheet_plant_id, find_plant_codes: plant_id},
+            success: function (data) {
+                console.log(data);
+                $("#cost_code").empty()
+                var select = document.getElementById("cost_code");
+                $(select).append("<option disabled selected value>-- Select Cost Code -- </option>")
+                for (i = 0; i < data.length; i++) {
+                    $(select).append("<option value="+data[i].id+">"+data[i].cost_code_id+"</option>")
+                }
+                $("#cost_code_modal").modal();
+                $('.js-example-basic-single').select2();
+            }
+        })
+    }
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
@@ -166,7 +181,7 @@
                 data: {cost_code_id: cost_code_id, cost_code: cost_code, plant_id: plant_id, project_id: project_id, time_sheet_plant_id: time_sheet_plant_id},
                 cache: false,
                 success: function (data) {
-                    $("#cost_code :selected").remove();
+                    // $("#cost_code :selected").remove();
                     $("#cost_code_modal").modal("hide");
                 }
             });
