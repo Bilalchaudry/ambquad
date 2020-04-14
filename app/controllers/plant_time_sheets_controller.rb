@@ -15,10 +15,10 @@ class PlantTimeSheetsController < ApplicationController
           plant_name = Plant.find(project_plant.plant_id.to_i).plant_name
           manager_first_name = OtherManager.find(project_plant.other_manager_id).employee.first_name
           manager_last_name = OtherManager.find(project_plant.other_manager_id).employee.last_name
-          @plant_time_sheets << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name:  plant_name, project_company_id: project_plant.project_company_id,
-                                foreman_id: project_plant.foreman_id,project_id: project_plant.project_id, plant_create_date: params[:date],
-                                manager: manager_first_name + ' ' + manager_last_name, total_hours: 0 )
-          
+          @plant_time_sheets << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: plant_name, project_company_id: project_plant.project_company_id,
+                                                               foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: params[:date],
+                                                               manager: manager_first_name + ' ' + manager_last_name, total_hours: 0)
+
         end
         PlantTimeSheet.import @plant_time_sheets
       end
@@ -31,22 +31,28 @@ class PlantTimeSheetsController < ApplicationController
       unless @plant_time_sheets_previous_data.empty?
         @plant_time_sheets_copy_data = []
         @plant_time_sheets_previous_data.each do |project_plant|
-          @plant_time_sheets_copy_data << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
-                                                                         foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: Time.now.strftime("%Y-%m-%d"),
-                                                                         manager: project_plant.manager, total_hours: project_plant.total_hours )
-        end
-        PlantTimeSheet.import @plant_time_sheets_copy_data
-
-        i=0
-        for single_plant in @plant_time_sheets_previous_data
-          @new_cost_codes = []
-          @old_cost_code = TimeSheetCostCode.where(time_sheet_plant_id: single_plant.id)
-          @old_cost_code.each do |cost_code|
-            @new_cost_codes = @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
-                                                                    plant_id: cost_code.plant_id, hrs: cost_code.hrs,
-                                                                    time_sheet_plant_id: @plant_time_sheets_copy_data[i].id)
+          exist_data = []
+          exist_data = @project.plant_time_sheets.where(plant_id: project_plant.plant_id, plant_create_date: Time.now.strftime("%Y-%m-%d"))
+          if exist_data.empty?
+            @plant_time_sheets_copy_data << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
+                                                                           foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: Time.now.strftime("%Y-%m-%d"),
+                                                                           manager: project_plant.manager, total_hours: project_plant.total_hours)
           end
-          i=i+1
+        end
+        unless @plant_time_sheets_copy_data.empty?
+          PlantTimeSheet.import @plant_time_sheets_copy_data
+
+          i = 0
+          for single_plant in @plant_time_sheets_previous_data
+            @new_cost_codes = []
+            @old_cost_code = TimeSheetCostCode.where(time_sheet_plant_id: single_plant.id)
+            @old_cost_code.each do |cost_code|
+              @new_cost_codes = @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
+                                                                      plant_id: cost_code.plant_id, hrs: cost_code.hrs,
+                                                                      time_sheet_plant_id: @plant_time_sheets_copy_data[i].id)
+            end
+            i = i + 1
+          end
         end
       end
       @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d"))
@@ -127,19 +133,21 @@ class PlantTimeSheetsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+  # Use callbacks to share common setup or constraints between actions.
   def get_project
     @project = Project.find(params[:project_id])
     @cost_codes = @project.cost_codes rescue nil
     used_cost_code = @project.time_sheet_cost_codes.all.pluck(:cost_code_id)
     @project_cost_codes = @cost_codes.where.not(id: used_cost_code) rescue nil
   end
-    def set_plant_time_sheet
-      @plant_time_sheet = PlantTimeSheet.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def plant_time_sheet_params
-      params.require(:plant_time_sheet).permit(:plant_id, :plant_name, :plant_id, :company, :project_company_id, :manager, :foreman_id, :total_hours)
-    end
+  def set_plant_time_sheet
+    @plant_time_sheet = PlantTimeSheet.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def plant_time_sheet_params
+    params.require(:plant_time_sheet).permit(:plant_id, :plant_name, :plant_id, :company, :project_company_id, :manager, :foreman_id, :total_hours)
+  end
 end

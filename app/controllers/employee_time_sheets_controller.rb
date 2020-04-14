@@ -12,10 +12,10 @@ class EmployeeTimeSheetsController < ApplicationController
         @employee_time_sheets = []
         @project_employees.each do |project_employee|
           @employee_time_sheets << @project.employee_time_sheets.new(employee: project_employee.employee.first_name + ' ' + project_employee.employee.last_name,
-                                                                           labour_type: project_employee.employee_type.employee_type, project_company_id: project_employee.project_company_id,
-                                                                           manager: project_employee.other_manager.employee.first_name, foreman_name: project_employee.foreman.employee.first_name,
-                                                                           total_hours: 0, employee_type_id: project_employee.employee_type_id,
-                                                                           employee_create_date: params[:date], project_id: @project.id)
+                                                                     labour_type: project_employee.employee_type.employee_type, project_company_id: project_employee.project_company_id,
+                                                                     manager: project_employee.other_manager.employee.first_name, foreman_name: project_employee.foreman.employee.first_name,
+                                                                     total_hours: 0, employee_type_id: project_employee.employee_type_id,
+                                                                     employee_create_date: params[:date], project_id: @project.id)
         end
         EmployeeTimeSheet.import @employee_time_sheets
 
@@ -28,25 +28,32 @@ class EmployeeTimeSheetsController < ApplicationController
       @employee_time_sheets_previous_data = @project.employee_time_sheets.where(employee_create_date: params[:date])
       unless @employee_time_sheets_previous_data.empty?
         @employee_time_sheets_copy_data = []
-      @employee_time_sheets_previous_data.each do |project_employee|
-        @employee_time_sheets_copy_data << @project.employee_time_sheets.new(employee: project_employee.employee, labour_type: project_employee.labour_type,
-                                                                             project_company_id: project_employee.project_company_id, manager: project_employee.manager,
-                                                                             foreman_name: project_employee.foreman_name, total_hours: project_employee.total_hours,
-                                                                             employee_type_id: project_employee.employee_type_id, employee_id: project_employee.employee_id,
-                                                                             employee_create_date: Time.now.strftime("%Y-%m-%d"), project_id: @project.id)
-      end
-        EmployeeTimeSheet.import @employee_time_sheets_copy_data
+        @employee_time_sheets_previous_data.each do |project_employee|
+          exist_data = []
+          exist_data = @project.employee_time_sheets.where(employee_id: project_employee.employee_id, employee_create_date: Time.now.strftime("%Y-%m-%d"))
+          if exist_data.empty?
 
-        i=0
-        for single_employee in @employee_time_sheets_previous_data
-          @new_cost_codes = []
-          @old_cost_code = TimeSheetCostCode.where(time_sheet_employee_id: single_employee.id)
-          @old_cost_code.each do |cost_code|
-            @new_cost_codes = @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
-                                                                    employee_id: cost_code.employee_id, hrs: cost_code.hrs,
-                                                                    time_sheet_employee_id: @employee_time_sheets_copy_data[i].id, employee_time_sheet_id: @employee_time_sheets_copy_data[i].id)
+            @employee_time_sheets_copy_data << @project.employee_time_sheets.new(employee: project_employee.employee, labour_type: project_employee.labour_type,
+                                                                                 project_company_id: project_employee.project_company_id, manager: project_employee.manager,
+                                                                                 foreman_name: project_employee.foreman_name, total_hours: project_employee.total_hours,
+                                                                                 employee_type_id: project_employee.employee_type_id, employee_id: project_employee.employee_id,
+                                                                                 employee_create_date: Time.now.strftime("%Y-%m-%d"), project_id: @project.id)
           end
-          i=i+1
+        end
+        unless @employee_time_sheets_copy_data.empty?
+          EmployeeTimeSheet.import @employee_time_sheets_copy_data
+
+          i = 0
+          for single_employee in @employee_time_sheets_previous_data
+            @new_cost_codes = []
+            @old_cost_code = TimeSheetCostCode.where(time_sheet_employee_id: single_employee.id)
+            @old_cost_code.each do |cost_code|
+              @new_cost_codes = @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
+                                                                      employee_id: cost_code.employee_id, hrs: cost_code.hrs,
+                                                                      time_sheet_employee_id: @employee_time_sheets_copy_data[i].id, employee_time_sheet_id: @employee_time_sheets_copy_data[i].id)
+            end
+            i = i + 1
+          end
         end
       end
 
@@ -154,8 +161,8 @@ class EmployeeTimeSheetsController < ApplicationController
   def set_employee_time_sheet
     if params[:time_sheet_employee_id].present?
       @employee_time_sheet = EmployeeTimeSheet.find(params[:time_sheet_employee_id])
-      else
-    @employee_time_sheet = EmployeeTimeSheet.find(params[:id])
+    else
+      @employee_time_sheet = EmployeeTimeSheet.find(params[:id])
     end
   end
 
