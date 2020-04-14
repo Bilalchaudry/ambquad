@@ -24,10 +24,9 @@
                 <thead>
                 <tr>
                   <th>Company Name</th>
-                  <th>Phone Number</th>
-                  <th>Address</th>
                   <th>Number of Users</th>
-                  <th>Actions</th>
+                  <th>Country</th>
+                  <th>Company Actions</th>
                 </tr>
                 </thead>
 
@@ -35,9 +34,8 @@
                 <% @companies.each do |company| %>
                   <tr>
                     <td><%= company.company_name %></td>
-                    <td><%= company.phone %></td>
-                    <td><%= company.address %></td>
                     <td><%= company.number_of_users %></td>
+                    <td><%= company.country_name %></td>
                     <td>
                       <%= link_to "View", client_company_path(company), :class => "btn btn-outline-success" if can? :view, ClientCompany %>
                       <%= link_to "Edit", edit_client_company_path(company), :class => "btn btn-outline-info" if can? :update, ClientCompany %>

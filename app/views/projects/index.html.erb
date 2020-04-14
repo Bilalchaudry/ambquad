@@ -22,8 +22,8 @@
                 <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Address</th>
-                  <th>Client Company</th>
+                  <th>Company</th>
+                  <th>Country</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -32,8 +32,8 @@
                 <% @projects.each do |project| %>
                   <tr>
                     <td><%= project.project_name %></td>
-                    <td><%= project.site_office_address %></td>
                     <td><%= project.client_company.company_name rescue nil %></td>
+                    <td><%= project.country_name rescue "N/A" %></td>
                     <td>
                       <%= link_to "Project Setup", project_path(project), :class => "btn btn-outline-dark" if can? :view, Project %>
                       <%= link_to "Edit Project Details", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project%>
