@@ -1,2 +1,2 @@
-<h5 class="mt-2">Client - <%= @project.client_company.company_name %></h5>
-<h5 class="mt-2">Project - <%= @project.project_name %></h5>
+<h5 class="mt-2 text-center">Client - <%= @project.client_company.company_name rescue "N/A" %></h5>
+<h5 class="mt-2 text-center">Project - <%= @project.project_name rescue nil %></h5>

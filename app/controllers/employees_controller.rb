@@ -115,7 +115,7 @@ class EmployeesController < ApplicationController
                                                       :gender, :home_company_role,
                                                       :contract_start_date, :contract_end_date,
                                                       :status, :project_company_id, :project_id,
-                                                      :other_manager_id, :foreman_id,
+                                                      :other_manager_id, :foreman_id, :project_role,
                                                       :employee_type_id, :country_name, :client_company_id)
     employe_params[:gender] = params[:employee][:gender].to_i
     employe_params[:status] = params[:employee][:status].to_i

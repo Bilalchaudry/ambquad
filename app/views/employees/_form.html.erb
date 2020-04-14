@@ -47,17 +47,6 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.select :country_name, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @employee.country_name), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
-                    </div>
-                  </div>
-                </div>
 
                 <div class="row">
                   <div class="col-md-4">
@@ -106,6 +95,39 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.text_area :home_company_role, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :contract_end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :contract_end_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_role, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :project_role, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
