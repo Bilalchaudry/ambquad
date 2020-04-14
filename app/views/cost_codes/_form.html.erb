@@ -4,7 +4,11 @@
       <div class="row justify-content-center">
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Cost Code</h3></div>
+            <div class="card-header">
+              <h3 class="text-center font-weight-light my-4">Create Cost Code</h3>
+              <%= render 'shared/client_and_project_info' %>
+            </div>
+
             <div class="card-body">
 
               <%= form_with(model: [@project, cost_code], local: true) do |form| %>
@@ -17,8 +21,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control">
-                        <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id: "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.first_name + " " + @cost_code.budget_holder.employee.last_name: "None" %></option>
-                        <% @project.budget_holders.reject { |budget_holder|  budget_holder.id ==  @cost_code.budget_holder_id}.each do |budget_holder| %>
+                        <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id : "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.first_name + " " + @cost_code.budget_holder.employee.last_name : "None" %></option>
+                        <% @project.budget_holders.reject {|budget_holder| budget_holder.id == @cost_code.budget_holder_id}.each do |budget_holder| %>
                           <option value="<%= budget_holder.id %>">
                             <%= "#{budget_holder.employee.first_name} #{budget_holder.employee.last_name}" %>
                           </option>
@@ -82,7 +86,6 @@
                     </div>
                   </div>
                 </div>
-
 
 
                 <div class="row">
@@ -163,18 +166,6 @@
                     </div>
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :WBS_01_Description, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :WBS_01_Description, :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
-
 
                 <hr>
                 <div class="row">
