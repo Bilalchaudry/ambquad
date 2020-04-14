@@ -12,10 +12,6 @@ class BudgetHoldersController < ApplicationController
   # GET /budget_holders/1
   # GET /budget_holders/1.json
   def show
-    if params[:delete].present?
-      @budget_holder.destroy
-      redirect_to project_budget_holder_path
-    end
   end
 
   # GET /budget_holders/new

@@ -17,8 +17,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control">
-                        <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id: "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.first_name: "None" %></option>
-                        <% @project.budget_holders.each do |budget_holder| %>
+                        <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id: "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.first_name + " " + @cost_code.budget_holder.employee.last_name: "None" %></option>
+                        <% @project.budget_holders.reject { |budget_holder|  budget_holder.id ==  @cost_code.budget_holder_id}.each do |budget_holder| %>
                           <option value="<%= budget_holder.id %>">
                             <%= "#{budget_holder.employee.first_name} #{budget_holder.employee.last_name}" %>
                           </option>

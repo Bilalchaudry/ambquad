@@ -1,11 +1,12 @@
 <table class="table table-bordered" id="dataTable123" width="100%" cellspacing="0">
   <thead>
   <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Role</th>
+    <th>User Name</th>
     <th>Company</th>
-    <th>Actions</th>
+    <th>Role</th>
+    <th>Status</th>
+    <th>Ambquad User Actions</th>
+
   </tr>
   </thead>
 
@@ -13,9 +14,9 @@
   <% User.all.each do |user| %>
     <tr>
       <td><%= user.username %></td>
-      <td><%= user.email %></td>
+      <td><%= user.client_company.company_name %></td>
       <td><%= user.role %></td>
-      <td><%= user.client_company.company_name rescue nil %></td>
+      <td><%= user.status rescue nil %></td>
       <td>
         <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
         <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
