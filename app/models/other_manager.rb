@@ -1,4 +1,5 @@
 class OtherManager < ApplicationRecord
+  audited
   belongs_to :employee
   belongs_to :project
 

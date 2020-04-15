@@ -1,5 +1,5 @@
 class Project < ApplicationRecord
-
+  audited
   belongs_to :client_company
 
   has_many :cost_codes, dependent: :destroy

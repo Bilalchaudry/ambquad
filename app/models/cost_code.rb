@@ -1,5 +1,5 @@
 class CostCode < ApplicationRecord
-
+  audited
   belongs_to :project, optional: true
   belongs_to :budget_holder, optional: true
 

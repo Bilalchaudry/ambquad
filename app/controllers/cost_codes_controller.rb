@@ -56,11 +56,22 @@ class CostCodesController < ApplicationController
   # DELETE /cost_codes/1
   # DELETE /cost_codes/1.json
   def destroy
-    @cost_code.destroy
-    respond_to do |format|
-      format.html {redirect_to "/projects/#{@project.id}/cost_codes", notice: 'Cost code was successfully destroyed.'}
-      format.json {head :no_content}
+    begin
+      if @cost_code.nil?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @cost_code.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to "/projects/#{@project.id}/cost_codes", notice: 'Cost Code can not deleted because it is linked with its assosiative records'
     end
+
   end
 
   def import
