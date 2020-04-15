@@ -1,5 +1,6 @@
 <% @plant_time_sheets.each do |plant_time_sheet| %>
   <tr id="row<%= plant_time_sheet.id %>">
+    <td class="plant_sheet_id"><%= plant_time_sheet.plant_id_int %></td>
     <td class="plant_sheet_id"> <%= plant_time_sheet.id %></td>
     <td><%= plant_time_sheet.plant_id %></td>
     <td><%= plant_time_sheet.plant_name %></td>
@@ -22,7 +23,7 @@
         <td><%= cost_codes_ar[i].hrs %></td>
       <% elsif plant_time_sheet.total_hours > 0 %>
         <td>
-          <button class="w-100 cost-bot" onclick="cost_modal_plant(<%= plant_time_sheet.plant_id %>,<%= plant_time_sheet.id %>)">+</button>
+          <button class="w-100 cost-bot" onclick="cost_modal_plant(<%= plant_time_sheet.plant_id_int %>,<%= plant_time_sheet.id %>)">+</button>
         </td>
         <td class="plant_sheet_id"> </td>
         <td>0</td>

@@ -48,16 +48,18 @@ class PlantsController < ApplicationController
         foreman_id = params[:plant][:other_manager_id]
         plant_foreman = Foreman.find(foreman_id).employee.first_name
         @project.plant_time_sheets.create(plant_id: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
-                              project_company_id: params[:plant][:project_company_id],
-                              foreman_id: params[:plant][:foreman_id], manager: plant_manager,
-                              project_company_id: @project.client_company_id, plant_create_date: Time.now.strftime("%Y-%m-%d"),
-                              company: @project.client_company.company_name, foreman_name: plant_foreman, total_hours: 0)
+                                          project_company_id: params[:plant][:project_company_id],
+                                          foreman_id: params[:plant][:foreman_id], manager: plant_manager,
+                                          plant_id_int: @plant.id,
+                                          # project_company_id: @project.client_company_id,
+                                          plant_create_date: Time.now.strftime("%Y-%m-%d"),
+                                          company: @project.client_company.company_name, foreman_name: plant_foreman, total_hours: 0)
 
-        format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
-        format.json {render :show, status: :created, location: @plant}
+        format.html { redirect_to project_plants_path, notice: 'Plant was successfully created.' }
+        format.json { render :show, status: :created, location: @plant }
       else
-        format.html {render :new}
-        format.json {render json: @plant.errors, status: :unprocessable_entity}
+        format.html { render :new }
+        format.json { render json: @plant.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -68,14 +70,14 @@ class PlantsController < ApplicationController
 
     respond_to do |format|
       # if @plant.foreman_id.eql?(params[:plant][:foreman_id])
-        if @plant.update(plant_params)
+      if @plant.update(plant_params)
 
-          format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.'}
-          format.json {render :show, status: :ok, location: @plant}
-        else
-          format.html {render :edit}
-          format.json {render json: @plant.errors, status: :unprocessable_entity}
-        end
+        format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.' }
+        format.json { render :show, status: :ok, location: @plant }
+      else
+        format.html { render :edit }
+        format.json { render json: @plant.errors, status: :unprocessable_entity }
+      end
       # else
       #   @duplicate_record = @plant.dup
       #   @duplicate_record.foreman_id = params[:plant][:foreman_id]
@@ -98,8 +100,8 @@ class PlantsController < ApplicationController
   def destroy
     @plant.destroy
     respond_to do |format|
-      format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully destroyed.'}
-      format.json {head :no_content}
+      format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
@@ -121,7 +123,7 @@ class PlantsController < ApplicationController
     send_file(
         "#{Rails.root}/public/documents/plant_template.csv",
         filename: "plant_template.csv",
-        )
+    )
   end
 
   private
@@ -139,6 +141,6 @@ class PlantsController < ApplicationController
   def plant_params
     params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
                                   :contract_start_date, :contract_end_date, :market_value,
-                                  :status, :offload, :foreman_id, :other_manager_id)
+                                  :offload, :foreman_id, :other_manager_id)
   end
 end
