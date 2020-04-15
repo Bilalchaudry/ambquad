@@ -5,7 +5,7 @@
         <center>
           <h3 class="alert-success mt-1"><%= notice %></h3>
         </center>
-        <h5 class="mt-2">Plants</h5>
+        <h5 class="mt-2 text-center">Plants</h5>
         <%= render 'shared/client_and_project_info' %>
         <div class="row">
           <div class="col-xl-6 col-md-6"></div>
@@ -46,8 +46,6 @@
                   <th>Contract Start Date</th>
                   <th>Contract End Date</th>
                   <th>Foreman</th>
-                  <th>Market Value</th>
-                  <th>Other Manager</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -62,8 +60,6 @@
                     <td><%= plant.contract_start_date %></td>
                     <td><%= plant.contract_end_date %></td>
                     <td><%= plant.foreman.employee.first_name + " " + plant.foreman.employee.last_name rescue "N/A"%></td>
-                    <td><%= plant.market_value %></td>
-                    <td><%= plant.other_manager.employee.first_name + " " + plant.other_manager.employee.last_name rescue "N/A"%></td>
                     <td>
                       <%= link_to "View", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/plants/#{plant.id}/edit", :class => "btn btn-outline-info" %>

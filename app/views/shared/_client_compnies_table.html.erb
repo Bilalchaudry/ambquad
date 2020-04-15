@@ -1,11 +1,10 @@
 <table class="table table-bordered" id="dataTable123" width="100%" cellspacing="0">
   <thead>
   <tr>
-    <th>Name</th>
-    <th>Phone Number</th>
-    <th>Address</th>
-    <th>Users</th>
-    <th>Actions</th>
+    <th>Company Name</th>
+    <th>Number of Users</th>
+    <th>Country</th>
+    <th>Company Actions</th>
   </tr>
   </thead>
 
@@ -13,13 +12,12 @@
   <% ClientCompany.all.each do |company| %>
     <tr>
       <td><%= company.company_name %></td>
-      <td><%= company.phone %></td>
-      <td><%= company.address %></td>
       <td><%= company.number_of_users %></td>
+      <td><%= company.country_name %></td>
       <td>
         <%= link_to "View", client_company_path(company), :class => "btn btn-outline-success" %>
-        <%= link_to "Edit", edit_client_company_path(company), :class => "btn btn-outline-info" %>
         <% unless company.company_name.eql?("Ambquad") %>
+        <%= link_to "Edit", edit_client_company_path(company), :class => "btn btn-outline-info" %>
           <%= link_to "Delete", client_company_path(company), data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true if can? :destroy, ClientCompany %>
         <% end %>
       </td>

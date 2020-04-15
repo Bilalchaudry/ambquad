@@ -40,7 +40,8 @@
     </form>
     <!-- Navbar-->
     <div class="col-sm-2">
-       <%= link_to 'Log Out', "/users/0", :class => 'btn btn-dark w-100', :style => 'color: white;' %>
+       <%= link_to ("Hi" + @current_user.user_name rescue "N/A") , "/users/0", :class => 'btn btn-dark', :style => 'color: white;' %>
+       <%= link_to 'Log Out', "/users/0", :class => 'btn btn-dark', :style => 'color: white;' %>
     </div>
   </nav>
 
