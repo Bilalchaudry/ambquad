@@ -41,7 +41,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_area :company_summary, :class => "form-control py-2", :required => true %>
+                      <%= form.text_area :company_summary, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>
@@ -52,7 +52,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_area :project_role, :class => "form-control py-2", :required => true %>
+                      <%= form.text_area :project_role, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>
@@ -76,16 +76,6 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.select :country_name, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @project_company.country_name), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
-
-                      <!--                      <select name="project_company[country_name]" id="country" class="form-control">-->
-                      <!--                        <option value=" "></option>-->
-                      <%# @country = ISO3166::Country.countries.sort %>
-                      <%# @country.each do |c| %>
-                      <!--                          <option value="<%#= c.name %>">-->
-                      <%#= c.name %>
-                      <!--                          </option>-->
-                      <%# end %>
-                      <!--                      </select>-->
                     </div>
                   </div>
                 </div>
@@ -96,72 +86,62 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :phone, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :phone, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :primary_poc_first_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :primary_poc_first_name, "POC First Name", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :primary_poc_first_name, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :primary_poc_first_name, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :primary_poc_last_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :primary_poc_last_name, "POC Last Name", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :primary_poc_last_name, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :primary_poc_last_name, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :poc_email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :poc_email, "POC Email", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :poc_email, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :poc_email, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :poc_country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :poc_country, "POC Country", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= form.select :poc_country, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @project_company.poc_country), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
-
-                      <!--                      <select name="project_company[poc_country]" id="poc_country" class="form-control">-->
-                      <!--                        <option value=" "></option>-->
-                      <%# @country = ISO3166::Country.countries.sort %>
-                      <%# @country.each do |c| %>
-                      <!--                          <option value="<%#= c.name %>">-->
-                      <%#= c.name %>
-                      <!--                          </option>-->
-                      <%# end %>
-                      <!--                      </select>-->
                     </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :poc_phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :poc_phone, "POC Phone", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :poc_phone, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :poc_phone, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>

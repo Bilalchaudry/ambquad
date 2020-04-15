@@ -20,7 +20,7 @@
 
                 <div class="form-row">
                   <div class="col-md-4">
-                    <%= form.label :plant_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :plant_id, "Plant ID", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
@@ -131,7 +131,24 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :market_value, validate: true, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :market_value, validate: true, :class => "form-control py-2" %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="plant[status]" id="role" class="form-control">
+                        <% Plant.statuses.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
