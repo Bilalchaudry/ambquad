@@ -13,12 +13,6 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
-                      <option value=""> --- Select Cost Code ---</option>
-                      <% @project_cost_codes.all.each do |cost_code| %>
-                        <option value="<%= cost_code.id %>">
-                          <%= cost_code.cost_code_description %>
-                        </option>
-                      <% end %>
                     </select>
                   </div>
                 </div>
@@ -73,14 +67,19 @@
                 </tr>
                 <tr>
                   <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
                   <th>Hrs</th>
                 </tr>
                 </tr>
@@ -148,6 +147,27 @@
             $('.js-example-basic-single').select2();
         }
     });
+
+    function cost_modal_plant(plant, plant_sheet_id) {
+        plant_id = plant
+        time_sheet_plant_id = plant_sheet_id
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/employee_time_sheets",
+            data: {plant_id, time_sheet_plant_id, find_plant_codes: plant_id},
+            success: function (data) {
+                console.log(data);
+                $("#cost_code").empty()
+                var select = document.getElementById("cost_code");
+                $(select).append("<option disabled selected value>-- Select Cost Code -- </option>")
+                for (i = 0; i < data.length; i++) {
+                    $(select).append("<option value="+data[i].id+">"+data[i].cost_code_id+"</option>")
+                }
+                $("#cost_code_modal").modal();
+                $('.js-example-basic-single').select2();
+            }
+        })
+    }
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
@@ -161,17 +181,41 @@
                 data: {cost_code_id: cost_code_id, cost_code: cost_code, plant_id: plant_id, project_id: project_id, time_sheet_plant_id: time_sheet_plant_id},
                 cache: false,
                 success: function (data) {
-                    $("#cost_code :selected").remove();
+                    // $("#cost_code :selected").remove();
                     $("#cost_code_modal").modal("hide");
                 }
             });
 
     }
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#table').DataTable({
             dom: 'Bfrtip',
             buttons: [
-                'csv', 'excel', 'pdf', 'print'
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: [1, 2,3,4,5,6,8,9,11,12,14,15,17,18,20,21 ]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [ 1, 2,3,4, 5,6,8,9,11,12,14,15,17,18,20,21 ]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    exportOptions: {
+                        columns: [ 1, 2,3,4, 5,6,8,9,11,12,14,15,17,18,20,21 ]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [ 1, 2,3,4, 5,6,8,9,11,12,14,15,17,18,20,21 ]
+                    }
+                }
             ]
         });
     });
@@ -232,7 +276,7 @@
         })
     }
 
-    function delete_cost_code_plant(cost_code_id, delete_id,row) {
+    function delete_cost_code_plant(cost_code_id, delete_id,row, plant_timesheet_date) {
         row_id = row.id
         if (confirm("Are you sure?")) {
         var link_url =  "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
@@ -242,7 +286,7 @@
             },
             type: "DELETE",
             url: link_url,
-            data: {delete_id},
+            data: {delete_id,plant_timesheet_date},
             success: function () {
                 $('#'+row_id).addClass("table-dark");
                 // alert("Enter cost code to balance the hours.")

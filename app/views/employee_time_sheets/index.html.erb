@@ -13,12 +13,6 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
-                      <option value=""> --- Select Cost Code ---</option>
-                      <% @project_cost_codes.all.each do |cost_code| %>
-                        <option value="<%= cost_code.id %>">
-                          <%= cost_code.cost_code_description %>
-                        </option>
-                      <% end %>
                     </select>
                   </div>
                 </div>
@@ -60,23 +54,29 @@
                 <tr>
                   <th rowspan="2" class="emp_id">Emp TS ID</th>
                   <th rowspan="2">Employee</th>
+                  <th rowspan="2" class="emp_id">Employee ID</th>
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
                   <th rowspan="2">Foreman</th>
                   <th rowspan="2">Total hours</th>
-                  <th colspan="6">Select Cost Codes</th>
+                  <th colspan="10">Select Cost Codes</th>
                 </tr>
                 <tr>
                   <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
                   <th>Hrs</th>
                 </tr>
                 </thead>
@@ -135,14 +135,27 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
-    $(document).on('click', '.cost-bot', function () {
-        time_sheet_employee_id = $(this).parent().siblings()[0].textContent;
-        total_hours = $(this).parent().siblings()[6].textContent;
-        if (total_hours > 0) {
-            $("#cost_code_modal").modal();
-            $('.js-example-basic-single').select2();
-        }
-    });
+    function cost_modal(emp_id, emp_time_id) {
+        time_sheet_employee_id = emp_time_id
+        employee_id = emp_id
+            $.ajax({
+                type: "GET",
+                url: "/projects/<%= @project.id %>/employee_time_sheets",
+                data: {time_sheet_employee_id, emp_id, find_emp_codes: emp_time_id},
+                success: function (data) {
+                    console.log(data);
+                    $("#cost_code").empty()
+                    var select = document.getElementById("cost_code");
+                    $(select).append("<option disabled selected value>-- Select Cost Code -- </option>")
+                    for (i = 0; i < data.length; i++) {
+                        $(select).append("<option value="+data[i].id+">"+data[i].cost_code_id+"</option>")
+                    }
+                    $("#cost_code_modal").modal();
+                    $('.js-example-basic-single').select2();
+                }
+            })
+    }
+
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text()
@@ -157,25 +170,46 @@
                 data: {
                     cost_code_id: cost_code_id,
                     cost_code: cost_code,
-                    // employee_id: employee_id,
+                    employee_id: employee_id,
                     project_id: project_id,
                     time_sheet_employee_id: time_sheet_employee_id
                 },
                 cache: false,
                 success: function () {
-                    $("#cost_code :selected").remove();
+                    $("#cost_code").val('');
                     $("#cost_code_modal").modal("hide");
                 }
             });
     }
+
     $(document).ready(function () {
         $('#table').DataTable({
             dom: 'Bfrtip',
             buttons: [
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5',
-                'print'
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: [1, 3, 4, 5, 6,7, 9,10, 12, 13, 15, 16, 18, 19, 21,22]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [1, 3, 4, 5, 6,7, 9,10, 12, 13, 15, 16, 18, 19, 21,22]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [1, 3, 4, 5, 6,7, 9,10, 12, 13, 15, 16, 18, 19, 21,22]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [1, 3, 4, 5, 6,7, 9,10, 12, 13, 15, 16, 18, 19, 21,22]
+                    }
+                }
             ]
         });
     });
@@ -220,7 +254,7 @@
             data: {total_hour: new_total_hours, update_total_hour: 'true', data_id: data_id}
         })
     }
-    function delete_cost_code(cost_code_id, delete_id, row) {
+    function delete_cost_code(cost_code_id, delete_id, row, timesheet_date) {
         row_id = row.id
         if (confirm("Are you sure?")) {
             var link_url = "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
@@ -230,9 +264,9 @@
                 },
                 type: "DELETE",
                 url: link_url,
-                data: {cost_code_id},
+                data: {cost_code_id, timesheet_date},
                 success: function () {
-                    $('#'+row_id).addClass("table-dark");
+                    // $('#' + row_id).addClass("table-dark");
                 }
             })
         }
