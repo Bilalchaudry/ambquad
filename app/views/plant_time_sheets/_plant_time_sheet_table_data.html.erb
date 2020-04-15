@@ -15,8 +15,8 @@
       <% if cost_codes_ar[i].present? %>
         <td><%= cost_codes_ar[i].cost_code %>
           <% @cost_code_id = cost_codes_ar[i].cost_code_id %>
-          <% @cost_code_time_sheet_id = cost_codes.find_by(cost_code_id: @cost_code_id).id %>
-          <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>, row<%= plant_time_sheet.id %>)">x</button>
+          <% @cost_code_time_sheet_id = cost_codes.where(cost_code_id: @cost_code_id, time_sheet_plant_id:  plant_time_sheet.id).ids %>
+          <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>, row<%= plant_time_sheet.id %>, '<%= plant_time_sheet.plant_create_date %>')">x</button>
         </td>
         <td class="plant_sheet_id"><%= cost_codes_ar[i].cost_code %></td>
         <td><%= cost_codes_ar[i].hrs %></td>

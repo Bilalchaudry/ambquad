@@ -81,13 +81,13 @@ class EmployeesController < ApplicationController
       f.write(file.read)
     end
     user = current_user
-    errors = Employee.import(params[:file], user)
-    if errors == false
-      flash[:notice] = 'File Format not Supported'
+    errors = Employee.import(params[:file], user, @project)
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
     else
-      flash[:notice] = 'File has been imported successfully.'
+      flash[:notice] = errors
     end
-    redirect_to employees_url
+    redirect_to project_employees_path
   end
 
   def download_template

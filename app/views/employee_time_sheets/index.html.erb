@@ -13,12 +13,6 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
-<!--                      <option value=""> --- Select Cost Code ---</option>-->
-                      <%# @project_cost_codes.all.each do |cost_code| %>
-<!--                        <option value="2">Bilal-->
-                          <%#= cost_code.cost_code_description %>  <%#= cost_code.cost_code_id %>
-<!--                        </option>-->
-                      <%# end %>
                     </select>
                   </div>
                 </div>
@@ -123,6 +117,7 @@
                   </div>
                 </div>
               </div>
+              <%#= link_to 'New Employee Time Sheet', new_employee_time_sheet_path %>
             </div>
           </div>
         </div>
@@ -242,7 +237,6 @@
             data: {date: formated_date, copy_from_previous: 'true'}
         })
     });
-
     function formatDate(date) {
         var selected_date = new Date(date),
             month = '' + (selected_date.getMonth() + 1),
@@ -252,7 +246,6 @@
         if (day.length < 2) day = '0' + day;
         return [year, month, day].join('-');
     }
-
     function updateTotalHours(total_hours, data_id) {
         var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
         $.ajax({
@@ -261,7 +254,7 @@
             data: {total_hour: new_total_hours, update_total_hour: 'true', data_id: data_id}
         })
     }
-    function delete_cost_code(cost_code_id, delete_id, row) {
+    function delete_cost_code(cost_code_id, delete_id, row, timesheet_date) {
         row_id = row.id
         if (confirm("Are you sure?")) {
             var link_url = "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
@@ -271,9 +264,9 @@
                 },
                 type: "DELETE",
                 url: link_url,
-                data: {cost_code_id},
+                data: {cost_code_id, timesheet_date},
                 success: function () {
-                    $('#' + row_id).addClass("table-dark");
+                    // $('#' + row_id).addClass("table-dark");
                 }
             })
         }

@@ -276,7 +276,7 @@
         })
     }
 
-    function delete_cost_code_plant(cost_code_id, delete_id,row) {
+    function delete_cost_code_plant(cost_code_id, delete_id,row, plant_timesheet_date) {
         row_id = row.id
         if (confirm("Are you sure?")) {
         var link_url =  "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
@@ -286,7 +286,7 @@
             },
             type: "DELETE",
             url: link_url,
-            data: {delete_id},
+            data: {delete_id,plant_timesheet_date},
             success: function () {
                 $('#'+row_id).addClass("table-dark");
                 // alert("Enter cost code to balance the hours.")

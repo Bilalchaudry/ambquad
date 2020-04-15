@@ -91,8 +91,8 @@ class TimeSheetCostCodesController < ApplicationController
   def destroy
     @time_sheet_cost_code.destroy
     respond_to do |format|
-      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:timesheet_date]).order(:id)
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:plant_timesheet_date]).order(:id)
       format.js
     end
   end
