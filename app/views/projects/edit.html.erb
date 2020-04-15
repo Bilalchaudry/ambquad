@@ -19,19 +19,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :site_office_address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :site_office_address, :class => "form-control py-2", :required => true %>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div class="form-row">
-                  </div>
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -45,11 +33,94 @@
 
                 <div class="row">
                   <div class="col-md-4">
+                    <%= form.label :site_office_address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :site_office_address, :id => "autocomplete", :class => "form-control py-2", :required => true, placeholder: "Enter address", onFocus: "geolocate()" %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :city, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :city, :class => "form-control py-2", id: "locality", :readonly => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :state, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :state, :class => "form-control py-2", id: "administrative_area_level_1", :readonly => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :country, :class => "form-control py-2", id: "country", :readonly => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :start_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :end_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :client_po_number, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :client_po_number, :class => "form-control py-2" %>
+                    </div>
+                  </div>
+                </div>
+                
+
+                <div class="row">
+                  <div class="col-md-4">
                     <%= form.label :company_name, :class => "mb-1 pt-2", :style => 'font-weight:bold'%>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :project_lead, :class => "form-control py-2", value: @project.client_company.company_name, :readonly => true  %>
+                      <%= form.text_field :company_name, :class => "form-control py-2", value: @project.client_company.company_name, :readonly => true  %>
                     </div>
                   </div>
                 </div>
@@ -80,4 +151,79 @@
       </div>
     </div>
   </main>
+
+  <script>
+      // This sample uses the Autocomplete widget to help the user select a
+      // place, then it retrieves the address components associated with that
+      // place, and then it populates the form fields with those details.
+      // This sample requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script
+      // src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      var placeSearch, autocomplete;
+
+      var componentForm = {
+          street_number: 'short_name',
+          route: 'long_name',
+          locality: 'long_name',
+          administrative_area_level_1: 'short_name',
+          country: 'long_name',
+          postal_code: 'short_name'
+      };
+
+      function initAutocomplete() {
+          // Create the autocomplete object, restricting the search predictions to
+          // geographical location types.
+          autocomplete = new google.maps.places.Autocomplete(
+              document.getElementById('autocomplete'), {types: ['geocode']});
+
+          // Avoid paying for data that you don't need by restricting the set of
+          // place fields that are returned to just the address components.
+          autocomplete.setFields(['address_component']);
+
+          // When the user selects an address from the drop-down, populate the
+          // address fields in the form.
+          autocomplete.addListener('place_changed', fillInAddress);
+      }
+
+      function fillInAddress() {
+          // Get the place details from the autocomplete object.
+          var place = autocomplete.getPlace();
+
+          for (var component in componentForm) {
+              document.getElementById(component).value = '';
+              document.getElementById(component).disabled = false;
+          }
+
+          // Get each component of the address from the place details,
+          // and then fill-in the corresponding field on the form.
+          for (var i = 0; i < place.address_components.length; i++) {
+              debugger
+              var addressType = place.address_components[i].types[0];
+              if (componentForm[addressType]) {
+                  var val = place.address_components[i][componentForm[addressType]];
+                  document.getElementById(addressType).value = val;
+              }
+          }
+      }
+
+      // Bias the autocomplete object to the user's geographical location,
+      // as supplied by the browser's 'navigator.geolocation' object.
+      function geolocate() {
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function (position) {
+                  var geolocation = {
+                      lat: position.coords.latitude,
+                      lng: position.coords.longitude
+                  };
+                  var circle = new google.maps.Circle(
+                      {center: geolocation, radius: position.coords.accuracy});
+                  autocomplete.setBounds(circle.getBounds());
+              });
+          }
+      }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDGzNf9YIv5BasHa88gAf9AK71HL19sR4&libraries=places&callback=initAutocomplete"
+          async defer></script>
 </div>

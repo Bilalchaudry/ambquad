@@ -1,0 +1,8 @@
+<% if @destroy %>
+var client_companies_path = "/users"
+location.href = client_companies_path
+alert("User deleted successfully")
+<% else %>
+alert("User can not deleted because User is linked with associative records.")
+
+<% end %>
