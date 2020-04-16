@@ -1,7 +1,7 @@
 class ForemenController < ApplicationController
   include ForemenHelper
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :crew, :destroy, :project_foreman_list]
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :crew, :destroy, :project_foreman_list]
 
   load_and_authorize_resource
 
@@ -89,7 +89,7 @@ class ForemenController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_foreman
-    @foreman = @project.foremen.find(params[:id])
+    @foreman = Foreman.find(params[:id])
   end
 
   def get_project

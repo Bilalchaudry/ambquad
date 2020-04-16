@@ -56,7 +56,7 @@
                 <tbody>
                 <% @cost_codes.each do |cost_code| %>
                   <tr>
-                    <td><%= cost_code.budget_holder.employee.first_name + " " +  cost_code.budget_holder.employee.last_name rescue "N/A" %></td>
+                    <td><%= cost_code.budget_holder.employee.employee_name rescue "N/A" %></td>
                     <td><%= cost_code.cost_code_id %></td>
                     <td><%= cost_code.cost_code_description %></td>
 

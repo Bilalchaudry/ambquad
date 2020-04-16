@@ -36,7 +36,7 @@
                 <tbody>
                 <% @budget_holders.each do |budget_holder| %>
                   <tr>
-                    <td><%= budget_holder.employee.first_name + " " + budget_holder.employee.last_name rescue "N/A" %></td>
+                    <td><%= budget_holder.employee.employee_name rescue "N/A" %></td>
                     <td>
                       <%= link_to "View", "/projects/#{@project.id}/budget_holders/#{budget_holder.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/budget_holders/#{budget_holder.id}/edit", :class => "btn btn-outline-info" %>
