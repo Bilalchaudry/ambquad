@@ -79,11 +79,11 @@ class Plant < ApplicationRecord
             if id_other_manager.nil?
               return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
             else
-              row[6] = id_other_manager.id
+              row[7] = id_other_manager.id
             end
           end
 
-          if row[9] == 'Active' || row[9] == 'a' || row[9] == 'A' || row[0] == 'active'
+          if row[9] == 'Active' || row[9] == 'a' || row[9] == 'A' || row[9] == 'active'
             row[9] = "Active"
           elsif row[9] == 'Closed' || row[9] == 'closed' || row[9] == 'c' || row[9] == 'c' || row[9] == 'close' || row[9] == 'Close'
             row[9] = "Closed"
