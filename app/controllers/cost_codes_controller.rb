@@ -79,11 +79,11 @@ class CostCodesController < ApplicationController
     File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    errors = CostCode.import(params[:file], current_user, @project)
-    if errors == false
-      flash[:notice] = 'File Format not Supported'
+    errors = CostCode.import_file(params[:file], current_user, @project)
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
     else
-      flash[:notice] = 'File has been imported successfully.'
+      flash[:notice] = errors
     end
     redirect_to project_cost_codes_path
   end

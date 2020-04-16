@@ -3,15 +3,54 @@
     <main>
       <div class="container-fluid">
         <center>
+          <div id="flash">
+            <% if notice.present? %>
+              <%= render partial: "shared/notice" %>
+            <% end %>
+          </div>
+        </center>
+        <div class="modal fade" id="cost_code_modal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+          <%# end %>
+        </div>
+        <center>
           <h3 class="alert-info mt-1"><%= notice %></h3>
         </center>
         <h1 class="mt-2">Plant Time Sheet</h1>
+        <div class="row">
+          <div class="col-xl-6 col-md-6"></div>
+          <div class="col-xl-2 col-md-2"></div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+        </div>
         <div class="row">
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="text-white mb-3">
-              <input id="datepicker" width="270" placeholder="Select Date"/>
+              <input id="datepicker_search_bar" width="270" placeholder="Select Date"/>
             </div>
           </div>
 
@@ -19,9 +58,10 @@
         <div class="card mb-4">
           <div class="card-body">
             <div class="table-responsive">
-              <table id="example" class="table-bordered" width="100%" cellspacing="0">
+              <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
+                  <th rowspan="2" class="plant_sheet_id" >Plant Sheet ID</th>
                   <th rowspan="2">Plant ID</th>
                   <th rowspan="2">Plant name</th>
 <!--                  <th rowspan="2">Plant</th>-->
@@ -30,41 +70,30 @@
                   <th rowspan="2">Manager</th>
                   <th rowspan="2">Foreman</th>
                   <th rowspan="2">Total hours</th>
-                  <th colspan="6">Select Cost Codes</th>
+                  <th colspan="10">Select Cost Codes</th>
                 </tr>
                 <tr>
                   <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
                   <th>Hrs</th>
                   <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th class="plant_sheet_id">Costcode</th>
                   <th>Hrs</th>
                 </tr>
                 </tr>
                 </thead>
 
                 <tbody>
-                <% @plant_time_sheets.each do |plant_time_sheet| %>
-                  <tr>
-                    <td><%= plant_time_sheet.plant_id %></td>
-                    <td><%= plant_time_sheet.plant_name %></td>
-<!--                    <td><%#= plant_time_sheet.plant_id %></td>-->
-                    <td><%= plant_time_sheet.company %></td>
-<!--                    <td><%#= plant_time_sheet.project_company_id %></td>-->
-                    <td><%= plant_time_sheet.manager %></td>
-                    <td><%= plant_time_sheet.foreman_name %></td>
-                    <td><%= plant_time_sheet.total_hours %></td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-                    <td>20CP01</td>
-                    <td>9.50</td>
-<!--                    <td><%#= link_to 'Show', plant_time_sheet %></td>-->
-<!--                    <td><%#= link_to 'Edit', edit_plant_time_sheet_path(plant_time_sheet) %></td>-->
-<!--                    <td><%#= link_to 'Destroy', plant_time_sheet, method: :delete, data: {confirm: 'Are you sure?'} %></td>-->
-                  </tr>
-                <% end %>
+                <%= render 'plant_time_sheet_table_data' %>
                 </tbody>
               </table>
 
@@ -73,28 +102,28 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Copy from Previous Timesheet', plant_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy from Previous Timesheet</button>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Save Progress', plant_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Save Progress', "/projects/#{@project.id}/plant_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Update Timesheets', plant_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Update Timesheets', "/projects/#{@project.id}/plant_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Submit Timesheets', plant_time_sheets_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <button class='btn btn-dark w-100' style='font-weight:bold; color: white;' onclick="submit_time_sheet()">Submit Timesheets</button>
                     </div>
                   </div>
                 </div>
@@ -107,24 +136,189 @@
     </main>
   </div>
 </div>
-
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
-<!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js" crossorigin="anonymous"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script>
-    // $(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            'csv', 'excel', 'pdf', 'print'
-        ]
-    } );
-    // } );
-    $('#datepicker').datepicker({
+    $(document).on('click', '.cost-bot', function() {
+        time_sheet_plant_id = $(this).parent().siblings()[0].textContent;
+        plant_id = $(this).parent().siblings()[1].textContent;
+        total_hours = $(this).parent().siblings()[6].textContent;
+        if (total_hours > 0) {
+            $("#cost_code_modal").modal();
+            $('.js-example-basic-single').select2();
+        }
+    });
+
+    function cost_modal_plant(plant, plant_sheet_id) {
+        plant_id = plant
+        time_sheet_plant_id = plant_sheet_id
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/employee_time_sheets",
+            data: {plant_id, time_sheet_plant_id, find_plant_codes: plant_id},
+            success: function (data) {
+                console.log(data);
+                $("#cost_code").empty()
+                var select = document.getElementById("cost_code");
+                $(select).append("<option disabled selected value>-- Select Cost Code -- </option>")
+                for (i = 0; i < data.length; i++) {
+                    $(select).append("<option value="+data[i].id+">"+data[i].cost_code_id+"</option>")
+                }
+                $("#cost_code_modal").modal();
+                $('.js-example-basic-single').select2();
+            }
+        })
+    }
+    function add_cost_code() {
+        cost_code_id = $('#cost_code').val();
+        cost_code = $("#cost_code option:selected").text()
+        project_id = <%= params[:project_id] %>
+            $.ajax({
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '/projects/<%= @project.id %>/time_sheet_cost_codes',
+                data: {cost_code_id: cost_code_id, cost_code: cost_code, plant_id: plant_id, project_id: project_id, time_sheet_plant_id: time_sheet_plant_id},
+                cache: false,
+                success: function (data) {
+                    // $("#cost_code :selected").remove();
+                    $("#cost_code_modal").modal("hide");
+                }
+            });
+
+    }
+    $(document).ready(function () {
+        $('#table').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: [1, 2,3,4,5,6,8,9,11,12,14,15,17,18,20,21 ]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [ 1, 2,3,4, 5,6,8,9,11,12,14,15,17,18,20,21 ]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    exportOptions: {
+                        columns: [ 1, 2,3,4, 5,6,8,9,11,12,14,15,17,18,20,21 ]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [ 1, 2,3,4, 5,6,8,9,11,12,14,15,17,18,20,21 ]
+                    }
+                }
+            ]
+        });
+    });
+
+    $('#datepicker_search_bar').datepicker({
         uiLibrary: 'bootstrap'
     });
+
+    $('#datepicker_search_bar').change(function ()
+    {
+        var celender_date = $("#datepicker_search_bar").val();
+        var formated_date = formatDate(celender_date);
+
+        $.ajax({
+            type: "GET",
+            url: '/projects/<%= @project.id %>/plant_time_sheets',
+            data: { date: formated_date , search_date: 'true' }
+        })
+
+    });
+
+    $('#datepicker_copy_from_previous').datepicker({
+        uiLibrary: 'bootstrap'
+    });
+
+    $('#datepicker_copy_from_previous').change(function ()
+    {
+        var celender_date = $("#datepicker_copy_from_previous").val();
+        var formated_date = formatDate(celender_date);
+
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/plant_time_sheets",
+            data: { date: formated_date , copy_from_previous: 'true' }
+        })
+    });
+
+    function formatDate(date) {
+        var selected_date = new Date(date),
+            month = '' + (selected_date.getMonth() + 1),
+            day = '' + selected_date.getDate(),
+            year = selected_date.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
+    function updateTotalHours(total_hours, data_id) {
+
+        var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
+
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/plant_time_sheets",
+            data: { total_hour: new_total_hours , update_total_hour: 'true', data_id: data_id }
+        })
+    }
+
+    function delete_cost_code_plant(cost_code_id, delete_id,row, plant_timesheet_date) {
+        row_id = row.id
+        if (confirm("Are you sure?")) {
+        var link_url =  "/projects/<%= @project.id %>/time_sheet_cost_codes/" + delete_id;
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "DELETE",
+            url: link_url,
+            data: {delete_id,plant_timesheet_date},
+            success: function () {
+                $('#'+row_id).addClass("table-dark");
+                // alert("Enter cost code to balance the hours.")
+            }
+        })
+    }
+        return false;
+    }
+
+    function submit_time_sheet() {
+        var sheet_date = null;
+        var celender_date = $("#datepicker_search_bar").val();
+        if(celender_date == "")
+        {
+            sheet_date = formatDate(new Date())
+        }
+        else
+        {
+            sheet_date = new Date(celender_date);
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/plant_time_sheets",
+            data: {submit_time_sheet: true, sheet_date: sheet_date }
+        })
+    }
 </script>

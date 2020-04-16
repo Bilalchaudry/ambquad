@@ -1,7 +1,6 @@
 class ProjectEmployeesController < ApplicationController
   before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
   before_action :set_project_employee, only: [:show, :edit, :update, :destroy]
-  # before_action :validate_start_end_date, only: :create
   load_and_authorize_resource
 
   # GET /project_employees

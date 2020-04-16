@@ -31,6 +31,8 @@ gem 'countries'
 gem 'roo'
 gem 'roo-xls'
 gem "figaro"
+gem 'activerecord-import'
+
 gem "audited", "~> 4.9"
 
 

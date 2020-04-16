@@ -144,7 +144,7 @@
                     <div class="form-group">
                       <select name="plant[status]" id="role" class="form-control">
                         <% Plant.statuses.each do |key, value| %>
-                          <option value="<%= value %>">
+                          <option value="<%= key %>">
                             <%= key %>
                           </option>
                         <% end %>

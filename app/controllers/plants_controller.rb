@@ -26,40 +26,40 @@ class PlantsController < ApplicationController
   # POST /plants
   # POST /plants.json
   def create
+    # @plant = @project.plants.new(plant_params)
+    # @plant.client_company_id = @project.client_company_id
+    # respond_to do |format|
+    #   if @plant.save
+    #     format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully created.' }
+    #     format.json { render :show, status: :created, location: @plant }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @plant.errors, status: :unprocessable_entity }
+    #   end
+    # end
     @plant = @project.plants.new(plant_params)
+    @plant.foreman_start_date = @plant.contract_start_date
+    @plant.foreman_end_date = @plant.contract_end_date
     @plant.client_company_id = @project.client_company_id
     respond_to do |format|
       if @plant.save
-        format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully created.'}
+        manager_id = params[:plant][:other_manager_id]
+        plant_manager = OtherManager.find(manager_id).employee.first_name
+        foreman_id = params[:plant][:other_manager_id]
+        plant_foreman = Foreman.find(foreman_id).employee.first_name
+        @project.plant_time_sheets.create(plant_id: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
+                              project_company_id: params[:plant][:project_company_id],
+                              foreman_id: params[:plant][:foreman_id], manager: plant_manager,
+                              project_company_id: @project.client_company_id, plant_create_date: Time.now.strftime("%Y-%m-%d"),
+                              company: @project.client_company.company_name, foreman_name: plant_foreman, total_hours: 0)
+
+        format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
         format.json {render :show, status: :created, location: @plant}
       else
         format.html {render :new}
         format.json {render json: @plant.errors, status: :unprocessable_entity}
       end
     end
-    # @plant = @project.plants.new(plant_params)
-    # @plant.foreman_start_date = @plant.contract_start_date
-    # @plant.foreman_end_date = @plant.contract_end_date
-    # @plant.client_company_id = @project.client_company_id
-    # respond_to do |format|
-    #   if @plant.save
-    #     manager_id = params[:plant][:other_manager_id]
-    #     plant_manager = OtherManager.find(manager_id).employee.first_name
-    #     foreman_id = params[:plant][:other_manager_id]
-    #     plant_foreman = Foreman.find(foreman_id).employee.first_name
-    #     PlantTimeSheet.create(plant_id: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
-    #                           project_company_id: params[:plant][:project_company_id],
-    #                           foreman_id: params[:plant][:foreman_id], manager: plant_manager,
-    #                           project_company_id: @project.client_company_id,
-    #                           company: @project.client_company.company_name, foreman_name: plant_foreman)
-    #
-    #     format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
-    #     format.json {render :show, status: :created, location: @plant}
-    #   else
-    #     format.html {render :new}
-    #     format.json {render json: @plant.errors, status: :unprocessable_entity}
-    #   end
-    # end
   end
 
   # PATCH/PUT /plants/1
@@ -118,11 +118,11 @@ class PlantsController < ApplicationController
     File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
       f.write(file.read)
     end
-    errors = Plant.import(params[:file], @project)
-    if errors == false
-      flash[:notice] = 'File Format not Supported'
+    errors = Plant.import_file(params[:file], @project)
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
     else
-      flash[:notice] = 'File has been imported successfully.'
+      flash[:notice] = errors
     end
     redirect_to project_plants_path
   end

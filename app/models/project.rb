@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
   audited
   belongs_to :client_company
+  has_many :employee_time_sheets
   has_many :cost_codes, dependent: :destroy
   has_many :other_managers, dependent: :destroy
   has_many :plants, dependent: :destroy
@@ -26,6 +27,8 @@ class Project < ApplicationRecord
       Closed: 2
   }
 
+  has_many :time_sheet_cost_codes
+
   validates_uniqueness_of :project_name
   validate :contract_end_date_after_contract_start_date
   validate :start_date_equal_or_greater_today_date
@@ -44,6 +47,8 @@ class Project < ApplicationRecord
       errors.add(:contract_start_date, "can't be in the past.")
     end
   end
+
+  has_many :plant_time_sheets
 
   before_destroy :check_for_projects, prepend: true
 
