@@ -21,41 +21,73 @@ class Employee < ApplicationRecord
       Closed: 2
   }
 
-  def self.import(file, user, project)
+  def self.import_file(file, user, project)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
+      i = 0
+      @employee = []
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
         begin
-        if row[6] == 'm' || row[6] == 'M' || row[6] == 'Male' || row[6] == 'male'
-          row[6] = "Male"
-        elsif row[6] == 'f' || row[6] == 'F' || row[6] == 'Female' || row[6] == 'female'
-          row[6] = "Female"
-        else
-          row[6] = "Male"
-        end
+          i = i + 1
 
-        if row[8] == 'Active' || row[8] == 'a' || row[8] == 'A' || row[8] == 'active'
-          row[8] = "Active"
-        elsif row[8] == 'Closed' || row[8] == 'closed' || row[8] == 'c' || row[8] == 'c' || row[8] == 'close' || row[8] == 'Close'
-          row[8] = "Closed"
-        elsif row[8] == 'Onhold' || row[8] == 'onhold' || row[8] == 'o' || row[8] == 'O' || row[8] == 'OnHold' || row[8] == 'onHold'
-          row[8] = "Onhold"
-        else
-          row[8] = "Active"
-        end
-        id_project_company = ProjectCompany.where(company_name: row[9]).first
-        if id_project_company.nil?
-          row[9] = ''
-        else
-          row[9] = id_project_company.id
-        end
+          if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[4].nil? || row[5].nil? || row[6].nil? || row[7].nil? || row[8].nil? || row[9].nil? || row[10].nil? || row[11].nil?
+            return error = "Validation Failed Employee Field Empty in File, Error on Row: #{i}"
+          end
 
-        employee = project.employees.create!(first_name: row[0], last_name: row[1], employee_id: row[2], country_name: row[3], phone: row[4], email: row[5],
-                                            gender: row[6], home_company_role: row[7], status: row[8], project_company_id: row[9], client_company_id: user.client_company_id)
+          if row[6] == 'm' || row[6] == 'M' || row[6] == 'Male' || row[6] == 'male'
+            row[6] = "Male"
+          elsif row[6] == 'f' || row[6] == 'F' || row[6] == 'Female' || row[6] == 'female'
+            row[6] = "Female"
+          else
+            row[6] = "Male"
+          end
+
+          if row[10] == 'Active' || row[10] == 'a' || row[10] == 'A' || row[10] == 'active'
+            row[10] = "Active"
+          elsif row[10] == 'Closed' || row[10] == 'closed' || row[10] == 'c' || row[10] == 'c' || row[10] == 'close' || row[10] == 'Close'
+            row[10] = "Closed"
+          elsif row[10] == 'Onhold' || row[10] == 'onhold' || row[10] == 'o' || row[10] == 'O' || row[10] == 'OnHold' || row[10] == 'onHold'
+            row[10] = "Onhold"
+          else
+            row[10] = "Active"
+          end
+
+          id_project_company = ProjectCompany.where(company_name: row[11]).first
+          if id_project_company.nil?
+            return error = "Validation Failed Project Company must Exist, Error on Row: #{i}"
+          else
+            row[11] = id_project_company.id
+           end
+
+          exist_employee_email = project.employees.where(email: row[5])
+          if !exist_employee_email.empty?
+            return error = "Validation Failed Email Already Exist, Error on Row: #{i}"
+          end
+
+          new_employee_email = @employee.any? { |a| a.email == row[05] }
+          if new_employee_email == true
+            return error = "Validation Failed Email Already Exist in File, Error on Row: #{i}"
+          end
+
+          exist_employee_phone = project.employees.where(phone: row[5])
+          if !exist_employee_phone.empty?
+            return error = "Validation Failed Email Already Exist, Error on Row: #{i}"
+          end
+
+          new_employee_phone = @employee.any? { |a| a.email == row[05] }
+          if new_employee_phone == true
+            return error = "Validation Failed Email Already Exist in File, Error on Row: #{i}"
+          end
+
+          @employee << project.employees.new(first_name: row[0], last_name: row[1], employee_id: row[2], country_name: row[3], phone: row[4], email: row[5],
+                                             gender: row[6], home_company_role: row[7], contract_start_date: row[8], contract_end_date: row[9], status: row[10],
+                                             project_company_id: row[11], client_company_id: user.client_company_id)
         rescue => e
           return e.message
         end
       end
+      Employee.import @employee
+      error = 'File Import Successfully'
     else
       spreadsheet = open_spreadsheet(file)
       if spreadsheet != false

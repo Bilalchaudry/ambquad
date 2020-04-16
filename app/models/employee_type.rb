@@ -4,12 +4,36 @@ class EmployeeType < ApplicationRecord
 
   validates_uniqueness_of :employee_type, :scope => :project_id
 
-  def self.import(file, project)
+  def self.import_file(file, project)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
+      @employee_type = []
+      i = 0
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
-        employee = EmployeeType.create(employee_type: row[0], project_id: project.id)
+        begin
+          i = i + 1
+
+          if row[0].nil?
+            return error = "Validation Failed Employee Type Empty in File, Error on Row: #{i}"
+          end
+
+          exist_employee_type = project.employee_types.where(employee_type: row[0])
+          if !exist_employee_type.empty?
+            return error = "Validation Failed Employee Type Already Exist in Project, Error on Row: #{i}"
+          end
+
+          new_employee_type = @employee_type.any? { |a| a.employee_type == row[0] }
+          if new_employee_type == true
+            return error = "Validation Failed Employee Type Already Exist in File, Error on Row: #{i}"
+          end
+
+          @employee_type << project.employee_types.new(employee_type: row[0], project_id: project.id)
+        rescue => e
+          return e.message
+        end
       end
+      EmployeeType.import @employee_type
+      error = 'File Import Successfully'
     else
       spreadsheet = open_spreadsheet(file)
       if spreadsheet != false

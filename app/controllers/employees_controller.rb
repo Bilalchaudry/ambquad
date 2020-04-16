@@ -81,7 +81,7 @@ class EmployeesController < ApplicationController
       f.write(file.read)
     end
     user = current_user
-    errors = Employee.import(params[:file], user, @project)
+    errors = Employee.import_file(params[:file], user, @project)
     if errors == nil
       flash[:notice] = 'File Imported Successfully'
     else

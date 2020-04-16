@@ -8,10 +8,10 @@
         <h5 class="mt-2 text-center">Employee Types</h5>
         <%= render 'shared/client_and_project_info' %>
         <div class="row">
-          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-6 col-md-6"></div>
 
 
-          <div class="col-xl-3 col-md-4">
+          <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-3">
               <%= link_to "Back to Project Setup", project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
@@ -21,16 +21,14 @@
             <div class="card bg-success text-white mb-3">
               <%= link_to "Add New Employee Type", new_project_employee_type_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
+            <div class="row" style="margin-left: 1px">
+              <%= form_tag import_project_employee_types_path, multipart: true do %>
+                <%= file_field_tag :file, :required => true %>
+                <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+              <% end %>
+              <%= link_to 'Download Template', download_template_project_employee_types_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
           </div>
-
-          <!--          <div class="row" style="margin-left: 1px">-->
-          <%#= form_tag "#", multipart: true do %>
-          <%#= file_field_tag :file, :required => true %>
-          <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
-          <%# end %>
-          <%#= link_to 'Download Template', "#", :class => "btn btn-dark", style: "color: white" %>
-          <!--          </div>-->
-
         </div>
 
         <div class="card mb-4">
