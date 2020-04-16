@@ -38,7 +38,7 @@
 
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :site_office_address, :id => "autocomplete", :class => "form-control py-2", :required => true, placeholder: "Enter address", onFocus: "geolocate()" %>
+                      <%= form.text_field :site_office_address, :id => "autocomplete-edit", :class => "form-control py-2", :required => true, placeholder: "Enter address", onFocus: "geolocate()" %>
                     </div>
                   </div>
                 </div>
@@ -79,6 +79,12 @@
                     </div>
                   </div>
                 </div>
+
+                <input class="field" id="street_number" style="display: none"/>
+                <input class="field" id="route" style="display: none"/>
+                <input class="field" id="postal_code" style="display: none"/>
+
+
 
                 <div class="row">
                   <div class="col-md-4">
@@ -153,13 +159,13 @@
   </main>
 
   <script>
-      // This sample uses the Autocomplete widget to help the user select a
-      // place, then it retrieves the address components associated with that
-      // place, and then it populates the form fields with those details.
-      // This sample requires the Places library. Include the libraries=places
-      // parameter when you first load the API. For example:
-      // <script
-      // src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+      var input = document.getElementById('autocomplete-edit');
+      google.maps.event.addDomListener(input, 'keydown', function(e) {
+          if (e.keyCode == 13)
+          {
+              e.preventDefault();
+          }
+      });
 
       var placeSearch, autocomplete;
 
@@ -173,10 +179,11 @@
       };
 
       function initAutocomplete() {
+          debugger
           // Create the autocomplete object, restricting the search predictions to
           // geographical location types.
           autocomplete = new google.maps.places.Autocomplete(
-              document.getElementById('autocomplete'), {types: ['geocode']});
+              document.getElementById('autocomplete-edit'), {types: ['geocode']});
 
           // Avoid paying for data that you don't need by restricting the set of
           // place fields that are returned to just the address components.
@@ -188,6 +195,7 @@
       }
 
       function fillInAddress() {
+          debugger
           // Get the place details from the autocomplete object.
           var place = autocomplete.getPlace();
 
@@ -199,7 +207,6 @@
           // Get each component of the address from the place details,
           // and then fill-in the corresponding field on the form.
           for (var i = 0; i < place.address_components.length; i++) {
-              debugger
               var addressType = place.address_components[i].types[0];
               if (componentForm[addressType]) {
                   var val = place.address_components[i][componentForm[addressType]];
@@ -211,6 +218,7 @@
       // Bias the autocomplete object to the user's geographical location,
       // as supplied by the browser's 'navigator.geolocation' object.
       function geolocate() {
+          debugger
           if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(function (position) {
                   var geolocation = {
