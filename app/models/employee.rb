@@ -22,6 +22,25 @@ class Employee < ApplicationRecord
       Closed: 2
   }
 
+  validate :contract_end_date_after_contract_start_date
+  validate :start_date_equal_or_greater_today_date
+
+  def contract_end_date_after_contract_start_date
+    if contract_end_date < contract_start_date
+      errors.add(:contract_end_date, "must be after start date.")
+    end
+    if contract_start_date < Date.today
+      errors.add(:contract_start_date, "can't be in the past.")
+    end
+  end
+
+  def start_date_equal_or_greater_today_date
+    if contract_start_date < Date.today
+      errors.add(:contract_start_date, "can't be in the past.")
+    end
+  end
+
+
   def self.import_file(file, user, project)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
