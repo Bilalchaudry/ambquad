@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_110420) do
+ActiveRecord::Schema.define(version: 2020_04_16_114753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,6 +320,8 @@ ActiveRecord::Schema.define(version: 2020_04_16_110420) do
     t.integer "status"
     t.string "city"
     t.string "state"
+    t.string "phone_country_code"
+    t.string "password_confirmation"
   end
 
   create_table "time_sheet_cost_codes", force: :cascade do |t|
@@ -351,10 +353,11 @@ ActiveRecord::Schema.define(version: 2020_04_16_110420) do
     t.datetime "remember_created_at"
     t.string "country_name"
     t.integer "status"
-    t.string "confirm_password"
+    t.string "password_confirmation"
     t.boolean "email_confirmed", default: false
     t.string "confirm_token"
     t.string "user_id"
+    t.string "phone_country_code"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

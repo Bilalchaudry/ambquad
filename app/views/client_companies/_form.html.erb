@@ -92,9 +92,10 @@
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
-                      <%= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.uniq.sort.map {|c| [c.emoji_flag + " " + c.country_code]}, @client_company.phone_country_code.present? ? @client_company.phone_country_code : " "), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                      <%= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.country_code]}, @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64"), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
                     </div>
                   </div>
+
                   <div class="col-md-4">
                     <div class="form-group">
                       <%= form.text_field :phone, :class => "form-control py-3" %>
@@ -259,23 +260,6 @@
     $(document).ready(function () {
         $('select').selectpicker();
     });
-
-    // function initAutocomplete() {
-    //
-    //     // Create the search box and link it to the UI element.
-    //     var input = document.getElementById('pac-input');
-    //     var searchBox = new google.maps.places.SearchBox(input);
-    //
-    //     // Listen for the event fired when the user selects a prediction and retrieve
-    //     // more details for that place.
-    //     searchBox.addListener('places_changed', function () {
-    //         var places = searchBox.getPlaces();
-    //
-    //         if (places.length == 0) {
-    //             return;
-    //         }
-    //     });
-    // }
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDGzNf9YIv5BasHa88gAf9AK71HL19sR4&libraries=places&callback=initAutocomplete"

@@ -34,4 +34,7 @@ class User < ApplicationRecord
     self.status = "Active"
   end
 
+  validates :password, :presence =>true, :confirmation =>true
+  validates_confirmation_of :password
+
 end
