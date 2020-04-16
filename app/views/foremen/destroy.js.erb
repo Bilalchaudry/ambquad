@@ -1,0 +1,8 @@
+<% if @destroy %>
+var client_companies_path = "/projects/" + <%= @project.id %> +"/foremen"
+location.href = client_companies_path
+alert("Foreman deleted successfully")
+<% else %>
+alert("Foreman can not deleted because Company is linked with Project.")
+
+<% end %>

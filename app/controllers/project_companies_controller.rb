@@ -71,11 +71,22 @@ class ProjectCompaniesController < ApplicationController
   # DELETE /project_companies/1
   # DELETE /project_companies/1.json
   def destroy
-    @project_company.destroy
-    respond_to do |format|
-      format.html { redirect_to project_project_companies_path, notice: 'Project company was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      if @project_company.nil?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @project_company.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to "/projects/#{@project.id}/project_companies", notice: 'Project company  can not deleted because it is linked with its assosiative records'
     end
+
   end
 
   def import

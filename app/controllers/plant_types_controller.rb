@@ -56,10 +56,20 @@ class PlantTypesController < ApplicationController
   # DELETE /plant_types/1
   # DELETE /plant_types/1.json
   def destroy
-    @plant_type.destroy
-    respond_to do |format|
-      format.html {redirect_to "/projects/#{@project.id}/plant_types", notice: 'Plant type was successfully destroyed.'}
-      format.json {head :no_content}
+    begin
+      if @plant_type.nil?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @plant_type.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to "/projects/#{@project.id}/plant_types", notice: 'Plant type can not deleted because it is linked with its assosiative records'
     end
   end
 

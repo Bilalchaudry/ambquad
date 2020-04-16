@@ -58,7 +58,7 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html {redirect_to @project, notice: 'Project was successfully updated.'}
+        format.html {redirect_to projects_path, notice: 'Project was successfully updated.'}
         format.json {render :show, status: :ok, location: @project}
       else
         format.html {render :edit}
@@ -99,7 +99,8 @@ class ProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:project_name, :site_office_address,
-                                    :client_company_id, :employee_id, :project_lead)
+    params.require(:project).permit(:project_name, :site_office_address, :country, :start_date,
+                                    :end_date, :city, :state,
+                                    :client_company_id, :employee_id, :project_lead, :client_po_number, :project_status)
   end
 end

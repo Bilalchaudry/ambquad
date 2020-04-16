@@ -1,6 +1,6 @@
 class EmployeeTypesController < ApplicationController
   before_action :set_employee_type, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import, :destroy]
   load_and_authorize_resource
 
   # GET /employee_types
@@ -56,14 +56,21 @@ class EmployeeTypesController < ApplicationController
   # DELETE /employee_types/1.json
   def destroy
     begin
-      @employee_type.destroy
-      respond_to do |format|
-        format.html { redirect_to project_employee_types_url, notice: 'Employee type was successfully destroyed.' }
-        format.json { head :no_content }
+      if @employee_type.nil?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @employee_type.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
       end
     rescue => e
-      redirect_to project_employee_types_path, notice: 'Employee Type can not deleted because it is linked with Employee.'
+      redirect_to "/projects/#{@project.id}/employee_types", notice: 'Employee Type can not deleted because it is linked with its assosiative records'
     end
+
   end
 
   def import

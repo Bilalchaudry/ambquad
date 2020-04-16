@@ -1,5 +1,5 @@
 class PlantType < ApplicationRecord
-
+  audited
   belongs_to :project
   has_many :plants
 

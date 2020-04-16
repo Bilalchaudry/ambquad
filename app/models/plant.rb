@@ -1,4 +1,5 @@
 class Plant < ApplicationRecord
+  audited
 
   belongs_to :client_company
   belongs_to :project_company

@@ -1,5 +1,5 @@
 class EmployeeType < ApplicationRecord
-
+  audited
   belongs_to :project
 
   validates_uniqueness_of :employee_type, :scope => :project_id

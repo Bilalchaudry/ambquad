@@ -54,11 +54,22 @@ class BudgetHoldersController < ApplicationController
   # DELETE /budget_holders/1
   # DELETE /budget_holders/1.json
   def destroy
-    @budget_holder.destroy
-    respond_to do |format|
-      format.html {redirect_to "/projects/#{@project.id}/budget_holders", notice: 'Budget holder was successfully destroyed.'}
-      format.json {head :no_content}
+    begin
+      if @budget_holder.nil?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @budget_holder.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to "/projects/#{@project.id}/budget_holders", notice: 'Budget Holder can not deleted because it is linked with its assosiative records'
     end
+
   end
 
   private

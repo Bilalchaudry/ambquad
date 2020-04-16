@@ -75,16 +75,20 @@ class UsersController < ApplicationController
       redirect_to root_url
     end
   end
+
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    TemporaryUser.find_by_email(@user.email).destroy rescue nil
-    @user.destroy
-    @user.client_company.decrement!(:number_of_users)
-    respond_to do |format|
-      format.html {redirect_to users_url, notice: 'User was successfully destroyed.'}
-      format.json {head :no_content}
+    begin
+      TemporaryUser.find_by_email(@user.email).destroy rescue nil
+      @user.client_company.update(number_of_users: @user.client_company.number_of_users - 1)
+      @user.destroy
+      @destroy = true
+
+    rescue => e
+      redirect_to users_path, notice: 'User can not deleted because it is linked with its assosiative records'
     end
+
   end
 
   private

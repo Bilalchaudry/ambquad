@@ -61,7 +61,7 @@
                     <td>
                       <%= link_to "View", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/plants/#{plant.id}/edit", :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/projects/#{@project.id}/plants/#{plant.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'} %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true   %>
                     </td>
                   </tr>
                 <% end %>

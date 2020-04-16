@@ -64,10 +64,20 @@ class ForemenController < ApplicationController
   # DELETE /foremen/1
   # DELETE /foremen/1.json
   def destroy
-    @foreman.destroy
-    respond_to do |format|
-      format.html {redirect_to project_foremen_path(@project), notice: 'Foreman was successfully destroyed.'}
-      format.json {head :no_content}
+    begin
+      if @foreman.nil?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @foreman.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to "/projects/#{@project.id}/foremen", notice: 'Foreman can not deleted because it is linked with its assosiative records'
     end
   end
 

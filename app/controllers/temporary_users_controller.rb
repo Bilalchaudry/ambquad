@@ -25,11 +25,11 @@ class TemporaryUsersController < ApplicationController
   # POST /temporary_users.json
   def create
     @temporary_user = TemporaryUser.new(temporary_user_params)
-    code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
-    @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
-
+    # code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
+    # @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
+    @temporary_user.country_name = current_user.client_company.country_name
     @user = User.new(temporary_user_params)
-    @user.phone_no = '+' + code + @user.phone_no
+    @user.country_name = @temporary_user.country_name
     @user.set_confirmation_token
     @user.save
     respond_to do |format|
@@ -81,9 +81,9 @@ class TemporaryUsersController < ApplicationController
   def temporary_user_params
     pp = params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
                                                 :password, :encrypted_password, :client_company_id, :country_name,
-                                                :status)
+                                                :status, :user_id)
     pp[:role] = params[:temporary_user][:role].to_i
-    pp[:role] = params[:temporary_user][:status].to_i
+    pp[:status] = params[:temporary_user][:status].to_i
     return pp
   end
 end

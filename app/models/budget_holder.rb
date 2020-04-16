@@ -1,5 +1,5 @@
 class BudgetHolder < ApplicationRecord
-
+  audited
   has_many :cost_codes
   belongs_to :employee
   belongs_to :project
