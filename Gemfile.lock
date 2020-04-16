@@ -250,8 +250,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  audited (~> 4.9)
   activerecord-import
+  audited (~> 4.9)
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
   bootstrap-datepicker-rails
