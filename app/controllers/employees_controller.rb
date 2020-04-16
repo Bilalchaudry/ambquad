@@ -28,6 +28,7 @@ class EmployeesController < ApplicationController
   def create
     @employee = @project.employees.new(employee_params)
     @employee.client_company_id = @project.client_company_id
+    @employee.country_name = @project.client_company.country_name
     @employee.country_code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
 
     respond_to do |format|
@@ -81,7 +82,7 @@ class EmployeesController < ApplicationController
       f.write(file.read)
     end
     user = current_user
-    errors = Employee.import(params[:file], user, @project)
+    errors = Employee.import_file(params[:file], user, @project)
     if errors == nil
       flash[:notice] = 'File Imported Successfully'
     else
@@ -111,8 +112,8 @@ class EmployeesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def employee_params
     employe_params = params.require(:employee).permit(:first_name, :last_name,
-                                                      :employee_id, :phone, :email,
-                                                      :gender, :home_company_role,
+                                                      :employee_id, :phone, :email, :employee_type_id,
+                                                      :gender, :home_company_role, :employee_name,
                                                       :contract_start_date, :contract_end_date,
                                                       :status, :project_company_id, :project_id,
                                                       :other_manager_id, :foreman_id, :project_role,

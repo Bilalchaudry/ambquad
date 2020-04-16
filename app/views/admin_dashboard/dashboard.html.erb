@@ -11,10 +11,10 @@
             <section id="tabs">
               <div class="">
                 <div class="row">
-                  <div class="col-sm-12 ">
+                  <div class="col-sm-6 ">
                     <nav>
                       <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a style="background: #1466FB; color: white; width: 120px; border-radius: 10px; margin-bottom: 20px; margin-top: 20px;" class="nav-item nav-link mr-2" id="nav-projects-tab" data-toggle="tab" href="#projects-table" role="tab" aria-controls="nav-home" aria-selected="true">
+                        <a style="background: #1466FB; color: white; border-radius: 10px; margin-bottom: 20px; margin-top: 20px;" class="nav-item nav-link mr-2" id="nav-projects-tab" data-toggle="tab" href="#projects-table" role="tab" aria-controls="nav-home" aria-selected="true">
                           <div class="card-body ">Projects</div>
                           <div class="card-footer d-flex align-items-center justify-content-between">
                             <div class="small text-white">View Details</div>
@@ -31,7 +31,7 @@
                             <div class="card-body">Client Companies</div>
                           </a>
                         <% else %>
-                          <a style="background: #00B249; color: white; width: 120px; border-radius: 10px; margin-bottom: 20px; margin-top: 20px;" class="nav-item nav-link ml-2" id="client_company-tab" data-toggle="tab" href="#client_company" role="tab" aria-controls="nav-contact" aria-selected="false">
+                          <a style="background: #00B249; color: white; border-radius: 10px; margin-bottom: 20px; margin-top: 20px;" class="nav-item nav-link ml-2" id="client_company-tab" data-toggle="tab" href="#client_company" role="tab" aria-controls="nav-contact" aria-selected="false">
                             <div class="card-body">Client Info</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                               <div class="small text-white">View Details</div>
@@ -41,28 +41,32 @@
                         <% end %>
                       </div>
                     </nav>
-                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                      <div class="tab-pane fade" id="projects-table" role="tabpanel" aria-labelledby="nav-projects-tab">
-                        <%= render 'shared/project_table' %>
-                      </div>
-                      <div class="tab-pane fade" id="users-table" role="tabpanel" aria-labelledby="nav-users-tab">
-                        <%= render 'shared/user_table' %>
-                      </div>
-                      <div class="tab-pane fade" id="companies-table" role="tabpanel" aria-labelledby="nav-companies-tab">
-                        <%= render 'shared/client_compnies_table' %>
-                      </div>
-                      <% unless current_user.role.eql?("Admin") %>
-                        <div class="tab-pane fade" id="client_company" role="tabpanel" aria-labelledby="client_company-tab">
-                          <%= render 'shared/company' %>
-                        </div>
-                      <% end %>
-                    </div>
+                    <div class="col-sm-6 "></div>
                   </div>
                 </div>
+                  <div class="row">
+                    <div class="col-sm-12 ">
+                      <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                        <div class="tab-pane fade" id="projects-table" role="tabpanel" aria-labelledby="nav-projects-tab">
+                          <%= render 'shared/project_table' %>
+                        </div>
+                        <div class="tab-pane fade" id="users-table" role="tabpanel" aria-labelledby="nav-users-tab">
+                          <%= render 'shared/user_table' %>
+                        </div>
+                        <div class="tab-pane fade" id="companies-table" role="tabpanel" aria-labelledby="nav-companies-tab">
+                          <%= render 'shared/client_compnies_table' %>
+                        </div>
+                        <% unless current_user.role.eql?("Admin") %>
+                          <div class="tab-pane fade" id="client_company" role="tabpanel" aria-labelledby="client_company-tab">
+                            <%= render 'shared/company' %>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
               </div>
             </section>
           </div>
-
         </div>
 
       </div>

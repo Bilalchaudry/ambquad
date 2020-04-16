@@ -2,6 +2,13 @@
   <div id="layoutSidenav_content">
     <main>
       <div class="container-fluid">
+        <center>
+          <div id="flash">
+            <% if notice.present? %>
+              <%= render partial: "shared/notice" %>
+            <% end %>
+          </div>
+        </center>
         <div class="modal fade" id="cost_code_modal" role="dialog">
           <div class="modal-dialog">
             <!-- Modal content-->
@@ -117,7 +124,7 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Submit Timesheets', "/projects/#{@project.id}/plant_time_sheets", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <button class='btn btn-dark w-100' style='font-weight:bold; color: white;' onclick="submit_time_sheet()">Submit Timesheets</button>
                     </div>
                   </div>
                 </div>
@@ -284,5 +291,24 @@
         })
     }
         return false;
+    }
+
+    function submit_time_sheet() {
+        var sheet_date = null;
+        var celender_date = $("#datepicker_search_bar").val();
+        if(celender_date == "")
+        {
+            sheet_date = formatDate(new Date())
+        }
+        else
+        {
+            sheet_date = new Date(celender_date);
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/projects/<%= @project.id %>/plant_time_sheets",
+            data: {submit_time_sheet: true, sheet_date: sheet_date }
+        })
     }
 </script>

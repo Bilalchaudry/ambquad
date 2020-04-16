@@ -30,7 +30,9 @@ class ProjectCompaniesController < ApplicationController
   # POST /project_companies.json
   def create
     @project_company = @project.project_companies.new(project_company_params)
+    @project_company.project_id = @project.id
     @project_company.client_company_id = @project.client_company.id
+    @project_company.poc_country = @project.client_company.country_name
     if @project_company.country_name != " "
       code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
       @project_company.phone = '+' + code + @project_company.phone
@@ -94,11 +96,11 @@ class ProjectCompaniesController < ApplicationController
       f.write(file.read)
     end
     user = current_user
-    errors = ProjectCompany.import(params[:file], user, @project)
-    if errors == false
-      flash[:notice] = 'File Format not Supported'
+    errors = ProjectCompany.import_file(params[:file], user, @project)
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
     else
-      flash[:notice] = 'File has been imported successfully.'
+      flash[:notice] = errors
     end
     redirect_to project_project_companies_path
   end

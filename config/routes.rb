@@ -7,8 +7,9 @@ Rails.application.routes.draw do
 
   resources :projects do
     resources :time_sheet_cost_codes
-    resources :employee_time_sheets
     resources :plant_time_sheets
+    resources :employee_time_sheets
+
     resources :foremen do
       collection do
         get :crew

@@ -20,8 +20,6 @@ class Project < ApplicationRecord
   has_many :project_project_employees
   has_many :project_employees, :through => :project_project_employees
 
-  has_many :time_sheet_cost_codes
-
 
   enum status: {
       Active: 0,
@@ -29,7 +27,26 @@ class Project < ApplicationRecord
       Closed: 2
   }
 
+  has_many :time_sheet_cost_codes
+
   validates_uniqueness_of :project_name
+  validate :contract_end_date_after_contract_start_date
+  validate :start_date_equal_or_greater_today_date
+
+  def contract_end_date_after_contract_start_date
+    if end_date < start_date
+      errors.add(:contract_end_date, "must be after start date.")
+    end
+    if start_date < Date.today
+      errors.add(:contract_start_date, "can't be in the past.")
+    end
+  end
+
+  def start_date_equal_or_greater_today_date
+    if start_date < Date.today
+      errors.add(:contract_start_date, "can't be in the past.")
+    end
+  end
 
   has_many :plant_time_sheets
 

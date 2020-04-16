@@ -31,9 +31,9 @@ gem 'countries'
 gem 'roo'
 gem 'roo-xls'
 gem "figaro"
-gem "audited", "~> 4.9"
 gem 'activerecord-import'
 
+gem "audited", "~> 4.9"
 
 
 gem 'devise-bootstrap-views', '~> 1.0'

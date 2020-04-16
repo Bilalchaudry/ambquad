@@ -6,10 +6,10 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets.json
   def index
     if params[:find_emp_codes].present?
-    employee_used_time_sheet_code = @project.time_sheet_cost_codes.where(employee_time_sheet_id: params[:time_sheet_employee_id], employee_id: params[:emp_id], created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).pluck(:cost_code_id)
-    @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-    unused_codes_for_employee = @project.cost_codes.where.not(id: employee_used_time_sheet_code)
-    render json: unused_codes_for_employee
+      employee_used_time_sheet_code = @project.time_sheet_cost_codes.where(employee_time_sheet_id: params[:time_sheet_employee_id], employee_id: params[:emp_id], created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).pluck(:cost_code_id)
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      unused_codes_for_employee = @project.cost_codes.where.not(id: employee_used_time_sheet_code)
+      render json: unused_codes_for_employee
 
     elsif params[:find_plant_codes].present?
       plant_used_time_sheet_code = @project.time_sheet_cost_codes.where(plant_id: params[:plant_id], time_sheet_plant_id: params[:time_sheet_plant_id], created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).pluck(:cost_code_id)
@@ -27,7 +27,7 @@ class EmployeeTimeSheetsController < ApplicationController
                                                                      labour_type: project_employee.employee_type.employee_type, project_company_id: project_employee.project_company_id,
                                                                      manager: project_employee.other_manager.employee.first_name, foreman_name: project_employee.foreman.employee.first_name,
                                                                      total_hours: 0, employee_type_id: project_employee.employee_type_id,
-                                                                     employee_create_date: params[:date], project_id: @project.id,employee_id: project_employee.employee_id)
+                                                                     employee_create_date: params[:date], project_id: @project.id, employee_id: project_employee.employee_id)
         end
         EmployeeTimeSheet.import @employee_time_sheets
 
@@ -88,6 +88,43 @@ class EmployeeTimeSheetsController < ApplicationController
         f.js
         f.html
       end
+    elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
+      today = params[:sheet_date].to_date
+      whole_week = (today.at_beginning_of_week..today.at_end_of_week - 2)
+      @time_sheet_submit_data = []
+      whole_week.map.each do |day|
+        time_sheet_data = EmployeeTimeSheet.where(employee_create_date: day)
+        if time_sheet_data.first.submit_sheet == true
+          @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+          respond_to do |f|
+            f.js { flash.now[:notice] = "Time Sheet Already Submitted" }
+            f.html
+          end
+        end
+        if time_sheet_data.empty?
+          @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+          respond_to do |f|
+            f.js { flash.now[:notice] = "Please Complete the Time Sheet there is no data on Date: #{day}" }
+            f.html
+          end
+        else
+          # if time_sheet_data.first.submit_sheet == true
+          #   @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+          #   respond_to do |f|
+          #     f.js { flash.now[:notice] = "Time Sheet Already Submitted" }
+          #     f.html
+          #   end
+          # end
+          @time_sheet_submit_data.push(time_sheet_data)
+        end
+      end
+      @time_sheet_submit_data.each { |single_data| single_data.update(submit_sheet: true) }
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      respond_to do |f|
+        f.js { flash.now[:notice] = "Time Sheet Submitted Successfully" }
+        f.html
+      end
+
     else
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
     end

@@ -74,6 +74,35 @@ class PlantTimeSheetsController < ApplicationController
         f.js
         f.html
       end
+    elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
+      today = params[:sheet_date].to_date
+      whole_week = (today.at_beginning_of_week..today.at_end_of_week-2)
+      @time_sheet_submit_data=[]
+      whole_week.each do |day|
+        time_sheet_data = PlantTimeSheet.where(plant_create_date: day)
+        if time_sheet_data.first.nil?
+          @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+          respond_to do |f|
+            f.js { flash.now[:notice] = "Please Complete the Time Sheet there is no data on Date: #{day}" }
+            f.html
+          end
+        else
+          @time_sheet_submit_data.push(time_sheet_data)
+        end
+      end
+      # if @time_sheet_submit_data.first.submit_sheet == true
+      #   @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      #   respond_to do |f|
+      #     f.js { flash.now[:notice] = "Time Sheet Already Submitted" }
+      #     f.html
+      #   end
+      # end
+      @time_sheet_submit_data.each {|single_data| single_data.update(submit_sheet: true)}
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      respond_to do |f|
+        f.js { flash.now[:notice] = "Time Sheet Submitted Successfully" }
+        f.html
+      end
     else
       @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
     end
