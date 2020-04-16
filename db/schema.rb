@@ -10,10 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_130924) do
+ActiveRecord::Schema.define(version: 2020_04_15_190038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "audits", force: :cascade do |t|
+    t.integer "auditable_id"
+    t.string "auditable_type"
+    t.integer "associated_id"
+    t.string "associated_type"
+    t.integer "user_id"
+    t.string "user_type"
+    t.string "username"
+    t.string "action"
+    t.text "audited_changes"
+    t.integer "version", default: 0
+    t.string "comment"
+    t.string "remote_address"
+    t.string "request_uuid"
+    t.datetime "created_at"
+    t.index ["associated_type", "associated_id"], name: "associated_index"
+    t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["created_at"], name: "index_audits_on_created_at"
+    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
+    t.index ["user_id", "user_type"], name: "user_index"
+  end
 
   create_table "budget_holders", force: :cascade do |t|
     t.integer "employee_id"
@@ -42,6 +64,9 @@ ActiveRecord::Schema.define(version: 2020_04_14_130924) do
     t.string "poc_country"
     t.string "phone_country_code"
     t.string "primary_poc_country_code"
+    t.string "city"
+    t.string "state"
+    t.string "country"
   end
 
   create_table "client_company_projects", force: :cascade do |t|
@@ -277,6 +302,9 @@ ActiveRecord::Schema.define(version: 2020_04_14_130924) do
     t.datetime "updated_at", null: false
     t.integer "employee_id"
     t.string "project_lead"
+    t.string "country"
+    t.string "city"
+    t.string "state"
   end
 
   create_table "temporary_users", force: :cascade do |t|
@@ -294,6 +322,8 @@ ActiveRecord::Schema.define(version: 2020_04_14_130924) do
     t.string "country_name"
     t.boolean "email_confirmed", default: false
     t.string "confirm_token"
+    t.string "user_id"
+    t.integer "status"
   end
 
   create_table "time_sheet_cost_codes", force: :cascade do |t|
@@ -335,6 +365,7 @@ ActiveRecord::Schema.define(version: 2020_04_14_130924) do
     t.string "confirm_password"
     t.boolean "email_confirmed", default: false
     t.string "confirm_token"
+    t.string "user_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

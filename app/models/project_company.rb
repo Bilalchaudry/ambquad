@@ -1,5 +1,5 @@
 class ProjectCompany < ApplicationRecord
-
+  audited
   belongs_to :client_company
   has_many :employees
   has_many :plants

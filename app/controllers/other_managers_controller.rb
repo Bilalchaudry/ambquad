@@ -15,10 +15,6 @@ class OtherManagersController < ApplicationController
   # GET /other_managers/1
   # GET /other_managers/1.json
   def show
-    if params[:delete].present?
-      @other_managers.destroy
-      redirect_to other_managers_path
-    end
   end
 
   # GET /other_managers/new
@@ -62,11 +58,22 @@ class OtherManagersController < ApplicationController
   # DELETE /other_managers/1
   # DELETE /other_managers/1.json
   def destroy
-    @other_manager.destroy
-    respond_to do |format|
-      format.html {redirect_to project_other_managers_path(@project), notice: 'Other manager was successfully destroyed.'}
-      format.json {head :no_content}
+    begin
+      if @other_manager.nil?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @other_manager.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to "/projects/#{@project.id}/other_managers", notice: 'Cost Code can not deleted because it is linked with its assosiative records'
     end
+
   end
 
   private

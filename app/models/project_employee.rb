@@ -1,4 +1,5 @@
 class ProjectEmployee < ApplicationRecord
+  audited
   after_create :time_sheet_employee
   belongs_to :employee
   belongs_to :employee_type

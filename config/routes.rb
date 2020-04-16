@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # resources :time_sheet_cost_codes
-
+  resources :history
   get 'timesheet/index'
   resources :budget_holders
   resources :plants

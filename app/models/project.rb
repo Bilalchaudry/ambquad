@@ -1,5 +1,5 @@
 class Project < ApplicationRecord
-
+  audited
   belongs_to :client_company
   has_many :employee_time_sheets
   has_many :cost_codes, dependent: :destroy
@@ -21,6 +21,13 @@ class Project < ApplicationRecord
   has_many :project_employees, :through => :project_project_employees
 
   has_many :time_sheet_cost_codes
+
+
+  enum status: {
+      Active: 0,
+      Onhold: 1,
+      Closed: 2
+  }
 
   validates_uniqueness_of :project_name
 

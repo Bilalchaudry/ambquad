@@ -1,6 +1,6 @@
 class PlantsController < ApplicationController
   before_action :set_plant, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import, :destroy]
   load_and_authorize_resource
 
   # GET /plants
@@ -26,7 +26,20 @@ class PlantsController < ApplicationController
   # POST /plants
   # POST /plants.json
   def create
+    @plant = @project.plants.new(plant_params)
+    @plant.client_company_id = @project.client_company_id
+    respond_to do |format|
+      if @plant.save
+        format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully created.' }
+        format.json { render :show, status: :created, location: @plant }
+      else
+        format.html { render :new }
+        format.json { render json: @plant.errors, status: :unprocessable_entity }
+      end
+    end
     # @plant = @project.plants.new(plant_params)
+    # @plant.foreman_start_date = @plant.contract_start_date
+    # @plant.foreman_end_date = @plant.contract_end_date
     # @plant.client_company_id = @project.client_company_id
     # respond_to do |format|
     #   if @plant.save
@@ -98,10 +111,24 @@ class PlantsController < ApplicationController
   # DELETE /plants/1
   # DELETE /plants/1.json
   def destroy
-    @plant.destroy
-    respond_to do |format|
-      format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully destroyed.' }
-      format.json { head :no_content }
+    # @plant.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully destroyed.' }
+    #   format.json { head :no_content }
+    begin
+      if @plant.nil?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @plant.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to "/projects/#{@project.id}/plants", notice: 'Cost Code can not deleted because it is linked with its assosiative records'
     end
   end
 
@@ -139,8 +166,11 @@ class PlantsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def plant_params
-    params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
+    pp = params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
                                   :contract_start_date, :contract_end_date, :market_value,
                                   :offload, :foreman_id, :other_manager_id)
+    pp[:status] = params[:plant][:status].to_i
+
+    return pp
   end
 end
