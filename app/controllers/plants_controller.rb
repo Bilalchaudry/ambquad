@@ -30,11 +30,11 @@ class PlantsController < ApplicationController
     @plant.client_company_id = @project.client_company_id
     respond_to do |format|
       if @plant.save
-        format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully created.' }
-        format.json { render :show, status: :created, location: @plant }
+        format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully created.'}
+        format.json {render :show, status: :created, location: @plant}
       else
-        format.html { render :new }
-        format.json { render json: @plant.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @plant.errors, status: :unprocessable_entity}
       end
     end
     # @plant = @project.plants.new(plant_params)
@@ -68,14 +68,14 @@ class PlantsController < ApplicationController
 
     respond_to do |format|
       # if @plant.foreman_id.eql?(params[:plant][:foreman_id])
-        if @plant.update(plant_params)
+      if @plant.update(plant_params)
 
-          format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.'}
-          format.json {render :show, status: :ok, location: @plant}
-        else
-          format.html {render :edit}
-          format.json {render json: @plant.errors, status: :unprocessable_entity}
-        end
+        format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.'}
+        format.json {render :show, status: :ok, location: @plant}
+      else
+        format.html {render :edit}
+        format.json {render json: @plant.errors, status: :unprocessable_entity}
+      end
       # else
       #   @duplicate_record = @plant.dup
       #   @duplicate_record.foreman_id = params[:plant][:foreman_id]
@@ -131,7 +131,7 @@ class PlantsController < ApplicationController
     send_file(
         "#{Rails.root}/public/documents/plant_template.csv",
         filename: "plant_template.csv",
-        )
+    )
   end
 
   private
@@ -148,8 +148,8 @@ class PlantsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def plant_params
     pp = params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
-                                  :contract_start_date, :contract_end_date, :market_value,
-                                  :offload, :foreman_id, :other_manager_id)
+                                       :contract_start_date, :contract_end_date, :market_value,
+                                       :offload, :foreman_id, :other_manager_id)
     pp[:status] = params[:plant][:status].to_i
 
     return pp

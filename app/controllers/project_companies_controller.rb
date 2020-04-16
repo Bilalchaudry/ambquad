@@ -31,6 +31,7 @@ class ProjectCompaniesController < ApplicationController
   def create
     @project_company = @project.project_companies.new(project_company_params)
     @project_company.client_company_id = @project.client_company.id
+    @project_company.poc_country = @project.client_company.country_name
     if @project_company.country_name != " "
       code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
       @project_company.phone = '+' + code + @project_company.phone
