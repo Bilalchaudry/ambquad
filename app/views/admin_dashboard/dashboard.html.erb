@@ -7,8 +7,6 @@
       <div class="container-fluid">
         <h1 class="mt-4">Dashboard</h1>
         <div class="row">
-
-
           <div class="col-sm-12">
             <section id="tabs">
               <div class="">
@@ -18,6 +16,10 @@
                       <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                         <a style="background: #1466FB; color: white; width: 120px; border-radius: 10px; margin-bottom: 20px; margin-top: 20px;" class="nav-item nav-link mr-2" id="nav-projects-tab" data-toggle="tab" href="#projects-table" role="tab" aria-controls="nav-home" aria-selected="true">
                           <div class="card-body ">Projects</div>
+                          <div class="card-footer d-flex align-items-center justify-content-between">
+                            <div class="small text-white">View Details</div>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                          </div>
                         </a>
                         <% if current_user.role.eql?("Admin") && current_user.client_company.company_name.eql?("Ambquad") %>
 
@@ -31,6 +33,10 @@
                         <% else %>
                           <a style="background: #00B249; color: white; width: 120px; border-radius: 10px; margin-bottom: 20px; margin-top: 20px;" class="nav-item nav-link ml-2" id="client_company-tab" data-toggle="tab" href="#client_company" role="tab" aria-controls="nav-contact" aria-selected="false">
                             <div class="card-body">Client Info</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <div class="small text-white">View Details</div>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
                           </a>
                         <% end %>
                       </div>
@@ -85,7 +91,7 @@
                 'pdfHtml5',
                 'print'
             ]
-        } );
-    } );
+        });
+    });
 
 </script>
