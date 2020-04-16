@@ -44,7 +44,7 @@
 
   <div id="layoutSidenav">
 
-    <% if current_user.role.eql?("Admin") %>
+    <% if current_user.role.eql?("Admin") &&  current_user.client_company.company_name.eql?("Ambquad") %>
       <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
           <div class="sb-sidenav-menu">
@@ -70,6 +70,12 @@
 
                 <div class="sb-nav-link-icon"><i class="fa fa-tasks"></i></div>
                 Projects
+              </a>
+
+              <a class="nav-link" href="/history/">
+
+                <div class="sb-nav-link-icon"><i class="fa fa-tasks"></i></div>
+                History
               </a>
 
               <%#= link_to 'Employee Time Sheet', employee_time_sheets_path , :class => "nav-link sb-nav-link-icon"%>
