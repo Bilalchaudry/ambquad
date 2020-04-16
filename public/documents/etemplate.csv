@@ -1,1 +1,1 @@
-first_name,last_name,employee_id,country,phone,email,gender,home_company_role,status,project_company_name
+employee_name,employee_id,employee_type_name,project_company_name,home_company_role,contract_start_date,contract_end_date,foreman_name,other_manager,phone,email,gender,status
