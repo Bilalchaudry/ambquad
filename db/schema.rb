@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_084104) do
+ActiveRecord::Schema.define(version: 2020_04_16_113540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2020_04_16_084104) do
     t.string "cost_code"
     t.date "employee_create_date"
     t.bigint "project_id"
+    t.boolean "submit_sheet", default: false
     t.index ["project_id"], name: "index_employee_time_sheets_on_project_id"
   end
 
@@ -185,6 +186,7 @@ ActiveRecord::Schema.define(version: 2020_04_16_084104) do
     t.string "foreman_name"
     t.bigint "project_id"
     t.date "plant_create_date"
+    t.boolean "submit_sheet", default: false
     t.index ["project_id"], name: "index_plant_time_sheets_on_project_id"
   end
 
@@ -339,6 +341,8 @@ ActiveRecord::Schema.define(version: 2020_04_16_084104) do
     t.bigint "plant_id"
     t.integer "time_sheet_employee_id"
     t.integer "time_sheet_plant_id"
+    t.bigint "employee_time_sheet_id"
+    t.index ["employee_time_sheet_id"], name: "index_time_sheet_cost_codes_on_employee_time_sheet_id"
     t.index ["plant_id"], name: "index_time_sheet_cost_codes_on_plant_id"
     t.index ["project_id"], name: "index_time_sheet_cost_codes_on_project_id"
   end
@@ -388,6 +392,7 @@ ActiveRecord::Schema.define(version: 2020_04_16_084104) do
   add_foreign_key "project_employees", "employee_types"
   add_foreign_key "project_employees", "employees"
   add_foreign_key "project_employees", "projects"
+  add_foreign_key "time_sheet_cost_codes", "employee_time_sheets"
   add_foreign_key "time_sheet_cost_codes", "plants"
   add_foreign_key "time_sheet_cost_codes", "projects"
 end
