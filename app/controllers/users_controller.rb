@@ -110,7 +110,7 @@ class UsersController < ApplicationController
                                       :email, :username, :encrypted_password,
                                       :password, :status, :client_company_id)
     pp[:role] = params[:user][:role].to_i
-    pp[:status] = params[:temporary_user][:status].to_i
+    pp[:status] = params[:user][:status].to_i
     return pp
   end
 end

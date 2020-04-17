@@ -9,16 +9,30 @@
             <div class="card-body">
               <%= form_with(model: @project, local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :project_name, :class => "form-control py-2", :required => true , :readonly => true %>
-                      </div>
+
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :company_name, "Company", :class => "mb-1 pt-2", :style => 'font-weight:bold'%>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :company_name, :class => "form-control py-2", value: @project.client_company.company_name, :readonly => true  %>
                     </div>
                   </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :project_name, :class => "form-control py-2", :required => true, :readonly => true %>
+                    </div>
+                  </div>
+                </div>
 
                 <div class="row">
                   <div class="col-md-4">
@@ -85,7 +99,6 @@
                 <input class="field" id="postal_code" style="display: none"/>
 
 
-
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -112,7 +125,21 @@
                   <div class="col-md-4">
                     <%= form.label :client_po_number, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
-                  <div class="col-md-6">
+
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <select name="project[country_code]" id="country_code" class="form-control" required>
+                        <option value=<%= @project.country_code.present? ? @project.country_code : "+64" %>><%= @project.country_code.present? ? @project.country_code : "+64" %></option>
+                        <% ISO3166::Country.countries.sort.each do |country| %>
+                          <option value="<%= country.emoji_flag + " " + country.country_code %>">
+                            <%= country.emoji_flag + " " + country.country_code %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
                     <div class="form-group">
                       <%= form.text_field :client_po_number, :class => "form-control py-2" %>
                     </div>
@@ -122,11 +149,19 @@
 
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :company_name, "Company", :class => "mb-1 pt-2", :style => 'font-weight:bold'%>
+                    <%= form.label :project_status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :company_name, :class => "form-control py-2", value: @project.client_company.company_name, :readonly => true  %>
+                      <select name="project[project_status]" id="status" class="form-control" required>
+                        <option value="<%= @project.statuses[@project.project_status] rescue nil %>">
+                          <%= Project.statuses.key(@project.project_status)  rescue nil %>
+                        <% Project.statuses.reject {|status| Project.statuses.key(@project.project_status) == status}.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -160,9 +195,8 @@
 
   <script>
       var input = document.getElementById('autocomplete-edit');
-      google.maps.event.addDomListener(input, 'keydown', function(e) {
-          if (e.keyCode == 13)
-          {
+      google.maps.event.addDomListener(input, 'keydown', function (e) {
+          if (e.keyCode == 13) {
               e.preventDefault();
           }
       });

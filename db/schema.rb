@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_080735) do
+ActiveRecord::Schema.define(version: 2020_04_17_174409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -313,6 +313,7 @@ ActiveRecord::Schema.define(version: 2020_04_17_080735) do
     t.string "country"
     t.string "city"
     t.string "state"
+    t.string "country_code"
   end
 
   create_table "temporary_users", force: :cascade do |t|
