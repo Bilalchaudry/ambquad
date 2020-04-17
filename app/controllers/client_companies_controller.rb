@@ -26,8 +26,8 @@ class ClientCompaniesController < ApplicationController
   # POST /companies.json
   def create
     @client_company = ClientCompany.new(company_params)
-    @client_company.phone_country_code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code rescue "N/A"
-    @client_company.poc_country = @client_company.country_name
+    # @client_company.phone_country_code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code rescue "N/A"
+    # @client_company.poc_country = @client_company.country_name
     respond_to do |format|
       if @client_company.save
         format.html {redirect_to client_companies_url, notice: 'Company is successfully created.'}

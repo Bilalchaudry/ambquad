@@ -92,7 +92,16 @@
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
-                      <%= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.map {|c| [c.emoji_flag + " "+ c.country_code]}, "+74"), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                      <%#= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.map {|c| [c.emoji_flag + " "+ c.country_code]}, "+74"), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                      <select name="client_company[phone_country_code]" id="phone_country_code" class="form-control" required>
+                        <option value=<%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %> ><%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64"  %></option>
+                        <% ISO3166::Country.countries.sort.each do |country| %>
+                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
+                            <%= country.emoji_flag + " "+ country.country_code %>
+                          </option>
+                        <% end %>
+                      </select>
+
                     </div>
                   </div>
 
@@ -142,7 +151,15 @@
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
-                      <%= form.select :primary_poc_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag + " " + c.country_code]}, @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : ""), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                      <%#= form.select :primary_poc_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag + " " + c.country_code]}, @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : ""), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                      <select name="client_company[primary_poc_country_code]" id="primary_poc_country_code" class="form-control" required>
+                        <option value=<%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %> ><%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64"  %></option>
+                        <% ISO3166::Country.countries.sort.each do |country| %>
+                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
+                            <%= country.emoji_flag + " "+ country.country_code %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
 

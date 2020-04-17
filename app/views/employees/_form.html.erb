@@ -145,7 +145,7 @@
                       <select name="employee[other_manager_id]" id="other_manager_id" class="form-control">
                         <% @project.other_managers.each do |manager| %>
                           <option value="<%= manager.id %>">
-                            <%= manager.employeeemployee_name %>
+                            <%= manager.employee.employee_name %>
                           </option>
                         <% end %>
                       </select>
