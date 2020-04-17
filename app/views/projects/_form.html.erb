@@ -160,7 +160,7 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <select name="project[status]" id="status" class="form-control" required>
+                        <select name="project[project_status]" id="status" class="form-control" required>
                           <option value="">None</option>
                           <% Project.statuses.each do |key, value| %>
                             <option value="<%= value %>">
