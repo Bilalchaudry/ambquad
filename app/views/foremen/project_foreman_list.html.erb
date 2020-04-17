@@ -31,10 +31,10 @@
                 <tbody>
                 <% @project_employees.each do |project_employee| %>
                   <tr>
-                    <td><%= project_employee.employee.first_name + " " + project_employee.employee.last_name %></td>
+                    <td><%= project_employee.employee.employee_name %></td>
                     <td><%= project_employee.employee_type.employee_type %></td>
-                    <td><%= project_employee.foreman.employee.first_name rescue "N/A" %></td>
-                    <td><%= project_employee.other_manager.employee.first_name rescue "N/A" %></td>
+                    <td><%= project_employee.foreman.employee.employee_name rescue "N/A" %></td>
+                    <td><%= project_employee.other_manager.employee.employee_name rescue "N/A" %></td>
                     <td><%= project_employee.total_hours %></td>
                     <td><%= project_employee.contract_start_date %></td>
                     <td><%= project_employee.contract_end_date %></td>

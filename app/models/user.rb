@@ -2,7 +2,7 @@ class User < ApplicationRecord
   audited
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+          :rememberable, :validatable, :recoverable
 
   has_many :user_projects
   has_many :projects, :through => :user_projects
@@ -31,6 +31,7 @@ class User < ApplicationRecord
   def validate_email
     self.email_confirmed = true
     self.confirm_token = nil
+    # self.status = "Active"
   end
 
   validates :password, :presence =>true, :confirmation =>true

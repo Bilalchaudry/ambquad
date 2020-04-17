@@ -5,8 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>First name</th>
-      <th>Last name</th>
+      <th>Employee Name</th>
       <th>Phone no</th>
       <th>Email</th>
       <th>Username</th>
@@ -20,8 +19,7 @@
   <tbody>
     <% @temporary_users.each do |temporary_user| %>
       <tr>
-        <td><%= temporary_user.first_name %></td>
-        <td><%= temporary_user.last_name %></td>
+        <td><%= temporary_user.employee_name %></td>
         <td><%= temporary_user.phone_no %></td>
         <td><%= temporary_user.email %></td>
         <td><%= temporary_user.username %></td>

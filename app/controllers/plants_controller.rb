@@ -44,9 +44,9 @@ class PlantsController < ApplicationController
     respond_to do |format|
       if @plant.save
         manager_id = params[:plant][:other_manager_id]
-        plant_manager = OtherManager.find(manager_id).employee.first_name
+        plant_manager = OtherManager.find(manager_id).employee.employee_name
         foreman_id = params[:plant][:other_manager_id]
-        plant_foreman = Foreman.find(foreman_id).employee.first_name
+        plant_foreman = Foreman.find(foreman_id).employee.employee_name
         @project.plant_time_sheets.create(plant_id: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
                                           project_company_id: params[:plant][:project_company_id],
                                           foreman_id: params[:plant][:foreman_id], manager: plant_manager,

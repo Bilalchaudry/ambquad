@@ -125,8 +125,9 @@ class ProjectCompaniesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_company_params
-    params.require(:project_company).permit(:company_summary, :project_role, :address, :phone,
+    params.require(:project_company).permit(:company_summary, :project_role, :address, :phone, :city, :state,
                                             :primary_poc_first_name, :primary_poc_last_name, :poc_email,
-                                            :poc_phone, :project_id, :company_name, :country_name, :poc_country)
+                                            :poc_phone, :project_id, :company_name, :country_name,
+                                            :poc_country, :phone_country_code, :poc_phone_country_code)
   end
 end
