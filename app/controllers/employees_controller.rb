@@ -114,7 +114,7 @@ class EmployeesController < ApplicationController
     employe_params = params.require(:employee).permit(:first_name, :last_name,
                                                       :employee_id, :phone, :email, :employee_type_id,
                                                       :gender, :home_company_role, :employee_name,
-                                                      :contract_start_date, :contract_end_date,
+                                                      :contract_start_date, :contract_end_date, :phone_country_code,
                                                       :status, :project_company_id, :project_id,
                                                       :other_manager_id, :foreman_id, :project_role,
                                                       :employee_type_id, :country_name, :client_company_id)
