@@ -11,11 +11,11 @@ class ProjectEmployee < ApplicationRecord
   has_many :projects, :through => :project_project_employees
 
   def time_sheet_employee
-    EmployeeTimeSheet.create!(employee: self.employee.first_name + ' ' + self.employee.last_name,
+    EmployeeTimeSheet.create!(employee: self.employee.employee_name + ' ' + self.employee.employee_name,
                               labour_type: self.employee_type.employee_type,
                               project_company_id: self.project_company_id,
-                              manager: self.other_manager.employee.first_name + ' ' + self.other_manager.employee.last_name,
-                              foreman_name: self.foreman.employee.first_name + ' ' + self.foreman.employee.last_name,
+                              manager: self.other_manager.employee.employee_name + ' ' + self.other_manager.employee.employee_name,
+                              foreman_name: self.foreman.employee.employee_name + ' ' + self.foreman.employee.employee_name,
                               total_hours: 0,
                               employee_type_id: self.employee_type_id,
                               employee_id: employee_id.to_i, project_id: self.project_id,

@@ -22,7 +22,7 @@
                 <tbody>
                 <% @foremens.each do |foreman| %>
                   <tr>
-                    <td><%= "#{foreman.employee.first_name} #{foreman.employee.last_name}" %> </td>
+                    <td><%= foreman.employee.employee_name %> </td>
                     <td>
                       <%= link_to 'Employees', project_foreman_list_project_foremen_path(foreman: foreman.id), :class => "btn btn-outline-dark" %>
                     </td>

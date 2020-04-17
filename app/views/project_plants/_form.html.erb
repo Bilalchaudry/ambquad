@@ -69,7 +69,7 @@
                       <select name="project_plant[foreman_id]" id="plant_type_id" class="form-control">
                         <% @project.foremen.each do |forman| %>
                           <option value="<%= forman.id %>">
-                            <%= forman.employee.first_name %>
+                            <%= forman.employee.employee_name %>
                           </option>
                         <% end %>
                       </select>

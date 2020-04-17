@@ -12,8 +12,8 @@ class PlantTimeSheetsController < ApplicationController
         @plant_time_sheets = []
         @project_plant.each do |project_plant|
 
-          manager_first_name = OtherManager.find(project_plant.other_manager_id).employee.first_name
-          manager_last_name = OtherManager.find(project_plant.other_manager_id).employee.last_name
+          manager_first_name = OtherManager.find(project_plant.other_manager_id).employee.employee_name
+          manager_last_name = OtherManager.find(project_plant.other_manager_id).employee.employee_name
           @plant_time_sheets << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
                                                                foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: params[:date],
                                                                manager: manager_first_name + ' ' + manager_last_name, total_hours: 0)
