@@ -16,7 +16,7 @@
                     <div class="form-group">
 
                       <select name="project[client_company_id]" id="company_id" class="form-control" required>
-                        <option value=<%= @project.client_company.present? ? @project.client_company_id : "" %>><%= @project.client_company.present? ? @project.client_company_id : "" %></option>
+                        <option value=<%= @project.client_company.present? ? @project.client_company_id : "" %>><%= @project.client_company.present? ? ClientCompany.find_by_id(@project.client_company_id).company_name : "" %></option>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
@@ -161,7 +161,7 @@
                     <div class="form-group">
                       <select name="project[project_status]" id="project_status" class="form-control" required>
                         <option value="<%= @project.statuses[@project.project_status] rescue nil %>">
-                          <%= Project.statuses.key(@project.project_status) rescue "None" %>
+                          <%= Project.statuses.key(@project.project_status) rescue "" %>
                           <% Project.statuses.reject {|status| Project.statuses.key(@project.project_status) == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
