@@ -29,7 +29,7 @@
                           <option value="<%= @foreman.employee.present? ? @foreman.employee_id : "" %>"><%= @foreman.employee.present? ? @foreman.employee.employee_name : "None" %></option>
                           <% @project.employees.reject {|employee| employee.id == @foreman.employee_id}.each do |employee| %>
                             <option value="<%= employee.id %>">
-                              <%= employee.first_name %>
+                              <%= employee.employee_name %>
                             </option>
                           <% end %>
                         </select>
