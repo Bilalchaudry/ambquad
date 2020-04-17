@@ -207,7 +207,6 @@
 
                   <div class="col-md-2">
                     <div class="form-group">
-                      <%#= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag+ " "  + c.country_code]}), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
                       <select name="project_company[poc_phone_country_code]" id="poc_phone_country_code" class="form-control" required>
                         <option value=<%= @project_company.poc_phone_country_code.present? ? @project_company.poc_phone_country_code: "+64" %> ><%= @project_company.poc_phone_country_code.present? ? @project_company.poc_phone_country_code : "+64"  %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
