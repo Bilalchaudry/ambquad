@@ -62,7 +62,7 @@
 <!--                    <td><%#= employee.home_company_role %></td>-->
                     <td><%= employee.contract_start_date %></td>
                     <td><%= employee.contract_end_date %></td>
-                    <td><%= employee.foreman.employee.first_name rescue "N/A" %></td>
+                    <td><%= employee.foreman.employee.employee_name rescue "N/A" %></td>
 <!--                    <td><%#= employee.other_manager.employee.first_name rescue "N/A" %></td>-->
 
 <!--                    <td><%#= employee.phone %></td>-->
