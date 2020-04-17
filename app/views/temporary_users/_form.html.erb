@@ -51,7 +51,7 @@
 
                     <div class="col-md-2">
                       <div class="form-group">
-                        <%= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.country_code]}), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                        <%= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag+ " "  + c.country_code]}), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
                       </div>
                     </div>
 
