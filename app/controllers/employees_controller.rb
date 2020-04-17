@@ -29,7 +29,7 @@ class EmployeesController < ApplicationController
     @employee = @project.employees.new(employee_params)
     @employee.client_company_id = @project.client_company_id
     @employee.country_name = @project.client_company.country_name
-    @employee.country_code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
+    # @employee.country_code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
 
     respond_to do |format|
       if @employee.save

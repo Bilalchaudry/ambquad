@@ -109,7 +109,7 @@
                       <select name="user[client_company_id]" id="company_id" class="form-control">
                         <option value="<%= @user_company.id rescue nil %>">
                           <%= @user_company.company_name rescue nil %>
-                        <% @client_companies.all.each do |company| %>
+                        <% @client_companies.each do |company| %>
                           <option value="<%= company.id rescue nil%>">
                             <%= company.company_name rescue nil %>
                           </option>
@@ -126,7 +126,9 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="temporary_user[status]" id="role" class="form-control">
-                        <% User.statuses.each do |key, value| %>
+                        <option value="<%= @user.status rescue nil %>">
+                          <%= @user.status rescue nil %>
+                        <% User.statuses.reject {|status| @user.status == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -155,8 +157,6 @@
                   </div>
                   <div class="col-md-3"></div>
                 </div>
-
-
               <% end %>
             </div>
           </div>

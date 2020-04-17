@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @employee.phone %>
+                    <%= @employee.phone_country_code.to_s + @employee.phone %>
                   </div>
                 </div>
               </div>

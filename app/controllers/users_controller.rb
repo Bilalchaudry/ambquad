@@ -31,7 +31,8 @@ class UsersController < ApplicationController
   def edit
     user_company_id = @user.client_company_id
     @user_company = ClientCompany.find(user_company_id) rescue nil
-    @client_companies = ClientCompany.all.where.not(id: user_company_id) rescue nil
+    @client_companies = ClientCompany.all.where.not(id: @user.client_company_id) rescue nil
+    puts "ok"
   end
 
   # POST /users

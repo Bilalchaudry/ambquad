@@ -1,53 +1,3 @@
-<!--<style>-->
-<!--  #locationField, #controls {-->
-<!--    position: relative;-->
-<!--    width: 480px;-->
-<!--  }-->
-
-<!--  #autocomplete {-->
-<!--    position: absolute;-->
-<!--    top: 0px;-->
-<!--    left: 0px;-->
-<!--    width: 99%;-->
-<!--  }-->
-
-<!--  .label {-->
-<!--    text-align: right;-->
-<!--    font-weight: bold;-->
-<!--    width: 100px;-->
-<!--    color: #303030;-->
-<!--    font-family: "Roboto";-->
-<!--  }-->
-
-<!--  #address {-->
-<!--    border: 1px solid #000090;-->
-<!--    background-color: #f0f9ff;-->
-<!--    width: 480px;-->
-<!--    padding-right: 2px;-->
-<!--  }-->
-
-<!--  #address td {-->
-<!--    font-size: 10pt;-->
-<!--  }-->
-
-<!--  .field {-->
-<!--    width: 99%;-->
-<!--  }-->
-
-<!--  .slimField {-->
-<!--    width: 80px;-->
-<!--  }-->
-
-<!--  .wideField {-->
-<!--    width: 200px;-->
-<!--  }-->
-
-<!--  #locationField {-->
-<!--    height: 20px;-->
-<!--    margin-bottom: 2px;-->
-<!--  }-->
-<!--</style>-->
-
 <div id="layoutAuthentication_content">
   <main>
     <div class="container">
@@ -65,8 +15,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
 
-                      <select name="project[client_company_id]" id="company_id" class="form-control">
-                        <option value=""></option>
+                      <select name="project[client_company_id]" id="company_id" class="form-control" required>
+                        <option value=<%= @project.client_company.present? ? @project.client_company_id : "" %>><%= @project.client_company.present? ? @project.client_company_id: "" %></option>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
@@ -77,7 +27,6 @@
                   </div>
                 </div>
 
-                <div class="hidden_option">
                   <div class="row">
                     <div class="col-md-4">
                       <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -206,7 +155,6 @@
                       </div>
                     </div>
                   </div>
-                </div>
 
                 <hr>
                 <div class="row">
@@ -237,9 +185,8 @@
   </main>
   <script>
       var input = document.getElementById('autocomplete');
-      google.maps.event.addDomListener(input, 'keydown', function(e) {
-          if (e.keyCode == 13)
-          {
+      google.maps.event.addDomListener(input, 'keydown', function (e) {
+          if (e.keyCode == 13) {
               e.preventDefault();
           }
       });
@@ -316,12 +263,3 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDGzNf9YIv5BasHa88gAf9AK71HL19sR4&libraries=places&callback=initAutocomplete"
           async defer></script>
 </div>
-<script>
-    $(document).ready(function () {
-        $("#company_id").change(function () {
-            if ($("#company_id").val() != "") {
-                $(".hidden_option").fadeIn('fast');
-            }
-        });
-    });
-</script>

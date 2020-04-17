@@ -25,16 +25,16 @@
                   </div>
                 </div>
 
-<!--                <div class="row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :last_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.text_field :last_name, :class => "form-control py-2", :required => true %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <!--                <div class="row">-->
+                <!--                  <div class="col-md-4">-->
+                <%#= form.label :last_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                <!--                  </div>-->
+                <!--                  <div class="col-md-6">-->
+                <!--                    <div class="form-group">-->
+                <%#= form.text_field :last_name, :class => "form-control py-2", :required => true %>
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
 
                 <div class="row">
                   <div class="col-md-4">
@@ -46,7 +46,6 @@
                     </div>
                   </div>
                 </div>
-
 
 
                 <div class="row">
@@ -156,7 +155,6 @@
                 </div>
 
 
-
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :phone, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -165,10 +163,10 @@
                     <div class="form-group">
                       <%#= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag+ " "  + c.country_code]}), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
                       <select name="employee[phone_country_code]" id="phone_country_code" class="form-control" required>
-                        <option value=<%= @employee.phone_country_code.present? ? @employee.phone_country_code: "+64" %> ><%= @employee.phone_country_code.present? ? @employee.phone_country_code : "+64"  %></option>
+                        <option value=<%= @employee.phone_country_code.present? ? @employee.phone_country_code : "+64" %>><%= @employee.phone_country_code.present? ? @employee.phone_country_code : "+64" %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
-                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
-                            <%= country.emoji_flag + " "+ country.country_code %>
+                          <option value="<%= country.emoji_flag + " " + country.country_code %>">
+                            <%= country.emoji_flag + " " + country.country_code %>
                           </option>
                         <% end %>
                       </select>
@@ -199,9 +197,10 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-
                       <select name="employee[gender]" id="gender" class="form-control">
-                        <% Employee.genders.each do |key, value| %>
+                        <option value="<%= @employee.genders[@employee.gender] rescue nil %>">
+                          <%= @employee.gender rescue nil %>
+                          <% Employee.genders.reject {|gender| @employee.gender == gender}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -211,18 +210,6 @@
                   </div>
                 </div>
 
-
-<!--                <div class="row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :project_role, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.text_field :project_role, :class => "form-control py-2", :required => true %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -230,7 +217,9 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="employee[status]" id="status" class="form-control">
-                        <% Employee.statuses.each do |key, value| %>
+                        <option value="<%= @employee.statuses[@employee.status] rescue nil %>">
+                          <%= @employee.status rescue nil %>
+                          <% Employee.statuses.reject {|status| @employee.status == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>

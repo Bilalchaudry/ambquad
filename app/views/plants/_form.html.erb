@@ -37,7 +37,7 @@
                     <div class="form-group">
                       <select name="plant[plant_type_id]" id="plant_type_id" class="form-control" required>
                         <option value="<%= @plant.plant_type.present? ? @plant.plant_type_id: "" %>"><%= @plant.plant_type.present? ? @plant.plant_type.type_name : "None" %></option>
-                        <% @project.plant_types.each do |plant_type| %>
+                        <% @project.plant_types.reject {|plant_type| plant_type.id == @plant.plant_type_id}.each do |plant_type| %>
                           <option value="<%= plant_type.id %>">
                             <%= plant_type.type_name %>
                           </option>
@@ -55,7 +55,7 @@
                     <div class="form-group">
                       <select name="plant[project_company_id]" id="project_company_id" class="form-control" required>
                         <option value="<%= @plant.project_company.present? ? @plant.project_company_id: "" %>"><%= @plant.project_company.present? ? @plant.project_company.company_name : "None" %></option>
-                        <% @project.project_companies.each do |company| %>
+                        <% @project.project_companies.reject {|project_company| project_company.id == @plant.project_company_id}.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
                           </option>
@@ -95,7 +95,7 @@
                     <div class="form-group">
                       <select name="plant[foreman_id]" id="foreman_id" class="form-control" >
                         <option value="<%= @plant.foreman.present? ? @plant.foreman_id: "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.employee_name: "None" %></option>
-                        <% @project.foremen.each do |foreman| %>
+                        <% @project.foremen.reject {|foremen| foremen.id == @plant.foreman_id}.each do |foreman| %>
                           <option value="<%= foreman.id %>">
                             <%= foreman.employee.employee_name %>
                           </option>
@@ -114,7 +114,7 @@
                     <div class="form-group">
                       <select name="plant[other_manager_id]" id="other_manager_id" class="form-control" >
                         <option value="<%= @plant.other_manager.present? ? @plant.other_manager_id: "" %>"><%= @plant.other_manager.present? ? @plant.other_manager.employee.employee_name: "None" %></option>
-                        <% @project.other_managers.each do |other_manager| %>
+                        <% @project.other_managers.reject {|other_manager| other_manager.id == @plant.other_manager_id}.each do |other_manager| %>
                           <option value="<%= other_manager.id %>">
                             <%= other_manager.employee.employee_name %>
                           </option>
@@ -142,9 +142,11 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="plant[status]" id="role" class="form-control">
-                        <% Plant.statuses.each do |key, value| %>
-                          <option value="<%= key %>">
+                      <select name="plant[status]" id="status" class="form-control">
+                        <option value="<%= @plant.status rescue nil %>">
+                          <%= @plant.status rescue nil %>
+                        <% Plant.statuses.reject {|status| @plant.status == status}.each do |key, value| %>
+                          <option value="<%= value %>">
                             <%= key %>
                           </option>
                         <% end %>

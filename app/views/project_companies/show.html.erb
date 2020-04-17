@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @project_company.phone %>
+                    <%= @project_company.phone_country_code.to_s + @project_company.phone %>
                   </div>
                 </div>
               </div>
@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @project_company.poc_phone %>
+                    <%= @project_company.poc_phone_country_code.to_s + @project_company.poc_phone %>
                   </div>
                 </div>
               </div>
@@ -122,7 +122,7 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', edit_project_project_company_path(@project_company) , :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', edit_project_project_company_path(@project) , :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                     </div>
                   </div>
                 </div>
