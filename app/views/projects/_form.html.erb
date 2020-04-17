@@ -16,7 +16,7 @@
                     <div class="form-group">
 
                       <select name="project[client_company_id]" id="company_id" class="form-control" required>
-                        <option value=<%= @project.client_company.present? ? @project.client_company_id : "" %>><%= @project.client_company.present? ? @project.client_company_id: "" %></option>
+                        <option value=<%= @project.client_company.present? ? @project.client_company_id : "" %>><%= @project.client_company.present? ? @project.client_company_id : "" %></option>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
@@ -27,151 +27,150 @@
                   </div>
                 </div>
 
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :project_name, :class => "form-control py-2", :required => true %>
                     </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :project_name, :class => "form-control py-2", :required => true %>
-                      </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :project_lead, :class => "form-control py-2" %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :site_office_address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :site_office_address, :id => "autocomplete", :class => "form-control py-2", :required => true, placeholder: "Enter address", onFocus: "geolocate()" %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :city, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :city, :class => "form-control py-2", id: "locality", :readonly => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :state, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :state, :class => "form-control py-2", id: "administrative_area_level_1", :readonly => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :country, :class => "form-control py-2", id: "country", :readonly => true %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <input class="field" id="street_number" style="display: none"/>
+                <input class="field" id="route" style="display: none"/>
+                <input class="field" id="postal_code" style="display: none"/>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :start_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.date_field :end_date, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :client_po_number, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <select name="project[country_code]" id="country_code" class="form-control" required>
+                        <option value=<%= @project.country_code.present? ? @project.country_code : "+64" %>><%= @project.country_code.present? ? @project.country_code : "+64" %></option>
+                        <% ISO3166::Country.countries.sort.each do |country| %>
+                          <option value="<%= country.emoji_flag + " " + country.country_code %>">
+                            <%= country.emoji_flag + " " + country.country_code %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :project_lead, :class => "form-control py-2" %>
-                      </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= form.text_field :client_po_number, :class => "form-control py-2" %>
                     </div>
                   </div>
+                </div>
 
 
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :site_office_address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :site_office_address, :id => "autocomplete", :class => "form-control py-2", :required => true, placeholder: "Enter address", onFocus: "geolocate()" %>
-                      </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :project_status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <select name="project[project_status]" id="project_status" class="form-control" required>
+                        <option value="<%= @project.statuses[@project.project_status] rescue nil %>">
+                          <%= Project.statuses.key(@project.project_status) rescue "None" %>
+                          <% Project.statuses.reject {|status| Project.statuses.key(@project.project_status) == status}.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :city, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :city, :class => "form-control py-2", id: "locality", :readonly => true %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :state, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :state, :class => "form-control py-2", id: "administrative_area_level_1", :readonly => true %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :country, :class => "form-control py-2", id: "country", :readonly => true %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <input class="field" id="street_number" style="display: none"/>
-                  <input class="field" id="route" style="display: none"/>
-                  <input class="field" id="postal_code" style="display: none"/>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.date_field :start_date, :class => "form-control py-2", :required => true %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.date_field :end_date, :class => "form-control py-2", :required => true %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :client_po_number, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <select name="project[country_code]" id="country_code" class="form-control" required>
-                          <option value=<%= @project.country_code.present? ? @project.country_code : "+64" %>><%= @project.country_code.present? ? @project.country_code : "+64" %></option>
-                          <% ISO3166::Country.countries.sort.each do |country| %>
-                            <option value="<%= country.emoji_flag + " " + country.country_code %>">
-                              <%= country.emoji_flag + " " + country.country_code %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <%= form.text_field :client_po_number, :class => "form-control py-2" %>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :project_status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <select name="project[project_status]" id="status" class="form-control" required>
-                          <option value="">None</option>
-                          <% Project.statuses.each do |key, value| %>
-                            <option value="<%= value %>">
-                              <%= key %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
+                </div>
 
 
                 <hr>
