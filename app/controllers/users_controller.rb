@@ -60,9 +60,10 @@ class UsersController < ApplicationController
         previous_client_company = @user.client_company
       end
       if @user.update(update_params)
-        @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
-        previous_client_company.update(number_of_users: @user.client_company.number_of_users - 1)
-
+        unless client_company_change
+          @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
+          previous_client_company.update(number_of_users: previous_client_company.number_of_users - 1)
+        end
         format.html {redirect_to users_path, notice: 'User was successfully updated.'}
         format.json {render :show, status: :ok, location: @user}
       else
