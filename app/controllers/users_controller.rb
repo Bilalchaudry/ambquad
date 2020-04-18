@@ -55,7 +55,14 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
+      client_company_change = @user.client_company_id == params[:user][:client_company_id].to_i
+      unless client_company_change
+        previous_client_company = @user.client_company
+      end
       if @user.update(update_params)
+        @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
+        previous_client_company.update(number_of_users: @user.client_company.number_of_users - 1)
+
         format.html {redirect_to users_path, notice: 'User was successfully updated.'}
         format.json {render :show, status: :ok, location: @user}
       else
@@ -107,9 +114,9 @@ class UsersController < ApplicationController
 
   def update_params
     pp = params.require(:user).permit(:first_name, :last_name, :phone_no, :email, :username,
-                                      :phone_country_code,:password , :encrypted_password,
+                                      :phone_country_code, :password, :encrypted_password,
                                       :client_company_id, :country_name, :status, :user_id,
-                                      :phone_country_code, :confirm_password,:role, :status, )
+                                      :phone_country_code, :confirm_password, :role, :status, :password_confirmation)
     pp[:role] = params[:user][:role].to_i
     pp[:status] = params[:user][:status].to_i
     return pp
