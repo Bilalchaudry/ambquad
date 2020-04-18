@@ -76,34 +76,34 @@ class Employee < ApplicationRecord
             row[12] = "Active"
           end
 
-          id_project_company = ProjectCompany.where(company_name: row[3]).first
-          if id_project_company.nil?
+          project_company = ProjectCompany.where(company_name: row[3].strip).first
+          if project_company.nil?
             return error = "Validation Failed Project Company must Exist, Error on Row: #{i}"
           else
-            row[3] = id_project_company.id
+            row[3] = project_company.id
            end
 
-          exist_employee_email = project.employees.where(email: row[10])
+          exist_employee_email = project.employees.where(email: row[10].strip)
           if !exist_employee_email.empty?
             return error = "Validation Failed Email Already Exist, Error on Row: #{i}"
           end
 
-          new_employee_email = @employee.any? { |a| a.email == row[10] }
+          new_employee_email = @employee.any? { |a| a.email == row[10].strip }
           if new_employee_email == true
             return error = "Validation Failed Email Already Exist in File, Error on Row: #{i}"
           end
 
-          exist_employee_phone = project.employees.where(phone: row[9])
+          exist_employee_phone = project.employees.where(phone: row[9].strip)
           if !exist_employee_phone.empty?
             return error = "Validation Failed Phone Already Exist, Error on Row: #{i}"
           end
 
-          new_employee_phone = @employee.any? { |a| a.phone == row[9] }
+          new_employee_phone = @employee.any? { |a| a.phone == row[9].strip }
           if new_employee_phone == true
             return error = "Validation Failed Phone Already Exist in File, Error on Row: #{i}"
           end
 
-          name_other_manager = Employee.where(employee_name: row[8]).first
+          name_other_manager = Employee.where(employee_name: row[8].strip).first
           if name_other_manager.nil?
             return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
           else
@@ -115,7 +115,7 @@ class Employee < ApplicationRecord
             end
           end
 
-          name_foreman = Employee.where(employee_name: row[7]).first
+          name_foreman = Employee.where(employee_name: row[7].strip).first
           if name_foreman.nil?
             return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
           else
@@ -127,7 +127,7 @@ class Employee < ApplicationRecord
             end
           end
 
-          id_plant_type = EmployeeType.where(employee_type: row[2]).first
+          id_plant_type = EmployeeType.where(employee_type: row[2].strip).first
           if id_plant_type.nil?
             return error = "Validation Failed Employee Type must Exist, Error on Row: #{i}"
           else

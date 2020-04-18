@@ -154,8 +154,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="project[project_status]" id="status" class="form-control" required>
-                        <option value="<%= @project.statuses[@project.project_status] rescue nil %>">
-                          <%= Project.statuses.key(@project.project_status)  rescue nil %>
+                        <option value="<%= @project.project_status rescue nil %>">
+                          <%= @project.statuses[@project.project_status]  rescue "" %>
                         <% Project.statuses.reject {|status| Project.statuses.key(@project.project_status) == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>

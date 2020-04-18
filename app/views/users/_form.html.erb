@@ -83,7 +83,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :user_id, validate: true, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :user_id, validate: true, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>
@@ -127,8 +127,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="user[role]" id="role" class="form-control">
-                        <option value="<%= @user.role rescue nil %>">
-                          <%= @user.role rescue nil %>
+                        <option value="<%= User.roles[@user.role] rescue nil %>">
+                          <%= @user.role rescue "" %>
                           <% User.roles.reject {|role| @user.role == role}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
@@ -146,8 +146,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="user[status]" id="role" class="form-control">
-                        <option value="<%= @user.status.statuses[@user.status] rescue nil %>">
+                      <select name="user[status]" id="status" class="form-control">
+                        <option value="<%= User.statuses[@user.status] rescue nil %>">
                           <%= @user.status rescue nil %>
                           <% User.statuses.reject {|status| @user.status == status}.each do |key, value| %>
                           <option value="<%= value %>">

@@ -133,7 +133,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="temporary_user[status]" id="role" class="form-control">
+                      <select name="temporary_user[status]" id="role" class="form-control" required>
                         <% User.statuses.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
@@ -143,8 +143,6 @@
                     </div>
                   </div>
                 </div>
-
-                <!--                </div>-->
 
                 <hr>
                 <div class="row">
