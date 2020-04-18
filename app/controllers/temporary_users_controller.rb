@@ -84,7 +84,7 @@ class TemporaryUsersController < ApplicationController
   def temporary_user_params
     pp = params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
                                                 :password, :encrypted_password, :client_company_id, :country_name,
-                                                :status, :user_id, :phone_country_code, :password_confirmation)
+                                                :status, :user_id, :role,  :phone_country_code, :password_confirmation)
     pp[:role] = params[:temporary_user][:role].to_i
     pp[:status] = params[:temporary_user][:status].to_i
     return pp

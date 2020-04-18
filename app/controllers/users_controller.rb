@@ -130,7 +130,7 @@ class UsersController < ApplicationController
   def update_params
     pp = params.require(:user).permit(:first_name, :last_name, :phone_no, :email, :username,
                                       :phone_country_code, :password, :encrypted_password,
-                                      :client_company_id, :country_name, :status, :user_id,
+                                      :client_company_id, :country_name, :user_id,
                                       :phone_country_code, :confirm_password, :role, :status,
                                       :password_confirmation)
     pp[:role] = params[:user][:role].to_i

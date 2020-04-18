@@ -19,8 +19,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="temporary_user[client_company_id]" id="company_id" class="form-control">
-                        <option value=" "></option>
+                      <select name="temporary_user[client_company_id]" id="client_company_id" class="form-control" required>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
@@ -30,8 +29,6 @@
                     </div>
                   </div>
                 </div>
-
-                <!--                <div class="hidden_option">-->
 
                 <div class="row">
                   <div class="col-md-4">
