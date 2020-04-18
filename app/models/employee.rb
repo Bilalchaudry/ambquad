@@ -23,8 +23,11 @@ class Employee < ApplicationRecord
       Closed: 2
   }
 
-  validate :contract_end_date_after_contract_start_date
-  validate :start_date_equal_or_greater_today_date
+  # validate :contract_end_date_after_contract_start_date
+  # validate :start_date_equal_or_greater_today_date
+
+  validates :contract_end_date,
+            date: { after: :contract_start_date}
 
   def contract_end_date_after_contract_start_date
     if contract_end_date < contract_start_date

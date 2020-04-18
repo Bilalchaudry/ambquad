@@ -3,7 +3,8 @@ class CostCode < ApplicationRecord
   belongs_to :project, optional: true
   belongs_to :budget_holder, optional: true
 
-  validates_uniqueness_of :cost_code_id
+  validates_uniqueness_of :cost_code_id, :scope => :project_id
+
 
   def self.import_file(file, user, project)
     if File.extname(file.original_filename) == '.csv'

@@ -15,7 +15,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="user[client_company_id]" id="company_id" class="form-control">
+                      <select name="user[client_company_id]" id="company_id" class="form-control" required>
                         <option value="<%= @user.client_company.present? ? @user.client_company_id : "" %>"><%= @user.client_company.present? ? @user.client_company.company_name : "None" %></option>
                         <%= @user.client_compnay.company_name rescue nil %>
                         <% ClientCompany.all.each do |company| %>
@@ -60,7 +60,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="form-group">
-                      <%= form.text_field :phone_no, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :phone_no, :class => "form-control py-2" %>
                     </div>
                   </div>
                 </div>
