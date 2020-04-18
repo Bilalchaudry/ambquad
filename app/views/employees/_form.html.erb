@@ -90,7 +90,9 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
+                      <%#= form.date_field :contract_start_date, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+
                     </div>
                   </div>
                 </div>
@@ -101,7 +103,9 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.date_field :contract_end_date, :class => "form-control py-2", :required => true %>
+                      <%#= form.date_field :contract_end_date, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :contract_end_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+
                     </div>
                   </div>
                 </div>
@@ -150,7 +154,6 @@
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
-                      <%#= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag+ " "  + c.country_code]}), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
                       <select name="employee[phone_country_code]" id="phone_country_code" class="form-control" required>
                         <option value=<%= @employee.phone_country_code.present? ? @employee.phone_country_code : "+64" %>><%= @employee.phone_country_code.present? ? @employee.phone_country_code : "+64" %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
@@ -249,5 +252,16 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('select').selectpicker();
+        $(function () {
+            $('.start-date').datepicker({
+                format: 'yyyy-mm-dd',
+                todayBtn: "linked",
+                todayHighlight: true
+            });
+            $('.end-date').datepicker({
+                format: 'yyyy-mm-dd',
+            });
+        });
+
     });
 </script>
