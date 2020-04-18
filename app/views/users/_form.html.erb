@@ -18,7 +18,7 @@
                       <select name="user[client_company_id]" id="company_id" class="form-control" required>
                         <option value="<%= @user.client_company.present? ? @user.client_company_id : "" %>"><%= @user.client_company.present? ? @user.client_company.company_name : "None" %></option>
                         <%= @user.client_compnay.company_name rescue nil %>
-                        <% ClientCompany.all.each do |company| %>
+                        <% ClientCompany.all.reject { |company| company.id == @user.client_company_id }.each do |company| %>
                           <option value="<%= company.id rescue nil %>">
                             <%= company.company_name rescue nil %>
                           </option>
