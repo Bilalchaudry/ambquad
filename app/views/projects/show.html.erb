@@ -45,10 +45,10 @@
 
                 <div class="row">
                   <div class="col-md-4 pt-4">
-                    <% if @project.project_employees.present? %>
-                      <%= link_to 'Project Employees', "/projects/#{@project.id}/project_employees", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <% if @project.employees.present? %>
+                      <%= link_to 'Project Employees', "/projects/#{@project.id}/employees", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
                     <% else %>
-                      <%= link_to 'Project Employees', "/projects/#{@project.id}/project_employees", :class => "bold-title nav-item nav-link btn btn-dark bold-title" %>
+                      <%= link_to 'Project Employees', "/projects/#{@project.id}/employees", :class => "bold-title nav-item nav-link btn btn-dark bold-title" %>
                     <% end %>
                   </div>
 
@@ -141,12 +141,12 @@
                     <%= link_to 'Plant Time Sheet', "/projects/#{@project.id}/plant_time_sheets", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
                   </div>
 
-                  <div class="col-md-4 pt-4">
-                    <% if @project.employees.present? %>
-                    <%= link_to 'Employees', "/projects/#{@project.id}/employees", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
-                    <% else %>
-                      <%= link_to 'Employees', "/projects/#{@project.id}/employees", :class => "bold-title nav-item nav-link btn btn-dark" %>                   <% end %>
-                  </div>
+<!--                  <div class="col-md-4 pt-4">-->
+                    <%# if @project.employees.present? %>
+                    <%#= link_to 'Employees', "/projects/#{@project.id}/employees", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                    <%# else %>
+                      <%#= link_to 'Employees', "/projects/#{@project.id}/employees", :class => "bold-title nav-item nav-link btn btn-dark" %>                   <%# end %>
+<!--                  </div>-->
                 </div>
 
               </div>

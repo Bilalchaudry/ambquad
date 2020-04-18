@@ -96,7 +96,7 @@
                       <select name="client_company[phone_country_code]" id="phone_country_code" class="form-control" required>
                         <option value=<%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %> ><%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64"  %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
-                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
+                          <option value="<%=  country.country_code %>">
                             <%= country.emoji_flag + " "+ country.country_code %>
                           </option>
                         <% end %>
@@ -155,7 +155,7 @@
                       <select name="client_company[primary_poc_country_code]" id="primary_poc_country_code" class="form-control" required>
                         <option value=<%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %> ><%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64"  %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
-                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
+                          <option value="<%=  country.country_code %>">
                             <%= country.emoji_flag + " "+ country.country_code %>
                           </option>
                         <% end %>

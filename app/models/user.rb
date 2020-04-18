@@ -32,8 +32,8 @@ class User < ApplicationRecord
     self.confirm_token = nil
   end
 
-  validates :email, :phone_no, :username, :user_id, uniqueness: true
-  validates :password, :presence =>true, :confirmation =>true
-  validates_confirmation_of :password
+  validates :email, :username, uniqueness: true
+  # validates :password, :presence =>true, :confirmation =>true
+  # validates_confirmation_of :password
 
 end

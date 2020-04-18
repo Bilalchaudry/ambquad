@@ -5,48 +5,30 @@
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-body">
-              <%= form_with(model: user, local: true) do |form| %>
+              <%= form_with(model: @user, local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
+
+
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :first_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :Company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :first_name, :class => "form-control py-2", :required => true %>
+                      <select name="user[client_company_id]" id="company_id" class="form-control">
+                        <option value="<%= @user.client_company.present? ? @user.client_company_id : "" %>"><%= @user.client_company.present? ? @user.client_company.company_name : "None" %></option>
+                        <%= @user.client_compnay.company_name rescue nil %>
+                        <% ClientCompany.all.each do |company| %>
+                          <option value="<%= company.id rescue nil %>">
+                            <%= company.company_name rescue nil %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :last_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :last_name, validate: true , :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :phone_no, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :phone_no, :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.email_field :email, validate: true , :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
+
+
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :username, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -58,24 +40,81 @@
                   </div>
                 </div>
 
+
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :password, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :phone_no, "Phone", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <select name="user[phone_country_code]" id="phone_country_code" class="form-control" required>
+                        <option value=<%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %>><%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %></option>
+                        <% ISO3166::Country.countries.sort.each do |country| %>
+                          <option value="<%= country.emoji_flag + " " + country.country_code %>">
+                            <%= country.emoji_flag + " " + country.country_code %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= form.text_field :phone_no, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.password_field :password, validate: true , :class => "form-control py-2", :required => true %>
+                      <%= form.email_field :email, validate: true, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :confirm_password, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :user_id, "User ID", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.password_field :confirm_password, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :user_id, validate: true, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :password, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
+                      <% else %>
+                        <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :password_confirmation, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
+                      <% else %>
+                        <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -87,9 +126,10 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%#= form.select :role,  User.roles.keys, :class => "form-control py-2" %>
                       <select name="user[role]" id="role" class="form-control">
-                        <% User.roles.each do |key, value| %>
+                        <option value="<%= @user.role rescue nil %>">
+                          <%= @user.role rescue nil %>
+                          <% User.roles.reject {|role| @user.role == role}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -99,14 +139,17 @@
                   </div>
                 </div>
 
+
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="temporary_user[status]" id="role" class="form-control">
-                        <% User.statuses.each do |key, value| %>
+                      <select name="user[status]" id="role" class="form-control">
+                        <option value="<%= @user.status.statuses[@user.status] rescue nil %>">
+                          <%= @user.status rescue nil %>
+                          <% User.statuses.reject {|status| @user.status == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -135,8 +178,6 @@
                   </div>
                   <div class="col-md-3"></div>
                 </div>
-
-
               <% end %>
             </div>
           </div>

@@ -29,9 +29,12 @@ class TemporaryUsersController < ApplicationController
     @user = User.new(temporary_user_params)
     @user.country_name = @temporary_user.country_name
     @user.set_confirmation_token
-    @user.save
+    # @user.password = params[:temporary_user][:password]
+    # @user.password_confirmation = params[:temporary_user][:password_confirmation]
+    #
     respond_to do |format|
       if @temporary_user.save
+        @user.save
         if @user.save == true
           MailSendJob.perform_later(@user)
           @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)

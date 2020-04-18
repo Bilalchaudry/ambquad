@@ -57,7 +57,7 @@ class ClientCompaniesController < ApplicationController
   # DELETE /companies/1.json
   def destroy
     begin
-      if @client_company.projects.present?
+      if @client_company.projects.present? || @client_company.users.present?
         respond_to do |format|
           format.js
         end
