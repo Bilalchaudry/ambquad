@@ -32,8 +32,10 @@ class TemporaryUsersController < ApplicationController
     @user.save
     respond_to do |format|
       if @temporary_user.save
-        MailSendJob.perform_later(@user)
-        @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
+        if @user.save == true
+          MailSendJob.perform_later(@user)
+          @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
+        end
         format.html {redirect_to users_path, notice: 'User is successfully created.'}
         format.json {render :show, status: :created, location: @temporary_user}
       else

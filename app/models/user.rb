@@ -9,7 +9,6 @@ class User < ApplicationRecord
 
 
   belongs_to :client_company
-  validates :email, uniqueness: true
 
   enum role: {
       User: 0,
@@ -33,7 +32,8 @@ class User < ApplicationRecord
     self.confirm_token = nil
   end
 
-  # validates :password, :presence =>true, :confirmation =>true
+  validates :email, :phone_no, :username, :user_id, uniqueness: true
+  validates :password, :presence =>true, :confirmation =>true
   validates_confirmation_of :password
 
 end

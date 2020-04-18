@@ -1,5 +1,4 @@
 class TemporaryUser < ApplicationRecord
-  validates :email, :phone_no, uniqueness: true
   belongs_to :client_company, optional: true
   enum role: {
       Admin: 0,
@@ -31,7 +30,7 @@ class TemporaryUser < ApplicationRecord
     self.confirm_token = nil
   end
 
-  validates_uniqueness_of :username, :user_id
+  validates :email, :phone_no, :username, :user_id, uniqueness: true
   validates :password, :presence =>true, :confirmation =>true
   validates_confirmation_of :password
 
