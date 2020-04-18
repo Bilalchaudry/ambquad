@@ -31,10 +31,9 @@ class User < ApplicationRecord
   def validate_email
     self.email_confirmed = true
     self.confirm_token = nil
-    # self.status = "Active"
   end
 
-  validates :password, :presence =>true, :confirmation =>true
+  # validates :password, :presence =>true, :confirmation =>true
   validates_confirmation_of :password
 
 end

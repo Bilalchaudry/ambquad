@@ -25,9 +25,7 @@ class TemporaryUsersController < ApplicationController
   # POST /temporary_users.json
   def create
     @temporary_user = TemporaryUser.new(temporary_user_params)
-    # code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
-    # @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
-    @temporary_user.country_name = current_user.client_company.country_name
+    @temporary_user.country_name = @temporary_user.client_company.country_name
     @user = User.new(temporary_user_params)
     @user.country_name = @temporary_user.country_name
     @user.set_confirmation_token
@@ -35,7 +33,7 @@ class TemporaryUsersController < ApplicationController
     respond_to do |format|
       if @temporary_user.save
         MailSendJob.perform_later(@user)
-        @temporary_user.client_company.update(number_of_users: @temporary_user.client_company.number_of_users + 1)
+        @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
         format.html {redirect_to users_path, notice: 'User is successfully created.'}
         format.json {render :show, status: :created, location: @temporary_user}
       else

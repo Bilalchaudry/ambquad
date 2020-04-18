@@ -31,6 +31,7 @@ class TemporaryUser < ApplicationRecord
     self.confirm_token = nil
   end
 
+  validates_uniqueness_of :username, :user_id
   validates :password, :presence =>true, :confirmation =>true
   validates_confirmation_of :password
 

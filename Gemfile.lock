@@ -91,6 +91,9 @@ GEM
       sixarm_ruby_unaccent (~> 1.1)
       unicode_utils (~> 1.4)
     crass (1.0.6)
+    date_validator (0.9.0)
+      activemodel
+      activesupport
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -261,6 +264,7 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   countries
+  date_validator (~> 0.9.0)
   devise
   devise-bootstrap-views (~> 1.0)
   figaro

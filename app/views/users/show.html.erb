@@ -12,11 +12,33 @@
 
               <div class="form-row pt-2">
                 <div class="col-md-3">
+                  <strong>Client Company:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @user.client_company.company_name rescue "N/A"%>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-3">
+                  <strong>User Name:</strong>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <%= @user.username %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row pt-2">
+                <div class="col-md-3">
                   <strong>Phone:</strong>
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @user.phone_no %>
+                    <%= @user.phone_no.to_s + @user.country_code rescue "N/A" %>
                   </div>
                 </div>
               </div>
@@ -29,17 +51,6 @@
                 <div class="col-md-6">
                   <div>
                     <%= @user.email %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>User Name:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.username %>
                   </div>
                 </div>
               </div>
@@ -88,16 +99,7 @@
                 </div>
               </div>
 
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>Client Company:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.client_company.company_name rescue "N/A"%>
-                  </div>
-                </div>
-              </div>
+
 
               <div class="row">
                 <div class="col-md-3"></div>

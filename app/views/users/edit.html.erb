@@ -9,46 +9,28 @@
             <div class="card-body">
               <%= form_with(model: @user, local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
-<!--                <div class="row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :first_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.text_field :first_name, :class => "form-control py-2", :required => true %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <div class="row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :last_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.text_field :last_name, validate: true , :class => "form-control py-2", :required => true %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+
+
                 <div class="row">
                   <div class="col-md-4">
-                    <%= form.label :phone_no, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    <%= form.label :Company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :phone_no, :class => "form-control py-2", :required => true %>
+                      <select name="user[client_company_id]" id="company_id" class="form-control">
+                        <option value="<%= @user_company.id rescue nil %>">
+                          <%= @user_company.company_name rescue nil %>
+                          <% @client_companies.each do |company| %>
+                          <option value="<%= company.id rescue nil%>">
+                            <%= company.company_name rescue nil %>
+                          </option>
+                        <% end %>
+                      </select>
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.email_field :email, validate: true , :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
+
+
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :username, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
@@ -59,6 +41,7 @@
                     </div>
                   </div>
                 </div>
+
 
                 <div class="row">
                   <div class="col-md-4">
@@ -80,6 +63,29 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <%= form.text_field :phone_no, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.email_field :email, validate: true , :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :user_id, "User ID", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= form.text_field :user_id, validate: true , :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -126,24 +132,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :Company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="user[client_company_id]" id="company_id" class="form-control">
-                        <option value="<%= @user_company.id rescue nil %>">
-                          <%= @user_company.company_name rescue nil %>
-                        <% @client_companies.each do |company| %>
-                          <option value="<%= company.id rescue nil%>">
-                            <%= company.company_name rescue nil %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
+
 
                 <div class="row">
                   <div class="col-md-4">

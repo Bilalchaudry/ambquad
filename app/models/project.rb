@@ -30,8 +30,10 @@ class Project < ApplicationRecord
   has_many :time_sheet_cost_codes
 
   validates_uniqueness_of :project_name
-  validate :contract_end_date_after_contract_start_date
-  validate :start_date_equal_or_greater_today_date
+  validates :end_date,
+            date: { after: :start_date}
+  # validate :contract_end_date_after_contract_start_date
+  # validate :start_date_equal_or_greater_today_date
 
   def contract_end_date_after_contract_start_date
     if end_date < start_date

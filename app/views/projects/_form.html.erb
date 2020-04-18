@@ -111,7 +111,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.date_field :start_date, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -122,7 +122,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.date_field :end_date, :class => "form-control py-2", :required => true %>
+                      <%= form.text_field :end_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+                      <%#= form.date_field :end_date, :class => "form-control py-2", :required => true %>
                     </div>
                   </div>
                 </div>
@@ -280,3 +281,19 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDGzNf9YIv5BasHa88gAf9AK71HL19sR4&libraries=places&callback=initAutocomplete"
           async defer></script>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').selectpicker();
+        $(function() {
+            $('.start-date').datepicker({
+                format: 'yyyy-mm-dd',
+                todayBtn: "linked",
+                todayHighlight: true
+            });
+            $('.end-date').datepicker({
+                format: 'yyyy-mm-dd',
+            });
+        });
+
+    });
+</script>
