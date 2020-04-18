@@ -8,7 +8,7 @@ class Employee < ApplicationRecord
   belongs_to :project
   belongs_to :employee_type
   belongs_to :foreman, optional: true
-  belongs_to  :other_managers, optional: true
+  belongs_to :other_managers, optional: true
   has_many :project_employees
   has_many :budget_holders
   # has_many :employee_types
@@ -27,7 +27,7 @@ class Employee < ApplicationRecord
   # validate :start_date_equal_or_greater_today_date
 
   validates :contract_end_date,
-            date: { after: :contract_start_date}
+            date: {after: :contract_start_date}
 
   def contract_end_date_after_contract_start_date
     if contract_end_date < contract_start_date
@@ -54,7 +54,7 @@ class Employee < ApplicationRecord
         begin
           i = i + 1
 
-          if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[4].nil? || row[5].nil? || row[6].nil? || row[7].nil? || row[8].nil? || row[9].nil? || row[10].nil? || row[11].nil? || row[12].nil?
+          if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[4].nil? || row[5].nil? || row[6].nil? || row[9].nil? || row[10].nil? || row[11].nil? || row[12].nil?
             return error = "Validation Failed Employee Field Empty in File, Error on Row: #{i}"
           end
 
@@ -81,14 +81,21 @@ class Employee < ApplicationRecord
             return error = "Validation Failed Project Company must Exist, Error on Row: #{i}"
           else
             row[3] = project_company.id
-           end
+          end
 
           exist_employee_email = project.employees.where(email: row[10].strip)
           if !exist_employee_email.empty?
             return error = "Validation Failed Email Already Exist, Error on Row: #{i}"
           end
 
-          new_employee_email = @employee.any? { |a| a.email == row[10].strip }
+          if Date.parse(row[5]) < Date.today
+            return error = "Validation Failed Date can't be in past, Error on Row: #{i}"
+          end
+
+          if Date.parse(row[5]) > Date.parse(row[6])
+            return error = "Validation Failed Contract End date must be after start date, Error on Row: #{i}"
+          end
+          new_employee_email = @employee.any? {|a| a.email == row[10].strip}
           if new_employee_email == true
             return error = "Validation Failed Email Already Exist in File, Error on Row: #{i}"
           end
@@ -98,32 +105,36 @@ class Employee < ApplicationRecord
             return error = "Validation Failed Phone Already Exist, Error on Row: #{i}"
           end
 
-          new_employee_phone = @employee.any? { |a| a.phone == row[9].strip }
+          new_employee_phone = @employee.any? {|a| a.phone == row[9].strip}
           if new_employee_phone == true
             return error = "Validation Failed Phone Already Exist in File, Error on Row: #{i}"
           end
 
-          name_other_manager = Employee.where(employee_name: row[8].strip).first
-          if name_other_manager.nil?
-            return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
-          else
-            id_other_manager = OtherManager.where(employee_id: name_other_manager.id).first
-            if id_other_manager.nil?
+          if row[8].present?
+            name_other_manager = Employee.where(employee_name: row[8].strip).first
+            if name_other_manager.nil?
               return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
             else
-              row[8] = id_other_manager.id
+              id_other_manager = OtherManager.where(employee_id: name_other_manager.id).first
+              if id_other_manager.nil?
+                return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
+              else
+                row[8] = id_other_manager.id
+              end
             end
           end
 
-          name_foreman = Employee.where(employee_name: row[7].strip).first
-          if name_foreman.nil?
-            return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
-          else
-            id_foreman = Foreman.where(employee_id: name_foreman.id).first
-            if id_foreman.nil?
+          if row[7].present?
+            name_foreman = Employee.where(employee_name: row[7].strip).first
+            if name_foreman.nil?
               return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
             else
-              row[7] = id_foreman.id
+              id_foreman = Foreman.where(employee_id: name_foreman.id).first
+              if id_foreman.nil?
+                return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
+              else
+                row[7] = id_foreman.id
+              end
             end
           end
 

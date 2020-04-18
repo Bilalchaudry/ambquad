@@ -48,21 +48,21 @@ class Plant < ApplicationRecord
             return error = "Validation Failed Plant Field Empty in File, Error on Row: #{i}"
           end
 
-          id_plant_type = PlantType.where(type_name: row[2]).first
+          id_plant_type = PlantType.where(type_name: row[2].strip).first
           if id_plant_type.nil?
             return error = "Validation Failed Plant Type must Exist, Error on Row: #{i}"
           else
             row[2] = id_plant_type.id
           end
 
-          id_project_company = ProjectCompany.where(company_name: row[3]).first
+          id_project_company = ProjectCompany.where(company_name: row[3].strip).first
           if id_project_company.nil?
             return error = "Validation Failed Project Company must Exist, Error on Row: #{i}"
           else
             row[3] = id_project_company.id
           end
 
-          name_foreman = Employee.where(first_name: row[6]).first
+          name_foreman = Employee.where(first_name: row[6].strip).first
           if name_foreman.nil?
             return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
           else
@@ -74,7 +74,7 @@ class Plant < ApplicationRecord
             end
           end
 
-          name_other_manager = Employee.where(first_name: row[7]).first
+          name_other_manager = Employee.where(first_name: row[7].strip).first
           if name_other_manager.nil?
             return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
           else
