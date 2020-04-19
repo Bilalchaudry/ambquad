@@ -72,7 +72,11 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.email_field :email, validate: true, :class => "form-control py-2", :disabled => true %>
+                      <% else %>
                       <%= form.email_field :email, validate: true, :class => "form-control py-2", :required => true %>
+                      <% end %>
                     </div>
                   </div>
                 </div>

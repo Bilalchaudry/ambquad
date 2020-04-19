@@ -30,7 +30,12 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :company_name, :class => "form-control py-2", :required => true %>
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :company_name, :class => "form-control py-2", :disabled => true %>
+                      <% else %>
+
+                        <%= form.text_field :company_name, :class => "form-control py-2", :required => true %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -57,16 +62,16 @@
                   </div>
                 </div>
 
-<!--                <div class="row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.text_field :address, :id => "pac-input", :class => "form-control py-2", :required => true, placeholder: "Enter address" %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <!--                <div class="row">-->
+                <!--                  <div class="col-md-4">-->
+                <%#= form.label :address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                <!--                  </div>-->
+                <!--                  <div class="col-md-6">-->
+                <!--                    <div class="form-group">-->
+                <%#= form.text_field :address, :id => "pac-input", :class => "form-control py-2", :required => true, placeholder: "Enter address" %>
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
 
                 <div class="form-row">
                   <div class="col-md-4">
@@ -119,16 +124,16 @@
                 <input class="field" id="route" style="display: none"/>
                 <input class="field" id="postal_code" style="display: none"/>
 
-<!--                <div class="form-row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.select :country_name, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @project_company.country_name), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <!--                <div class="form-row">-->
+                <!--                  <div class="col-md-4">-->
+                <%#= form.label :country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                <!--                  </div>-->
+                <!--                  <div class="col-md-6">-->
+                <!--                    <div class="form-group">-->
+                <%#= form.select :country_name, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @project_company.country_name), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
 
                 <div class="row">
                   <div class="col-md-4">
@@ -139,10 +144,10 @@
                     <div class="form-group">
                       <%#= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag+ " "  + c.country_code]}), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
                       <select name="project_company[phone_country_code]" id="phone_country_code" class="form-control" required>
-                        <option value=<%= @project_company.phone_country_code.present? ? @project_company.phone_country_code: "+64" %> ><%= @project_company.phone_country_code.present? ? @project_company.phone_country_code : "+64"  %></option>
+                        <option value=<%= @project_company.phone_country_code.present? ? @project_company.phone_country_code : "+64" %>><%= @project_company.phone_country_code.present? ? @project_company.phone_country_code : "+64" %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
-                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
-                            <%= country.emoji_flag + " "+ country.country_code %>
+                          <option value="<%= country.emoji_flag + " " + country.country_code %>">
+                            <%= country.emoji_flag + " " + country.country_code %>
                           </option>
                         <% end %>
                       </select>
@@ -189,16 +194,16 @@
                   </div>
                 </div>
 
-<!--                <div class="form-row">-->
-<!--                  <div class="col-md-4">-->
-                    <%#= form.label :poc_country, "POC Country", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-<!--                  </div>-->
-<!--                  <div class="col-md-6">-->
-<!--                    <div class="form-group">-->
-                      <%#= form.select :poc_country, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @project_company.poc_country), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
+                <!--                <div class="form-row">-->
+                <!--                  <div class="col-md-4">-->
+                <%#= form.label :poc_country, "POC Country", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                <!--                  </div>-->
+                <!--                  <div class="col-md-6">-->
+                <!--                    <div class="form-group">-->
+                <%#= form.select :poc_country, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.name]}, @project_company.poc_country), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
 
                 <div class="row">
                   <div class="col-md-4">
@@ -208,10 +213,10 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <select name="project_company[poc_phone_country_code]" id="poc_phone_country_code" class="form-control" required>
-                        <option value=<%= @project_company.poc_phone_country_code.present? ? @project_company.poc_phone_country_code: "+64" %> ><%= @project_company.poc_phone_country_code.present? ? @project_company.poc_phone_country_code : "+64"  %></option>
+                        <option value=<%= @project_company.poc_phone_country_code.present? ? @project_company.poc_phone_country_code : "+64" %>><%= @project_company.poc_phone_country_code.present? ? @project_company.poc_phone_country_code : "+64" %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
-                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
-                            <%= country.emoji_flag + " "+ country.country_code %>
+                          <option value="<%= country.emoji_flag + " " + country.country_code %>">
+                            <%= country.emoji_flag + " " + country.country_code %>
                           </option>
                         <% end %>
                       </select>
@@ -252,9 +257,8 @@
   </main>
   <script>
       var input = document.getElementById('autocomplete');
-      google.maps.event.addDomListener(input, 'keydown', function(e) {
-          if (e.keyCode == 13)
-          {
+      google.maps.event.addDomListener(input, 'keydown', function (e) {
+          if (e.keyCode == 13) {
               e.preventDefault();
           }
       });
@@ -330,22 +334,22 @@
         $('select').selectpicker();
     });
 
-//     function initAutocomplete() {
-//
-// // Create the search box and link it to the UI element.
-//         var input = document.getElementById('pac-input');
-//         var searchBox = new google.maps.places.SearchBox(input);
-//
-// // Listen for the event fired when the user selects a prediction and retrieve
-// // more details for that place.
-//         searchBox.addListener('places_changed', function () {
-//             var places = searchBox.getPlaces();
-//
-//             if (places.length == 0) {
-//                 return;
-//             }
-//         });
-//     }
+    //     function initAutocomplete() {
+    //
+    // // Create the search box and link it to the UI element.
+    //         var input = document.getElementById('pac-input');
+    //         var searchBox = new google.maps.places.SearchBox(input);
+    //
+    // // Listen for the event fired when the user selects a prediction and retrieve
+    // // more details for that place.
+    //         searchBox.addListener('places_changed', function () {
+    //             var places = searchBox.getPlaces();
+    //
+    //             if (places.length == 0) {
+    //                 return;
+    //             }
+    //         });
+    //     }
 
 </script>
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDGzNf9YIv5BasHa88gAf9AK71HL19sR4&libraries=places&callback=initAutocomplete"-->
