@@ -41,7 +41,7 @@ class Plant < ApplicationRecord
       @plant = []
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
         begin
-          i=i+1
+          i = i + 1
 
 
           if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[4].nil? || row[5].nil? || row[6].nil? || row[7].nil? || row[8].nil? || row[9].nil?
@@ -96,9 +96,9 @@ class Plant < ApplicationRecord
             row[9] = "Active"
           end
 
-          @plant << Plant.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
-                              foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
-                              project_id: project.id, client_company_id: project.client_company_id)
+            @plant << Plant.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
+                                foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
+                                project_id: project.id, client_company_id: project.client_company_id)
         rescue => e
           e.message
         end

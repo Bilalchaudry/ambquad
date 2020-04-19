@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   resources :history
 
   get 'timesheet/index'
-  resources :budget_holders
-  resources :plants
+  # resources :budget_holders
+  # resources :plants
 
   resources :projects do
     resources :plant_time_sheets
@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       collection do
         get :crew
         get :project_foreman_list
+        post :import
+        get :download_template
       end
     end
 
@@ -45,9 +47,20 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :other_managers
+    resources :other_managers do
+      collection do
+        post :import
+        get :download_template
+      end
+    end
 
-    resources :budget_holders
+
+    resources :budget_holders do
+      collection do
+        post :import
+        get :download_template
+      end
+    end
 
     resources :project_employees
 

@@ -9,7 +9,7 @@ class PlantType < ApplicationRecord
   def self.import_file(file, project)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
-      i=0
+      i = 0
       @plant_type = []
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
         begin
@@ -24,11 +24,13 @@ class PlantType < ApplicationRecord
             return error = "Validation Failed Plant Type Already Exist in Project, Error on Row: #{i}"
           end
 
-          new_plant_type = @plant_type.any? { |a| a.type_name == row[0] }
+          new_plant_type = @plant_type.any? {|a| a.type_name == row[0]}
           if new_plant_type == true
             return error = "Validation Failed Plant Type Already Exist in File, Error on Row: #{i}"
           end
-          @plant_type << project.plant_types.new(type_name: row[0], project_id: project.id)
+
+            @plant_type << project.plant_types.new(type_name: row[0], project_id: project.id)
+
         rescue => e
           return e.message
         end

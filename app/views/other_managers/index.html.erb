@@ -22,6 +22,15 @@
             <div class="card bg-success text-white mb-3">
               <%= link_to 'Add New Manager', new_project_other_manager_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
+
+            <div class="row" style="margin-left: 1px">
+              <%= form_tag import_project_other_managers_path, multipart: true do %>
+                <%= file_field_tag :file, :required => true %>
+                <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+              <% end %>
+              <%= link_to 'Download Template', download_template_project_other_managers_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+
           </div>
         </div>
         <div class="card mb-4">
@@ -39,11 +48,11 @@
                 <tbody>
                 <% @other_managers.each do |other_manager| %>
                   <tr>
-                    <td><%=other_manager.employee.employee_name %></td>
+                    <td><%= other_manager.employee.employee_name %></td>
                     <td><%= other_manager.manager_type %></td>
                     <td><%= link_to 'View', "/projects/#{@project.id}/other_managers/#{other_manager.id}", :class => "btn btn-outline-dark" %>
-                    <%= link_to 'Edit', "/projects/#{@project.id}/other_managers/#{other_manager.id}/edit", :class => "btn btn-outline-info" %>
-                    <%= link_to 'Destroy', "/projects/#{@project.id}/other_managers/#{other_manager.id}/", method: :delete, data: {confirm: 'Are you sure?'} , :class => "btn btn-outline-danger" , remote: true  %></td>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/other_managers/#{other_manager.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to 'Destroy', "/projects/#{@project.id}/other_managers/#{other_manager.id}/", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", remote: true %></td>
                   </tr>
                 <% end %>
                 </tbody>

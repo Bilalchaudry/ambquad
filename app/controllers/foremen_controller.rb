@@ -1,7 +1,8 @@
 class ForemenController < ApplicationController
   include ForemenHelper
   before_action :set_foreman, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :crew, :destroy, :project_foreman_list]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index,
+                                     :crew, :destroy, :project_foreman_list, :import]
 
   load_and_authorize_resource
 
@@ -79,6 +80,27 @@ class ForemenController < ApplicationController
     rescue => e
       redirect_to "/projects/#{@project.id}/foremen", notice: 'Foreman can not deleted because it is linked with its assosiative records'
     end
+  end
+
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
+    errors = Foreman.import_file(params[:file], current_user, @project)
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
+    else
+      flash[:notice] = errors
+    end
+    redirect_to project_foremen_path
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/foremen.csv",
+        filename: "foremen.csv",
+        )
   end
 
   # def users_except_foremen

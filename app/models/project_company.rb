@@ -16,8 +16,8 @@ class ProjectCompany < ApplicationRecord
     end
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
-      i=0
-      @project_company=[]
+      i = 0
+      @project_company = []
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
         begin
           i = i + 1
@@ -31,7 +31,7 @@ class ProjectCompany < ApplicationRecord
             return error = "Validation Failed Project Company Already Exist in Project, Error on Row: #{i}"
           end
 
-          new_project_company = @project_company.any? { |a| a.company_name == row[0] }
+          new_project_company = @project_company.any? {|a| a.company_name == row[0]}
           if new_project_company == true
             return error = "Validation Failed Project Company Already Exist in File, Error on Row: #{i}"
           end

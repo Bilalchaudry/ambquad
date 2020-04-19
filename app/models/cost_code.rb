@@ -9,11 +9,11 @@ class CostCode < ApplicationRecord
   def self.import_file(file, user, project)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
-      @cost_code=[]
-      i=0
+      @cost_code = []
+      i = 0
       CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
         begin
-          i=i+1
+          i = i + 1
           budget_holder = Employee.where(first_name: row[12]).first
           if budget_holder.nil?
             row[12] = ''
@@ -36,14 +36,15 @@ class CostCode < ApplicationRecord
             return error = "Validation Failed Cost Cost Already Exist in Project, Error on Row: #{i}"
           end
 
-          new_cost_code = @cost_code.any?{|a| a.cost_code_id == row[0]}
+          new_cost_code = @cost_code.any? {|a| a.cost_code_id == row[0]}
           if new_cost_code == true
             return error = "Validation Failed Cost Cost Already Exist in File, Error on Row: #{i}"
           end
-
-          @cost_code << project.cost_codes.new(cost_code_id: row[0], cost_code_description: row[1], WBS_01: row[2], WBS_01_Description: row[3],
+          unless @cost_code.any? {|cost_code| cost_code.employee_id == employee.id}
+            @cost_code << project.cost_codes.new(cost_code_id: row[0], cost_code_description: row[1], WBS_01: row[2], WBS_01_Description: row[3],
                                                  WBS_02: row[4], WBS_02_Description: row[5], WBS_03: row[6], WBS_03_Description: row[7],
                                                  WBS_04: row[8], WBS_04_Description: row[9], WBS_05: row[10], WBS_05_Description: row[11], budget_holder_id: row[12])
+          end
         rescue => e
           return e.message
         end
