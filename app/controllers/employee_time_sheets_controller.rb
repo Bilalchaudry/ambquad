@@ -20,12 +20,26 @@ class EmployeeTimeSheetsController < ApplicationController
     elsif params[:date].present? && params[:search_date].present?
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:date])
       if @employee_time_sheets.empty?
-        @project_employees = @project.project_employees
+        @project_employees = @project.employees
         @employee_time_sheets = []
         @project_employees.each do |project_employee|
-          @employee_time_sheets << @project.employee_time_sheets.new(employee: project_employee.employee.first_name + ' ' + project_employee.employee.last_name,
-                                                                     labour_type: project_employee.employee_type.employee_type, project_company_id: project_employee.project_company_id,
-                                                                     manager: project_employee.other_manager.employee.first_name, foreman_name: project_employee.foreman.employee.first_name,
+
+          if project_employee.other_manager_id.present?
+            manager_name = OtherManager.find(project_employee.other_manager_id).employee.employee_name
+          else
+            manager_id = nil
+            manager_name = nil
+          end
+
+          if project_employee.foreman_id.present?
+            foreman_name = Foreman.find(project_employee.foreman_id).employee.employee_name
+          else
+            foreman_name = nil
+            foreman_id = nil
+          end
+          @employee_time_sheets << @project.employee_time_sheets.new(employee: project_employee.employee_name, labour_type: project_employee.employee_type.employee_type,
+                                                                     project_company_id: project_employee.project_company_id,
+                                                                     manager: manager_name, foreman_name: foreman_name, foreman_id: foreman_id,
                                                                      total_hours: 0, employee_type_id: project_employee.employee_type_id,
                                                                      employee_create_date: params[:date], project_id: @project.id, employee_id: project_employee.employee_id)
         end
@@ -47,7 +61,7 @@ class EmployeeTimeSheetsController < ApplicationController
 
             @employee_time_sheets_copy_data << @project.employee_time_sheets.new(employee: project_employee.employee, labour_type: project_employee.labour_type,
                                                                                  project_company_id: project_employee.project_company_id, manager: project_employee.manager,
-                                                                                 foreman_name: project_employee.foreman_name, total_hours: project_employee.total_hours,
+                                                                                 foreman_name: project_employee.foreman_id, total_hours: project_employee.total_hours,
                                                                                  employee_type_id: project_employee.employee_type_id, employee_id: project_employee.employee_id,
                                                                                  employee_create_date: Time.now.strftime("%Y-%m-%d"), project_id: @project.id)
           end
@@ -91,38 +105,43 @@ class EmployeeTimeSheetsController < ApplicationController
     elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
       today = params[:sheet_date].to_date
       whole_week = (today.at_beginning_of_week..today.at_end_of_week - 2)
-      @time_sheet_submit_data = []
-      whole_week.map.each do |day|
-        time_sheet_data = EmployeeTimeSheet.where(employee_create_date: day)
-        if time_sheet_data.first.submit_sheet == true
+      if Time.now.strftime("%Y-%m-%d").to_date >= whole_week.first
+        @time_sheet_submit_data = []
+        i = true
+        whole_week.map.each do |day|
+          time_sheet_data = EmployeeTimeSheet.where(employee_create_date: day)
+          if time_sheet_data.empty?
+            @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+            i = false
+            respond_to do |f|
+              f.js { flash.now[:notice] = "Please Complete the Time Sheet there is no data on Date: #{day}" }
+              f.html
+            end
+          elsif time_sheet_data.first.submit_sheet == true
+            @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+            i = false
+            respond_to do |f|
+              f.js { flash.now[:notice] = "Time Sheet Already Submitted" }
+              f.html
+            end
+          else
+            @time_sheet_submit_data.push(time_sheet_data)
+          end
+        end
+        if i == true
+          @time_sheet_submit_data.each { |single_data| single_data.update(submit_sheet: true) }
           @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
           respond_to do |f|
-            f.js { flash.now[:notice] = "Time Sheet Already Submitted" }
+            f.js { flash.now[:notice] = "Time Sheet Submitted Successfully" }
             f.html
           end
         end
-        if time_sheet_data.empty?
-          @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-          respond_to do |f|
-            f.js { flash.now[:notice] = "Please Complete the Time Sheet there is no data on Date: #{day}" }
-            f.html
-          end
-        else
-          # if time_sheet_data.first.submit_sheet == true
-          #   @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-          #   respond_to do |f|
-          #     f.js { flash.now[:notice] = "Time Sheet Already Submitted" }
-          #     f.html
-          #   end
-          # end
-          @time_sheet_submit_data.push(time_sheet_data)
+      else
+        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+        respond_to do |f|
+          f.js { flash.now[:notice] = "You cannot Submit Time Sheet Before Date: #{whole_week.first}" }
+          f.html
         end
-      end
-      @time_sheet_submit_data.each { |single_data| single_data.update(submit_sheet: true) }
-      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-      respond_to do |f|
-        f.js { flash.now[:notice] = "Time Sheet Submitted Successfully" }
-        f.html
       end
 
     else

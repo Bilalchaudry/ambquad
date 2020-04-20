@@ -12,11 +12,11 @@ class PlantTimeSheetsController < ApplicationController
         @plant_time_sheets = []
         @project_plant.each do |project_plant|
 
-          manager_first_name = OtherManager.find(project_plant.other_manager_id).employee.employee_name
-          manager_last_name = OtherManager.find(project_plant.other_manager_id).employee.employee_name
+          manager_name = OtherManager.find(project_plant.other_manager_id).employee.employee_name
+          foreman_name = Foreman.find(project_plant.foreman_id).employee.employee_name
           @plant_time_sheets << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
                                                                foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: params[:date],
-                                                               manager: manager_first_name + ' ' + manager_last_name, total_hours: 0)
+                                                               foreman_name: foreman_name, manager: manager_name, total_hours: 0)
 
         end
         PlantTimeSheet.import @plant_time_sheets
@@ -74,32 +74,44 @@ class PlantTimeSheetsController < ApplicationController
       end
     elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
       today = params[:sheet_date].to_date
-      whole_week = (today.at_beginning_of_week..today.at_end_of_week-2)
-      @time_sheet_submit_data=[]
-      whole_week.each do |day|
-        time_sheet_data = PlantTimeSheet.where(plant_create_date: day)
-        if time_sheet_data.first.nil?
+      whole_week = (today.at_beginning_of_week..today.at_end_of_week - 2)
+      if Time.now.strftime("%Y-%m-%d").to_date >= whole_week.first
+        @time_sheet_submit_data = []
+        i = true
+        whole_week.map.each do |day|
+          time_sheet_data = PlantTimeSheet.where(plant_create_date: day)
+          if time_sheet_data.empty?
+            @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+            i = false
+            respond_to do |f|
+              f.js { flash.now[:notice] = "Please Complete the Time Sheet there is no data on Date: #{day}" }
+              f.html
+            end
+          elsif time_sheet_data.first.submit_sheet == true
+            @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+            i = false
+            respond_to do |f|
+              f.js { flash.now[:notice] = "Time Sheet Already Submitted" }
+              f.html
+            end
+          else
+            @time_sheet_submit_data.push(time_sheet_data)
+          end
+        end
+        if i == true
+          @time_sheet_submit_data.each { |single_data| single_data.update(submit_sheet: true) }
           @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
           respond_to do |f|
-            f.js { flash.now[:notice] = "Please Complete the Time Sheet there is no data on Date: #{day}" }
+            f.js { flash.now[:notice] = "Time Sheet Submitted Successfully" }
             f.html
           end
-        else
-          @time_sheet_submit_data.push(time_sheet_data)
         end
-      end
-      # if @time_sheet_submit_data.first.submit_sheet == true
-      #   @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-      #   respond_to do |f|
-      #     f.js { flash.now[:notice] = "Time Sheet Already Submitted" }
-      #     f.html
-      #   end
-      # end
-      @time_sheet_submit_data.each {|single_data| single_data.update(submit_sheet: true)}
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-      respond_to do |f|
-        f.js { flash.now[:notice] = "Time Sheet Submitted Successfully" }
-        f.html
+      else
+        @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+        respond_to do |f|
+          f.js { flash.now[:notice] = "You cannot Submit Time Sheet Before Date: #{whole_week.first}" }
+          f.html
+        end
       end
     else
       @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
