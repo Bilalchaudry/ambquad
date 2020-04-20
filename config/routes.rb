@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :time_sheet_cost_codes
+
   resources :history
 
   get 'timesheet/index'
@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :projects do
     resources :plant_time_sheets
     resources :employee_time_sheets
+    resources :time_sheet_cost_codes
+
 
     resources :foremen do
       collection do
