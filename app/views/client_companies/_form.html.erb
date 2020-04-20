@@ -1,11 +1,15 @@
 <div id="layoutSidenav">
-  <div id="layoutSidenav_content" style="margin-top: -29px">
+  <div id="layoutSidenav_content" style="margin-top: -32px">
     <h3 class="alert-success mt-1"><%= notice %></h3>
     <div class="page-wrapper p-b-50">
       <div class="wrapper wrapper--w790">
         <div class="card card-5">
           <div class="card-heading" style="background-color: #8ACCB1">
-            <h3 class="text-center font-weight-light text-white">Create Client Companies</h3>
+            <% if @client_company.company_name.present? %>
+              <h3 class="text-center font-weight-light text-white">Edit <%= @client_company.company_name %></h3>
+            <% else %>
+              <h3 class="text-center font-weight-light text-white">Create Client Company</h3>
+            <% end %>
           </div>
           <div class="card-body">
             <%= form_with(model: client_company, local: true) do |form| %>

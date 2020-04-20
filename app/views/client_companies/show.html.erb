@@ -1,163 +1,165 @@
-<div id="layoutAuthentication_content">
-  <main>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header">
-              <h3 class="text-center font-weight-light my-4"><%= @client_company.company_name %></h3></div>
-            <div class="card-body">
-              <% if notice.present? %>
-                <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
-              <% end %>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content" style="margin-top: 37px">
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+          <div class="card-heading" style="background-color: #8ACCB1">
+            <h2 class="text-center font-weight-light text-white">
+              <%= @client_company.company_name %>
+            </h2>
+          </div>
+          <div class="card-body">
+            <% if notice.present? %>
+              <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
+            <% end %>
 
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Company Name:</strong>
+            <div class="row">
+              <div class="col-md-4">
+                <strong>Company Name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.company_name %>
                 </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.company_name %>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Company ID:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.company_id %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Address:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.address %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Country:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.country_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Phone:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.phone.present? ? @client_company.phone_country_code.to_s + @client_company.phone : "N/A" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Number of users:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.number_of_users %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Poc First Name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.primary_poc_first_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Poc Last Name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.primary_poc_last_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Primary poc Email:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.poc_email %>
+                </div>
+              </div>
+            </div>
+
+            <!--              <div class="form-row pt-2">-->
+            <!--                <div class="col-md-4">-->
+            <!--                  <strong>POC Country:</strong>-->
+            <!--                </div>-->
+            <!--                <div class="col-md-6">-->
+            <!--                  <div>-->
+            <%#= @client_company.poc_country %>
+            <!--                  </div>-->
+            <!--                </div>-->
+            <!--              </div>-->
+
+            <div class="row pt-4">
+              <div class="col-md-4">
+                <strong>Primary POC Phone:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @client_company.poc_phone.present? ? @client_company.primary_poc_country_code.to_s + @client_company.poc_phone : "N/A" %>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Edit', edit_client_company_path(@client_company), :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' if can? :update, Project %>
                   </div>
                 </div>
               </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Company ID:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.company_id %>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <% if current_user.role.eql?("Admin") %>
+                      <%= link_to 'Back', client_companies_path, :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
+                    <% else %>
+                      <%= link_to 'Back', root_path, :class => 'btnw-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
+                    <% end %>
                   </div>
                 </div>
               </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Address:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.address %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Country:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.country_name %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Phone:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.phone.present? ? @client_company.phone_country_code.to_s  + @client_company.phone : "N/A" %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Number of users:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.number_of_users %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Poc First Name:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.primary_poc_first_name %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Poc Last Name:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.primary_poc_last_name %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Primary poc Email:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.poc_email %>
-                  </div>
-                </div>
-              </div>
-
-<!--              <div class="form-row pt-2">-->
-<!--                <div class="col-md-4">-->
-<!--                  <strong>POC Country:</strong>-->
-<!--                </div>-->
-<!--                <div class="col-md-6">-->
-<!--                  <div>-->
-                    <%#= @client_company.poc_country %>
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Primary POC Phone:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @client_company.poc_phone .present? ? @client_company.primary_poc_country_code.to_s + @client_company.poc_phone : "N/A" %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Edit', edit_client_company_path(@client_company), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' if can? :update, Project %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <% if current_user.role.eql?("Admin") %>
-                        <%= link_to 'Back', client_companies_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                      <% else %>
-                        <%= link_to 'Back', root_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3"></div>
-              </div>
+              <div class="col-md-3"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </main>
 </div>
