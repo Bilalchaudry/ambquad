@@ -21,24 +21,24 @@ class ProjectCompaniesController < ApplicationController
 
   # GET /project_companies/1/edit
   def edit
-    project_id = @project_company.project_id
-    @company_project = current_user.client_company.projects.find(project_id) rescue nil
-    @company_projects = current_user.client_company.projects.all.where.not(id: project_id) rescue nil
+    # project_id = @project_company.project_id
+    # @company_project = current_user.client_company.projects.find(project_id) rescue nil
+    # @company_projects = current_user.client_company.projects.all.where.not(id: project_id) rescue nil
   end
 
   # POST /project_companies
   # POST /project_companies.json
   def create
     @project_company = @project.project_companies.new(project_company_params)
-    @project_company.project_id = @project.id
+    # @project_company.project_id = @project.id
     @project_company.client_company_id = @project.client_company.id
     @project_company.poc_country = @project.client_company.country_name
     if @project_company.country_name != " "
-      code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
-      @project_company.phone = '+' + code + @project_company.phone
-
-      poc_code = ISO3166::Country.find_country_by_name(@project_company.poc_country).country_code
-      @project_company.poc_phone = '+' + poc_code + @project_company.poc_phone
+      # code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
+      # @project_company.phone = '+' + code + @project_company.phone
+      #
+      # poc_code = ISO3166::Country.find_country_by_name(@project_company.poc_country).country_code
+      # @project_company.poc_phone = '+' + poc_code + @project_company.poc_phone
 
       respond_to do |format|
         if @project_company.save
@@ -127,7 +127,7 @@ class ProjectCompaniesController < ApplicationController
   def project_company_params
     params.require(:project_company).permit(:company_summary, :project_role, :address, :phone, :city, :state,
                                             :primary_poc_first_name, :primary_poc_last_name, :poc_email,
-                                            :poc_phone, :project_id, :company_name, :country_name,
+                                            :poc_phone, :project_id, :company_name, :country_name, :phone,
                                             :poc_country, :phone_country_code, :poc_phone_country_code)
   end
 end

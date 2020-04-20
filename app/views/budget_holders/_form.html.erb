@@ -28,14 +28,14 @@
                       <% if params[:action].eql?("edit") %>
                         <select name="budget_holder[employee_id]" id="employee_id" class="form-control">
                           <option value="<%= @budget_holder.employee.present? ? @budget_holder.employee_id : "" %>"><%= @budget_holder.employee.present? ? @budget_holder.employee.employee_name : "None" %></option>
-                          <% @project.employees.reject {|employee| employee.id == @budget_holder.employee_id}.each do |employee| %>
+                          <% @project.employees.reject {|employee| @project.budget_holders.pluck(:employee_id).include?(employee.id)}.each do |employee| %>
                             <option value="<%= employee.id %>">
                               <%= employee.employee_name %>
                             </option>
                           <% end %>
                         </select>
                       <% else %>
-                        <%= form.select :employee_ids, options_for_select(@project.employees.map {|c| [c.employee_name, c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+                        <%= form.select :employee_ids, options_for_select(@project.employees.reject {|employee| @project.budget_holders.pluck(:employee_id).include?(employee.id)}.map {|c| [c.employee_name, c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
                       <% end %>
                     </div>
                   </div>

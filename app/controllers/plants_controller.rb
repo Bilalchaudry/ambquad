@@ -44,9 +44,9 @@ class PlantsController < ApplicationController
     respond_to do |format|
       if @plant.save
         manager_id = params[:plant][:other_manager_id]
-        plant_manager = OtherManager.find(manager_id).employee.employee_name
+        plant_manager = OtherManager.find(manager_id).employee.employee_name rescue nil
         foreman_id = params[:plant][:other_manager_id]
-        plant_foreman = Foreman.find(foreman_id).employee.employee_name
+        plant_foreman = Foreman.find(foreman_id).employee.employee_name rescue nil
         @project.plant_time_sheets.create(plant_id: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
                                           project_company_id: params[:plant][:project_company_id],
                                           foreman_id: params[:plant][:foreman_id], manager: plant_manager,
@@ -151,7 +151,7 @@ class PlantsController < ApplicationController
   def plant_params
     pp = params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
                                        :contract_start_date, :contract_end_date, :market_value,
-                                       :offload, :foreman_id, :other_manager_id)
+                                       :offload, :foreman_id, :other_manager_id, :status)
     pp[:status] = params[:plant][:status].to_i
 
     return pp

@@ -1,5 +1,5 @@
 class BudgetHoldersController < ApplicationController
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
   before_action :set_budget_holder, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
@@ -69,7 +69,29 @@ class BudgetHoldersController < ApplicationController
     rescue => e
       redirect_to "/projects/#{@project.id}/budget_holders", notice: 'Budget Holder can not deleted because it is linked with its assosiative records'
     end
+  end
 
+  def import
+    file = params[:file]
+
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
+
+    errors = BudgetHolder.import_file(params[:file], current_user, @project)
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
+    else
+      flash[:notice] = errors
+    end
+    redirect_to project_budget_holders_path
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/budget_holders.csv",
+        filename: "budget_holders.csv",
+        )
   end
 
   private

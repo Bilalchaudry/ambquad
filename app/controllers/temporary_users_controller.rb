@@ -25,17 +25,20 @@ class TemporaryUsersController < ApplicationController
   # POST /temporary_users.json
   def create
     @temporary_user = TemporaryUser.new(temporary_user_params)
-    # code = ISO3166::Country.find_country_by_name(@temporary_user.country_name).country_code
-    # @temporary_user.phone_no = '+' + code + @temporary_user.phone_no
-    @temporary_user.country_name = current_user.client_company.country_name
+    @temporary_user.country_name = @temporary_user.client_company.country_name
     @user = User.new(temporary_user_params)
     @user.country_name = @temporary_user.country_name
     @user.set_confirmation_token
-    @user.save
+    # @user.password = params[:temporary_user][:password]
+    # @user.password_confirmation = params[:temporary_user][:password_confirmation]
+    #
     respond_to do |format|
       if @temporary_user.save
-        MailSendJob.perform_later(@user)
-        @temporary_user.client_company.update(number_of_users: @temporary_user.client_company.number_of_users + 1)
+        @user.save
+        if @user.save == true
+          MailSendJob.perform_later(@user)
+          @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
+        end
         format.html {redirect_to users_path, notice: 'User is successfully created.'}
         format.json {render :show, status: :created, location: @temporary_user}
       else
@@ -81,7 +84,7 @@ class TemporaryUsersController < ApplicationController
   def temporary_user_params
     pp = params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
                                                 :password, :encrypted_password, :client_company_id, :country_name,
-                                                :status, :user_id, :phone_country_code, :password_confirmation)
+                                                :status, :user_id, :role,  :phone_country_code, :password_confirmation)
     pp[:role] = params[:temporary_user][:role].to_i
     pp[:status] = params[:temporary_user][:status].to_i
     return pp

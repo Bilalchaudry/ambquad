@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_190038) do
+ActiveRecord::Schema.define(version: 2020_04_18_065526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
     t.string "cost_code"
     t.date "employee_create_date"
     t.bigint "project_id"
+    t.boolean "submit_sheet", default: false
     t.index ["project_id"], name: "index_employee_time_sheets_on_project_id"
   end
 
@@ -146,6 +147,8 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
     t.string "country_name"
     t.string "country_code"
     t.string "project_role"
+    t.string "employee_name"
+    t.string "phone_country_code"
     t.index ["employee_type_id"], name: "index_employees_on_employee_type_id"
     t.index ["foreman_id"], name: "index_employees_on_foreman_id"
     t.index ["other_manager_id"], name: "index_employees_on_other_manager_id"
@@ -185,6 +188,7 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
     t.string "foreman_name"
     t.bigint "project_id"
     t.date "plant_create_date"
+    t.boolean "submit_sheet", default: false
     t.index ["project_id"], name: "index_plant_time_sheets_on_project_id"
   end
 
@@ -241,6 +245,10 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
     t.string "company_name"
     t.string "country_name"
     t.string "poc_country"
+    t.string "state"
+    t.string "city"
+    t.string "phone_country_code"
+    t.string "poc_phone_country_code"
     t.index ["client_company_id"], name: "index_project_companies_on_client_company_id"
     t.index ["project_id"], name: "index_project_companies_on_project_id"
   end
@@ -305,6 +313,7 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
     t.string "country"
     t.string "city"
     t.string "state"
+    t.string "country_code"
   end
 
   create_table "temporary_users", force: :cascade do |t|
@@ -324,6 +333,10 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
     t.string "confirm_token"
     t.string "user_id"
     t.integer "status"
+    t.string "city"
+    t.string "state"
+    t.string "phone_country_code"
+    t.string "password_confirmation"
   end
 
   create_table "time_sheet_cost_codes", force: :cascade do |t|
@@ -337,6 +350,8 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
     t.bigint "plant_id"
     t.integer "time_sheet_employee_id"
     t.integer "time_sheet_plant_id"
+    t.bigint "employee_time_sheet_id"
+    t.index ["employee_time_sheet_id"], name: "index_time_sheet_cost_codes_on_employee_time_sheet_id"
     t.index ["plant_id"], name: "index_time_sheet_cost_codes_on_plant_id"
     t.index ["project_id"], name: "index_time_sheet_cost_codes_on_project_id"
   end
@@ -362,10 +377,13 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
     t.datetime "remember_created_at"
     t.string "country_name"
     t.integer "status"
-    t.string "confirm_password"
+    t.string "password_confirmation"
     t.boolean "email_confirmed", default: false
     t.string "confirm_token"
     t.string "user_id"
+    t.string "phone_country_code"
+    t.string "password"
+    t.string "confirm_password"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -386,6 +404,7 @@ ActiveRecord::Schema.define(version: 2020_04_15_190038) do
   add_foreign_key "project_employees", "employee_types"
   add_foreign_key "project_employees", "employees"
   add_foreign_key "project_employees", "projects"
+  add_foreign_key "time_sheet_cost_codes", "employee_time_sheets"
   add_foreign_key "time_sheet_cost_codes", "plants"
   add_foreign_key "time_sheet_cost_codes", "projects"
 end

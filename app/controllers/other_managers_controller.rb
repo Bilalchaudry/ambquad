@@ -2,7 +2,7 @@ class OtherManagersController < ApplicationController
   include OtherManagersHelper
   before_action :set_other_manager, only: [:show, :edit, :update, :destroy]
   # before_action :employee_except_manager, only: [:new, :edit]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
 
   load_and_authorize_resource
 
@@ -75,6 +75,28 @@ class OtherManagersController < ApplicationController
     end
 
   end
+
+  def import
+    file = params[:file]
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
+    end
+    errors = OtherManager.import_file(params[:file], current_user, @project)
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
+    else
+      flash[:notice] = errors
+    end
+    redirect_to project_other_managers_path
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/other_managers.csv",
+        filename: "other_managers.csv",
+        )
+  end
+
 
   private
 

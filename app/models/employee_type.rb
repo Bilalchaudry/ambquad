@@ -22,12 +22,14 @@ class EmployeeType < ApplicationRecord
             return error = "Validation Failed Employee Type Already Exist in Project, Error on Row: #{i}"
           end
 
-          new_employee_type = @employee_type.any? { |a| a.employee_type == row[0] }
+          new_employee_type = @employee_type.any? {|a| a.employee_type == row[0]}
           if new_employee_type == true
             return error = "Validation Failed Employee Type Already Exist in File, Error on Row: #{i}"
           end
+          unless @employee_type.any? {|employee_type| employee_type.employee_id == employee.id}
+            @employee_type << project.employee_types.new(employee_type: row[0], project_id: project.id)
+          end
 
-          @employee_type << project.employee_types.new(employee_type: row[0], project_id: project.id)
         rescue => e
           return e.message
         end

@@ -5,7 +5,7 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    if current_user.role.eql?("Admin")
+    if current_user.role.eql?("Admin") && current_user.client_company.company_name.eql?("Ambquad")
       @projects = Project.all
     else
       @projects = current_user.client_company.projects rescue []
@@ -99,8 +99,10 @@ class ProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:project_name, :site_office_address, :country, :start_date,
-                                    :end_date, :city, :state,
-                                    :client_company_id, :employee_id, :project_lead, :client_po_number, :project_status)
+    pp = params.require(:project).permit(:project_name, :site_office_address, :country, :start_date,
+                                         :end_date, :city, :state, :country_code,
+                                         :client_company_id, :employee_id, :project_lead, :client_po_number, :project_status)
+    pp[:project_status] = params[:project][:project_status].to_i
+    return pp
   end
 end

@@ -19,7 +19,11 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :company_name, :class => "form-control py-3", :required => true %>
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.text_field :company_name, :class => "form-control py-3", :disabled => true %>
+                      <% else %>
+                        <%= form.text_field :company_name, :class => "form-control py-3" %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -94,10 +98,10 @@
                     <div class="form-group">
                       <%#= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.map {|c| [c.emoji_flag + " "+ c.country_code]}, "+74"), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
                       <select name="client_company[phone_country_code]" id="phone_country_code" class="form-control" required>
-                        <option value=<%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %> ><%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64"  %></option>
+                        <option value=<%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %>><%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
-                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
-                            <%= country.emoji_flag + " "+ country.country_code %>
+                          <option value="<%= country.country_code %>">
+                            <%= country.emoji_flag + " " + country.country_code %>
                           </option>
                         <% end %>
                       </select>
@@ -140,7 +144,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :poc_email, :class => "form-control py-3" %>
+                      <%= form.email_field :poc_email, :class => "form-control py-3" %>
                     </div>
                   </div>
                 </div>
@@ -153,10 +157,10 @@
                     <div class="form-group">
                       <%#= form.select :primary_poc_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag + " " + c.country_code]}, @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : ""), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
                       <select name="client_company[primary_poc_country_code]" id="primary_poc_country_code" class="form-control" required>
-                        <option value=<%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %> ><%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64"  %></option>
+                        <option value=<%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %>><%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %></option>
                         <% ISO3166::Country.countries.sort.each do |country| %>
-                          <option value="<%= country.emoji_flag + " "+ country.country_code %>">
-                            <%= country.emoji_flag + " "+ country.country_code %>
+                          <option value="<%= country.country_code %>">
+                            <%= country.emoji_flag + " " + country.country_code %>
                           </option>
                         <% end %>
                       </select>
@@ -200,9 +204,8 @@
   </main>
   <script>
       var input = document.getElementById('autocomplete');
-      google.maps.event.addDomListener(input, 'keydown', function(e) {
-          if (e.keyCode == 13)
-          {
+      google.maps.event.addDomListener(input, 'keydown', function (e) {
+          if (e.keyCode == 13) {
               e.preventDefault();
           }
       });

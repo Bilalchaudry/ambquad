@@ -61,7 +61,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @client_company.phone %>
+                    <%= @client_company.phone.present? ? @client_company.phone_country_code.to_s  + @client_company.phone : "N/A" %>
                   </div>
                 </div>
               </div>
@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @client_company.poc_phone %>
+                    <%= @client_company.poc_phone .present? ? @client_company.primary_poc_country_code.to_s + @client_company.poc_phone : "N/A" %>
                   </div>
                 </div>
               </div>
