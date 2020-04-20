@@ -1,128 +1,130 @@
-<div id="layoutAuthentication_content">
-  <main>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header"><h3 class="text-center font-weight-light my-4"><%= @user.first_name %></h3></div>
-            <div class="card-body">
-              <% if notice.present? %>
-                <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
-              <%end %>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content" style="margin-top: 37px">
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+          <div class="card-heading" style="background-color: #8ACCB1">
+            <h2 class="text-center font-weight-light text-white">
+              <%#= @user.first_name %>
+              User View
+            </h2>
+          </div>
+          <div class="card-body">
+            <% if notice.present? %>
+              <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
+            <% end %>
 
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>Client Company:</strong>
+            <div class="row">
+              <div class="col-md-3">
+                <strong>Client Company:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @user.client_company.company_name rescue "N/A" %>
                 </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.client_company.company_name rescue "N/A"%>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-3">
+                <strong>User Name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @user.username %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-3">
+                <strong>Phone:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @user.phone_no.present? ? @user.phone_country_code.to_s + @user.phone_no : "N/A" %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row pt-4">
+              <div class="col-md-3">
+                <strong>Email:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @user.email %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-3">
+                <strong>User ID:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @user.user_id %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-3">
+                <strong>Role:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @user.role %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-3">
+                <strong>Country:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @user.country_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row pt-4">
+              <div class="col-md-3">
+                <strong>Status:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @user.status %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Edit', edit_user_path(@user), :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
                   </div>
                 </div>
               </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>User Name:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.username %>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Back', users_path, :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
                   </div>
                 </div>
               </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>Phone:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.phone_no.present? ? @user.phone_country_code.to_s + @user.phone_no : "N/A" %>
-                  </div>
-                </div>
-              </div>
-
-
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>Email:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.email %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>User ID:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.user_id %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>Role:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.role %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>Country:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.country_name %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-3">
-                  <strong>Status:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @user.status %>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Edit', edit_user_path(@user), :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Back', users_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3"></div>
-              </div>
+              <div class="col-md-3"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </div>
