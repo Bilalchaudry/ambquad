@@ -80,9 +80,11 @@ class UsersController < ApplicationController
   def confirm_email
     user = User.find_by_confirm_token(params[:token])
     if user
-      user.validate_email
+      # user.validate_email
       user.save(validate: false)
-      redirect_to root_url
+      flash[:alert] = "Sorry. User does not exist"
+
+      redirect_to root_url, alert: "324234"
     else
       flash[:error] = "Sorry. User does not exist"
       redirect_to root_url

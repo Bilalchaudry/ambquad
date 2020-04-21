@@ -20,6 +20,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="temporary_user[client_company_id]" id="client_company_id" class="form-control" required>
+                      <option value=""></option>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
@@ -117,6 +118,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="temporary_user[role]" id="role" class="form-control" required>
+                        <option value="<%= @temporary_user.role rescue nil %>">
+                          <%= @temporary_user.role rescue nil %>
                         <% User.roles.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
@@ -134,6 +137,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <select name="temporary_user[status]" id="role" class="form-control" required>
+                        <option value="<%= @temporary_user.status rescue nil %>">
+                          <%= @temporary_user.status rescue nil %>
                         <% User.statuses.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>

@@ -43,7 +43,7 @@ class EmployeeTypesController < ApplicationController
   def update
     respond_to do |format|
       if @employee_type.update(employee_type_params)
-        format.html { redirect_to "/projects/#{@project.id}/employee_types/#{@employee_type.id}", notice: 'Employee type was successfully updated.' }
+        format.html { redirect_to "/projects/#{@project.id}/employee_types", notice: 'Employee type was successfully updated.' }
         format.json { render :show, status: :ok, location: @employee_type }
       else
         format.html { render :edit }
