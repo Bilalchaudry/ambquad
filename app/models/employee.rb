@@ -9,7 +9,9 @@ class Employee < ApplicationRecord
   belongs_to :project
   belongs_to :employee_type
   belongs_to :foreman, optional: true
-  belongs_to :other_managers, optional: true
+  belongs_to :other_manager, optional: true
+  # has_one :foreman
+  # has_one :other_manager
   has_many :project_employees
   has_many :budget_holders
   # has_many :employee_types
@@ -189,8 +191,8 @@ class Employee < ApplicationRecord
   end
 
   def time_sheet_employee
-    other_manager = Employee.find(other_manager_id).employee_name
-    foreman = Employee.find(foreman_id).employee_name
+    other_manager = self.other_manager.employee.employee_name
+    foreman = self.foreman.employee.employee_name
     EmployeeTimeSheet.create!(employee: self.employee_name,
                               labour_type: self.employee_type.employee_type,
                               project_company_id: self.project_company_id,

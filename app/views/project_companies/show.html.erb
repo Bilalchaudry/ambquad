@@ -1,145 +1,148 @@
-<!--<p id="notice"><%#= notice %></p>-->
-<div id="layoutAuthentication_content">
-  <main>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header"><h3 class="text-center font-weight-light my-4">Project Company</h3></div>
-            <div class="card-body">
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content" class="mt-5">
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+          <div class="card-heading bg-clr">
+            <h3 class="text-center font-weight-light text-white mt-1">
+              Project Company
+            </h3>
+            <%= render 'shared/client_and_project_info' %>
+          </div>
+          <div class="card-body">
 
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Client company:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.client_company.company_name %>
-                  </div>
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Client company:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.client_company.company_name %>
                 </div>
               </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Company name:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.company_name %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Company summary:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.company_summary %>
-                  </div>
-                </div>
-              </div>
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Project role:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.project_role %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Address:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.address %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Phone:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.phone.present? ? @project_company.phone_country_code.to_s + @project_company.phone : "N/A" %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>POC First Name:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.primary_poc_first_name %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>POC Last Name:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.primary_poc_last_name %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Poc email:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.poc_email %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row pt-2">
-                <div class="col-md-4">
-                  <strong>Poc phone:</strong>
-                </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @project_company.poc_phone.present? ? @project_company.poc_phone_country_code.to_s + @project_company.poc_phone : "N/A" %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Edit', edit_project_project_company_path(@project) , :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Back', project_project_companies_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3"></div>
-              </div>
-
             </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Company name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.company_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Company summary:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.company_summary %>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Project role:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.project_role %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Address:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.address %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Phone:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.phone.present? ? @project_company.phone_country_code.to_s + @project_company.phone : "N/A" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>POC First Name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.primary_poc_first_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>POC Last Name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.primary_poc_last_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Poc email:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.poc_email %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Poc phone:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @project_company.poc_phone.present? ? @project_company.poc_phone_country_code.to_s + @project_company.poc_phone : "N/A" %>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Edit', edit_project_project_company_path(@project), :class => 'btn btn-style bg-clr w-100' %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Back', project_project_companies_path, :class => 'btn btn-style bg-clr w-100' %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
+  </div>
   </main>
 </div>
