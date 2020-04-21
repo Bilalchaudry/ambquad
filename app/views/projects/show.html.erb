@@ -2,18 +2,6 @@
   a:hover {
     background-color: transparent;
   }
-
-  .row1-clr {
-    background-color: #c0a16b;
-  }
-
-  .row2-clr {
-    background-color: darkgrey;
-  }
-
-  .row3-clr {
-    background-color: #8ACCB1;
-  }
 </style>
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
@@ -76,11 +64,10 @@
                           <div class="card-body">Project Employees</div>
                           <div class="card-footer d-flex align-items-center justify-content-between">
                             <% if @project.employees.present? %>
-                              <%= link_to 'Project Employees Detail', "/projects/#{@project.id}/project_employees", :class => "bold-title-with-color nav-item nav-link small", :style => "cursor:default" %>
+                              <%= link_to 'Project Employees Detail', "/projects/#{@project.id}/project_employees", :class => "bold-title-with-color nav-item nav-link small" %>
                             <% else %>
                               <%= link_to 'Project Employees Detail', "/projects/#{@project.id}/project_employees", :class => "bold-title nav-item nav-link bold-title small" %>
                             <% end %>
-                            <!--                        <a class="small text-white stretched-link" href="#">View Details</a>-->
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                           </div>
                         </div>

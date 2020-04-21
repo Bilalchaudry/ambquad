@@ -1,3 +1,40 @@
 // Place all the styles related to the admin_dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.dashboard-b1 {
+  background: #1466FB !important;
+  color: white !important;
+  border-radius: 10px !important;
+  margin-bottom: 20px !important;
+  margin-top: 20px;
+}
+
+.dashboard-b1:hover {
+  background: #1466FB !important;
+  color: white;
+  border-radius: 10px !important;
+  margin-bottom: 20px !important;
+  margin-top: 20px;
+}
+.dashboard-admin-b2 {
+  background: #FFC300 !important;
+  color: white !important;
+  margin: 20px !important;
+  border-radius: 10px !important;
+  width: 145px !important;
+}
+.dashboard-admin-b3 {
+  background: #00B249 !important;
+  color: white !important;
+  margin-bottom: 20px !important;
+  margin-top: 20px !important;
+  width: 150px !important;
+  border-radius: 10px !important;
+}
+.dashboard-user-b2 {
+  background: #00B249 !important;
+  color: white !important;
+  border-radius: 10px !important;
+  margin-bottom: 20px !important;
+  margin-top: 20px !important;
+}

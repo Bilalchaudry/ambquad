@@ -3,7 +3,7 @@
     <div class="page-wrapper p-b-50">
       <div class="wrapper wrapper--w790">
         <div class="card card-5">
-          <div class="card-heading" style="background-color: #8ACCB1">
+          <div class="card-heading bg-clr">
             <h2 class="text-center font-weight-light text-white">
               <%= @client_company.company_name %>
             </h2>
@@ -149,7 +149,7 @@
                     <% if current_user.role.eql?("Admin") %>
                       <%= link_to 'Back', client_companies_path, :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
                     <% else %>
-                      <%= link_to 'Back', root_path, :class => 'btnw-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
+                      <%= link_to 'Back', root_path, :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
                     <% end %>
                   </div>
                 </div>

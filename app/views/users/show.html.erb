@@ -1,9 +1,9 @@
 <div id="layoutSidenav">
-  <div id="layoutSidenav_content" style="margin-top: 37px">
+  <div id="layoutSidenav_content" class="mt-5">
     <div class="page-wrapper p-b-50">
       <div class="wrapper wrapper--w790">
         <div class="card card-5">
-          <div class="card-heading" style="background-color: #8ACCB1">
+          <div class="card-heading bg-clr">
             <h2 class="text-center font-weight-light text-white">
               <%#= @user.first_name %>
               User View
@@ -103,20 +103,20 @@
               </div>
             </div>
 
-
+            <hr>
             <div class="row">
               <div class="col-md-3"></div>
               <div class="col-md-3">
                 <div class="form-group mt-3 mb-0">
                   <div class="actions">
-                    <%= link_to 'Edit', edit_user_path(@user), :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
+                    <%= link_to 'Edit', edit_user_path(@user), :class => 'btn w-100 bg-clr btn-style' %>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group mt-3 mb-0">
                   <div class="actions">
-                    <%= link_to 'Back', users_path, :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
+                    <%= link_to 'Back', users_path, :class => 'btn w-100 bg-clr btn-style' %>
                   </div>
                 </div>
               </div>
