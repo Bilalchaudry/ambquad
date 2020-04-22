@@ -24,22 +24,12 @@ class EmployeeTimeSheetsController < ApplicationController
         @employee_time_sheets = []
         @project_employees.each do |project_employee|
 
-          if project_employee.other_manager_id.present?
-            manager_name = OtherManager.find(project_employee.other_manager_id).employee.employee_name
-          else
-            manager_id = nil
-            manager_name = nil
-          end
+            manager_name = project_employee.other_managers.employee.employee_name rescue nil
+            foreman_name = project_employee.foreman.employee.employee_name rescue nil
 
-          if project_employee.foreman_id.present?
-            foreman_name = Foreman.find(project_employee.foreman_id).employee.employee_name
-          else
-            foreman_name = nil
-            foreman_id = nil
-          end
           @employee_time_sheets << @project.employee_time_sheets.new(employee: project_employee.employee_name, labour_type: project_employee.employee_type.employee_type,
                                                                      project_company_id: project_employee.project_company_id,
-                                                                     manager: manager_name, foreman_name: foreman_name, foreman_id: foreman_id,
+                                                                     manager: manager_name, foreman_name: foreman_name, foreman_id: project_employee.foreman_id,
                                                                      total_hours: 0, employee_type_id: project_employee.employee_type_id,
                                                                      employee_create_date: params[:date], project_id: @project.id, employee_id: project_employee.employee_id)
         end

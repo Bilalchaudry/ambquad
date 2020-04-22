@@ -20,6 +20,8 @@ class Project < ApplicationRecord
   has_many :project_project_employees
   has_many :project_employees, :through => :project_project_employees
 
+  has_many :crews
+
 
   enum status: {
       Active: 0,

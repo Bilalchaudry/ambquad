@@ -1,0 +1,86 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 class="alert-success mt-1"><%= notice %></h3>
+        </center>
+        <h3 class="mt-2 text-center">Crews</h3>
+        <%= render 'shared/client_and_project_info' %>
+        <div class="row">
+          <div class="col-xl-6 col-md-6"></div>
+          <div class="col-xl-3 col-md-3"></div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Foreman name</th>
+                  <th>Actions</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @crews.each do |foreman| %>
+                  <tr>
+                    <td><%= foreman.employee.employee_name %></td>
+                    <td>
+                      <%= link_to 'Plant', "/projects/#{@project.id}/crews/#{foreman.id}/plants_list", :class => "btn btn-outline-dark" %>
+                      <%= link_to 'Employee', "/projects/#{@project.id}/crews/#{foreman.id}/employees_list", :class => "btn btn-outline-info" %>
+
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $('#dataTable').DataTable();
+</script>
+
+
+<!--<p id="notice"><%#= notice %></p>-->
+
+<!--<h1>Crews</h1>-->
+
+<!--<table>-->
+<!--  <thead>-->
+<!--    <tr>-->
+<!--      <th colspan="3"></th>-->
+<!--    </tr>-->
+<!--  </thead>-->
+
+<!--  <tbody>-->
+<%# @crews.each do |crew| %>
+<!--      <tr>-->
+<!--        <td><%#= link_to 'Show', crew %></td>-->
+<!--        <td><%#= link_to 'Edit', edit_crew_path(crew) %></td>-->
+<!--        <td><%#= link_to 'Destroy', crew, method: :delete, data: { confirm: 'Are you sure?' } %></td>-->
+<!--      </tr>-->
+<%# end %>
+<!--  </tbody>-->
+<!--</table>-->
+
+<!--<br>-->
+
+<%#= link_to 'New Crew', new_crew_path %>

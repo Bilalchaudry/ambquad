@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_18_065526) do
+ActiveRecord::Schema.define(version: 2020_04_21_064812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,6 +95,15 @@ ActiveRecord::Schema.define(version: 2020_04_18_065526) do
     t.string "WBS_04_Description"
     t.string "WBS_05"
     t.string "WBS_05_Description"
+  end
+
+  create_table "crews", force: :cascade do |t|
+    t.integer "employee_id"
+    t.integer "plant_id"
+    t.integer "foreman_id"
+    t.integer "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employee_time_sheets", force: :cascade do |t|

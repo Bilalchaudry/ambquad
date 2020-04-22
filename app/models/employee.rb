@@ -12,6 +12,7 @@ class Employee < ApplicationRecord
   has_many :project_employees
   has_many :budget_holders
   # has_many :employee_types
+  has_many :crews
 
   enum gender: {
       Male: 0,
