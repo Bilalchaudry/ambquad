@@ -13,7 +13,11 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :type_name, :class => "form-control py-2", :required => true %>
+                      <% if @plant_type.plants.present? %>
+                        <%= form.text_field :type_name, :class => "form-control py-2", :readonly => true %>
+                      <% else %>
+                        <%= form.text_field :type_name, :class => "form-control py-2", :required => true %>
+                      <% end %>
                     </div>
                   </div>
                 </div>

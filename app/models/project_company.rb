@@ -8,6 +8,8 @@ class ProjectCompany < ApplicationRecord
   has_many :project_and_project_companies
   has_many :projects, :through => :project_and_project_companies, dependent: :destroy
 
+  validates_uniqueness_of :company_name, :scope => :project_id, :case_sensitive => false
+
   def self.import_file(file, user, project)
     if user.client_company == nil
       client_company = 1

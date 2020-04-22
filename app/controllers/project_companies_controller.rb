@@ -73,7 +73,7 @@ class ProjectCompaniesController < ApplicationController
   # DELETE /project_companies/1.json
   def destroy
     begin
-      if @project_company.nil?
+      if @project_company.nil? || @project_company.employees.present?
         respond_to do |format|
           format.js
         end

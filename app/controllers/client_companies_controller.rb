@@ -26,8 +26,6 @@ class ClientCompaniesController < ApplicationController
   # POST /companies.json
   def create
     @client_company = ClientCompany.new(company_params)
-    # @client_company.phone_country_code = ISO3166::Country.find_country_by_name(@client_company.country_name).country_code rescue "N/A"
-    # @client_company.poc_country = @client_company.country_name
     respond_to do |format|
       if @client_company.save
         format.html {redirect_to client_companies_url, notice: 'Company is successfully created.'}
@@ -86,6 +84,6 @@ class ClientCompaniesController < ApplicationController
                                            :primary_poc_first_name, :primary_poc_last_name, :poc_email,
                                            :poc_phone, :status, :client_po_number, :closed_at,
                                            :country_name, :poc_country, :company_id, :phone_country_code,
-                                           :primary_poc_country_code, :city, :state)
+                                           :primary_poc_country_code, :city, :state, :poc_name)
   end
 end

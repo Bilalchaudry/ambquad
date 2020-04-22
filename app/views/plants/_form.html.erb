@@ -5,65 +5,117 @@
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-body">
-              <%= form_with(model:  [@project, plant], local: true) do |form| %>
+              <%= form_with(model: [@project, plant], local: true) do |form| %>
                 <%= render 'layouts/error_messages', object: form.object %>
-                <div class="form-row">
-                  <div class="col-md-4">
-                    <%= form.label :plant_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :plant_name, :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="form-row">
-                  <div class="col-md-4">
-                    <%= form.label :plant_id, "Plant ID", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :plant_id, :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
+                <% if params[:action].eql?("new") %>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :plant_type, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="plant[plant_type_id]" id="plant_type_id" class="form-control" required>
-                        <option value="<%= @plant.plant_type.present? ? @plant.plant_type_id: "" %>"><%= @plant.plant_type.present? ? @plant.plant_type.type_name : "None" %></option>
-                        <% @project.plant_types.reject {|plant_type| plant_type.id == @plant.plant_type_id}.each do |plant_type| %>
-                          <option value="<%= plant_type.id %>">
-                            <%= plant_type.type_name %>
-                          </option>
-                        <% end %>
-                      </select>
+                  <div class="form-row">
+                    <div class="col-md-4">
+                      <%= form.label :plant_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :plant_name, :class => "form-control py-2", :required => true %>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :project_company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="plant[project_company_id]" id="project_company_id" class="form-control" required>
-                        <option value="<%= @plant.project_company.present? ? @plant.project_company_id: "" %>"><%= @plant.project_company.present? ? @plant.project_company.company_name : "None" %></option>
-                        <% @project.project_companies.reject {|project_company| project_company.id == @plant.project_company_id}.each do |company| %>
-                          <option value="<%= company.id %>">
-                            <%= company.company_name %>
-                          </option>
-                        <% end %>
-                      </select>
+                  <div class="form-row">
+                    <div class="col-md-4">
+                      <%= form.label :plant_id, "Plant ID", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :plant_id, :class => "form-control py-2", :required => true %>
+                      </div>
                     </div>
                   </div>
-                </div>
+
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :plant_type, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <select name="plant[plant_type_id]" id="plant_type_id" class="form-control" required>
+                          <option value="<%= @plant.plant_type.present? ? @plant.plant_type_id : "" %>"><%= @plant.plant_type.present? ? @plant.plant_type.type_name : "None" %></option>
+                          <% @project.plant_types.reject {|plant_type| plant_type.id == @plant.plant_type_id}.each do |plant_type| %>
+                            <option value="<%= plant_type.id %>">
+                              <%= plant_type.type_name %>
+                            </option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :project_company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <select name="plant[project_company_id]" id="project_company_id" class="form-control" required>
+                          <option value="<%= @plant.project_company.present? ? @plant.project_company_id : "" %>"><%= @plant.project_company.present? ? @plant.project_company.company_name : "None" %></option>
+                          <% @project.project_companies.reject {|project_company| project_company.id == @plant.project_company_id}.each do |company| %>
+                            <option value="<%= company.id %>">
+                              <%= company.company_name %>
+                            </option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                <% else %>
+                  <div class="form-row">
+                    <div class="col-md-4">
+                      <%= form.label :plant_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :plant_name, :class => "form-control py-2", :disabled => true %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-md-4">
+                      <%= form.label :plant_id, "Plant ID", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :plant_id, :class => "form-control py-2", :disabled => true %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :plant_type, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :plant_type, :class => "form-control py-2", value: @plant.plant_type.type_name, :disabled => true %>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :project_company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :project_company, :class => "form-control py-2", value: @plant.project_company.company_name, :disabled => true %>
+
+                      </div>
+                    </div>
+                  </div>
+
+            <% end %>
 
                 <div class="form-row">
                   <div class="col-md-4">
@@ -93,8 +145,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="plant[foreman_id]" id="foreman_id" class="form-control" >
-                        <option value="<%= @plant.foreman.present? ? @plant.foreman_id: "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.employee_name: "None" %></option>
+                      <select name="plant[foreman_id]" id="foreman_id" class="form-control">
+                        <option value="<%= @plant.foreman.present? ? @plant.foreman_id : "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.employee_name : "None" %></option>
                         <% @project.foremen.reject {|foremen| foremen.id == @plant.foreman_id}.each do |foreman| %>
                           <option value="<%= foreman.id %>">
                             <%= foreman.employee.employee_name %>
@@ -112,8 +164,8 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <select name="plant[other_manager_id]" id="other_manager_id" class="form-control" >
-                        <option value="<%= @plant.other_manager.present? ? @plant.other_manager_id: "" %>"><%= @plant.other_manager.present? ? @plant.other_manager.employee.employee_name: "None" %></option>
+                      <select name="plant[other_manager_id]" id="other_manager_id" class="form-control">
+                        <option value="<%= @plant.other_manager.present? ? @plant.other_manager_id : "" %>"><%= @plant.other_manager.present? ? @plant.other_manager.employee.employee_name : "None" %></option>
                         <% @project.other_managers.reject {|other_manager| other_manager.id == @plant.other_manager_id}.each do |other_manager| %>
                           <option value="<%= other_manager.id %>">
                             <%= other_manager.employee.employee_name %>
@@ -145,7 +197,7 @@
                       <select name="plant[status]" id="status" class="form-control">
                         <option value="<%= @plant.status rescue nil %>">
                           <%= @plant.status rescue nil %>
-                        <% Plant.statuses.reject {|status| @plant.status == status}.each do |key, value| %>
+                          <% Plant.statuses.reject {|status| @plant.status == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -174,7 +226,7 @@
                   </div>
                   <div class="col-md-3"></div>
                 </div>
-            <% end %>
+              <% end %>
             </div>
           </div>
         </div>
@@ -184,7 +236,7 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $(function() {
+        $(function () {
             $('.start-date').datepicker({
                 format: 'yyyy-mm-dd',
                 todayBtn: "linked",
