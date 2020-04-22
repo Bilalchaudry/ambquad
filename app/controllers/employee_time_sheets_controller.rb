@@ -100,7 +100,7 @@ class EmployeeTimeSheetsController < ApplicationController
         i = true
         whole_week.map.each do |day|
           time_sheet_data = EmployeeTimeSheet.where(employee_create_date: day)
-          if time_sheet_data.empty?
+          if time_sheet_data.blank?
             @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
             i = false
             respond_to do |f|

@@ -80,7 +80,7 @@ class PlantTimeSheetsController < ApplicationController
         i = true
         whole_week.map.each do |day|
           time_sheet_data = PlantTimeSheet.where(plant_create_date: day)
-          if time_sheet_data.empty?
+          if time_sheet_data.blank?
             @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
             i = false
             respond_to do |f|

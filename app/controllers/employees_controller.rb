@@ -30,18 +30,18 @@ class EmployeesController < ApplicationController
     @employee.client_company_id = @project.client_company_id
     @employee.country_name = @project.client_company.country_name
     # @employee.country_code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
-    @employee_time_sheet = EmployeeTimeSheet.new(employee: @employee.employee_name, labour_type: @employee.employee_type.employee_type, employee_id: @employee.id,
+    @employee_time_sheet = EmployeeTimeSheet.new(employee: @employee.employee_name, labour_type: @employee.employee_type.employee_type,
                                                  project_company_id: @employee.project_company_id, total_hours: 0, employee_type_id: @employee.employee_type_id,
                                                  project_id: @project.id, employee_create_date: Time.now.strftime("%Y-%m-%d"))
 
-    @employee_time_sheet.manager = OtherManager.find_by(@employee.other_manager_id).employee.employee_name rescue nil
-
-    @employee_time_sheet.foreman_name = Foreman.find_by(@employee.foreman_id).employee.employee_name rescue nil
+    @employee_time_sheet.manager = @employee.other_managers.employee.employee_name rescue nil
+    @employee_time_sheet.foreman_name = @employee.foreman.employee.employee_name rescue nil
     @employee_time_sheet.foreman_id = @employee.foreman_id
 
 
     respond_to do |format|
       if @employee.save
+        @employee_time_sheet.employee_id = @employee.id
         @employee_time_sheet.save
         format.html {redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully created.'}
         format.json {render :show, status: :created, location: @employee}
