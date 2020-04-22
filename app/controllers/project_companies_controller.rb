@@ -42,7 +42,7 @@ class ProjectCompaniesController < ApplicationController
 
       respond_to do |format|
         if @project_company.save
-          @project_company.projects << @project
+          # @project_company.projects << @project
           format.html { redirect_to project_project_companies_path, notice: 'Project company was successfully created.' }
           format.json { render :show, status: :created, location: @project_company }
         else
@@ -92,9 +92,9 @@ class ProjectCompaniesController < ApplicationController
 
   def import
     file = params[:file]
-    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
-      f.write(file.read)
-    end
+    # File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+    #   f.write(file.read)
+    # end
     user = current_user
     errors = ProjectCompany.import_file(params[:file], user, @project)
     if errors == nil

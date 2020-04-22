@@ -75,9 +75,7 @@ class EmployeeTypesController < ApplicationController
 
   def import
     file = params[:file]
-    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
-      f.write(file.read)
-    end
+
     errors = EmployeeType.import_file(params[:file], @project)
     if errors == nil
       flash[:notice] = 'File Imported Successfully'
