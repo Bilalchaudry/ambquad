@@ -1,150 +1,155 @@
- <%= form_with(model: [@project, cost_code], local: true) do |form| %>
-              <%= render 'layouts/error_messages', object: form.object %>
+<%= form_with(model: [@project, cost_code], local: true) do |form| %>
+  <%= render 'layouts/error_messages', object: form.object %>
 
-              <div class="form-row">
-                <%= form.label :budget_holder, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control">
-                      <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id : "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.employee_name : "None" %></option>
-                      <% @project.budget_holders.reject { |budget_holder| budget_holder.id == @cost_code.budget_holder_id }.each do |budget_holder| %>
-                        <option value="<%= budget_holder.id %>">
-                          <%= budget_holder.employee.employee_name %>
-                        </option>
-                      <% end %>
-                    </select>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :budget_holder, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control">
+          <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id : "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.employee_name : "None" %></option>
+          <% @project.budget_holders.reject { |budget_holder| budget_holder.id == @cost_code.budget_holder_id }.each do |budget_holder| %>
+            <option value="<%= budget_holder.id %>">
+              <%= budget_holder.employee.employee_name %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </div>
 
-              <div class="form-row">
-                <%= form.label :cost_code_id, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :cost_code_id, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :cost_code_id, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <% if params[:action].eql?("new") %>
 
-              <div class="form-row">
-                <%= form.label :cost_code_description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :cost_code_description, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+          <%= form.text_field :cost_code_id, :class => "form-control py-2", :required => true %>
+        <% else %>
+          <%= form.text_field :cost_code_id, :class => "form-control py-2", :disabled => true %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
-              <div class="form-row">
-                <%= form.label :WBS_01, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_01, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :cost_code_description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :cost_code_description, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
 
-              <div class="form-row">
-                <%= form.label :WBS_01_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_01_Description, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :WBS_01, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_01, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
 
-              <div class="form-row">
-                <%= form.label :WBS_02, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_02, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :WBS_01_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_01_Description, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
 
-
-              <div class="form-row">
-                  <%= form.label :WBS_02_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_02_Description, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                  <%= form.label :WBS_03, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_03, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                  <%= form.label :WBS_03_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_03_Description, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :WBS_02, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_02, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
 
 
-              <div class="form-row">
-                  <%= form.label :WBS_04, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_04, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :WBS_02_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_02_Description, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_03, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_03, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_03_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_03_Description, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
 
 
-              <div class="form-row">
-                  <%= form.label :WBS_04_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_04_Description, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :WBS_04, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_04, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
 
-              <div class="form-row">
-                  <%= form.label :WBS_05, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_05, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
 
-              <div class="form-row">
-                  <%= form.label :WBS_05_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :WBS_05_Description, :class => "form-control py-2", :required => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :WBS_04_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_04_Description, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
 
-              <hr>
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= form.submit 'Save', :class => 'btn w-100 bg-clr btn-style' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to "Cancel", project_cost_codes_path, :class => 'btn w-100 bg-clr btn-style'%>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3"></div>
-              </div>
-            <% end %>
+  <div class="form-row">
+    <%= form.label :WBS_05, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_05, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_05_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_05_Description, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= form.submit 'Save', :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= link_to "Cancel", project_cost_codes_path, :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+<% end %>

@@ -132,20 +132,8 @@
                     <%= form.label :client_po_number, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
                   </div>
 
-                  <div class="col-md-2">
-                    <div class="form-group">
-                      <select name="project[country_code]" id="country_code" class="form-control" required>
-                        <option value=<%= @project.country_code.present? ? @project.country_code : "+64" %>><%= @project.country_code.present? ? @project.country_code : "+64" %></option>
-                        <% ISO3166::Country.countries.sort.each do |country| %>
-                          <option value="<%= country.emoji_flag + " " + country.country_code %>">
-                            <%= country.emoji_flag + " " + country.country_code %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <div class="form-group">
                       <%= form.text_field :client_po_number, :class => "form-control py-2" %>
                     </div>
@@ -264,8 +252,8 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('select').selectpicker();
-        $(function() {
+        // $('select').selectpicker();
+        $(function () {
             $('.start-date').datepicker({
                 format: 'yyyy-mm-dd',
                 todayBtn: "linked",

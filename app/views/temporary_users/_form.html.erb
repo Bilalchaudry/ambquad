@@ -11,10 +11,11 @@
                 <%= render 'layouts/error_messages', object: form.object %>
 
                 <div class="form-row">
-                  <%= form.label :Company, :class => "name", :style => 'font-weight:bold' %>
+                    <%= form.label :Company, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <select name="temporary_user[client_company_id]" id="client_company_id" class="form-control input--style-5" required>
+                      <select name="temporary_user[client_company_id]" id="client_company_id" class="form-control" required>
+                      <option value=""></option>
                         <% ClientCompany.all.each do |company| %>
                           <option value="<%= company.id %>">
                             <%= company.company_name %>
@@ -110,6 +111,8 @@
                   <div class="value">
                     <div class="input-group">
                       <select name="temporary_user[role]" id="role" class="form-control" required>
+                        <option value="<%= @temporary_user.role rescue nil %>">
+                          <%= @temporary_user.role rescue nil %>
                         <% User.roles.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
@@ -125,7 +128,9 @@
                   <%= form.label :status, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
                   <div class="value">
                     <div class="input-group">
-                      <select name="temporary_user[status]" id="role" class="form-control" required>-->
+                      <select name="temporary_user[status]" id="role" class="form-control" required>
+                        <option value="<%= @temporary_user.status rescue nil %>">
+                          <%= @temporary_user.status rescue nil %>
                         <% User.statuses.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
@@ -136,6 +141,7 @@
                   </div>
                 </div>
 
+                <hr>
                 <div class="row">
                   <div class="col-md-3"></div>
                   <div class="col-md-3">
@@ -161,3 +167,15 @@
       </div>
   </div>
 </div>
+
+
+<script>
+    // $(document).ready(function () {
+    //     $("#company_id").change(function () {
+    //         if ($("#company_id").val() != "") {
+    //             $(".hidden_option").fadeIn('fast');
+    //         }
+    //     });
+    //     $('select').selectpicker();
+    // });
+</script>

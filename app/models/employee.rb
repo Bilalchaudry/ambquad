@@ -1,7 +1,8 @@
 class Employee < ApplicationRecord
   audited
+  validates_uniqueness_of :phone, :email, :employee_name, :scope => :project_id, :case_sensitive => false
+
   after_create :time_sheet_employee
-  validates :phone, :email, uniqueness: true
   # belongs_to :project_company, optional: true
 
   belongs_to :client_company
@@ -14,7 +15,6 @@ class Employee < ApplicationRecord
   has_one :other_manager
   has_many :project_employees
   has_many :budget_holders
-  # has_many :employee_types
 
   enum gender: {
       Male: 0,

@@ -86,12 +86,17 @@ Rails.application.routes.draw do
   end
 
   resources :temporary_users
-  devise_for :users, :controllers => {:sessions => "sessions"}
+  devise_for :users, :controllers => {:sessions => "sessions", confirmations: 'confirmations' }
+
+  # devise_for :users, controllers: {
+  #     sessions: 'users/sessions',
+  #     passwords: 'users/passwords',
+  #     confirmations: 'users/confirmations'
+  # }
+
   root to: 'admin_dashboard#dashboard'
   resources :client_companies
   resources :users
-  resources :plant_types
-  resources :cost_codes
 
   get '/:token/confirm_email/', :to => "users#confirm_email", as: 'confirm_email'
 

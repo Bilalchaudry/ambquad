@@ -5,7 +5,11 @@
       <%= form.label :employee_type, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :employee_type, :class => "form-control py-2", :required => true %>
+        <% if @employee_type.employees.present? %>
+          <%= form.text_field :employee_type, :class => "form-control py-2", :readonly => true %>
+        <% else %>
+          <%= form.text_field :employee_type, :class => "form-control py-2", :required => true %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -23,7 +27,7 @@
     <div class="col-md-3">
       <div class="form-group mt-3 mb-0">
         <div class="actions">
-          <%= link_to "Cancel", project_employee_types_path, :class => 'btn btn-style bg-clr w-100'%>
+          <%= link_to "Cancel", project_employee_types_path, :class => 'btn btn-style bg-clr w-100' %>
         </div>
       </div>
     </div>

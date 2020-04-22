@@ -2,12 +2,10 @@ class User < ApplicationRecord
   audited
 
   devise :database_authenticatable, :registerable,
-          :rememberable, :validatable, :recoverable
+          :rememberable, :validatable, :recoverable ,:confirmable
 
   has_many :user_projects
   has_many :projects, :through => :user_projects
-
-
   belongs_to :client_company
 
   enum role: {
@@ -32,7 +30,7 @@ class User < ApplicationRecord
     self.confirm_token = nil
   end
 
-  validates :email, :username, uniqueness: true
+  validates :email, :username, uniqueness: true, :case_sensitive => false
   # validates :password, :presence =>true, :confirmation =>true
   # validates_confirmation_of :password
 

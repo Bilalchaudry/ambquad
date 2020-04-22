@@ -30,7 +30,7 @@ class TemporaryUser < ApplicationRecord
     self.confirm_token = nil
   end
 
-  validates :email, :username, uniqueness: true
+  validates :email, :username, uniqueness: true, :case_sensitive => false
   validates :password, :presence =>true, :confirmation =>true
   validates_confirmation_of :password
 

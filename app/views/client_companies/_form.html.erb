@@ -5,37 +5,54 @@
       <div class="wrapper wrapper--w790">
         <div class="card card-5">
           <div class="card-heading bg-clr">
-            <% if @client_company.company_name.present? %>
-              <h3 class="text-center font-weight-light text-white">Edit <%= @client_company.company_name %></h3>
-            <% else %>
-              <h3 class="text-center font-weight-light text-white">Create Client Company</h3>
-            <% end %>
+            <h3 class="text-center font-weight-light text-white">Create Client Company</h3>
           </div>
           <div class="card-body">
             <%= form_with(model: client_company, local: true) do |form| %>
               <%= render 'layouts/error_messages', object: form.object %>
 
-              <div class="form-row">
-                <%= form.label :company_name, 'Company Name', :class => "name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <% if params[:action].eql?("edit") %>
-                      <%= form.text_field :company_name, :class => "form-control py-3", :disabled => true %>
-                    <% else %>
-                      <%= form.text_field :company_name, :class => "form-control py-3" %>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
 
-              <div class="form-row">
-                <%= form.label :compnay_id, "Client Company ID", :class => "name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :company_id, validate: true, :class => "form-control py-3", :required => true %>
+              <% if params[:action].eql?("edit") %>
+                <div class="form-row">
+                  <%= form.label :company_name, 'Company Name', :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :company_name, :class => "form-control py-3", :disabled => true %>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-row">
+                  <%= form.label :compnay_id, "Client Company ID", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :company_id, validate: true, :class => "form-control py-3", :disabled => true %>
+                    </div>
                   </div>
                 </div>
-              </div>
+
+              <% else %>
+                <div class="form-row">
+
+                  <%= form.label :company_name, 'Company Name', :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :company_name, :class => "form-control py-3" %>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="form-row">
+                  <%= form.label :compnay_id, "Client Company ID", :class => "name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :company_id, validate: true, :class => "form-control py-3", :required => true %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
 
               <div class="form-row">
                 <%= form.label :address, :class => "name", :style => 'font-weight:bold' %>
@@ -108,19 +125,10 @@
               </div>
 
               <div class="form-row">
-                <%= form.label :primary_poc_first_name, "POC First Name", :class => "name", :style => 'font-weight:bold' %>
+                <%= form.label :poc_name, "POC Name", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
-                    <%= form.text_field :primary_poc_first_name, :class => "form-control py-3" %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <%= form.label :primary_poc_last_name, "POC Last Name", :class => "name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :primary_poc_last_name, :class => "form-control py-3" %>
+                    <%= form.text_field :poc_name, :class => "form-control py-3" %>
                   </div>
                 </div>
               </div>

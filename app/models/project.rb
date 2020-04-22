@@ -15,7 +15,7 @@ class Project < ApplicationRecord
   has_many :users, :through => :user_projects
 
   has_many :project_and_project_companies
-  has_many :project_companies, :through => :project_and_project_companies
+  has_many :project_companies, :through => :project_and_project_companies, dependent: :destroy
 
   has_many :project_project_employees
   has_many :project_employees, :through => :project_project_employees
@@ -29,7 +29,7 @@ class Project < ApplicationRecord
 
   has_many :time_sheet_cost_codes
 
-  validates_uniqueness_of :project_name
+  validates_uniqueness_of :project_name, :case_sensitive => false
   validates :end_date,
             date: { after: :start_date}
   # validate :contract_end_date_after_contract_start_date

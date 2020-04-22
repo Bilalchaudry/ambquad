@@ -1,8 +1,9 @@
 class EmployeeType < ApplicationRecord
   audited
   belongs_to :project
+  has_many :employees
 
-  validates_uniqueness_of :employee_type, :scope => :project_id
+  validates_uniqueness_of :employee_type, :scope => :project_id, :case_sensitive => false
 
   def self.import_file(file, project)
     if File.extname(file.original_filename) == '.csv'
