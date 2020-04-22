@@ -7,29 +7,28 @@ class EmployeeType < ApplicationRecord
 
   def self.import_file(file, project)
     if File.extname(file.original_filename) == '.csv'
-      file_name = file.original_filename
-      @employee_type = []
+      csv_text = File.read(file.path)
+      csv = CSV.parse(csv_text, :headers => true)
       i = 0
-      CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
+      @employee_type = []
+      csv.each do |row|
         begin
           i = i + 1
-
           if row[0].nil?
-            return error = "Validation Failed Employee Type Empty in File, Error on Row: #{i}"
+            return error = "Validation Failed. Employee Type Empty in File, Error on Row: #{i}"
           end
 
-          exist_employee_type = project.employee_types.where(employee_type: row[0])
-          if !exist_employee_type.empty?
+          exist_employee_type = project.employee_types.where("lower(employee_type) = ?",  row[0].strip.downcase)
+          if exist_employee_type.present?
             return error = "Validation Failed Employee Type Already Exist in Project, Error on Row: #{i}"
           end
 
-          new_employee_type = @employee_type.any? {|a| a.employee_type == row[0]}
+          new_employee_type = @employee_type.any? {|a| a.employee_type == row[0].strip}
           if new_employee_type == true
             return error = "Validation Failed Employee Type Already Exist in File, Error on Row: #{i}"
           end
-          unless @employee_type.any? {|employee_type| employee_type.employee_id == employee.id}
-            @employee_type << project.employee_types.new(employee_type: row[0], project_id: project.id)
-          end
+
+          @employee_type << project.employee_types.new(employee_type: row[0].strip, project_id: project.id)
 
         rescue => e
           return e.message
@@ -38,19 +37,7 @@ class EmployeeType < ApplicationRecord
       EmployeeType.import @employee_type
       error = 'File Import Successfully'
     else
-      spreadsheet = open_spreadsheet(file)
-      if spreadsheet != false
-        header = spreadsheet.row(1)
-        (2..spreadsheet.last_row).each do |i|
-          begin
-            row = Hash[[header, spreadsheet.row(i)].transpose]
-            employee_type = EmployeeType.create(employee_type: row['employee_type'], project_id: project.id)
-            employee_type.save!
-          end
-        end
-      else
-        return false
-      end
+      error = 'Invalid file format. Please upload CSV file'
     end
   end
 

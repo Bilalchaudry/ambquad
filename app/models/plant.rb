@@ -41,32 +41,33 @@ class Plant < ApplicationRecord
   def self.import_file(file, project)
     if File.extname(file.original_filename) == '.csv'
       file_name = file.original_filename
+      csv_text = File.read(file.path)
+      csv = CSV.parse(csv_text, :headers => true)
       i = 0
       @plant = []
-      CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
+      csv.each do |row|
         begin
           i = i + 1
 
-
-          if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[4].nil? || row[5].nil? || row[6].nil? || row[7].nil? || row[8].nil? || row[9].nil?
+          if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[4].nil? || row[5].nil? || row[9].nil?
             return error = "Validation Failed Plant Field Empty in File, Error on Row: #{i}"
           end
 
-          id_plant_type = PlantType.where(type_name: row[2].strip).first
-          if id_plant_type.nil?
+          plant_type = PlantType.where(type_name: row[2].strip).first
+          if plant_type.nil?
             return error = "Validation Failed Plant Type must Exist, Error on Row: #{i}"
           else
-            row[2] = id_plant_type.id
+            row[2] = plant_type.id
           end
 
-          id_project_company = ProjectCompany.where(company_name: row[3].strip).first
-          if id_project_company.nil?
+          project_company = ProjectCompany.where("lower(company_name) = ?", row[3].strip.downcase).first
+          if project_company.nil?
             return error = "Validation Failed Project Company must Exist, Error on Row: #{i}"
           else
-            row[3] = id_project_company.id
+            row[3] = project_company.id
           end
 
-          name_foreman = Employee.where(first_name: row[6].strip).first
+          name_foreman = Employee.where(employee_name: row[6].strip).first
           if name_foreman.nil?
             return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
           else
@@ -78,13 +79,13 @@ class Plant < ApplicationRecord
             end
           end
 
-          name_other_manager = Employee.where(first_name: row[7].strip).first
+          name_other_manager = Employee.where(employee_name: row[7].strip).first
           if name_other_manager.nil?
-            return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
+            # return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
           else
             id_other_manager = OtherManager.where(employee_id: name_other_manager.id).first
             if id_other_manager.nil?
-              return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
+              # return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
             else
               row[7] = id_other_manager.id
             end
@@ -100,9 +101,9 @@ class Plant < ApplicationRecord
             row[9] = "Active"
           end
 
-            @plant << Plant.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
-                                foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
-                                project_id: project.id, client_company_id: project.client_company_id)
+          @plant << @projcet.plants.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
+                              foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
+                              client_company_id: project.client_company_id)
         rescue => e
           e.message
         end
@@ -110,21 +111,7 @@ class Plant < ApplicationRecord
       Plant.import @plant
       error = 'File Import Successfully'
     else
-      spreadsheet = open_spreadsheet(file)
-      if spreadsheet != false
-        header = spreadsheet.row(1)
-        (2..spreadsheet.last_row).each do |i|
-          begin
-            row = Hash[[header, spreadsheet.row(i)].transpose]
-            employee = Plant.create(plant_name: row['plant_name'], plant_id: row['plant_id'], contract_start_date: ['contract_start_date'],
-                                    contract_end_date: ['contract_end_date'], plant_type_id: ['plant_type_id'], foreman_id: row['foreman_id'],
-                                    other_manager_id: ['other_manager_id'], market_value: row['market_value'], project_id: project.id)
-            employee.save!
-          end
-        end
-      else
-        return false
-      end
+      error = 'Invalid File Format. Please Import CSV Successfully'
     end
   end
 
