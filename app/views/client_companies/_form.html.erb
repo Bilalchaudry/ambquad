@@ -1,187 +1,186 @@
+<%= form_with(model: client_company, local: true) do |form| %>
+  <%= render 'layouts/error_messages', object: form.object %>
 
-            <%= form_with(model: client_company, local: true) do |form| %>
-              <%= render 'layouts/error_messages', object: form.object %>
 
+  <% if params[:action].eql?("edit") %>
+    <div class="form-row">
+      <%= form.label :company_name, 'Company Name', :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :company_name, :class => "form-control py-3", :disabled => true %>
+        </div>
+      </div>
 
-              <% if params[:action].eql?("edit") %>
-                <div class="form-row">
-                  <%= form.label :company_name, 'Company Name', :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :company_name, :class => "form-control py-3", :disabled => true %>
-                    </div>
-                  </div>
+    </div>
 
-                </div>
+    <div class="form-row">
+      <%= form.label :compnay_id, "Client Company ID", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :company_id, validate: true, :class => "form-control py-3", :disabled => true %>
+        </div>
+      </div>
+    </div>
 
-                <div class="form-row">
-                  <%= form.label :compnay_id, "Client Company ID", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :company_id, validate: true, :class => "form-control py-3", :disabled => true %>
-                    </div>
-                  </div>
-                </div>
+  <% else %>
+    <div class="form-row">
 
-              <% else %>
-                <div class="form-row">
+      <%= form.label :company_name, 'Company Name', :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :company_name, :class => "form-control py-3" %>
+        </div>
+      </div>
 
-                  <%= form.label :company_name, 'Company Name', :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :company_name, :class => "form-control py-3" %>
-                    </div>
-                  </div>
+    </div>
 
-                </div>
+    <div class="form-row">
+      <%= form.label :compnay_id, "Client Company ID", :class => "name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :company_id, validate: true, :class => "form-control py-3", :required => true %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 
-                <div class="form-row">
-                  <%= form.label :compnay_id, "Client Company ID", :class => "name", :style => 'font-weight:bold' %>
-                  <div class="value">
-                    <div class="input-group">
-                      <%= form.text_field :company_id, validate: true, :class => "form-control py-3", :required => true %>
-                    </div>
-                  </div>
-                </div>
+  <div class="form-row">
+    <%= form.label :address, :class => "name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :address, :id => "autocomplete", :class => "form-control py-3", :required => true, placeholder: "Enter address" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :city, :class => " name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :city, :class => "form-control py-2", id: "locality", :readonly => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :state, :class => "name", :style => 'font-weight:bold' %>
+
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :state, :class => "form-control py-2", id: "administrative_area_level_1", :readonly => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :country, :class => "name", :style => 'font-weight:bold' %>
+
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :country_name, :class => "form-control py-2", id: "country", :readonly => true %>
+      </div>
+    </div>
+  </div>
+
+  <input class="field" id="street_number" style="display: none"/>
+  <input class="field" id="route" style="display: none"/>
+  <input class="field" id="postal_code" style="display: none"/>
+
+  <div class="form-row m-b-55">
+    <div class="name">Phone</div>
+    <div class="value">
+      <div class="row row-refine">
+        <div class="col-3">
+          <div class="input-group-desc">
+            <%#= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.map {|c| [c.emoji_flag + " "+ c.country_code]}, "+74"), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+            <select name="client_company[phone_country_code]" id="phone_country_code" class="form-control" required>
+              <option value=<%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %>><%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %></option>
+              <% ISO3166::Country.countries.sort.each do |country| %>
+                <option value="<%= country.country_code %>">
+                  <%= country.emoji_flag + " " + country.country_code %>
+                </option>
               <% end %>
+            </select>
+            <label class="label--desc">Area Code</label>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="input-group-desc">
+            <%= form.text_field :phone, :class => "form-control py-2 input--style-5" %>
+            <%= form.label :phone, :class => "label--desc" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-              <div class="form-row">
-                <%= form.label :address, :class => "name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :address, :id => "autocomplete", :class => "form-control py-3", :required => true, placeholder: "Enter address" %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :poc_name, "POC Name", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :poc_name, :class => "form-control py-3" %>
+      </div>
+    </div>
+  </div>
 
-              <div class="form-row">
-                <%= form.label :city, :class => " name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :city, :class => "form-control py-2", id: "locality", :readonly => true %>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row">
+    <%= form.label :primary_poc_email, "POC Email", :class => "name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.email_field :poc_email, :class => "form-control py-3" %>
+      </div>
+    </div>
+  </div>
 
-              <div class="form-row">
-                <%= form.label :state, :class => "name", :style => 'font-weight:bold' %>
-
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :state, :class => "form-control py-2", id: "administrative_area_level_1", :readonly => true %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <%= form.label :country, :class => "name", :style => 'font-weight:bold' %>
-
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :country_name, :class => "form-control py-2", id: "country", :readonly => true %>
-                  </div>
-                </div>
-              </div>
-
-              <input class="field" id="street_number" style="display: none"/>
-              <input class="field" id="route" style="display: none"/>
-              <input class="field" id="postal_code" style="display: none"/>
-
-              <div class="form-row m-b-55">
-                <div class="name">Phone</div>
-                <div class="value">
-                  <div class="row row-refine">
-                    <div class="col-3">
-                      <div class="input-group-desc">
-                        <%#= form.select :phone_country_code, options_for_select(ISO3166::Country.countries.map {|c| [c.emoji_flag + " "+ c.country_code]}, "+74"), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
-                        <select name="client_company[phone_country_code]" id="phone_country_code" class="form-control" required>
-                          <option value=<%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %>><%= @client_company.phone_country_code.present? ? @client_company.phone_country_code : "+64" %></option>
-                          <% ISO3166::Country.countries.sort.each do |country| %>
-                            <option value="<%= country.country_code %>">
-                              <%= country.emoji_flag + " " + country.country_code %>
-                            </option>
-                          <% end %>
-                        </select>
-                        <label class="label--desc">Area Code</label>
-                      </div>
-                    </div>
-                    <div class="col-9">
-                      <div class="input-group-desc">
-                        <%= form.text_field :phone, :class => "form-control py-2 input--style-5" %>
-                        <%= form.label :phone, :class => "label--desc" %>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <%= form.label :poc_name, "POC Name", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.text_field :poc_name, :class => "form-control py-3" %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <%= form.label :primary_poc_email, "POC Email", :class => "name", :style => 'font-weight:bold' %>
-                <div class="value">
-                  <div class="input-group">
-                    <%= form.email_field :poc_email, :class => "form-control py-3" %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row m-b-55">
-                <div class="name">Phone</div>
-                <div class="value">
-                  <div class="row row-refine">
-                    <div class="col-3">
-                      <div class="input-group-desc">
-                        <%#= form.select :primary_poc_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag + " " + c.country_code]}, @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : ""), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
-                        <select name="client_company[primary_poc_country_code]" id="primary_poc_country_code" class="form-control" required>
-                          <option value=<%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %>><%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %></option>
-                          <% ISO3166::Country.countries.sort.each do |country| %>
-                            <option value="<%= country.country_code %>">
-                              <%= country.emoji_flag + " " + country.country_code %>
-                            </option>
-                          <% end %>
-                        </select>
-                        <label class="label--desc">Area Code</label>
-                      </div>
-                    </div>
-                    <div class="col-9">
-                      <div class="input-group-desc">
-                        <%= form.text_field :poc_phone, :class => "form-control py-3" %>
-                        <%= form.label :primary_poc_phone, "POC Phone", :class => "label--desc" %>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  <div class="form-row m-b-55">
+    <div class="name">Phone</div>
+    <div class="value">
+      <div class="row row-refine">
+        <div class="col-3">
+          <div class="input-group-desc">
+            <%#= form.select :primary_poc_country_code, options_for_select(ISO3166::Country.countries.sort.map {|c| [c.emoji_flag + " " + c.country_code]}, @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : ""), {}, {class: "form-control selectpicker", data: {"live-search": true}} %>
+            <select name="client_company[primary_poc_country_code]" id="primary_poc_country_code" class="form-control" required>
+              <option value=<%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %>><%= @client_company.primary_poc_country_code.present? ? @client_company.primary_poc_country_code : "+64" %></option>
+              <% ISO3166::Country.countries.sort.each do |country| %>
+                <option value="<%= country.country_code %>">
+                  <%= country.emoji_flag + " " + country.country_code %>
+                </option>
+              <% end %>
+            </select>
+            <label class="label--desc">Area Code</label>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="input-group-desc">
+            <%= form.text_field :poc_phone, :class => "form-control py-3" %>
+            <%= form.label :primary_poc_phone, "POC Phone", :class => "label--desc" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
-              <hr>
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= form.submit 'Save', :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to "Cancel", client_companies_path, :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3"></div>
-              </div>
-            <% end %>
+  <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= form.submit 'Save', :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= link_to "Cancel", client_companies_path, :class => 'btn w-100', :style => 'font-weight:bold; color: white; background-color: #8ACCB1;' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+<% end %>
 <script>
     var input = document.getElementById('autocomplete');
     google.maps.event.addDomListener(input, 'keydown', function (e) {
