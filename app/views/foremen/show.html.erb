@@ -1,13 +1,14 @@
-<!--<p id="notice"><%#= notice %></p>-->
-<div id="layoutAuthentication_content">
-  <main>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header"><h3 class="text-center font-weight-light my-4">Foreman</h3></div>
-            <div class="card-body">
-
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content" style="margin-top: 37px">
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+          <div class="card-heading bg-clr">
+            <h2 class="text-center font-weight-light text-white">
+            Foreman
+            </h2>
+          </div>
+          <div class="card-body">
               <div class="form-row pt-2">
                 <div class="col-md-4">
                   <strong>Foreman name:</strong>
@@ -18,19 +19,20 @@
                   </div>
                 </div>
               </div>
+            <hr>
               <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Edit', "/projects/#{@project.id}/foremen/#{@foreman.id}/edit", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/foremen/#{@foreman.id}/edit", :class => 'btn btn-style bg-clr w-100' %>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= link_to 'Back', project_foremen_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      <%= link_to 'Back', project_foremen_path, :class => 'btn btn-style bg-clr w-100' %>
                     </div>
                   </div>
                 </div>
@@ -41,5 +43,4 @@
         </div>
       </div>
     </div>
-  </main>
 </div>

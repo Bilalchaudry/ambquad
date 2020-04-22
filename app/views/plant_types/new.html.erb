@@ -1,6 +1,18 @@
-<h1>New Plant Type</h1>
-<div class="card-header">
-  <h3 class="text-center font-weight-light my-4">Create Plant Type</h3>
-  <%= render 'shared/client_and_project_info' %>
+<div id="layoutSidenav" class="pt-5">
+  <div id="layoutSidenav_content" style="margin-top: -32px">
+    <h3 class="alert-success mt-1"><%= notice %></h3>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+          <div class="card-heading bg-clr">
+            <h3 class="text-center font-weight-light text-white">Create Plant Type</h3>
+            <%= render 'shared/client_and_project_info' %>
+          </div>
+          <div class="card-body">
+            <%= render 'form', plant_type: @plant_type %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<%= render 'form', plant_type: @plant_type %>
