@@ -1,4 +1,5 @@
 class CrewsController < ApplicationController
+  include CrewsHelper
   # before_action :set_crew, only: [:show, :edit, :update, :destroy]
   before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :plants_list, :employees_list, :destroy]
 
@@ -19,10 +20,10 @@ class CrewsController < ApplicationController
     @crews = []
     if params[:plant].present?
       @crew_plants = @project.crews.get_all_plants
-      @crews = @project.plants.reject { |n| n = @crew_plants.pluck(:plant_id).include?(n.id) }
+      @crews = @project.plants.reject { |plant| plant = @crew_plants.pluck(:plant_id).include?(plant.id) }
     else
       @crew_employee = @project.crews.get_all_employees
-      @crews = @project.employees.reject { |n| n = @crew_employee.pluck(:employee_id).include?(n.id) }
+      @crews = @project.employees.reject { |employee| employee = @crew_employee.pluck(:employee_id).include?(employee.id) }
     end
     @crew = Crew.new
   end
@@ -42,7 +43,7 @@ class CrewsController < ApplicationController
             @project.crews.create(plant_id: plant_id.to_i, foreman_id: params[:foreman_id])
           end
         rescue => e
-          puts e.inspect
+          e.message
         end
       end
     else
@@ -52,7 +53,7 @@ class CrewsController < ApplicationController
             @project.crews.create(employee_id: employee_id.to_i, foreman_id: params[:foreman_id])
           end
         rescue => e
-          puts e.inspect
+          e.message
         end
       end
     end
@@ -80,23 +81,14 @@ class CrewsController < ApplicationController
   # DELETE /crews/1
   # DELETE /crews/1.json
   def destroy
-    @crew = @project.crews.where(id: params[:id]).first
+    @crew = @project.crews.find(params[:id])
     @crew.destroy
+    @destroy = true
     respond_to do |format|
-      format.html { redirect_to project_crews_path, notice: 'Successfully Destroyed.' }
-      format.json { head :no_content }
+      format.js
     end
   end
 
-  def plants_list
-    @all_plants = @project.crews.get_all_plants
-    @plants = @all_plants.where(foreman_id: params[:id], project_id: @project.id).to_a
-  end
-
-  def employees_list
-    @all_plants = @project.crews.get_all_employees
-    @employees = @all_plants.where(foreman_id: params[:id], project_id: @project.id).to_a
-  end
 
   private
 

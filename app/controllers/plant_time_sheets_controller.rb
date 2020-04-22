@@ -12,8 +12,8 @@ class PlantTimeSheetsController < ApplicationController
         @plant_time_sheets = []
         @project_plant.each do |project_plant|
 
-          manager_name = OtherManager.find(project_plant.other_manager_id).employee.employee_name
-          foreman_name = Foreman.find(project_plant.foreman_id).employee.employee_name
+          manager_name = project_plant.other_manager.employee.employee_name
+          foreman_name = project_plant.foreman.employee.employee_name
           @plant_time_sheets << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
                                                                foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: params[:date],
                                                                foreman_name: foreman_name, manager: manager_name, total_hours: 0)
@@ -78,7 +78,7 @@ class PlantTimeSheetsController < ApplicationController
       if Time.now.strftime("%Y-%m-%d").to_date >= whole_week.first
         @time_sheet_submit_data = []
         i = true
-        whole_week.map.each do |day|
+        whole_week.each do |day|
           time_sheet_data = PlantTimeSheet.where(plant_create_date: day)
           if time_sheet_data.blank?
             @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)

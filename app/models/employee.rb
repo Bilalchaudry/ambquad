@@ -9,7 +9,7 @@ class Employee < ApplicationRecord
   belongs_to :project
   belongs_to :employee_type
   belongs_to :foreman, optional: true
-  belongs_to :other_managers, optional: true
+  belongs_to :other_manager, optional: true
   has_many :project_employees
   has_many :budget_holders
   # has_many :employee_types
