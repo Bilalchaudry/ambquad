@@ -24,7 +24,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= Foreman.find_by_id(params[:id]).employee.employee_name %>
+                      <%= @foreman_name %>
                       <%= hidden_field_tag 'foreman_id', params[:id] %>
                       <%= hidden_field_tag 'employee', true %>
                     </div>
