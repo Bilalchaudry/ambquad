@@ -123,7 +123,6 @@
   </div>
 
 
-  <%# if @plant.plant_time_sheet.present? %>
   <% if params[:action].eql?("edit") %>
     <div class="form-row">
       <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
@@ -141,11 +140,10 @@
       </div>
     </div>
     <div class="form-row">
-
-      <%= form.label :foreman_end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+      <%= form.label :foreman_end_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
       <div class="value">
-        <div class="input-group">
-          <%= form.text_field :foreman_end_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
+        <div class="col-lg-12">
+          <%= form.text_field :foreman_end_date, :class => 'end-date form-control py-2 pl-2', 'placeholder' => "dd-mm-yyyy" %>
         </div>
       </div>
     </div>
@@ -153,7 +151,6 @@
 
   <% else %>
     <div class="form-row">
-
       <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
       <div class="value">
         <div class="input-group">

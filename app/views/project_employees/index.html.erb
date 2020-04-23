@@ -1,73 +1,72 @@
-<!--<p id="notice"><%#= notice %></p>-->
-
-<!--<h1>Project Employees</h1>-->
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <div class="container-fluid">
-        <center>
-          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
-        </center>
-        <h5 class="mt-2">Project Employees</h5>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
-        <div class="row">
-          <div class="col-xl-6 col-md-6"></div>
+      </div>
+      <div class="container-fluid">
+      <div class="row pt-3">
+        <div class="col-xl-6 col-md-6"></div>
 
-          <div class="col-xl-3 col-md-3">
-            <div class="card bg-success text-white mb-3">
-              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
-            </div>
+        <div class="col-xl-3 col-md-3">
+          <div class="card bg-success text-white mb-3">
+            <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
           </div>
-
-          <div class="col-xl-3 col-md-3">
-            <div class="card bg-success text-white mb-3">
-              <%= link_to 'Add Project Employee', new_project_project_employee_path, :class => "btn btn-dark", style: "color: white" %>
-            </div>
-          </div>
-
         </div>
 
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
+        <div class="col-xl-3 col-md-3">
+          <div class="card bg-success text-white mb-3">
+            <%= link_to 'Add Project Employee', new_project_project_employee_path, :class => "btn btn-dark", style: "color: white" %>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-table mr-1"></i>Project Employees</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Foreman</th>
+                <th>Other Manager</th>
+                <th>Project Company</th>
+                <th>Total hours</th>
+                <th>Contract start date</th>
+                <th>Contract end date</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <% @project_employees.each do |project_employee| %>
                 <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Foreman</th>
-                  <th>Other Manager</th>
-                  <th>Project Company</th>
-                  <th>Total hours</th>
-                  <th>Contract start date</th>
-                  <th>Contract end date</th>
-                  <th>Actions</th>
+                  <td><%= project_employee.employee.employee_name %></td>
+                  <td><%= project_employee.employee_type.employee_type %></td>
+                  <td><%= project_employee.foreman.employee.employee_name rescue "N/A" %></td>
+                  <td><%= project_employee.other_manager.employee.employee_name rescue "N/A" %></td>
+                  <td><%= project_employee.project_company.company_name rescue "N/A" %></td>
+                  <td><%= project_employee.total_hours %></td>
+                  <td><%= project_employee.contract_start_date %></td>
+                  <td><%= project_employee.contract_end_date %></td>
+                  <td><%= link_to 'View', "/projects/#{@project.id}/project_employees/#{project_employee.id}", :class => "btn btn-outline-dark" %>
+                    <%= link_to 'Edit', "/projects/#{@project.id}/project_employees/#{project_employee.id}/edit", :class => "btn btn-outline-info" %>
+                    <%= link_to 'Destroy', "/projects/#{@project.id}/project_employees/#{project_employee.id}" + "?delete=true", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
                 </tr>
-                </thead>
+              <% end %>
+              </tbody>
+            </table>
 
-                <tbody>
-                <% @project_employees.each do |project_employee| %>
-                  <tr>
-                    <td><%= project_employee.employee.employee_name %></td>
-                    <td><%= project_employee.employee_type.employee_type %></td>
-                    <td><%= project_employee.foreman.employee.employee_name rescue "N/A" %></td>
-                    <td><%= project_employee.other_manager.employee.employee_name rescue "N/A" %></td>
-                    <td><%= project_employee.project_company.company_name rescue "N/A" %></td>
-                    <td><%= project_employee.total_hours %></td>
-                    <td><%= project_employee.contract_start_date %></td>
-                    <td><%= project_employee.contract_end_date %></td>
-                    <td><%= link_to 'View', "/projects/#{@project.id}/project_employees/#{project_employee.id}", :class => "btn btn-outline-dark" %>
-                      <%= link_to 'Edit', "/projects/#{@project.id}/project_employees/#{project_employee.id}/edit", :class => "btn btn-outline-info" %>
-                      <%= link_to 'Destroy', "/projects/#{@project.id}/project_employees/#{project_employee.id}"+ "?delete=true", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
-                  </tr>
-                <% end %>
-                </tbody>
-              </table>
-
-              <br>
-            </div>
+            <br>
           </div>
         </div>
+      </div>
       </div>
     </main>
   </div>
