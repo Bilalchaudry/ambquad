@@ -146,7 +146,7 @@
 
 
                 <%# if @plant.plant_time_sheet.present? %>
-                <% if @plant.present? && params[:action].eql?("edit") %>
+                <% if params[:action].eql?("edit") %>
                   <div class="row">
                     <div class="col-md-4">
                       <%= form.label :foreman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
