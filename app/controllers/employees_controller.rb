@@ -26,26 +26,31 @@ class EmployeesController < ApplicationController
   # POST /employees
   # POST /employees.json
   def create
-    @employee = @project.employees.new(employee_params)
-    @employee.client_company_id = @project.client_company_id
-    @employee.country_name = @project.client_company.country_name
-    # @employee.country_code = ISO3166::Country.find_country_by_name(@employee.country_name).country_code rescue nil
 
-    respond_to do |format|
-      if @employee.save
-        @employee_time_sheet = EmployeeTimeSheet.new(employee: @employee.employee_name, labour_type: @employee.employee_type.employee_type, employee_id: @employee.id,
-                                                     project_company_id: @employee.project_company_id, total_hours: 0, employee_type_id: @employee.employee_type_id,
-                                                     project_id: @project.id, employee_create_date: Time.now.strftime("%Y-%m-%d"), foreman_id: @employee.foreman_id)
-        @employee_time_sheet.manager = @employee.other_manager.employee.employee_name rescue nil
-        @employee_time_sheet.foreman_name = @employee.foreman.employee.employee_name rescue nil
-        if @employee_time_sheet.save
-          format.html { redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully created.' }
-          format.json { render :show, status: :created, location: @employee }
-        else
-          format.html { render :new }
-          format.json { render json: @employee.errors, status: :unprocessable_entity }
+    @employee = @project.employees.new(employee_params)
+    if (@project.start_date..@project.end_date).cover?(@employee.contract_start_date)
+      @employee.client_company_id = @project.client_company_id
+      @employee.country_name = @project.client_company.country_name
+
+      respond_to do |format|
+        if @employee.save
+          @employee_time_sheet = EmployeeTimeSheet.new(employee: @employee.employee_name, labour_type: @employee.employee_type.employee_type, employee_id: @employee.id,
+                                                       project_company_id: @employee.project_company_id, total_hours: 0, employee_type_id: @employee.employee_type_id,
+                                                       project_id: @project.id, employee_create_date: Time.now.strftime("%Y-%m-%d"), foreman_id: @employee.foreman_id)
+          @employee_time_sheet.manager = @employee.other_manager.employee.employee_name rescue nil
+          @employee_time_sheet.foreman_name = @employee.foreman.employee.employee_name rescue nil
+          if @employee_time_sheet.save
+            format.html {redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully created.'}
+            format.json {render :show, status: :created, location: @employee}
+          else
+            format.html {render :new}
+            format.json {render json: @employee.errors, status: :unprocessable_entity}
+          end
         end
       end
+    else
+      redirect_to new_project_employee_path(@project), notice: "date issue"
+
     end
   end
 
@@ -85,11 +90,7 @@ class EmployeesController < ApplicationController
 
   def import
     file = params[:file]
-    # File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
-    #   f.write(file.read)
-    # end
-    user = current_user
-    errors = Employee.import_file(params[:file], user, @project)
+    errors = Employee.import_file(params[:file], current_user, @project)
     if errors == nil
       flash[:notice] = 'File Imported Successfully'
     else
