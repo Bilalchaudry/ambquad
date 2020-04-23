@@ -105,7 +105,11 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <%= form.text_field :start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+                      <% if @project.employee_time_sheets.present? || @project.plant_time_sheets.present? %>
+                        <%= form.text_field :start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", disabled: true %>
+                      <% else %>
+                        <%= form.text_field :start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
+                      <% end %>
                     </div>
                   </div>
                 </div>
@@ -143,7 +147,7 @@
                       <select name="project[project_status]" id="status" class="form-control" required>
                         <option value="<%= @project.project_status %>">
                           <%= Project.statuses.key(@project.project_status) %>
-                        <% Project.statuses.reject {|status| Project.statuses.key(@project.project_status) == status}.each do |key, value| %>
+                          <% Project.statuses.reject {|status| Project.statuses.key(@project.project_status) == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -256,7 +260,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $(function() {
+        $(function () {
             $('.start-date').datepicker({
                 format: 'yyyy-mm-dd',
                 todayBtn: "linked",

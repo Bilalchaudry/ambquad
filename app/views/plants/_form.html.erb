@@ -115,7 +115,7 @@
                     </div>
                   </div>
 
-            <% end %>
+                <% end %>
 
                 <div class="form-row">
                   <div class="col-md-4">
@@ -123,7 +123,11 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
+                      <%# if @plant.plant_time_sheet.present? %>
                       <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+                      <%# else %>
+                      <%#= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", disabled: true %>
+                      <%# end %>
                     </div>
                   </div>
                 </div>
@@ -139,25 +143,58 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :foreman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="plant[foreman_id]" id="foreman_id" class="form-control">
-                        <option value="<%= @plant.foreman.present? ? @plant.foreman_id : "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.employee_name : "None" %></option>
-                        <% @project.foremen.reject {|foremen| foremen.id == @plant.foreman_id}.each do |foreman| %>
-                          <option value="<%= foreman.id %>">
-                            <%= foreman.employee.employee_name %>
-                          </option>
-                        <% end %>
-                      </select>
+
+
+                <%# if @plant.plant_time_sheet.present? %>
+                <% if @plant.present? && params[:action].eql?("edit") %>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :foreman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <select name="plant[foreman_id]" id="foreman_id" class="form-control">
+                          <option value="<%= @plant.foreman.present? ? @plant.foreman_id : "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.employee_name : "None" %></option>
+                          <% @project.foremen.reject {|foremen| foremen.id == @plant.foreman_id}.each do |foreman| %>
+                            <option value="<%= foreman.id %>">
+                              <%= foreman.employee.employee_name %>
+                            </option>
+                          <% end %>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
+                  <div class="form-row">
+                    <div class="col-md-4">
+                      <%= form.label :foreman_end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= form.text_field :foreman_end_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
+                      </div>
+                    </div>
+                  </div>
 
 
+                <% else %>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <%= form.label :foreman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <select name="plant[foreman_id]" id="foreman_id" class="form-control">
+                          <option value="<%= @plant.foreman.present? ? @plant.foreman_id : "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.employee_name : "None" %></option>
+                          <% @project.foremen.reject {|foremen| foremen.id == @plant.foreman_id}.each do |foreman| %>
+                            <option value="<%= foreman.id %>">
+                              <%= foreman.employee.employee_name %>
+                            </option>
+                          <% end %>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
                 <div class="row">
                   <div class="col-md-4">
                     <%= form.label :other_manager, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
