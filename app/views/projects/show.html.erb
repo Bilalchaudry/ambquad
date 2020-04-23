@@ -192,8 +192,13 @@
                         <div class="card row3-clr text-white mb-3">
                           <div class="card-body">Employee Time Sheet</div>
                           <div class="card-footer d-flex align-items-center justify-content-between">
-                            <%= link_to 'View Detail', "/projects/#{@project.id}/employee_time_sheets", :class => "bold-title-with-color nav-item nav-link small" %>
-                           <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            <% if @project.employee_time_sheets.present? %>
+                              <%= link_to 'Employee Time Sheet Detail', "/projects/#{@project.id}/employee_time_sheets", :class => "bold-title-with-color nav-item nav-link small" %>
+                            <% else %>
+                              <%= link_to 'Employee Time Sheet Detail', "/projects/#{@project.id}/employee_time_sheets", :class => "bold-title nav-item nav-link small" %>
+                            <% end %>
+                            <!--                        <a class="small text-white stretched-link" href="#">View Details</a>-->
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                           </div>
                         </div>
                       </div>
@@ -202,7 +207,12 @@
                         <div class="card row3-clr text-white mb-3">
                           <div class="card-body">Plant Time Sheet</div>
                           <div class="card-footer d-flex align-items-center justify-content-between">
-                            <%= link_to 'View Detail', "/projects/#{@project.id}/plant_time_sheets", :class => "bold-title-with-color nav-item nav-link small" %>
+                            <% if @project.plant_time_sheets.present? %>
+                              <%= link_to 'Plant Time Sheet Detail', "/projects/#{@project.id}/plant_time_sheets", :class => "bold-title-with-color nav-item nav-link small" %>
+                            <% else %>
+                              <%= link_to 'Plant Time Sheet Detail', "/projects/#{@project.id}/plant_time_sheets", :class => "bold-title nav-item nav-link small" %>
+                            <% end %>
+                            <!--                        <a class="small text-white stretched-link" href="#">View Details</a>-->
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                           </div>
                         </div>
@@ -235,6 +245,8 @@
                           </div>
                         </div>
                     </div>
+
+
                   </div>
                 </div>
               </div>
