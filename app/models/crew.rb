@@ -1,7 +1,7 @@
 class Crew < ApplicationRecord
 
-  scope :get_all_plants, -> { where.not(plant_id: nil) }
-  scope :get_all_employees, -> { where.not(employee_id: nil) }
+  scope :get_all_plants, -> (id) { where.not(plant_id: nil).where(foreman_id: id) }
+  scope :get_all_employees, -> (id) { where.not(employee_id: nil).where(foreman_id: id) }
 
 
   belongs_to :project
