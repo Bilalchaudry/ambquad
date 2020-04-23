@@ -19,11 +19,9 @@ class CrewsController < ApplicationController
   def new
     @crews = []
     if params[:plant].present?
-      @crew_plants = @project.crews.get_all_plants
-      @crews = @project.plants.reject { |plant| @crew_plants.pluck(:plant_id).include?(plant.id) }
+      @crews = crew_plants
     else
-      @crew_employee = @project.crews.get_all_employees
-      @crews = @project.employees.reject { |employee| @crew_employee.pluck(:employee_id).include?(employee.id) }
+      @crews = crew_employees
     end
     @crew = Crew.new
   end
@@ -42,17 +40,20 @@ class CrewsController < ApplicationController
           @project.crews.create(plant_id: plant_id.to_i, foreman_id: params[:foreman_id])
         end
       end
+      respond_to do |format|
+        format.html { redirect_to "/projects/#{@project.id}/crews/#{params[:foreman_id]}/plants_list", notice: 'Crew was successfully created.' }
+        format.json { render :show, status: :created, location: @crew }
+      end
     else
       params[:crew][:employee_ids].each do |employee_id|
         unless employee_id.empty?
           @project.crews.create(employee_id: employee_id.to_i, foreman_id: params[:foreman_id])
         end
       end
-    end
-
-    respond_to do |format|
-      format.html { redirect_to project_crews_path, notice: 'Crew was successfully created.' }
-      format.json { render :show, status: :created, location: @crew }
+      respond_to do |format|
+        format.html { redirect_to "/projects/#{@project.id}/crews/#{params[:foreman_id]}/employees_list", notice: 'Crew was successfully created.' }
+        format.json { render :show, status: :created, location: @crew }
+      end
     end
   end
 
@@ -85,6 +86,15 @@ class CrewsController < ApplicationController
     end
   end
 
+  def plants_list
+    @all_plants = @project.crews.get_all_plants
+    @plants = @all_plants.where(foreman_id: params[:id])
+  end
+
+  def employees_list
+    @all_plants = @project.crews.get_all_employees
+    @employees = @all_plants.where(foreman_id: params[:id])
+  end
 
   private
 

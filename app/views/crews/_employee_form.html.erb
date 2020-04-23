@@ -5,7 +5,7 @@
         <div class="col-lg-7">
           <div class="card shadow-lg border-0 rounded-lg mt-5">
             <div class="card-body">
-              <%= form_with(model: [@project, crew], local: true) do |form| %>
+              <%= form_with(model: [@project, crew]) do |form| %>
                 <% if crew.errors.any? %>
                   <div id="error_explanation">
                     <h2><%= pluralize(crew.errors.count, "error") %> prohibited this crew from being saved:</h2>
@@ -39,7 +39,6 @@
                     <div class="form-group">
                       <% if params[:action].eql?("edit") %>
                         <select name="plant[plant_id]" id="plant_id" class="form-control">
-                          <option value="<%= @crews.present? ? @crews : "" %>"><%= @crews.present? ? @crews : "None" %></option>
                           <% @crews.each do |employee| %>
                             <option value="<%= employee.id %>">
                               <%= employee.employee_name %>
@@ -66,7 +65,7 @@
                   <div class="col-md-3">
                     <div class="form-group mt-3 mb-0">
                       <div class="actions">
-                        <%= link_to "Cancel", project_crews_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                        <%= link_to "Cancel", "/projects/#{@project.id}/crews/#{params[:id]}/employees_list", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
                       </div>
                     </div>
                   </div>
