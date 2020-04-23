@@ -1,47 +1,52 @@
 <div id="layoutSidenav">
-  <div id="layoutSidenav_content" class="mt-4">
-    <h3 class="alert-success mt-1"><%= notice %></h3>
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
     <div class="page-wrapper p-b-50">
       <div class="wrapper wrapper--w790">
-        <div class="card card-5">
-          <div class="card-heading bg-clr">
-            <h3 class="text-center font-weight-light my-4">View Budget Holder</h3>
-            <%= render 'shared/client_and_project_info' %></div>
-            <div class="card-body">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr card-text-clr">
+            <h4 class="text-center font-weight-light">View Budget Holder</h4>
+          </div>
+          <div class="card-body">
 
-              <div class="form-row">
-                <div class="col-md-4">
-                  <strong>Budget Holder Name:</strong>
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Budget Holder Name:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @budget_holder.employee.employee_name %>
                 </div>
-                <div class="col-md-6">
-                  <div>
-                    <%= @budget_holder.employee.employee_name %>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Edit', edit_project_budget_holder_path(@project), :class => 'btn btn-style bg-clr w-100' %>
                   </div>
                 </div>
               </div>
-              <hr>
-              <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Edit', edit_project_budget_holder_path(@project), :class => 'btn btn-style bg-clr w-100' %>
-                    </div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Back', project_budget_holders_path, :class => 'btn btn-style bg-clr w-100' %>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <%= link_to 'Back', project_budget_holders_path, :class => 'btn btn-style bg-clr w-100' %>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3"></div>
               </div>
+              <div class="col-md-3"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </main>
 </div>

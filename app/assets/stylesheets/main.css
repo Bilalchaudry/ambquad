@@ -486,6 +486,10 @@ input {
     background: #fff;
 }
 
+.card-text-clr {
+    color: white;
+}
+
 .card-5 {
     background: #fff;
     -webkit-border-radius: 10px;

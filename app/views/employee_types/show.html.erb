@@ -1,18 +1,20 @@
 <div id="layoutSidenav">
-  <div id="layoutSidenav_content" class="mt-5">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
     <div class="page-wrapper p-b-50">
       <div class="wrapper wrapper--w790">
-        <div class="card card-5">
-          <div class="card-heading bg-clr">
-            <h2 class="text-center font-weight-light">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr card-text-clr">
+            <h4 class="text-center font-weight-light">
               Employee Type
-            </h2>
-            <%= render 'shared/client_and_project_info' %>
+            </h4>
           </div>
           <div class="card-body">
-            <% if notice.present? %>
-              <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
-            <% end %>
 
             <div class="form-row pt-2">
               <div class="col-md-4">

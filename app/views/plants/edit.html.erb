@@ -1,11 +1,16 @@
 <div id="layoutSidenav">
-  <div id="layoutSidenav_content" class="mt-4">
-    <h3 class="alert-success mt-1"><%= notice %></h3>
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
     <div class="page-wrapper p-b-50">
       <div class="wrapper wrapper--w790">
-        <div class="card card-5">
+        <div class="card card-5 form-border-style">
           <div class="card-heading bg-clr text-white">
-            <h3 class="text-center font-weight-light my-4">Edit <%= @plant.plant_name %></h3>
+            <h4 class="text-center font-weight-light">Edit <%= @plant.plant_name %></h4>
           </div>
 
           <div class="card-body">
