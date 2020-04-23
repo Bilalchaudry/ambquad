@@ -7,6 +7,7 @@ class Plant < ApplicationRecord
   belongs_to :plant_type
   belongs_to :foreman, optional: true
   belongs_to :other_manager, optional: true
+  has_many :crew
 
 
   validates_uniqueness_of :plant_name, :case_sensitive => false

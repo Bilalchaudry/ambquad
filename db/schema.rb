@@ -98,6 +98,15 @@ ActiveRecord::Schema.define(version: 2020_04_21_135354) do
     t.string "WBS_05_Description"
   end
 
+  create_table "crews", force: :cascade do |t|
+    t.integer "employee_id"
+    t.integer "plant_id"
+    t.integer "foreman_id"
+    t.integer "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employee_time_sheets", force: :cascade do |t|
     t.string "employee"
     t.integer "employee_id"
@@ -388,6 +397,7 @@ ActiveRecord::Schema.define(version: 2020_04_21_135354) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

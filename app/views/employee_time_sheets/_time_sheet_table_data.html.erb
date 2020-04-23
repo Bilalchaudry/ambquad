@@ -7,27 +7,51 @@
     <td><%= employee_time_sheet.project_company_id %></td>
     <td><%= employee_time_sheet.manager %></td>
     <td><%= employee_time_sheet.foreman_name %></td>
-    <td>
-      <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
-    </td>
+    <% if employee_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
+      <td>
+        <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
+      </td>
+    <% else %>
+      <td><%= employee_time_sheet.total_hours %></td>
+    <% end %>
     <% cost_codes = @project.time_sheet_cost_codes.where(employee_time_sheet_id: employee_time_sheet.id).to_a %>
     <% for i in 0..4 %>
-      <% if cost_codes[i].present? %>
-        <td><%= cost_codes[i].cost_code %>
-          <% @cost_code_id = cost_codes[i].cost_code_id %>
-          <% @cost_code_time_sheet_id = @project.time_sheet_cost_codes.where(cost_code_id: @cost_code_id, employee_time_sheet_id:  employee_time_sheet.id).ids %>
-          <button class="cost-btn" , onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
-        </td>
-        <td class="emp_id"> <%= cost_codes[i].cost_code %></td>
-        <td><%= cost_codes[i].hrs %></td>
-      <% elsif employee_time_sheet.total_hours > 0 %>
-        <td><button class="w-100 cost-bot" onclick="cost_modal(<%= employee_time_sheet.employee_id %>,<%= employee_time_sheet.id %>)">+</button></td>
-        <td class="emp_id"></td>
-        <td>0</td>
+      <% if employee_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
+        <% if cost_codes[i].present? %>
+          <td><%= cost_codes[i].cost_code %>
+            <% @cost_code_id = cost_codes[i].cost_code_id %>
+            <% @cost_code_time_sheet_id = @project.time_sheet_cost_codes.where(cost_code_id: @cost_code_id, employee_time_sheet_id: employee_time_sheet.id).ids %>
+            <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
+          </td>
+          <td class="emp_id"> <%= cost_codes[i].cost_code %></td>
+          <td><%= cost_codes[i].hrs %></td>
+        <% elsif employee_time_sheet.total_hours > 0 %>
+          <td>
+            <button class="w-100 cost-bot" onclick="cost_modal(<%= employee_time_sheet.employee_id %>,<%= employee_time_sheet.id %>)">+</button>
+          </td>
+          <td class="emp_id"></td>
+          <td>0</td>
         <% else %>
-        <td><button class="w-100 cost-bot" disabled>+</button></td>
-        <td class="emp_id"></td>
-        <td>0</td>
+          <td>
+            <button class="w-100 cost-bot" disabled>+</button>
+          </td>
+          <td class="emp_id"></td>
+          <td>0</td>
+        <% end %>
+      <% else %>
+        <% if cost_codes[i].present? %>
+          <td><%= cost_codes[i].cost_code %>
+            <% @cost_code_id = cost_codes[i].cost_code_id %>
+            <% @cost_code_time_sheet_id = @project.time_sheet_cost_codes.where(cost_code_id: @cost_code_id, employee_time_sheet_id: employee_time_sheet.id).ids %>
+            <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
+          </td>
+          <td class="emp_id"> <%= cost_codes[i].cost_code %></td>
+          <td><%= cost_codes[i].hrs %></td>
+        <% else %>
+          <td></td>
+          <td class="emp_id"></td>
+          <td>0</td>
+        <% end %>
       <% end %>
     <% end %>
   </tr>

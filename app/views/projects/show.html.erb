@@ -127,13 +127,9 @@
                 </div>
 
                 <div class="row">
-<!--                  <div class="col-md-4 pt-4">-->
-                    <%# if @project.crews.present? %>
-                    <%#= link_to 'Crew', crew_project_foremen_path(@project.id), :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
-                    <%# else %>
-                    <%#= link_to 'Crew', crew_project_foremen_path(@project.id), :class => "bold-title nav-item nav-link btn btn-dark" %>
-                    <%# end %>
-<!--                  </div>-->
+                  <div class="col-md-4 pt-4">
+                      <%= link_to 'Crew', "/projects/#{@project.id}/crews", :class => "bold-title-with-color nav-item nav-link btn btn-dark" %>
+                  </div>
                   <div class="col-md-4 pt-4">
                     <%= link_to 'Employee Time Sheet', "/projects/#{@project.id}/employee_time_sheets", :class => "bold-title-with-color nav-item nav-link btn btn-dark"  %>
                   </div>
