@@ -1,7 +1,10 @@
 <% @plant_time_sheets.each do |plant_time_sheet| %>
-  <tr id="row<%= plant_time_sheet.id %>">
+  <% checking_cost_code_and_total_hours(plant_time_sheet.id) %>
+  <% if plant_time_sheet.total_hours != @cost_code_and_total_hours_sum %>
+  <tr class="table-dark" id="row<%= plant_time_sheet.id %>">
+    <td class="plant_sheet_id"><%= plant_time_sheet.plant_id %></td>
     <td class="plant_sheet_id"> <%= plant_time_sheet.id %></td>
-    <td><%= plant_time_sheet.plant_id %></td>
+    <td><%= plant_time_sheet.plant_id_str %></td>
     <td><%= plant_time_sheet.plant_name %></td>
     <td><%= plant_time_sheet.project_company_id %></td>
     <td><%= plant_time_sheet.manager %></td>
@@ -13,41 +16,59 @@
     <% else %>
       <td><%= plant_time_sheet.total_hours %></td>
     <% end %>
-    <% cost_codes = @project.time_sheet_cost_codes.where(time_sheet_plant_id: plant_time_sheet.id) %>
-    <% cost_codes_ar = cost_codes.to_a %>
     <% for i in 0..4 %>
-      <% if plant_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
-        <% if cost_codes_ar[i].present? %>
-          <td><%= cost_codes_ar[i].cost_code %>
-            <% @cost_code_id = cost_codes_ar[i].cost_code_id %>
-            <% @cost_code_time_sheet_id = cost_codes.where(cost_code_id: @cost_code_id, time_sheet_plant_id: plant_time_sheet.id).ids %>
-            <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>, row<%= plant_time_sheet.id %>, '<%= plant_time_sheet.plant_create_date %>')">x</button>
+      <% if @cost_codes_ar[i].present? %>
+        <td><%= @cost_codes_ar[i].cost_code %>
+          <% cost_code_time_sheet_id(@cost_codes_ar[i].cost_code_id, plant_time_sheet.id) %>
+          <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>, row<%= plant_time_sheet.id %>, '<%= plant_time_sheet.plant_create_date %>')">x</button>
+        </td>
+        <td class="plant_sheet_id"><%= @cost_codes_ar[i].cost_code %></td>
+        <td><%= @cost_codes_ar[i].hrs %></td>
+      <% elsif plant_time_sheet.total_hours > 0 %>
+        <td>
+          <button class="w-100 cost-bot" onclick="cost_modal_plant(<%= plant_time_sheet.plant_id %>,<%= plant_time_sheet.id %>)">+</button>
+        </td>
+        <td class="plant_sheet_id"> </td>
+        <td>0</td>
+        <% else %>
+        <td>
+          <button class="w-100 cost-bot" disabled>+</button>
+        </td>
+        <td class="plant_sheet_id"> </td>
+        <td>0</td>
+      <% end %>
+    <% end %>
+  </tr>
+  <% else %>
+    <tr id="row<%= plant_time_sheet.id %>">
+      <td class="plant_sheet_id"><%= plant_time_sheet.plant_id %></td>
+      <td class="plant_sheet_id"> <%= plant_time_sheet.id %></td>
+      <td><%= plant_time_sheet.plant_id_str %></td>
+      <td><%= plant_time_sheet.plant_name %></td>
+      <td><%= plant_time_sheet.project_company_id %></td>
+      <td><%= plant_time_sheet.manager %></td>
+      <td><%= plant_time_sheet.foreman_id %></td>
+      <td>
+        <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= plant_time_sheet.total_hours %>, <%= plant_time_sheet.id %>)"><%= plant_time_sheet.total_hours %></button>
+      </td>
+      <% for i in 0..4 %>
+        <% if @cost_codes_ar[i].present? %>
+          <td><%= @cost_codes_ar[i].cost_code %>
+            <% cost_code_time_sheet_id(@cost_codes_ar[i].cost_code_id, plant_time_sheet.id) %>
+            <button class="cost-btn" onclick="delete_cost_code_plant(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id %>, row<%= plant_time_sheet.id %>, '<%= plant_time_sheet.plant_create_date %>')">x</button>
           </td>
-          <td class="plant_sheet_id"><%= cost_codes_ar[i].cost_code %></td>
-          <td><%= cost_codes_ar[i].hrs %></td>
+          <td class="plant_sheet_id"><%= @cost_codes_ar[i].cost_code %></td>
+          <td><%= @cost_codes_ar[i].hrs %></td>
         <% elsif plant_time_sheet.total_hours > 0 %>
           <td>
             <button class="w-100 cost-bot" onclick="cost_modal_plant(<%= plant_time_sheet.plant_id %>,<%= plant_time_sheet.id %>)">+</button>
           </td>
-          <td class="plant_sheet_id"></td>
+          <td class="plant_sheet_id"> </td>
           <td>0</td>
         <% else %>
           <td>
             <button class="w-100 cost-bot" disabled>+</button>
           </td>
-          <td class="plant_sheet_id"></td>
-          <td>0</td>
-        <% end %>
-      <% else %>
-        <% if cost_codes_ar[i].present? %>
-          <td><%= cost_codes_ar[i].cost_code %>
-            <% @cost_code_id = cost_codes_ar[i].cost_code_id %>
-            <% @cost_code_time_sheet_id = cost_codes.where(cost_code_id: @cost_code_id, time_sheet_plant_id: plant_time_sheet.id).ids %>
-          </td>
-          <td class="plant_sheet_id"><%= cost_codes_ar[i].cost_code %></td>
-          <td><%= cost_codes_ar[i].hrs %></td>
-        <% else %>
-          <td></td>
           <td class="plant_sheet_id"></td>
           <td>0</td>
         <% end %>

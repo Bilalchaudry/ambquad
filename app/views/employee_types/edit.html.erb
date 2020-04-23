@@ -1,3 +1,23 @@
-<h1>Editing Employee Type</h1>
-<div class="card-header"><h3 class="text-center font-weight-light my-4">Edit <%= @employee_type.employee_type %></h3></div>
-<%= render 'form', employee_type: @employee_type %>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr card-text-clr">
+            <h4 class="text-center font-weight-light">Edit <%= @employee_type.employee_type %></h4>
+          </div>
+
+          <div class="card-body">
+            <%= render 'form', employee_type: @employee_type %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

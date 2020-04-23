@@ -2,7 +2,7 @@ class User < ApplicationRecord
   audited
 
   devise :database_authenticatable, :registerable,
-          :rememberable, :validatable, :confirmable
+          :rememberable, :validatable, :recoverable ,:confirmable
 
   has_many :user_projects
   has_many :projects, :through => :user_projects

@@ -1,102 +1,88 @@
-<h1>Editing Project</h1>
-<div class="card-header"><h3 class="text-center font-weight-light my-4">Edit <%= @project.project_name %></h3></div>
-<div id="layoutAuthentication_content">
-  <main>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-body">
-              <%= form_with(model: @project, local: true) do |form| %>
-                <%= render 'layouts/error_messages', object: form.object %>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr">
+            <h4 class="text-center font-weight-light text-white">Edit <%= @project.project_name %></h4>
+          </div>
+          <div class="card-body">
+            <%= form_with(model: @project, local: true) do |form| %>
+              <%= render 'layouts/error_messages', object: form.object %>
 
-
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :company_name, "Company", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :company_name, :class => "form-control py-2", value: @project.client_company.company_name, :disabled => true %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :project_name, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :project_name, :class => "form-control py-2", :disabled => true %>
-                    </div>
+              <div class="form-row">
+                <%= form.label :company_name, "Company", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :company_name, :class => "form-control py-2", value: @project.client_company.company_name, :disabled => true %>
                   </div>
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :project_lead, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :project_lead, :class => "form-control py-2", :required => true %>
-                    </div>
+              <div class="form-row">
+                <%= form.label :project_name, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :project_name, :class => "form-control py-2", :disabled => true %>
                   </div>
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :site_office_address, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :site_office_address, :id => "autocomplete-edit", :class => "form-control py-2", :required => true, placeholder: "Enter address", onFocus: "geolocate()" %>
-                    </div>
+              <div class="form-row">
+                <%= form.label :project_lead, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :project_lead, :class => "form-control py-2", :required => true %>
                   </div>
                 </div>
+              </div>
 
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :city, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :city, :class => "form-control py-2", id: "locality", :readonly => true %>
-                    </div>
+              <div class="form-row">
+                <%= form.label :site_office_address, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :site_office_address, :id => "autocomplete-edit", :class => "form-control py-2", :required => true, placeholder: "Enter address", onFocus: "geolocate()" %>
                   </div>
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :state, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
 
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :state, :class => "form-control py-2", id: "administrative_area_level_1", :readonly => true %>
-                    </div>
+              <div class="form-row">
+                <%= form.label :city, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :city, :class => "form-control py-2", id: "locality", :readonly => true %>
                   </div>
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :country, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :country, :class => "form-control py-2", id: "country", :readonly => true %>
-                    </div>
+              <div class="form-row">
+                <%= form.label :state, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :state, :class => "form-control py-2", id: "administrative_area_level_1", :readonly => true %>
                   </div>
                 </div>
+              </div>
 
-                <input class="field" id="street_number" style="display: none"/>
-                <input class="field" id="route" style="display: none"/>
-                <input class="field" id="postal_code" style="display: none"/>
+              <div class="form-row">
+                <%= form.label :country, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :country, :class => "form-control py-2", id: "country", :readonly => true %>
+                  </div>
+                </div>
+              </div>
+
+              <input class="field" id="street_number" style="display: none"/>
+              <input class="field" id="route" style="display: none"/>
+              <input class="field" id="postal_code" style="display: none"/>
 
 
                 <div class="row">
@@ -124,64 +110,60 @@
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :client_po_number, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+              <div class="form-row">
+                <%= form.label :client_po_number, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <%= form.text_field :client_po_number, :class => "form-control py-2" %>
                   </div>
+                </div>
+              </div>
 
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :client_po_number, :class => "form-control py-2" %>
+
+              <div class="form-row">
+                <%= form.label :project_status, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
+                    <select name="project[project_status]" id="status" class="form-control" required>
+                      <option value="<%= @project.project_status %>">
+                        <%= Project.statuses.key(@project.project_status) %>
+                        <% Project.statuses.reject { |status| Project.statuses.key(@project.project_status) == status }.each do |key, value| %>
+                        <option value="<%= value %>">
+                          <%= key %>
+                        </option>
+                      <% end %>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= form.submit 'Save', :class => 'btn btn-style bg-clr w-100' %>
                     </div>
                   </div>
                 </div>
-
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :project_status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="project[project_status]" id="status" class="form-control" required>
-                        <option value="<%= @project.project_status %>">
-                          <%= Project.statuses.key(@project.project_status) %>
-                          <% Project.statuses.reject {|status| Project.statuses.key(@project.project_status) == status}.each do |key, value| %>
-                          <option value="<%= value %>">
-                            <%= key %>
-                          </option>
-                        <% end %>
-                      </select>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to "Cancel", projects_path, :class => 'btn btn-style bg-clr w-100' %>
                     </div>
                   </div>
                 </div>
-                <hr>
-                <div class="row">
-                  <div class="col-md-3"></div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= link_to "Cancel", projects_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3"></div>
-                </div>
+                <div class="col-md-3"></div>
+              </div>
 
-              <% end %>
-            </div>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </main>
 
   <script>
@@ -260,7 +242,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $(function () {
+        $(function() {
             $('.start-date').datepicker({
                 format: 'yyyy-mm-dd',
                 todayBtn: "linked",
