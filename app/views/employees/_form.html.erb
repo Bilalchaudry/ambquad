@@ -120,7 +120,7 @@
       <div class="row row-refine">
         <div class="col-5">
           <div class="input-group-desc">
-            <% if @project.employee_time_sheets.present? %>
+            <% if @project.employee_time_sheets.present? && params[:action].eql?("edit") %>
               <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :disabled => true %>
             <% else %>
               <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", required: true %>
@@ -141,33 +141,49 @@
     </div>
   </div>
 
-  <% if @project.employee_time_sheets.present? %>
-    <div class="form-row">
-
-      <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-      <div class="value">
-        <div class="input-group">
-          <select name="employee[foreman_id]" id="forman_id" class="form-control">
-            <option value=""></option>
-            <% @project.foremen.each do |forman| %>
-              <option value="<%= forman.id %>">
-                <%= forman.employee.employee_name %>
-              </option>
-            <% end %>
-          </select>
+  <% if params[:action].eql?("edit") %>
+    <% if @project.employee_time_sheets.present? %>
+      <div class="form-row">
+        <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+        <div class="value">
+          <div class="input-group">
+            <select name="employee[foreman_id]" id="forman_id" class="form-control">
+              <option value=""></option>
+              <% @project.foremen.each do |forman| %>
+                <option value="<%= forman.id %>">
+                  <%= Employee.find_by_id(forman.employee_id).employee_name rescue "N/A"%>
+                </option>
+              <% end %>
+            </select>
+          </div>
         </div>
       </div>
-    </div>
 
-
-    <div class="form-row">
-      <%= form.label :foreman_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
-      <div class="value">
-        <div class="input-group">
-          <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
+      <div class="form-row">
+        <%= form.label :foreman_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+        <div class="value">
+          <div class="input-group">
+            <%= form.text_field :foreman_start_date, :class => 'foreman-start-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
+          </div>
         </div>
       </div>
-    </div>
+    <% else %>
+      <div class="form-row">
+        <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+        <div class="value">
+          <div class="input-group">
+            <select name="employee[foreman_id]" id="forman_id" class="form-control">
+              <option value=""></option>
+              <% @project.foremen.each do |forman| %>
+                <option value="<%= forman.id %>">
+                  <%= forman.employee.employee_name %>
+                </option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+    <% end %>
 
   <% else %>
     <div class="form-row">
@@ -178,7 +194,7 @@
             <option value=""></option>
             <% @project.foremen.each do |forman| %>
               <option value="<%= forman.id %>">
-                <%= forman.employee.employee_name %>
+                <%= Employee.find_by_id(forman.employee_id).employee_name rescue "N/A" %>
               </option>
             <% end %>
           </select>
@@ -297,7 +313,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        // $('select').selectpicker();
         $(function () {
             $('.start-date').datepicker({
                 format: 'yyyy-mm-dd',
@@ -305,6 +320,9 @@
                 todayHighlight: true
             });
             $('.end-date').datepicker({
+                format: 'yyyy-mm-dd',
+            });
+            $('.foreman-start-date').datepicker({
                 format: 'yyyy-mm-dd',
             });
         });

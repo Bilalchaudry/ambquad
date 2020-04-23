@@ -32,7 +32,7 @@
                 <tbody>
                 <% @crews.each do |foreman| %>
                   <tr>
-                    <td><%= foreman.employee.employee_name %></td>
+                    <td><%= Employee.find_by_id(foreman.employee_id).employee_name  rescue "N/A" %></td>
                     <td>
                       <%= link_to 'Plant', "/projects/#{@project.id}/crews/#{foreman.id}/plants_list", :class => "btn btn-outline-dark" %>
                       <%= link_to 'Employee', "/projects/#{@project.id}/crews/#{foreman.id}/employees_list", :class => "btn btn-outline-info" %>

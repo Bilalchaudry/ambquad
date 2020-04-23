@@ -1,8 +1,8 @@
 class Foreman < ApplicationRecord
   audited
-  belongs_to :employee
+  # belongs_to :employee
   belongs_to :project
-  belongs_to :crew
+  # belongs_to :crew
 
   validates_uniqueness_of :employee_id, :scope => :project_id
 

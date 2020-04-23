@@ -45,7 +45,7 @@
                 <tbody>
                 <% @foremens.each do |foreman| %>
                   <tr>
-                    <td><%= foreman.employee.employee_name %> </td>
+                    <td><%= Employee.find_by_id(foreman.employee_id).employee_name rescue "N/A" %> </td>
                     <td><%= link_to 'View', "/projects/#{@project.id}/foremen/#{foreman.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', "/projects/#{@project.id}/foremen/#{foreman.id}/edit", :class => "btn btn-outline-info" %>
                       <%= link_to 'Destroy', "/projects/#{@project.id}/foremen/#{foreman.id}", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", remote: true %></td>

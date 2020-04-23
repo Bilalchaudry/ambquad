@@ -161,7 +161,7 @@
             <option value="<%= @plant.foreman.present? ? @plant.foreman_id : "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.employee_name : "None" %></option>
             <% @project.foremen.reject { |foremen| foremen.id == @plant.foreman_id }.each do |foreman| %>
               <option value="<%= foreman.id %>">
-                <%= foreman.employee.employee_name %>
+                <%= Employee.find_by_id(foreman.employee_id).employee_name rescue "N/A" %>
               </option>
             <% end %>
           </select>
