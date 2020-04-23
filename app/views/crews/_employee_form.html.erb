@@ -1,0 +1,87 @@
+<div id="layoutAuthentication_content">
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7">
+          <div class="card shadow-lg border-0 rounded-lg mt-5">
+            <div class="card-body">
+              <%= form_with(model: [@project, crew]) do |form| %>
+                <% if crew.errors.any? %>
+                  <div id="error_explanation">
+                    <h2><%= pluralize(crew.errors.count, "error") %> prohibited this crew from being saved:</h2>
+
+                    <ul>
+                      <% crew.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <%= form.label :foreman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= @foreman_name %>
+                      <%= hidden_field_tag 'foreman_id', params[:id] %>
+                      <%= hidden_field_tag 'employee', true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-3">
+                    <%= form.label :Employees, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <% if params[:action].eql?("edit") %>
+                        <select name="plant[plant_id]" id="plant_id" class="form-control">
+                          <% @crews.each do |employee| %>
+                            <option value="<%= employee.id %>">
+                              <%= employee.employee_name %>
+                            </option>
+                          <% end %>
+                        </select>
+                      <% else %>
+                        <%= form.select :employee_ids, options_for_select(@crews.reject {|employee| @crews.pluck(:employee_id).include?(employee.id)}.map {|c| [c.employee_name, c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <%= link_to "Cancel", "/projects/#{@project.id}/crews/#{params[:id]}/employees_list", :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3"></div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').selectpicker();
+    });
+</script>

@@ -12,6 +12,8 @@ class Employee < ApplicationRecord
   belongs_to :other_managers, optional: true
   has_many :project_employees
   has_many :budget_holders
+  # has_many :employee_types
+  has_many :crews
 
   enum gender: {
       Male: 0,
