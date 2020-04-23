@@ -49,7 +49,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="text-white mb-3">
-              <input id="datepicker_search_bar" width="270" placeholder="<%= Time.now.strftime("%m/%d/%Y") %>"/>
+              <input id="datepicker_search_bar" width="270" readonly placeholder="<%= Time.now.strftime("%m/%d/%Y") %>"/>
             </div>
           </div>
         </div>
@@ -220,7 +220,8 @@
         });
     });
     $('#datepicker_search_bar').datepicker({
-        uiLibrary: 'bootstrap'
+        uiLibrary: 'bootstrap',
+        maxDate: new Date()
     });
     $('#datepicker_search_bar').change(function () {
         var celender_date = $("#datepicker_search_bar").val();
@@ -232,7 +233,8 @@
         })
     });
     $('#datepicker_copy_from_previous').datepicker({
-        uiLibrary: 'bootstrap'
+        uiLibrary: 'bootstrap',
+        maxDate: new Date()
     });
     $('#datepicker_copy_from_previous').change(function () {
         var celender_date = $("#datepicker_copy_from_previous").val();
