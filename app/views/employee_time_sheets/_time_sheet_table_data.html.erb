@@ -9,9 +9,13 @@
       <td><%= employee_time_sheet.project_company_id %></td>
       <td><%= employee_time_sheet.manager %></td>
       <td><%= employee_time_sheet.foreman_name %></td>
-      <td>
-        <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
-      </td>
+      <% if employee_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
+        <td>
+          <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
+        </td>
+      <% else %>
+        <td><%= employee_time_sheet.total_hours %></td>
+      <% end %>
       <% for i in 0..4 %>
         <% if @cost_codes[i].present? %>
           <td><%= @cost_codes[i].cost_code %>
@@ -69,6 +73,6 @@
           <td>0</td>
         <% end %>
       <% end %>
+      <% end %>
     </tr>
-  <% end %>
 <% end %>
