@@ -8,7 +8,7 @@ class ClientCompany < ApplicationRecord
   has_many :plants, dependent: :destroy
 
   validates :address, presence: true
-  validates :company_name, :company_id, uniqueness: true, :case_sensitive => false
+  validates_uniqueness_of :company_name, :company_id, :case_sensitive => false
   validates :phone,
             :numericality => true,
             :length => { :minimum => 5, :maximum => 15 }

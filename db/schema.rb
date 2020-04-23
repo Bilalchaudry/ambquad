@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_102441) do
     t.string "WBS_04_Description"
     t.string "WBS_05"
     t.string "WBS_05_Description"
+    t.date "budget_holder_start_date"
   end
 
   create_table "crews", force: :cascade do |t|
