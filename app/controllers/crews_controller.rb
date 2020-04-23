@@ -87,12 +87,12 @@ class CrewsController < ApplicationController
   end
 
   def plants_list
-    @all_plants = @project.crews.get_all_plants
+    @all_plants = @project.crews.get_all_plants(params[:id])
     @plants = @all_plants.where(foreman_id: params[:id])
   end
 
   def employees_list
-    @all_plants = @project.crews.get_all_employees
+    @all_plants = @project.crews.get_all_employees(params[:id])
     @employees = @all_plants.where(foreman_id: params[:id])
   end
 
