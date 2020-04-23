@@ -50,7 +50,7 @@
           <div class="col-xl-4 col-md-6"></div>
           <div class="col-xl-3 col-md-4">
             <div class="text-white mb-3">
-              <input id="datepicker_search_bar" width="270" placeholder="Select Date"/>
+              <input id="datepicker_search_bar" width="270" placeholder="<%= Time.now.strftime("%m/%d/%Y") %>"/>
             </div>
           </div>
 
@@ -232,7 +232,6 @@
             url: '/projects/<%= @project.id %>/plant_time_sheets',
             data: { date: formated_date , search_date: 'true' }
         })
-
     });
 
     $('#datepicker_copy_from_previous').datepicker({
@@ -243,6 +242,7 @@
     {
         var celender_date = $("#datepicker_copy_from_previous").val();
         var formated_date = formatDate(celender_date);
+        $("#datepicker_copy_from_previous").val("");
 
         $.ajax({
             type: "GET",
