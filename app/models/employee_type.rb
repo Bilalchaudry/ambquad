@@ -18,7 +18,7 @@ class EmployeeType < ApplicationRecord
             return error = "Validation Failed. Employee Type Empty in File, Error on Row: #{i}"
           end
 
-          exist_employee_type = project.employee_types.where("lower(employee_type) = ?",  row[0].strip.downcase)
+          exist_employee_type = project.employee_types.where("lower(employee_type) = ?", row[0].strip.downcase)
           if exist_employee_type.present?
             return error = "Validation Failed Employee Type Already Exist in Project, Error on Row: #{i}"
           end
@@ -33,6 +33,9 @@ class EmployeeType < ApplicationRecord
         rescue => e
           return e.message
         end
+      end
+      if @employee_type.empty?
+        return error = "Validation Failed. Please Insert some data in File."
       end
       EmployeeType.import @employee_type
       error = 'File Import Successfully'

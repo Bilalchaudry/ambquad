@@ -61,7 +61,7 @@ class Plant < ApplicationRecord
             row[2] = plant_type.id
           end
 
-          project_company = ProjectCompany.where("lower(company_name) = ?", row[3].strip.downcase).first
+          project_company = project.project_companies.where("lower(company_name) = ?", row[3].strip.downcase).first
           if project_company.nil?
             return error = "Validation Failed Project Company must Exist, Error on Row: #{i}"
           else
@@ -108,6 +108,9 @@ class Plant < ApplicationRecord
         rescue => e
           e.message
         end
+      end
+      if @plant.empty?
+        return error = "Validation Failed. Please Insert some data in File."
       end
       Plant.import @plant
       error = 'File Import Successfully'

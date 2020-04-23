@@ -3,6 +3,6 @@ var client_companies_path = "/projects/" + <%= @project.id %> +"/other_managers"
 location.href = client_companies_path
 alert("Other Manager deleted successfully")
 <% else %>
-alert("Other Manager can not deleted because Company is linked with Project.")
+alert("Other Manager can not deleted because Other Manager is linked with associative records.")
 
 <% end %>
