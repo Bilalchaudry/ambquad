@@ -59,7 +59,7 @@ class OtherManagersController < ApplicationController
   # DELETE /other_managers/1.json
   def destroy
     begin
-      if @other_manager.nil?
+      if @other_manager.nil? || @other_manager.employee.present?
         respond_to do |format|
           format.js
         end

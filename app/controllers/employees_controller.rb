@@ -78,9 +78,9 @@ class EmployeesController < ApplicationController
 
   def import
     file = params[:file]
-    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
-      f.write(file.read)
-    end
+    # File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+    #   f.write(file.read)
+    # end
     user = current_user
     errors = Employee.import_file(params[:file], user, @project)
     if errors == nil

@@ -1,7 +1,6 @@
 <%= form_with(model: [@project, employee], local: true) do |form| %>
   <%= render 'layouts/error_messages', object: form.object %>
 
-
   <% if params[:action].eql?("new") %>
     <div class="form-row">
       <%= form.label :employee_name, "Employee Name", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
@@ -80,7 +79,11 @@
       <%= form.label :employee_type, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
       <div class="value">
         <div class="input-group">
-          <%= form.text_field :employee_type, :class => "form-control py-2", value: @employee.employee_type.employee_type, :disabled => true %>
+          <% if params[:action].eql?("edit") %>
+            <%= form.text_field :employee_type, :class => "form-control py-2", value: @employee.employee_type.employee_type, :readonly => true %>
+          <% else %>
+            <%= form.text_field :employee_type, :class => "form-control py-2" %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -89,7 +92,11 @@
       <%= form.label :project_company, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
       <div class="value">
         <div class="input-group">
-          <%= form.text_field :project_company, :class => "form-control py-2", value: @employee.project_company.company_name, :disabled => true %>
+          <% if params[:action].eql?("edit") %>
+            <%= form.text_field :project_company, :class => "form-control py-2", value: @employee.project_company.company_name, :disabled => true %>
+          <% else %>
+            <%= form.text_field :project_company, :class => "form-control py-2" %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -103,11 +110,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-
 
   <div class="form-row m-b-55">
     <div class="name pt-3">Contract Date</div>

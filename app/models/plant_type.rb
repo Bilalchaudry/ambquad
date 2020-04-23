@@ -8,10 +8,11 @@ class PlantType < ApplicationRecord
 
   def self.import_file(file, project)
     if File.extname(file.original_filename) == '.csv'
-      file_name = file.original_filename
+      csv_text = File.read(file.path)
+      csv = CSV.parse(csv_text, :headers => true)
       i = 0
       @plant_type = []
-      CSV.foreach("public/documents/#{file_name}", headers: true) do |row|
+      csv.each do |row|
         begin
           i = i + 1
 
@@ -19,38 +20,29 @@ class PlantType < ApplicationRecord
             return error = "Validation Failed Plant Type Empty in File, Error on Row: #{i}"
           end
 
-          exist_plant_type = project.plant_types.where(type_name: row[0])
+          exist_plant_type = project.plant_types.where("lower(type_name) = ?",  row[0].strip.downcase)
           if !exist_plant_type.empty?
-            return error = "Validation Failed Plant Type Already Exist in Project, Error on Row: #{i}"
+            return error = "Validation Failed. Plant Type Already Exist in Project, Error on Row: #{i}"
           end
 
           new_plant_type = @plant_type.any? {|a| a.type_name == row[0]}
           if new_plant_type == true
-            return error = "Validation Failed Plant Type Already Exist in File, Error on Row: #{i}"
+            return error = "Validation Failed. Plant Type Already Exist in File, Error on Row: #{i}"
           end
 
-            @plant_type << project.plant_types.new(type_name: row[0], project_id: project.id)
+          @plant_type << project.plant_types.new(type_name: row[0], project_id: project.id)
 
         rescue => e
           return e.message
         end
       end
+      if @plant_type.empty?
+        return error = "Validation Failed. Please Insert some data in File."
+      end
       PlantType.import @plant_type
       error = 'File Import Successfully'
     else
-      spreadsheet = open_spreadsheet(file)
-      if spreadsheet != false
-        header = spreadsheet.row(1)
-        (2..spreadsheet.last_row).each do |i|
-          begin
-            row = Hash[[header, spreadsheet.row(i)].transpose]
-            employee = project.plant_types.create(type_name: row['type_name'], project_id: project.id)
-            employee.save!
-          end
-        end
-      else
-        return false
-      end
+      error = 'Invalid File Format. Please Import CSV Successfully'
     end
   end
 
