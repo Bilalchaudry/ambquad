@@ -1,337 +1,317 @@
-<div id="layoutAuthentication_content">
-  <main>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-body">
-              <%= form_with(model: @user, local: true) do |form| %>
-                <%= render 'layouts/error_messages', object: form.object %>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style ">
+          <div class="card-heading bg-clr">
+            <h4 class="text-center font-weight-light text-white">Edit <%= @user.username %></h4>
+          </div>
+          <div class="card-body">
+            <h3 class="alert-success"><%= notice %></h3>
+            <%= form_with(model: @user, local: true) do |form| %>
+              <%= render 'layouts/error_messages', object: form.object %>
 
 
-                <% if params[:action].eql?("new") %>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :Company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <select name="user[client_company_id]" id="company_id" class="form-control" required>
-                          <option value="<%= @user.client_company.present? ? @user.client_company_id : "" %>"><%= @user.client_company.present? ? @user.client_company.company_name : "None" %></option>
-                          <%= @user.client_compnay.company_name rescue nil %>
-                          <% ClientCompany.all.reject {|company| company.id == @user.client_company_id}.each do |company| %>
-                            <option value="<%= company.id rescue nil %>">
-                              <%= company.company_name rescue nil %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :username, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :username, :class => "form-control py-2", :required => true %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :phone_no, "Phone", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <select name="user[phone_country_code]" id="phone_country_code" class="form-control" required>
-                          <option value=<%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %>><%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %></option>
-                          <% ISO3166::Country.countries.sort.each do |country| %>
-                            <option value="<%= country.emoji_flag + " " + country.country_code %>">
-                              <%= country.emoji_flag + " " + country.country_code %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <%= form.text_field :phone_no, :class => "form-control py-2" %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <% if params[:action].eql?("edit") %>
-                          <%= form.email_field :email, validate: true, :class => "form-control py-2", :disabled => true %>
-                        <% else %>
-                          <%= form.email_field :email, validate: true, :class => "form-control py-2", :required => true %>
+              <% if params[:action].eql?("new") %>
+                <div class="form-row">
+                  <%= form.label :Company, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="user[client_company_id]" id="company_id" class="form-control" required>
+                        <option value="<%= @user.client_company.present? ? @user.client_company_id : "" %>"><%= @user.client_company.present? ? @user.client_company.company_name : "None" %></option>
+                        <%= @user.client_compnay.company_name rescue nil %>
+                        <% ClientCompany.all.reject { |company| company.id == @user.client_company_id }.each do |company| %>
+                          <option value="<%= company.id rescue nil %>">
+                            <%= company.company_name rescue nil %>
+                          </option>
                         <% end %>
-                      </div>
+                      </select>
                     </div>
                   </div>
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :user_id, "User ID", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :user_id, validate: true, :class => "form-control py-2" %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :password, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <% if params[:action].eql?("edit") %>
-                          <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
-                        <% else %>
-                          <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
-                        <% end %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :password_confirmation, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <% if params[:action].eql?("edit") %>
-                          <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
-                        <% else %>
-                          <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
-                        <% end %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :Role, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <select name="user[role]" id="role" class="form-control">
-                          <option value="<%= User.roles[@user.role] rescue nil %>">
-                            <%= @user.role rescue "" %>
-                            <% User.roles.reject {|role| @user.role == role}.each do |key, value| %>
-                            <option value="<%= value %>">
-                              <%= key %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <select name="user[status]" id="status" class="form-control">
-                          <option value="<%= User.statuses[@user.status] rescue nil %>">
-                            <%= @user.status rescue nil %>
-                            <% User.statuses.reject {|status| @user.status == status}.each do |key, value| %>
-                            <option value="<%= value %>">
-                              <%= key %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                <% else %>
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :Company, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :client_company_id, :class => "form-control py-2", value: @user.client_company.company_name,  :disabled => true %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :username, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :username, :class => "form-control py-2", :readonly => true  %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :phone_no, "Phone", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-
-                    <div class="col-md-2">
-                      <div class="form-group">
-                        <select name="user[phone_country_code]" id="phone_country_code" class="form-control" required>
-                          <option value=<%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %>><%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %></option>
-                          <% ISO3166::Country.countries.sort.each do |country| %>
-                            <option value="<%= country.emoji_flag + " " + country.country_code %>">
-                              <%= country.emoji_flag + " " + country.country_code %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <%= form.text_field :phone_no, :class => "form-control py-2" %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :email, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                          <%= form.email_field :email, validate: true, :class => "form-control py-2", :disabled => true %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :user_id, "User ID", :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <%= form.text_field :user_id, validate: true, :class => "form-control py-2", :disabled => true %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :password, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <% if params[:action].eql?("edit") %>
-                          <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
-                        <% else %>
-                          <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
-                        <% end %>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :password_confirmation, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <% if params[:action].eql?("edit") %>
-                          <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
-                        <% else %>
-                          <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
-                        <% end %>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :Role, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <select name="user[role]" id="role" class="form-control">
-                          <option value="<%= User.roles[@user.role] rescue nil %>">
-                            <%= @user.role rescue "" %>
-                            <% User.roles.reject {|role| @user.role == role}.each do |key, value| %>
-                            <option value="<%= value %>">
-                              <%= key %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-
-                  <div class="row">
-                    <div class="col-md-4">
-                      <%= form.label :status, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <select name="user[status]" id="status" class="form-control">
-                          <option value="<%= User.statuses[@user.status] rescue nil %>">
-                            <%= @user.status rescue nil %>
-                            <% User.statuses.reject {|status| @user.status == status}.each do |key, value| %>
-                            <option value="<%= value %>">
-                              <%= key %>
-                            </option>
-                          <% end %>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                <% end %>
-                <hr>
-                <div class="row">
-                  <div class="col-md-3"></div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= link_to "Cancel", users_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3"></div>
                 </div>
+
+
+                <div class="form-row">
+
+                  <%= form.label :username, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :username, :class => "form-control py-2", :required => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row m-b-55">
+                  <div class="name">Phone</div>
+                  <div class="value">
+                    <div class="row row-refine">
+                      <div class="col-3">
+                        <div class="input-group-desc">
+                          <select name="user[phone_country_code]" id="phone_country_code" class="form-control" required>
+                            <option value=<%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %>><%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %></option>
+                            <% ISO3166::Country.countries.sort.each do |country| %>
+                              <option value="<%= country.emoji_flag + " " + country.country_code %>">
+                                <%= country.emoji_flag + " " + country.country_code %>
+                              </option>
+                            <% end %>
+                          </select>
+                          <label class="label--desc">Area Code</label>
+                        </div>
+                      </div>
+                      <div class="col-9">
+                        <div class="input-group-desc">
+                          <%= form.text_field :phone_no, :class => "form-control py-2 input--style-5" %>
+                          <%= form.label :phone_no, :class => "label--desc" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <%= form.label :email, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.email_field :email, validate: true, :class => "form-control py-2", :disabled => true %>
+                      <% else %>
+                        <%= form.email_field :email, validate: true, :class => "form-control py-2", :required => true %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+
+                  <%= form.label :user_id, "User ID", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :user_id, validate: true, :class => "form-control py-2" %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+
+                  <%= form.label :password, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
+                      <% else %>
+                        <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <%= form.label :password_confirmation, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
+                      <% else %>
+                        <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <%= form.label :Role, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="user[role]" id="role" class="form-control">
+                        <option value="<%= User.roles[@user.role] rescue nil %>">
+                          <%= @user.role rescue "" %>
+                          <% User.roles.reject { |role| @user.role == role }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <%= form.label :status, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="user[status]" id="status" class="form-control">
+                        <option value="<%= User.statuses[@user.status] rescue nil %>">
+                          <%= @user.status rescue nil %>
+                          <% User.statuses.reject { |status| @user.status == status }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+              <% else %>
+                <div class="form-row">
+                  <%= form.label :Company, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :client_company_id, :class => "form-control py-2", value: @user.client_company.company_name, :disabled => true %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+
+                  <%= form.label :username, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :username, :class => "form-control py-2", :readonly => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row m-b-55">
+                  <div class="name">Phone</div>
+                  <div class="value">
+                    <div class="row row-refine">
+                      <div class="col-3">
+                        <div class="input-group-desc">
+                          <select name="user[phone_country_code]" id="phone_country_code" class="form-control" required>
+                            <option value=<%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %>><%= @user.phone_country_code.present? ? @user.phone_country_code : "+64" %></option>
+                            <% ISO3166::Country.countries.sort.each do |country| %>
+                              <option value="<%= country.emoji_flag + " " + country.country_code %>">
+                                <%= country.emoji_flag + " " + country.country_code %>
+                              </option>
+                            <% end %>
+                          </select>
+                          <label class="label--desc">Area Code</label>
+                        </div>
+                      </div>
+                      <div class="col-9">
+                        <div class="input-group-desc">
+                          <%= form.text_field :phone_no, :class => "form-control py-2 input--style-5" %>
+                          <%= form.label :phone_no, :class => "label--desc" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <%= form.label :email, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.email_field :email, validate: true, :class => "form-control py-2", :disabled => true %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <%= form.label :user_id, "User ID", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <%= form.text_field :user_id, validate: true, :class => "form-control py-2", :disabled => true %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <%= form.label :password, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
+                      <% else %>
+                        <%= form.password_field :password, validate: true, :class => "form-control py-2" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <%= form.label :password_confirmation, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <% if params[:action].eql?("edit") %>
+                        <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
+                      <% else %>
+                        <%= form.password_field :password_confirmation, :class => "form-control py-2" %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <%= form.label :Role, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="user[role]" id="role" class="form-control">
+                        <option value="<%= User.roles[@user.role] rescue nil %>">
+                          <%= @user.role rescue "" %>
+                          <% User.roles.reject { |role| @user.role == role }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-row">
+                  <%= form.label :status, :class => "mb-1 pt-1 name", :style => 'font-weight:bold' %>
+                  <div class="value">
+                    <div class="input-group">
+                      <select name="user[status]" id="status" class="form-control">
+                        <option value="<%= User.statuses[@user.status] rescue nil %>">
+                          <%= @user.status rescue nil %>
+                          <% User.statuses.reject { |status| @user.status == status }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
               <% end %>
-            </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= form.submit 'Save', :class => 'btn btn-style bg-clr w-100'%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to "Cancel", users_path, :class => 'btn btn-style bg-clr w-100' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div>
+              </div>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
-  </main>
+  </div>
 </div>

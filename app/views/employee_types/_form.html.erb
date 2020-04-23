@@ -1,55 +1,39 @@
-<div id="layoutAuthentication_content">
-  <main>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-body">
-              <%= form_with(model: [@project, employee_type], local: true) do |form| %>
-                <%= render 'layouts/error_messages', object: form.object %>
+<%= form_with(model: [@project, employee_type], local: true) do |form| %>
+  <%= render 'layouts/error_messages', object: form.object %>
 
-                <div class="row">
-                  <div class="col-md-3">
-                    <%= form.label :employee_type, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <% if @employee_type.employees.present? %>
-                        <%= form.text_field :employee_type, :class => "form-control py-2", :readonly => true %>
-                      <% else %>
-                        <%= form.text_field :employee_type, :class => "form-control py-2", :required => true %>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
+  <div class="form-row">
+      <%= form.label :employee_type, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <% if @employee_type.employees.present? %>
+          <%= form.text_field :employee_type, :class => "form-control py-2", :readonly => true %>
+        <% else %>
+          <%= form.text_field :employee_type, :class => "form-control py-2", :required => true %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
-                <hr>
-                <div class="row">
-                  <div class="col-md-3"></div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= link_to "Cancel", project_employee_types_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3"></div>
-                </div>
-              <% end %>
-            </div>
-          </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= form.submit 'Save', :class => 'btn btn-style bg-clr w-100' %>
         </div>
       </div>
     </div>
-  </main>
-</div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= link_to "Cancel", project_employee_types_path, :class => 'btn btn-style bg-clr w-100' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+<% end %>
 <script type="text/javascript">
     $(document).ready(function () {
         $('select').selectpicker();

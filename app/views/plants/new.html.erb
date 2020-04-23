@@ -1,6 +1,22 @@
-<h1>New Plant</h1>
-<div class="card-header">
-  <h3 class="text-center font-weight-light my-4">Create Plant</h3>
-  <%= render 'shared/client_and_project_info' %>
-</div>
-<%= render 'form', plant: @plant %>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr text-white">
+            <h4 class="text-center font-weight-light">Create Plant</h4>
+          </div>
+            <div class="card-body">
+            <%= render 'form', plant: @plant %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

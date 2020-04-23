@@ -14,9 +14,10 @@ class PlantTimeSheetsController < ApplicationController
           @project_plant.each do |project_plant|
             manager_name = project_plant.other_manager.employee.employee_name
             foreman_name = project_plant.foreman.employee.employee_name
-            @plant_time_sheets << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
+            @plant_time_sheets << @project.plant_time_sheets.new(plant_id_str: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
                                                                  foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: params[:date],
-                                                                 foreman_name: foreman_name, manager: manager_name, total_hours: 0)
+                                                                 foreman_name: foreman_name, manager: manager_name, total_hours: 0,
+                                                                 plant_id: project_plant.id)
 
           end
           PlantTimeSheet.import @plant_time_sheets
@@ -37,9 +38,10 @@ class PlantTimeSheetsController < ApplicationController
             exist_data = []
             exist_data = @project.plant_time_sheets.where(plant_id: project_plant.plant_id, plant_create_date: Time.now.strftime("%Y-%m-%d"))
             if exist_data.empty?
-              @plant_time_sheets_copy_data << @project.plant_time_sheets.new(plant_id: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
+              @plant_time_sheets_copy_data << @project.plant_time_sheets.new(plant_id_str: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
                                                                              foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: Time.now.strftime("%Y-%m-%d"),
-                                                                             manager: project_plant.manager, total_hours: project_plant.total_hours)
+                                                                             manager: project_plant.manager, total_hours: project_plant.total_hours,
+                                                                             plant_id: project_plant.id)
             end
           end
           unless @plant_time_sheets_copy_data.empty?
