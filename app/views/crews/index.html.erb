@@ -1,16 +1,17 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <div class="container-fluid">
-        <center>
-          <h3 class="alert-success mt-1"><%= notice %></h3>
-        </center>
-        <h3 class="mt-2 text-center">Crews</h3>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
+      </div>
+      <div class="container-fluid">
         <div class="row">
           <div class="col-xl-6 col-md-6"></div>
           <div class="col-xl-3 col-md-3"></div>
-          <div class="col-xl-3 col-md-3">
+          <div class="col-xl-3 col-md-3 pt-1">
             <div class="card bg-success text-white mb-3">
               <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
@@ -18,6 +19,7 @@
         </div>
 
         <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Crews</div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -32,7 +34,7 @@
                 <tbody>
                 <% @crews.each do |foreman| %>
                   <tr>
-                    <td><%= foreman.employee.employee_name %></td>
+                    <td><%= Employee.find_by_id(foreman.employee_id).employee_name  rescue "N/A" %></td>
                     <td>
                       <%= link_to 'Plant', "/projects/#{@project.id}/crews/#{foreman.id}/plants_list", :class => "btn btn-outline-dark" %>
                       <%= link_to 'Employee', "/projects/#{@project.id}/crews/#{foreman.id}/employees_list", :class => "btn btn-outline-info" %>

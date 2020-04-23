@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-md-6">
                   <div>
-                    <%= @foreman.employee.employee_name %>
+                    <%= Employee.find_by_id(@foreman.employee_id).employee_name %>
                   </div>
                 </div>
               </div>

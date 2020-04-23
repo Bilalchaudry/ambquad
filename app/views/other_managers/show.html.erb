@@ -29,7 +29,7 @@
               </div>
               <div class="col-md-6">
                 <div>
-                  <%= @other_manager.employee.employee_name %>
+                  <%= Employee.find_by_id(@other_manager.employee_id).employee_name rescue "N/A" %>
                 </div>
               </div>
             </div>

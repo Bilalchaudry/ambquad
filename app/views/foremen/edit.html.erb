@@ -10,7 +10,7 @@
       <div class="wrapper wrapper--w790">
         <div class="card card-5 form-border-style">
           <div class="card-heading card-text-clr bg-clr">
-            <h4 class="text-center font-weight-light">Edit Foreman <%= @foreman.employee.employee_name %></h4>
+            <h4 class="text-center font-weight-light">Edit Foreman <%= Employee.find_by_id(@foreman.employee_id).employee_name %></h4>
           </div>
           <div class="card-body">
             <%= render 'form', foreman: @foreman %>

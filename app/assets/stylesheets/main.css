@@ -117,8 +117,9 @@
 }
 
 .notice-style {
+    padding-top: 10px;
     height: 50px;
-    font-size: 20px;
+    font-size: 25px;
     text-align: center;
     margin-bottom: 0px
 }

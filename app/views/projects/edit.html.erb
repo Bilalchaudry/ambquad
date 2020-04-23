@@ -85,28 +85,30 @@
               <input class="field" id="postal_code" style="display: none"/>
 
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :start_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <% if @project.employee_time_sheets.present? || @project.plant_time_sheets.present? %>
-                        <%= form.text_field :start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", disabled: true %>
-                      <% else %>
-                        <%= form.text_field :start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :end_date, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :end_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+
+              <div class="form-row m-b-55">
+                <div class="name pt-3">Project Date</div>
+                <div class="value">
+                  <div class="row row-refine">
+                    <div class="col-5">
+                      <div class="input-group-desc">
+                        <% if @project.employee_time_sheets.present? || @project.plant_time_sheets.present? %>
+                          <%= form.text_field :start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", disabled: true %>
+                        <% else %>
+                          <%= form.text_field :start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
+                        <% end %>
+                        <label class="label--desc">Start Date</label>
+                      </div>
+                    </div>
+                    <div class="col-2 pt-3">
+                      <center> To</center>
+                    </div>
+                    <div class="col-5">
+                      <div class="input-group-desc">
+                        <%= form.text_field :end_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+                        <%= form.label :end_date, :class => "label--desc" %>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -164,7 +166,7 @@
       </div>
     </div>
   </div>
-  </main>
+
 
   <script>
       var input = document.getElementById('autocomplete-edit');
