@@ -8,4 +8,9 @@ module EmployeeTimeSheetsHelper
       end
     end
   end
+
+  def cost_code_time_sheet_id_employee(cost_code_id, employee_time_sheet_id)
+    @cost_code_id = cost_code_id
+    @cost_code_time_sheet_id = @project.time_sheet_cost_codes.where(cost_code_id: @cost_code_id, employee_time_sheet_id: employee_time_sheet_id).ids
+  end
 end

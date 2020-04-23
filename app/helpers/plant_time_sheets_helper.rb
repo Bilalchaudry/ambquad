@@ -9,4 +9,9 @@ module PlantTimeSheetsHelper
       end
     end
   end
+
+  def cost_code_time_sheet_id(cost_code_id, plant_time_sheet_id)
+    @cost_code_id = cost_code_id
+    @cost_code_time_sheet_id = @cost_codes.where(cost_code_id: @cost_code_id, time_sheet_plant_id: plant_time_sheet_id).ids
+  end
 end
