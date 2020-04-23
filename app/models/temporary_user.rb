@@ -1,9 +1,9 @@
 class TemporaryUser < ApplicationRecord
   belongs_to :client_company, optional: true
+
   enum role: {
       Admin: 0,
-      User: 1,
-      Client: 2
+      User: 1
   }
 
   def confirm_email

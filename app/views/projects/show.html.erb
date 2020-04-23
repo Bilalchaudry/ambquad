@@ -59,27 +59,16 @@
                   <div class="" id="nav-tab" role="tablist">
 
                     <div class="row">
+
+
                       <div class="col-xl-3 col-md-6">
-                        <div class="card row1-clr text-white mb-4">
-                          <div class="card-body">Project Employees</div>
+                        <div class="card row3-clr text-white mb-3">
+                          <div class="card-body">Employees</div>
                           <div class="card-footer d-flex align-items-center justify-content-between">
                             <% if @project.employees.present? %>
-                              <%= link_to 'Project Employees Detail', "/projects/#{@project.id}/project_employees", :class => "bold-title-with-color nav-item nav-link small" %>
+                              <%= link_to 'Employees Detail', "/projects/#{@project.id}/employees", :class => "bold-title-with-color nav-item nav-link small" %>
                             <% else %>
-                              <%= link_to 'Project Employees Detail', "/projects/#{@project.id}/project_employees", :class => "bold-title nav-item nav-link bold-title small" %>
-                            <% end %>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xl-3 col-md-6">
-                        <div class="card row1-clr text-white mb-4">
-                          <div class="card-body">Cost Codes</div>
-                          <div class="card-footer d-flex align-items-center justify-content-between">
-                            <% if @project.cost_codes.present? %>
-                              <%= link_to 'Cost Codes Detail', "/projects/#{@project.id}/cost_codes", :class => "bold-title-with-color nav-item nav-link small" %>
-                            <% else %>
-                              <%= link_to 'Cost Codes Detail', "/projects/#{@project.id}/cost_codes", :class => "bold-title nav-item nav-link small" %>
+                              <%= link_to 'Employees Detail', "/projects/#{@project.id}/employees", :class => "bold-title nav-item nav-link small" %>
                             <% end %>
                             <!--                        <a class="small text-white stretched-link" href="#">View Details</a>-->
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -218,20 +207,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-xl-3 col-md-6">
-                        <div class="card row3-clr text-white mb-3">
-                          <div class="card-body">Employees</div>
-                          <div class="card-footer d-flex align-items-center justify-content-between">
-                            <% if @project.employees.present? %>
-                              <%= link_to 'Employees Detail', "/projects/#{@project.id}/employees", :class => "bold-title-with-color nav-item nav-link small" %>
-                            <% else %>
-                              <%= link_to 'Employees Detail', "/projects/#{@project.id}/employees", :class => "bold-title nav-item nav-link small" %>
-                            <% end %>
-                            <!--                        <a class="small text-white stretched-link" href="#">View Details</a>-->
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                          </div>
-                        </div>
-                      </div>
+
                     </div>
 
                     <div class="row">

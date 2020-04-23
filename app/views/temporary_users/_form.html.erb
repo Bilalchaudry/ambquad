@@ -18,7 +18,7 @@
                 <div class="value">
                   <div class="input-group">
                     <select name="temporary_user[client_company_id]" id="client_company_id" class="form-control" required>
-                      <option value=""></option>
+                      <option value="<%= @temporary_user.client_company_id.present? ? @temporary_user.client_company_id : "" %>"><%= @temporary_user.client_company_id.present? ? ClientCompany.find(@temporary_user.client_company_id).company_name : "" %></option>
                       <% ClientCompany.all.each do |company| %>
                         <option value="<%= company.id %>">
                           <%= company.company_name %>
