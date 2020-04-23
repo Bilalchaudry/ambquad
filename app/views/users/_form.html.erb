@@ -23,7 +23,7 @@
                       <select name="user[client_company_id]" id="company_id" class="form-control" required>
                         <option value="<%= @user.client_company.present? ? @user.client_company_id : "" %>"><%= @user.client_company.present? ? @user.client_company.company_name : "None" %></option>
                         <%= @user.client_compnay.company_name rescue nil %>
-                        <% ClientCompany.all.reject { |company| company.id == @user.client_company_id }.each do |company| %>
+                        <% ClientCompany.all.reject {|company| company.id == @user.client_company_id}.each do |company| %>
                           <option value="<%= company.id rescue nil %>">
                             <%= company.company_name rescue nil %>
                           </option>
@@ -130,7 +130,7 @@
                       <select name="user[role]" id="role" class="form-control">
                         <option value="<%= User.roles[@user.role] rescue nil %>">
                           <%= @user.role rescue "" %>
-                          <% User.roles.reject { |role| @user.role == role }.each do |key, value| %>
+                          <% User.roles.reject {|role| @user.role == role}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -148,7 +148,7 @@
                       <select name="user[status]" id="status" class="form-control">
                         <option value="<%= User.statuses[@user.status] rescue nil %>">
                           <%= @user.status rescue nil %>
-                          <% User.statuses.reject { |status| @user.status == status }.each do |key, value| %>
+                          <% User.statuses.reject {|status| @user.status == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -260,7 +260,7 @@
                       <select name="user[role]" id="role" class="form-control">
                         <option value="<%= User.roles[@user.role] rescue nil %>">
                           <%= @user.role rescue "" %>
-                          <% User.roles.reject { |role| @user.role == role }.each do |key, value| %>
+                          <% User.roles.reject {|role| @user.role == role}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -278,7 +278,7 @@
                       <select name="user[status]" id="status" class="form-control">
                         <option value="<%= User.statuses[@user.status] rescue nil %>">
                           <%= @user.status rescue nil %>
-                          <% User.statuses.reject { |status| @user.status == status }.each do |key, value| %>
+                          <% User.statuses.reject {|status| @user.status == status}.each do |key, value| %>
                           <option value="<%= value %>">
                             <%= key %>
                           </option>
@@ -295,7 +295,7 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <%= form.submit 'Save', :class => 'btn btn-style bg-clr w-100'%>
+                      <%= form.submit 'Save', :class => 'btn btn-style bg-clr w-100' %>
                     </div>
                   </div>
                 </div>

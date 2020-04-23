@@ -33,12 +33,8 @@ class TemporaryUsersController < ApplicationController
     # @user.password_confirmation = params[:temporary_user][:password_confirmation]
     #
     respond_to do |format|
-      if @temporary_user.save
-        @user.save
-        if @user.save == true
-          # MailSendJob.perform_later(@user)
-          @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
-        end
+      if @temporary_user.save && @user.save
+        @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
         format.html {redirect_to users_path, notice: 'User is successfully created.'}
         format.json {render :show, status: :created, location: @temporary_user}
       else
@@ -84,7 +80,7 @@ class TemporaryUsersController < ApplicationController
   def temporary_user_params
     pp = params.require(:temporary_user).permit(:first_name, :last_name, :phone_no, :email, :username,
                                                 :password, :encrypted_password, :client_company_id, :country_name,
-                                                :status, :user_id, :role,  :phone_country_code, :password_confirmation)
+                                                :status, :user_id, :role, :phone_country_code, :password_confirmation)
     pp[:role] = params[:temporary_user][:role].to_i
     pp[:status] = params[:temporary_user][:status].to_i
     return pp
