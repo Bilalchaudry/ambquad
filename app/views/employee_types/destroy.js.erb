@@ -3,6 +3,6 @@ var client_companies_path = "/projects/" + <%= @project.id %> + "/employee_types
 location.href = client_companies_path
 alert("Employee Type deleted successfully")
 <% else %>
-alert("Employee Type can not deleted because Company is linked with Project.")
+alert("Employee Type can not deleted because Employee TYpe is linked with associative records.")
 
 <% end %>

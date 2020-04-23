@@ -36,6 +36,9 @@ class PlantType < ApplicationRecord
           return e.message
         end
       end
+      if @plant_type.empty?
+        return error = "Validation Failed. Please Insert some data in File."
+      end
       PlantType.import @plant_type
       error = 'File Import Successfully'
     else

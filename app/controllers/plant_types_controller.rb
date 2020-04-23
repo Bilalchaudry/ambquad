@@ -57,7 +57,7 @@ class PlantTypesController < ApplicationController
   # DELETE /plant_types/1.json
   def destroy
     begin
-      if @plant_type.nil?
+      if @plant_type.nil? && @plant_type.plants.present?
         respond_to do |format|
           format.js
         end

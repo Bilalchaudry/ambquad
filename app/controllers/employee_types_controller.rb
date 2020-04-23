@@ -29,11 +29,11 @@ class EmployeeTypesController < ApplicationController
     @employee_type = @project.employee_types.new(employee_type_params)
     respond_to do |format|
       if @employee_type.save
-        format.html { redirect_to "/projects/#{@project.id}/employee_types", notice: 'Employee type was successfully created.' }
-        format.json { render :show, status: :created, location: @employee_type }
+        format.html {redirect_to "/projects/#{@project.id}/employee_types", notice: 'Employee type was successfully created.'}
+        format.json {render :show, status: :created, location: @employee_type}
       else
-        format.html { render :new }
-        format.json { render json: @employee_type.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @employee_type.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -43,11 +43,11 @@ class EmployeeTypesController < ApplicationController
   def update
     respond_to do |format|
       if @employee_type.update(employee_type_params)
-        format.html { redirect_to "/projects/#{@project.id}/employee_types", notice: 'Employee type was successfully updated.' }
-        format.json { render :show, status: :ok, location: @employee_type }
+        format.html {redirect_to "/projects/#{@project.id}/employee_types", notice: 'Employee type was successfully updated.'}
+        format.json {render :show, status: :ok, location: @employee_type}
       else
-        format.html { render :edit }
-        format.json { render json: @employee_type.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @employee_type.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -56,13 +56,15 @@ class EmployeeTypesController < ApplicationController
   # DELETE /employee_types/1.json
   def destroy
     begin
-      if @employee_type.nil?
+      if @employee_type.employees.present?
         respond_to do |format|
           format.js
         end
       else
-        @employee_type.destroy
-        @destroy = true
+        if @employee_type.destroy
+          @destroy = true
+        else
+        end
         respond_to do |format|
           format.js
         end
@@ -89,21 +91,22 @@ class EmployeeTypesController < ApplicationController
     send_file(
         "#{Rails.root}/public/documents/employee_type_template.csv",
         filename: "employee_type_template.csv",
-        )
+    )
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_employee_type
-      @employee_type = EmployeeType.find(params[:id])
-    end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_employee_type
+    @employee_type = EmployeeType.find(params[:id])
+  end
 
   def get_project
     @project = Project.find(params[:project_id])
   end
 
-    # Only allow a list of trusted parameters through.
-    def employee_type_params
-      params.require(:employee_type).permit(:employee_type)
-    end
+  # Only allow a list of trusted parameters through.
+  def employee_type_params
+    params.require(:employee_type).permit(:employee_type)
+  end
 end
