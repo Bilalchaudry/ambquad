@@ -49,6 +49,8 @@ Rails.application.routes.draw do
 
     resources :cost_codes do
       collection do
+        get :select_cost_codes
+        post :assign_cost_codes
         post :import
         get :download_template
       end

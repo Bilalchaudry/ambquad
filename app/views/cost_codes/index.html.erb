@@ -9,10 +9,13 @@
         <%= render 'shared/client_and_project_info' %>
         <div class="row">
           <div class="col-xl-6 col-md-6"></div>
-
           <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-3">
               <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+
+              <div class="card bg-success text-white mb-3">
+                <%= link_to 'Assign Cost Codes', "/projects/#{@project.id}/cost_codes/select_cost_codes", :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
 
@@ -29,6 +32,7 @@
               <%= link_to 'Download Template', download_template_project_cost_codes_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
+
         </div>
         <div class="card mb-4">
           <div class="card-body">
@@ -54,7 +58,7 @@
                     <td>
                       <%= link_to 'View', "/projects/#{@project.id}/cost_codes/#{cost_code.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', "/projects/#{@project.id}/cost_codes/#{cost_code.id}/edit", :class => "btn btn-outline-info" %>
-                      <%= link_to 'Delete', "/projects/#{@project.id}/cost_codes/#{cost_code.id}", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", remote: true  %>
+                      <%= link_to 'Delete', "/projects/#{@project.id}/cost_codes/#{cost_code.id}", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", remote: true %>
                     </td>
                   </tr>
                 <% end %>
