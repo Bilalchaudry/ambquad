@@ -47,11 +47,10 @@ class PlantsController < ApplicationController
         plant_manager = OtherManager.find(manager_id).employee.employee_name rescue nil
         foreman_id = params[:plant][:other_manager_id]
         plant_foreman = Foreman.find(foreman_id).employee.employee_name rescue nil
-        @project.plant_time_sheets.create(plant_id: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
+        @project.plant_time_sheets.create(plant_id_str: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
                                           project_company_id: params[:plant][:project_company_id],
                                           foreman_id: params[:plant][:foreman_id], manager: plant_manager,
-                                          plant_id_int: @plant.id,
-                                          # project_company_id: @project.client_company_id,
+                                          plant_id: @plant.id,
                                           plant_create_date: Time.now.strftime("%Y-%m-%d"),
                                           company: @project.client_company.company_name, foreman_name: plant_foreman, total_hours: 0)
 
@@ -147,7 +146,7 @@ class PlantsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def plant_params
-    pp = params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
+    pp = params.require(:plant).permit(:plant_name, :plant_id_str, :plant_type_id, :project_company_id,
                                        :contract_start_date, :contract_end_date, :market_value,
                                        :offload, :foreman_id, :other_manager_id, :status)
     pp[:status] = params[:plant][:status].to_i
