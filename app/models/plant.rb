@@ -15,8 +15,8 @@ class Plant < ApplicationRecord
   auto_strip_attributes :plant_name
 
   # validates :contract_start_date, :contract_end_date, presence: true
-  validate :contract_end_date_after_contract_start_date
-  validate :start_date_equar_or_greater_today_date
+  # validate :contract_end_date_after_contract_start_date
+  # validate :start_date_equar_or_greater_today_date
 
 
   enum status: {
@@ -56,6 +56,14 @@ class Plant < ApplicationRecord
             return error = "Validation Failed Plant Field Empty in File, Error on Row: #{i}"
           end
 
+          if (project.start_date..project.end_date).cover?(Date.parse(row[4])) || (project.start_date..project.end_date).cover?(Date.parse(row[5]))
+            return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
+          end
+
+          if Date.parse(row[4]) > Date.parse(row[5])
+            return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
+          end
+
           plant_type = PlantType.where(type_name: row[2].strip).first
           if plant_type.nil?
             return error = "Validation Failed Plant Type must Exist, Error on Row: #{i}"
@@ -73,11 +81,11 @@ class Plant < ApplicationRecord
           if row[6].present?
             name_foreman = Employee.where(employee_name: row[6].strip).first
             if name_foreman.nil?
-              return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
+              return error = "Validation Failed.Foreman must Exist, Error on Row: #{i}"
             else
               id_foreman = Foreman.where(employee_id: name_foreman.id).first
               if id_foreman.nil?
-                return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
+                return error = "Validation Failed. Foreman must Exist, Error on Row: #{i}"
               else
                 row[6] = id_foreman.id
               end

@@ -60,7 +60,7 @@ class Employee < ApplicationRecord
           i = i + 1
 
           if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[5].nil? || row[6].nil? || row[12].nil?
-            return error = "Validation Failed Employee Field Empty in File, Error on Row: #{i}"
+            return error = "Validation Failed.Employee Field Empty in File, Error on Row: #{i}"
           end
 
 
@@ -98,8 +98,8 @@ class Employee < ApplicationRecord
             return error = "Validation Failed. Email Already Exist, Error on Row: #{i}"
           end
 
-          if Date.parse(row[5]) < Date.today
-            return error = "Validation Failed. Date can't be in past, Error on Row: #{i}"
+          if (project.start_date..project.end_date).cover?(Date.parse(row[5])) || (project.start_date..project.end_date).cover?(Date.parse(row[6]))
+            return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
           end
 
           if Date.parse(row[5]) > Date.parse(row[6])

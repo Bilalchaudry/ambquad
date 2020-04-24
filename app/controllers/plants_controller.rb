@@ -74,31 +74,35 @@ class PlantsController < ApplicationController
   # PATCH/PUT /plants/1
   # PATCH/PUT /plants/1.json
   def update
+    if ((@plant.start_date..@project.end_date).cover?(params[:plant][:foreman_start_date]))
+      respond_to do |format|
+        # if @plant.foreman_id.eql?(params[:plant][:foreman_id])
+        if @plant.update(plant_params)
 
-    respond_to do |format|
-      # if @plant.foreman_id.eql?(params[:plant][:foreman_id])
-      if @plant.update(plant_params)
-
-        format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.'}
-        format.json {render :show, status: :ok, location: @plant}
-      else
-        format.html {render :edit}
-        format.json {render json: @plant.errors, status: :unprocessable_entity}
+          format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.'}
+          format.json {render :show, status: :ok, location: @plant}
+        else
+          format.html {render :edit}
+          format.json {render json: @plant.errors, status: :unprocessable_entity}
+        end
+        # else
+        #   @duplicate_record = @plant.dup
+        #   @duplicate_record.foreman_id = params[:plant][:foreman_id]
+        #   @duplicate_record.foreman_start_date = Date.today
+        #   @duplicate_record.foreman_end_date = duplicate_record.contract_end_date
+        #
+        #   if @duplicate_record.save && @plant.update(foremane_end_date: Date.today)
+        #     format.html {redirect_to @duplicate_record, notice: 'Plant was successfully updated.'}
+        #     format.json {render :show, status: :ok, location: @duplicate_record}
+        #   else
+        #     format.html {render :edit}
+        #     format.json {render json: @duplicate_record.errors, status: :unprocessable_entity}
+        #   end
+        # end
       end
-      # else
-      #   @duplicate_record = @plant.dup
-      #   @duplicate_record.foreman_id = params[:plant][:foreman_id]
-      #   @duplicate_record.foreman_start_date = Date.today
-      #   @duplicate_record.foreman_end_date = duplicate_record.contract_end_date
-      #
-      #   if @duplicate_record.save && @plant.update(foremane_end_date: Date.today)
-      #     format.html {redirect_to @duplicate_record, notice: 'Plant was successfully updated.'}
-      #     format.json {render :show, status: :ok, location: @duplicate_record}
-      #   else
-      #     format.html {render :edit}
-      #     format.json {render json: @duplicate_record.errors, status: :unprocessable_entity}
-      #   end
-      # end
+    else
+      @plant.errors.add(:base, 'Date should be sub set of project start and end date.')
+      render :action => 'edit'
     end
   end
 
@@ -156,7 +160,7 @@ class PlantsController < ApplicationController
   def plant_params
     pp = params.require(:plant).permit(:plant_name, :plant_id, :plant_id_str, :plant_type_id, :project_company_id,
                                        :contract_start_date, :contract_end_date, :market_value,
-                                       :offload, :foreman_id, :other_manager_id, :status)
+                                       :offload, :foreman_id, :other_manager_id, :status, :foreman_start_date)
     pp[:status] = params[:plant][:status].to_i
 
     return pp

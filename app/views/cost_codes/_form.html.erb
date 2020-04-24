@@ -3,7 +3,6 @@
 
   <% if params[:action].eql?("edit") %>
 
-
     <div class="form-row">
       <%= form.label :budget_holder, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
       <div class="value">
@@ -20,7 +19,7 @@
       </div>
     </div>
 
-    <% if @project.employee_time_sheets.present? %>
+    <% if TimeSheetCostCode.find_by_cost_code_id(@cost_code.id).present? %>
       <div class="form-row">
         <%= form.label :budget_holder_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">

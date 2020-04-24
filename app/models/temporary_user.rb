@@ -1,9 +1,14 @@
 class TemporaryUser < ApplicationRecord
   belongs_to :client_company, optional: true
   auto_strip_attributes :username
+
   enum role: {
       Admin: 0,
       User: 1
+  }
+  enum status: {
+      Active: 0,
+      Inactive: 1
   }
 
   def confirm_email

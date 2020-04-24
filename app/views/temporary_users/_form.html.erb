@@ -114,9 +114,14 @@
                 <div class="value">
                   <div class="input-group">
                     <select name="temporary_user[role]" id="role" class="form-control" required>
-                      <option value="<%= @temporary_user.role rescue nil %>">
-                        <%= @temporary_user.role rescue nil %>
-                        <% User.roles.each do |key, value| %>
+                      <% if @temporary_user.role.present? %>
+                        <option value="<%= @temporary_user.role rescue nil %>">
+                          <%= @temporary_user.role rescue nil %>
+                      <% else %>
+                        <option value="">
+                          <%= nil %>
+                      <% end %>
+                      <% TemporaryUser.roles.each do |key, value| %>
                         <option value="<%= value %>">
                           <%= key %>
                         </option>
@@ -134,7 +139,7 @@
                     <select name="temporary_user[status]" id="role" class="form-control" required>
                       <option value="<%= @temporary_user.status rescue nil %>">
                         <%= @temporary_user.status rescue nil %>
-                        <% User.statuses.each do |key, value| %>
+                        <% TemporaryUser.statuses.each do |key, value| %>
                         <option value="<%= value %>">
                           <%= key %>
                         </option>

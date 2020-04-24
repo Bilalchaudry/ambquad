@@ -60,14 +60,19 @@ class EmployeesController < ApplicationController
   # PATCH/PUT /employees/1
   # PATCH/PUT /employees/1.json
   def update
-    respond_to do |format|
-      if @employee.update(employee_params)
-        format.html {redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully updated.'}
-        format.json {render :show, status: :ok, location: @employee}
-      else
-        format.html {render :edit}
-        format.json {render json: @employee.errors, status: :unprocessable_entity}
+    if ((@project.start_date..@project.end_date).cover?(params[:employee][:foreman_start_date]))
+      respond_to do |format|
+        if @employee.update(employee_params)
+          format.html {redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully updated.'}
+          format.json {render :show, status: :ok, location: @employee}
+        else
+          format.html {render :edit}
+          format.json {render json: @employee.errors, status: :unprocessable_entity}
+        end
       end
+    else
+      @employee.errors.add(:base,  'Date should be sub set of project start and end date.')
+      render :action => 'edit'
     end
   end
 
@@ -128,7 +133,8 @@ class EmployeesController < ApplicationController
                                                       :contract_start_date, :contract_end_date, :phone_country_code,
                                                       :status, :project_company_id, :project_id,
                                                       :other_manager_id, :foreman_id, :project_role,
-                                                      :employee_type_id, :country_name, :client_company_id)
+                                                      :employee_type_id, :country_name, :client_company_id,
+                                                      :foreman_start_date)
     employe_params[:gender] = params[:employee][:gender].to_i
     employe_params[:status] = params[:employee][:status].to_i
     return employe_params

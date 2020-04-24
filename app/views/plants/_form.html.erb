@@ -103,7 +103,14 @@
       <div class="row row-refine">
         <div class="col-5">
           <div class="input-group-desc">
-            <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+            <% if @plant.plant_time_sheets.present? && params[:action].eql?("edit") %>
+              <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :disabled => true %>
+            <% else %>
+
+              <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+
+            <% end %>
+
             <label class="label--desc">Contract Start Date</label>
           </div>
         </div>
@@ -112,11 +119,7 @@
         </div>
         <div class="col-5">
           <div class="input-group-desc">
-            <% if @plant.plant_time_sheets.present? && params[:action].eql?("edit") %>
-              <%= form.text_field :contract_start_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :disabled => true %>
-            <% else %>
-              <%= form.text_field :contract_start_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
-            <% end %>
+            <%= form.text_field :contract_end_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
             <%= form.label :contract_end_date, :class => "label--desc" %>
           </div>
         </div>
@@ -146,7 +149,7 @@
         <%= form.label :foreman_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">
           <div class="col-lg-12">
-            <%= form.text_field :foreman_start_date, id: "foreman-st-date", :class => 'form-control py-2 pl-2', 'placeholder' => Time.now.strftime("%m/%d/%Y") %>
+            <%= form.text_field :foreman_start_date, id: "foreman-st-date", :class => 'form-control py-2 pl-2', 'placeholder' => Date.today %>
           </div>
         </div>
       </div>
@@ -205,7 +208,7 @@
     <%= form.label :status, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <select name="plant[status]" id="status" class="form-control">
+        <select name="plant[status]" id="status" class="form-control" required>
           <option value="<%= @plant.status rescue nil %>">
             <%= @plant.status rescue nil %>
             <% Plant.statuses.reject {|status| @plant.status == status}.each do |key, value| %>
@@ -242,8 +245,6 @@
     $(function () {
         $('.start-date').datepicker({
             format: 'yyyy-mm-dd',
-            todayBtn: "linked",
-            todayHighlight: true
         });
         $('.end-date').datepicker({
             format: 'yyyy-mm-dd',
@@ -251,7 +252,7 @@
 
         $('#foreman-st-date').datepicker({
             uiLibrary: 'bootstrap',
-            minDate: new Date()
+            minDate: 0
         });
     })
     ;

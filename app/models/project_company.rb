@@ -22,7 +22,7 @@ class ProjectCompany < ApplicationRecord
         begin
           i = i + 1
 
-          if row[0].nil? || row[3].nil? || row[4].nil? || row[5].nil?
+          if row[0].nil? || row[3].nil? || row[5].nil?
             return error = "Validation Failed. there is Empty Field in File, Error on Row: #{i}"
           end
 
