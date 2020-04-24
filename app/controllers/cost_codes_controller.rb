@@ -57,7 +57,7 @@ class CostCodesController < ApplicationController
   # DELETE /cost_codes/1.json
   def destroy
     begin
-      if @cost_code.nil?
+      if @cost_code.nil? || TimeSheetCostCode.find_by_cost_code_id(@cost_code.id).present?
         respond_to do |format|
           format.js
         end

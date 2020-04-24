@@ -55,7 +55,7 @@ class BudgetHoldersController < ApplicationController
   # DELETE /budget_holders/1.json
   def destroy
     begin
-      if @budget_holder.nil?
+      if @budget_holder.nil? || CostCode.find_by_budget_holder_id(@budget_holder.id).present?
         respond_to do |format|
           format.js
         end

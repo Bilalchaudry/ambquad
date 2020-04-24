@@ -112,7 +112,7 @@
         </div>
         <div class="col-5">
           <div class="input-group-desc">
-            <% if @project.plant_time_sheets.present? && params[:action].eql?("edit") %>
+            <% if @plant.plant_time_sheets.present? && params[:action].eql?("edit") %>
               <%= form.text_field :contract_start_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :disabled => true %>
             <% else %>
               <%= form.text_field :contract_start_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
@@ -126,7 +126,7 @@
 
 
   <% if params[:action].eql?("edit") %>
-    <% if @project.plant_time_sheets.present? %>
+    <% if @plant.plant_time_sheets.present? %>
       <div class="form-row">
         <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">

@@ -4,7 +4,7 @@
     <%= form.label :type_name, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <% if @plant_type.plants.present? %>
+        <% if Plant.find_by_plant_type_id(@plant_type.id).present? %>
           <%= form.text_field :type_name, :class => "form-control py-2", :readonly => true %>
         <% else %>
           <%= form.text_field :type_name, :class => "form-control py-2", :required => true %>

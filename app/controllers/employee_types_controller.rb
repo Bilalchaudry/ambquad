@@ -56,7 +56,7 @@ class EmployeeTypesController < ApplicationController
   # DELETE /employee_types/1.json
   def destroy
     begin
-      if @employee_type.employees.present?
+      if @employee_type.nil? || Employee.find_by_employee_type_id(@employee_type.id).present?
         respond_to do |format|
           format.js
         end

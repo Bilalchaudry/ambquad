@@ -70,27 +70,31 @@ class Plant < ApplicationRecord
             row[3] = project_company.id
           end
 
-          name_foreman = Employee.where(employee_name: row[6].strip).first
-          if name_foreman.nil?
-            return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
-          else
-            id_foreman = Foreman.where(employee_id: name_foreman.id).first
-            if id_foreman.nil?
+          if row[6].present?
+            name_foreman = Employee.where(employee_name: row[6].strip).first
+            if name_foreman.nil?
               return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
             else
-              row[6] = id_foreman.id
+              id_foreman = Foreman.where(employee_id: name_foreman.id).first
+              if id_foreman.nil?
+                return error = "Validation Failed Foreman must Exist, Error on Row: #{i}"
+              else
+                row[6] = id_foreman.id
+              end
             end
           end
 
-          name_other_manager = Employee.where(employee_name: row[7].strip).first
-          if name_other_manager.nil?
-            # return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
-          else
-            id_other_manager = OtherManager.where(employee_id: name_other_manager.id).first
-            if id_other_manager.nil?
+          if row[7].present?
+            name_other_manager = Employee.where(employee_name: row[7].strip).first
+            if name_other_manager.nil?
               # return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
             else
-              row[7] = id_other_manager.id
+              id_other_manager = OtherManager.where(employee_id: name_other_manager.id).first
+              if id_other_manager.nil?
+                # return error = "Validation Failed Other Manager must Exist, Error on Row: #{i}"
+              else
+                row[7] = id_other_manager.id
+              end
             end
           end
 
@@ -104,9 +108,9 @@ class Plant < ApplicationRecord
             row[9] = "Active"
           end
 
-          @plant << @projcet.plants.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
-                              foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
-                              client_company_id: project.client_company_id)
+          @plant << project.plants.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
+                                        foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
+                                        client_company_id: project.client_company_id)
         rescue => e
           e.message
         end

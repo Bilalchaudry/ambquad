@@ -3,6 +3,6 @@ var client_companies_path = "/projects/" + <%= @project.id %> + "/plants"
 location.href = client_companies_path
 alert("Plant deleted successfully")
 <% else %>
-alert("Plant can not deleted because Company is linked with Project.")
+alert("Plant can not deleted because Plant is linked with Project.")
 
 <% end %>

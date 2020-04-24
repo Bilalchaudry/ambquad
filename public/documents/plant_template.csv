@@ -1,1 +1,1 @@
-plant_name,plant_id,plant_type_name,project_company,contract_start_date,contract_end_date,foreman_name,other_manager_name,market_value,status
+plant_name,plant_id,plant_type_name,project_company,contract_start_date(yyyy-mm-dd),contract_end_date(yyyy-mm-dd),foreman_name,other_manager_name,market_value,status

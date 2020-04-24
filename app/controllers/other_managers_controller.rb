@@ -59,7 +59,8 @@ class OtherManagersController < ApplicationController
   # DELETE /other_managers/1.json
   def destroy
     begin
-      if @other_manager.nil? || @other_manager.employee.present?
+      if @other_manager.nil? || Employee.find_by_other_manager_id(@other_manager.id).present? ||
+          Plant.find_by_other_manager_id(@other_manager.id).present?
         respond_to do |format|
           format.js
         end

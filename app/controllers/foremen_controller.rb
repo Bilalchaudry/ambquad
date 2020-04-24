@@ -66,7 +66,8 @@ class ForemenController < ApplicationController
   # DELETE /foremen/1.json
   def destroy
     begin
-      if @foreman.nil?
+      if @foreman.nil? || Employee.find_by_foreman_id(@foreman.id).present? ||
+          Plant.find_by_foreman_id(@foreman.id).present?
         respond_to do |format|
           format.js
         end

@@ -106,7 +106,7 @@ class PlantsController < ApplicationController
   # DELETE /plants/1.json
   def destroy
     begin
-      if @plant.nil?
+      if @plant.nil? || PlantTimeSheet.find_by_plant_id(@plant.id).present?
         respond_to do |format|
           format.js
         end

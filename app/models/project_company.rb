@@ -1,7 +1,7 @@
 class ProjectCompany < ApplicationRecord
   audited
   belongs_to :client_company
-  has_many :employees
+  has_many :employees, dependent: :destroy
   has_many :plants
   has_many :project_plants
   belongs_to :project
