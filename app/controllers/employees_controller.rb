@@ -28,7 +28,7 @@ class EmployeesController < ApplicationController
   def create
 
     @employee = @project.employees.new(employee_params)
-    if ((@project.start_date..@project.end_date).cover?(@employee.contract_start_date)) ||
+    if ((@project.start_date..@project.end_date).cover?(@employee.contract_start_date)) &&
         (@project.start_date..@project.end_date).cover?(@employee.contract_end_date)
       @employee.client_company_id = @project.client_company_id
       @employee.country_name = @project.client_company.country_name
@@ -53,7 +53,8 @@ class EmployeesController < ApplicationController
         end
       end
     else
-      redirect_to new_project_employee_path(@project), notice: "Date should be subset of project start and end date."
+      @employee.errors.add(:base,  'Date should be sub set of project start and end date.')
+      render :action => 'new'
     end
   end
 

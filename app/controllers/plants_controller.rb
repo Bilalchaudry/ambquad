@@ -41,7 +41,7 @@ class PlantsController < ApplicationController
     @plant.foreman_start_date = @plant.contract_start_date
     @plant.foreman_end_date = @plant.contract_end_date
     @plant.client_company_id = @project.client_company_id
-    if ((@project.start_date..@project.end_date).cover?(@plant.contract_start_date)) ||
+    if ((@project.start_date..@project.end_date).cover?(@plant.contract_start_date)) &&
         ((@project.start_date..@project.end_date).cover?(@plant.contract_end_date))
 
       respond_to do |format|
@@ -67,7 +67,8 @@ class PlantsController < ApplicationController
 
       end
     else
-      redirect_to new_project_plant_path(@project), notice: "Date should be subset of project start and end date."
+      @employee.errors.add(:base, 'Date should be sub set of project start and end date.')
+      render :action => 'new'
     end
   end
 
