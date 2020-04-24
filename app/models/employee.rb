@@ -98,7 +98,7 @@ class Employee < ApplicationRecord
             return error = "Validation Failed. Email Already Exist, Error on Row: #{i}"
           end
 
-          if (project.start_date..project.end_date).cover?(Date.parse(row[5])) || (project.start_date..project.end_date).cover?(Date.parse(row[6]))
+          unless (project.start_date..project.end_date).cover?(Date.parse(row[5])) || (project.start_date..project.end_date).cover?(Date.parse(row[6]))
             return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
           end
 
@@ -111,9 +111,11 @@ class Employee < ApplicationRecord
             return error = "Validation Failed. Email Already Exist in File, Error on Row: #{i}"
           end
 
-          exist_employee_phone = Employee.where(phone: row[9].strip)
-          if !exist_employee_phone.empty?
-            return error = "Validation Failed. Phone Already Exist, Error on Row: #{i}"
+          if row[9].present?
+            exist_employee_phone = Employee.where(phone: row[9].strip)
+            if !exist_employee_phone.empty?
+              return error = "Validation Failed. Phone Already Exist, Error on Row: #{i}"
+            end
           end
 
           new_employee_phone = @employee.any? {|a| a.phone == row[9].strip}

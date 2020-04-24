@@ -32,12 +32,10 @@
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-md-3">
-                  <%= form.label :cost_codes, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
+              <div class="form-row">
+                <%= form.label :cost_codes, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+                <div class="value">
+                  <div class="input-group">
                     <% if params[:action].eql?("edit") %>
                       <select name="cost_codes[cost_code_id]" id="cost_code_id" class="form-control">
                         <% @unassign_cost_codes.each do |cost_code| %>
@@ -47,7 +45,8 @@
                         <% end %>
                       </select>
                     <% else %>
-                      <%= form.select :cost_code_ids, options_for_select(@unassign_cost_codes.reject { |cost_code| @unassign_cost_codes.pluck(:cost_code_id).include?(cost_code.id) }.map { |code| [code.cost_code_description, code.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+                      <%#= form.select :cost_code_ids, options_for_select(@unassign_cost_codes.reject { |cost_code| @unassign_cost_codes.pluck(:cost_code_id).include?(cost_code.id) }.map { |code| [code.cost_code_description, code.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+                      <%= form.select :cost_code_ids, options_for_select(@unassign_cost_codes.map {|code| [code.cost_code_id, code.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
                     <% end %>
                   </div>
                 </div>

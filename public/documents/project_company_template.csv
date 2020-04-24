@@ -1,1 +1,1 @@
-company_name,company_summary,project_role,address,country,client_company_name,phone,primary_poc_first_name,primary_poc_last_name,poc_email,poc_country,poc_phone
+company_name,company_summary,project_role,address,country,phone,poc_first_name,poc_last_name,poc_email,poc_country,poc_phone

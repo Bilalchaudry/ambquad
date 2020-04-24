@@ -22,19 +22,19 @@ class ProjectCompany < ApplicationRecord
         begin
           i = i + 1
 
-          if row[0].nil? || row[3].nil? || row[5].nil?
+          if row[0].nil? || row[3].nil?
             return error = "Validation Failed. there is Empty Field in File, Error on Row: #{i}"
           end
 
-          if user.role.eql?("Admin") && user.client_company.company_name.eql?("Ambquad")
-            client_company = ClientCompany.where("lower(company_name) = ?", row[5].strip.downcase)
-            return error = "Validation Failed. Client Company does not exist, Error on Row: #{i}" unless client_company.present?
-            client_company_id = client_company.first.id
-          else
-            client_company = user.client_company.company_name.casecmp(row[5].strip)
-            return error = "Validation Failed. Invalid Client Company name, Error on Row: #{i}" unless client_company
-            client_company_id = user.client_company.id
-          end
+          # if user.role.eql?("Admin") && user.client_company.company_name.eql?("Ambquad")
+          #   client_company = ClientCompany.where("lower(company_name) = ?", row[5].strip.downcase)
+          #   return error = "Validation Failed. Client Company does not exist, Error on Row: #{i}" unless client_company.present?
+          #   client_company_id = client_company.first.id
+          # else
+          #   client_company = user.client_company.company_name.casecmp(row[5].strip)
+          #   return error = "Validation Failed. Invalid Client Company name, Error on Row: #{i}" unless client_company
+          #   client_company_id = user.client_company.id
+          # end
 
           exist_project_company = project.project_companies.where("lower(company_name) = ?", row[0].strip.downcase)
           if exist_project_company.present?
