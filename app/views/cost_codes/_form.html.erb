@@ -8,7 +8,7 @@
         <div class="input-group">
           <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control">
             <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id : "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.employee_name : "None" %></option>
-            <% @project.budget_holders.reject { |budget_holder| budget_holder.id == @cost_code.budget_holder_id }.each do |budget_holder| %>
+            <% @project.budget_holders.reject {|budget_holder| budget_holder.id == @cost_code.budget_holder_id}.each do |budget_holder| %>
               <option value="<%= budget_holder.id %>">
                 <%= budget_holder.employee.employee_name %>
               </option>
@@ -25,7 +25,7 @@
         <div class="input-group">
           <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control">
             <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id : "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.employee_name : "None" %></option>
-            <% @project.budget_holders.reject { |budget_holder| budget_holder.id == @cost_code.budget_holder_id }.each do |budget_holder| %>
+            <% @project.budget_holders.reject {|budget_holder| budget_holder.id == @cost_code.budget_holder_id}.each do |budget_holder| %>
               <option value="<%= budget_holder.id %>">
                 <%= budget_holder.employee.employee_name %>
               </option>
@@ -40,7 +40,7 @@
         <%= form.label :budget_holder_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">
           <div class="input-group">
-            <%= form.text_field :budget_holder_start_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
+            <%= form.text_field :budget_holder_start_date, :class => 'b-end-date form-control py-2', 'placeholder' => "dd-mm-yyyy" %>
           </div>
         </div>
       </div>
@@ -53,11 +53,10 @@
     <%= form.label :cost_code_id, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <% if params[:action].eql?("new") %>
-
-          <%= form.text_field :cost_code_id, :class => "form-control py-2", :required => true %>
-        <% else %>
+        <% if params[:action].eql?("edit") %>
           <%= form.text_field :cost_code_id, :class => "form-control py-2", :disabled => true %>
+        <% else %>
+          <%= form.text_field :cost_code_id, :class => "form-control py-2", :required => true %>
         <% end %>
       </div>
     </div>
@@ -67,7 +66,7 @@
     <%= form.label :cost_code_description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :cost_code_description, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :cost_code_description, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -76,7 +75,7 @@
     <%= form.label :WBS_01, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_01, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_01, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -85,7 +84,7 @@
     <%= form.label :WBS_01_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_01_Description, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_01_Description, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -94,7 +93,7 @@
     <%= form.label :WBS_02, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_02, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_02, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -104,7 +103,7 @@
     <%= form.label :WBS_02_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_02_Description, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_02_Description, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -113,7 +112,7 @@
     <%= form.label :WBS_03, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_03, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_03, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -122,7 +121,7 @@
     <%= form.label :WBS_03_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_03_Description, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_03_Description, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -132,7 +131,7 @@
     <%= form.label :WBS_04, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_04, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_04, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -142,7 +141,7 @@
     <%= form.label :WBS_04_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_04_Description, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_04_Description, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -151,7 +150,7 @@
     <%= form.label :WBS_05, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_05, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_05, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -160,7 +159,7 @@
     <%= form.label :WBS_05_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :WBS_05_Description, :class => "form-control py-2", :required => true %>
+        <%= form.text_field :WBS_05_Description, :class => "form-control py-2" %>
       </div>
     </div>
   </div>
@@ -185,3 +184,13 @@
     <div class="col-md-3"></div>
   </div>
 <% end %>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('.b-end-date').datepicker({
+                format: 'yyyy-mm-dd',
+            });
+        });
+
+    });
+</script>

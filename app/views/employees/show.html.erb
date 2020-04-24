@@ -44,7 +44,7 @@
               </div>
               <div class="col-md-6">
                 <div>
-                  <%= @employee.phone_country_code.to_s + @employee.phone %>
+                  <%= @employee.phone.present? ?  @employee.phone_country_code.to_s + @employee.phone : "N/A" %>
                 </div>
               </div>
             </div>
@@ -129,5 +129,5 @@
       </div>
     </div>
   </div>
-  </main>
+
 </div>

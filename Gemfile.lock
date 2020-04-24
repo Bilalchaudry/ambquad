@@ -51,6 +51,8 @@ GEM
     arel (9.0.0)
     audited (4.9.0)
       activerecord (>= 4.2, < 6.1)
+    auto_strip_attributes (2.6.0)
+      activerecord (>= 4.0)
     autoprefixer-rails (9.7.5)
       execjs
     bcrypt (3.1.13)
@@ -255,6 +257,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-import
   audited (~> 4.9)
+  auto_strip_attributes (~> 2.6)
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
   bootstrap-datepicker-rails

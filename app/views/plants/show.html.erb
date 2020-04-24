@@ -88,7 +88,7 @@
               </div>
               <div class="col-md-6">
                 <div>
-                  <%= @plant.foreman.employee.employee_name rescue "N/A" %>
+                  <%= Employee.find_by_id(@plant.foreman.employee_id).employee_name rescue "N/A" %>
                 </div>
               </div>
             </div>
@@ -111,7 +111,7 @@
               </div>
               <div class="col-md-6">
                 <div>
-                  <%= @plant.other_manager.employee.employee_name rescue "N/A" %>
+                  <%= Employee.find_by_id(@plant.other_manager.employee_id).employee_name rescue "N/A" %>
                 </div>
               </div>
             </div>

@@ -2,7 +2,7 @@ class PlantType < ApplicationRecord
   audited
   belongs_to :project
   has_many :plants
-
+  auto_strip_attributes :type_name
   validates_uniqueness_of :type_name, :scope => :project_id, :case_sensitive => false
 
 

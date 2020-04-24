@@ -186,7 +186,7 @@
                             <% else %>
                               <%= link_to 'View Detail', "/projects/#{@project.id}/plant_types", :class => "bold-title nav-item nav-link small" %>
                             <% end %>
-                           <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                           </div>
                         </div>
                       </div>
@@ -220,38 +220,25 @@
                         </div>
                       </div>
                       <div class="col-xl-3 col-md-6">
-                        <div class="card row3-clr text-white mb-3">
-                          <div class="card-body">Employees</div>
+                        <div class="card row4-clr text-white mb-3">
+                          <div class="card-body">Crews</div>
                           <div class="card-footer d-flex align-items-center justify-content-between">
-                            <% if @project.employees.present? %>
-                              <%= link_to 'View Detail', "/projects/#{@project.id}/employees", :class => "bold-title-with-color nav-item nav-link small" %>
+                            <% if @project.crews.present? %>
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/crews", :class => "bold-title-with-color nav-item nav-link small" %>
                             <% else %>
-                              <%= link_to 'View Detail', "/projects/#{@project.id}/employees", :class => "bold-title nav-item nav-link small" %>
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/crews", :class => "bold-title nav-item nav-link small" %>
                             <% end %>
-                           <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                           </div>
                         </div>
                       </div>
 
-                    </div>
 
-                      <div class="col-xl-3 col-md-6">
-                        <div class="card row4-clr text-white mb-3">
-                          <div class="card-body">Crews</div>
-                          <div class="card-footer d-flex align-items-center justify-content-between">
-                              <% if @project.crews.present? %>
-                                <%= link_to 'View Detail', "/projects/#{@project.id}/crews", :class => "bold-title-with-color nav-item nav-link small" %>
-                              <% else %>
-                                <%= link_to 'View Detail', "/projects/#{@project.id}/crews", :class => "bold-title nav-item nav-link small" %>
-                              <% end %>
-                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                            </div>
-                          </div>
-                        </div>
                     </div>
-
 
                   </div>
+
+
                 </div>
               </div>
             </div>

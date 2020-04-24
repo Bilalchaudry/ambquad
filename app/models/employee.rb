@@ -1,6 +1,6 @@
 class Employee < ApplicationRecord
   audited
-  validates_uniqueness_of :phone, :email, :employee_name, :scope => :project_id, :case_sensitive => false
+  validates_uniqueness_of :email, :employee_name, :scope => :project_id, :case_sensitive => false
 
   after_create :time_sheet_employee
 

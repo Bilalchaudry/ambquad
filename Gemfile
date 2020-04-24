@@ -35,7 +35,7 @@ gem "figaro"
 gem 'activerecord-import'
 
 gem "audited", "~> 4.9"
-
+gem "auto_strip_attributes", "~> 2.6"
 
 gem 'devise-bootstrap-views', '~> 1.0'
 # Use Redis adapter to run Action Cable in production

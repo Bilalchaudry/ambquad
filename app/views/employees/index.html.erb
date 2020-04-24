@@ -43,15 +43,9 @@
                   <th>Employee ID</th>
                   <th>Employee Type</th>
                   <th>Project Company</th>
-                  <!--                  <th>Home Company Role</th>-->
                   <th>Contract start date</th>
                   <th>Contract end date</th>
                   <th>Foreman</th>
-                  <!--                  <th>Other Manager</th>-->
-
-                  <!--                  <th>Phone</th>-->
-                  <!--                  <th>Email</th>-->
-                  <!--                  <th>Gender</th>-->
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -64,15 +58,9 @@
                     <td><%= employee.employee_id %></td>
                     <td><%= employee.employee_type.employee_type rescue "N/A" %></td>
                     <td><%= employee.project_company.company_name rescue "N/A" %></td>
-                    <!--                    <td><%#= employee.home_company_role %></td>-->
                     <td><%= employee.contract_start_date %></td>
                     <td><%= employee.contract_end_date %></td>
-                    <td><%= employee.foreman.employee.employee_name rescue "N/A" %></td>
-                    <!--                    <td><%#= employee.other_manager.employee.first_name rescue "N/A" %></td>-->
-
-                    <!--                    <td><%#= employee.phone %></td>-->
-                    <!--                    <td><%#= employee.email %></td>-->
-                    <!--                    <td><%#= employee.gender %></td>-->
+                    <td><%= Employee.find_by_id(employee.foreman.employee_id).employee_name rescue "N/A" %></td>
                     <td><%= employee.status %></td>
                     <td><%= link_to 'View', "/projects/#{@project.id}/employees/#{employee.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to 'Edit', "/projects/#{@project.id}/employees/#{employee.id}/edit", :class => "btn btn-outline-info" %>

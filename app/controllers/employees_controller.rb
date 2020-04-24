@@ -46,6 +46,9 @@ class EmployeesController < ApplicationController
             format.html {render :new}
             format.json {render json: @employee.errors, status: :unprocessable_entity}
           end
+        else
+          format.html {render :new}
+          format.json {render json: @employee.errors, status: :unprocessable_entity}
         end
       end
     else
@@ -130,4 +133,5 @@ class EmployeesController < ApplicationController
     employe_params[:status] = params[:employee][:status].to_i
     return employe_params
   end
+
 end
