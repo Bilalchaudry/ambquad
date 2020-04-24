@@ -67,7 +67,7 @@ class PlantsController < ApplicationController
 
       end
     else
-      @employee.errors.add(:base, 'Date should be sub set of project start and end date.')
+      @plant.errors.add(:base, 'Date should be sub set of project start and end date.')
       render :action => 'new'
     end
   end
