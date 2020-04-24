@@ -13,6 +13,9 @@
             <div class="card bg-success text-white">
               <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
+            <div class="card bg-success text-white">
+              <%= link_to 'Assign Cost Codes', select_cost_codes_project_cost_codes_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
           </div>
 
           <div class="col-xl-3 col-md-3">
@@ -24,6 +27,8 @@
             <div class="card bg-success text-white">
               <%= link_to 'Download Template', download_template_project_cost_codes_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
+
+
           </div>
           <div class="col-xl-3 col-md-3">
             <%= form_tag import_project_cost_codes_path, multipart: true do %>
