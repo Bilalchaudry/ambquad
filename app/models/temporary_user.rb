@@ -1,6 +1,6 @@
 class TemporaryUser < ApplicationRecord
   belongs_to :client_company, optional: true
-
+  auto_strip_attributes :username
   enum role: {
       Admin: 0,
       User: 1

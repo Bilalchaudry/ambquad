@@ -16,7 +16,7 @@
           </div>
           <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-3">
-              <%= link_to 'New Employee', new_project_crew_path(@project.id, id: params[:id], employee: true), :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to 'Assign Foreman', new_project_crew_path(@project.id, id: params[:id], employee: true), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
                   <th>Project Company</th>
                   <th>Contract start date</th>
                   <th>Contract end date</th>
-                  <th>Foreman</th>
+<!--                  <th>Foreman</th>-->
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -48,7 +48,7 @@
                     <td><%= employee.employee.project_company.company_name rescue "N/A" %></td>
                     <td><%= employee.employee.contract_start_date %></td>
                     <td><%= employee.employee.contract_end_date %></td>
-                    <td><%= employee.employee.foreman.employee.employee_name rescue "N/A" %></td>
+<!--                    <td><%#= employee.employee.foreman.employee.employee_name rescue "N/A" %></td>-->
 
                     <td><%= employee.employee.status %></td>
                     <td>

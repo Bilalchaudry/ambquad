@@ -9,9 +9,7 @@ class ClientCompany < ApplicationRecord
 
   validates :address, presence: true
   validates_uniqueness_of :company_name, :company_id, :case_sensitive => false
-  # validates :phone,
-  #           :numericality => true,
-  #           :length => { :minimum => 5, :maximum => 15 }
+  auto_strip_attributes :company_name
 
   before_destroy :check_for_projects, prepend: true
 

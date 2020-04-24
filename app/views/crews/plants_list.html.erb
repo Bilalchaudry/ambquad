@@ -19,7 +19,7 @@
 
           <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Plant", new_project_crew_path(@project.id, id: params[:id], plant: true), :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to "Assign Plant", new_project_crew_path(@project.id, id: params[:id], plant: true), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
                   <th>Project Company</th>
                   <th>Contract Start Date</th>
                   <th>Contract End Date</th>
-                  <th>Foreman</th>
+<!--                  <th>Foreman</th>-->
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -50,7 +50,7 @@
                     <td><%= plant.plant.project_company.company_name %></td>
                     <td><%= plant.plant.contract_start_date %></td>
                     <td><%= plant.plant.contract_end_date %></td>
-                    <td><%= plant.plant.foreman.employee.employee_name rescue "N/A" %></td>
+<!--                    <td><%#= plant.plant.foreman.employee.employee_name rescue "N/A" %></td>-->
                     <td>
                       <%= link_to "Delete", "/projects/#{@project.id}/crews/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true   %>
                     </td>

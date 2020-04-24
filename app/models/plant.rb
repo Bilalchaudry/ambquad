@@ -8,9 +8,11 @@ class Plant < ApplicationRecord
   belongs_to :foreman, optional: true
   belongs_to :other_manager, optional: true
   has_many :crew
+  has_many :plant_time_sheets
 
 
   validates_uniqueness_of :plant_name, :case_sensitive => false
+  auto_strip_attributes :plant_name
 
   # validates :contract_start_date, :contract_end_date, presence: true
   validate :contract_end_date_after_contract_start_date

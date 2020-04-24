@@ -1,4 +1,5 @@
 <%= form_with(model: client_company, local: true) do |form| %>
+  <%= render 'layouts/error_messages', object: form.object %>
   <% if params[:action].eql?("edit") %>
     <div class="form-row">
       <%= form.label :company_name, 'Company Name', :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>

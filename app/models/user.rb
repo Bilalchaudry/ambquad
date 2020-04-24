@@ -8,6 +8,10 @@ class User < ApplicationRecord
   has_many :projects, :through => :user_projects
   belongs_to :client_company
 
+  auto_strip_attributes :username
+  validates_uniqueness_of :email, :username, uniqueness: true, :case_sensitive => false
+
+
   enum role: {
       User: 0,
       Admin: 1
@@ -30,7 +34,6 @@ class User < ApplicationRecord
     self.confirm_token = nil
   end
 
-  validates_uniqueness_of :email, :username, uniqueness: true, :case_sensitive => false
   # validates :password, :presence =>true, :confirmation =>true
   # validates_confirmation_of :password
 

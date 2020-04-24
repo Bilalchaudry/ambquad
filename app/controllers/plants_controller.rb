@@ -41,25 +41,33 @@ class PlantsController < ApplicationController
     @plant.foreman_start_date = @plant.contract_start_date
     @plant.foreman_end_date = @plant.contract_end_date
     @plant.client_company_id = @project.client_company_id
-    respond_to do |format|
-      if @plant.save
-        manager_id = params[:plant][:other_manager_id]
-        plant_manager = OtherManager.find(manager_id).employee.employee_name rescue nil
-        foreman_id = params[:plant][:other_manager_id]
-        plant_foreman = Foreman.find(foreman_id).employee.employee_name rescue nil
-        @project.plant_time_sheets.create(plant_id_str: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
-                                          project_company_id: params[:plant][:project_company_id],
-                                          foreman_id: params[:plant][:foreman_id], manager: plant_manager,
-                                          plant_id: @plant.id,
-                                          plant_create_date: Time.now.strftime("%Y-%m-%d"),
-                                          company: @project.client_company.company_name, foreman_name: plant_foreman, total_hours: 0)
+    if ((@project.start_date..@project.end_date).cover?(@plant.contract_start_date)) ||
+        ((@project.start_date..@project.end_date).cover?(@plant.contract_end_date))
 
-        format.html { redirect_to project_plants_path, notice: 'Plant was successfully created.' }
-        format.json { render :show, status: :created, location: @plant }
-      else
-        format.html { render :new }
-        format.json { render json: @plant.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @plant.save
+          manager_id = params[:plant][:other_manager_id]
+          plant_manager = OtherManager.find(manager_id).employee.employee_name rescue nil
+          foreman_id = params[:plant][:other_manager_id]
+          plant_foreman = Foreman.find(foreman_id).employee.employee_name rescue nil
+          @project.plant_time_sheets.create(plant_id_str: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
+                                            project_company_id: params[:plant][:project_company_id],
+                                            foreman_id: params[:plant][:foreman_id], manager: plant_manager,
+                                            plant_id: @plant.id,
+                                            plant_create_date: Time.now.strftime("%Y-%m-%d"),
+                                            company: @project.client_company.company_name, foreman_name: plant_foreman, total_hours: 0)
+
+          format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
+          format.json {render :show, status: :created, location: @plant}
+        else
+          format.html {render :new}
+          format.json {render json: @plant.errors, status: :unprocessable_entity}
+        end
+
+
       end
+    else
+      redirect_to new_project_plant_path(@project), notice: "Date should be subset of project start and end date."
     end
   end
 
@@ -146,7 +154,7 @@ class PlantsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def plant_params
-    pp = params.require(:plant).permit(:plant_name, :plant_id, :plant_type_id, :project_company_id,
+    pp = params.require(:plant).permit(:plant_name, :plant_id, :plant_id_str, :plant_type_id, :project_company_id,
                                        :contract_start_date, :contract_end_date, :market_value,
                                        :offload, :foreman_id, :other_manager_id, :status)
     pp[:status] = params[:plant][:status].to_i

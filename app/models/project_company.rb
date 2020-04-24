@@ -4,12 +4,11 @@ class ProjectCompany < ApplicationRecord
   has_many :employees
   has_many :plants
   has_many :project_plants
-
-  # has_many :project_and_project_companies
-  # has_many :projects, :through => :project_and_project_companies, dependent: :destroy
   belongs_to :project
 
+
   validates_uniqueness_of :company_name, :scope => :project_id, :case_sensitive => false
+  auto_strip_attributes :company_name
 
   def self.import_file(file, user, project)
 

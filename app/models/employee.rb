@@ -1,6 +1,9 @@
 class Employee < ApplicationRecord
   audited
   validates_uniqueness_of :email, :employee_name, :scope => :project_id, :case_sensitive => false
+  validates :employee_id, presence: true, uniqueness: {message: "ID already taken"}
+
+  auto_strip_attributes :employee_name, :employee_id
 
   after_create :time_sheet_employee
 

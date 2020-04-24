@@ -4,6 +4,7 @@ class CostCode < ApplicationRecord
   belongs_to :budget_holder, optional: true
 
   validates_uniqueness_of :cost_code_id, :scope => :project_id, :case_sensitive => false
+  auto_strip_attributes :cost_code_id
 
 
   def self.import_file(file, user, project)

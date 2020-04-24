@@ -1,4 +1,4 @@
 class PlantTimeSheet < ApplicationRecord
   audited
-  has_many :plants
+  belongs_to :plant
 end

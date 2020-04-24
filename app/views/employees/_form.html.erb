@@ -164,14 +164,15 @@
         <%= form.label :foreman_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">
           <div class="col-lg-12">
-            <%= form.text_field :foreman_start_date, :class => 'f-start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", value: Date.today %>
+            <%= form.text_field :foreman_start_date, id: "new-foreman-date", :class => 'f-start-date form-control py-2', 'placeholder' => Time.now.strftime("%m/%d/%Y") %>
           </div>
         </div>
       </div>
     <% end %>
+
   <% else %>
     <div class="form-row">
-      <%= form.label :foreman, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
+      <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
       <div class="value">
         <div class="input-group">
           <select name="employee[foreman_id]" id="forman_id" class="form-control">
@@ -234,7 +235,7 @@
     <%= form.label :email, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <%= form.text_field :email, :class => "form-control py-2", :required => true %>
+        <%= form.email_field :email, :class => "form-control py-2", :required => true %>
       </div>
     </div>
   </div>
@@ -295,12 +296,22 @@
 <% end %>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $(function () {
-            $('.f-start-date').datepicker({
-                format: 'yyyy-mm-dd',
-            });
+    $(function () {
+        $('.start-date').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+        $('.end-date').datepicker({
+            format: 'yyyy-mm-dd',
         });
 
+        // $('.f-start-date').datepicker({
+        //     format: 'yyyy-mm-dd',
+        // });
+
+        $('#new-foreman-date').datepicker({
+            uiLibrary: 'bootstrap',
+            minDate: new Date()
+        });
     });
+
 </script>

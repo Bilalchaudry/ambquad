@@ -4,6 +4,7 @@ class EmployeeType < ApplicationRecord
   has_many :employees
 
   validates_uniqueness_of :employee_type, :scope => :project_id, :case_sensitive => false
+  auto_strip_attributes :employee_type
 
   def self.import_file(file, project)
     if File.extname(file.original_filename) == '.csv'

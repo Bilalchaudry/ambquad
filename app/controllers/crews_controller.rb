@@ -100,7 +100,7 @@ class CrewsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_foreman
-    @foreman_name = Foreman.find(params[:id]).employee.employee_name
+    @foreman_name = Employee.find(Foreman.find(params[:id]).employee_id).employee_name
   end
 
   def get_project
