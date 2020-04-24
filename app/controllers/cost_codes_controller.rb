@@ -1,7 +1,7 @@
 class CostCodesController < ApplicationController
   load_and_authorize_resource
   before_action :set_cost_code, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import, :select_cost_codes, :assign_cost_codes]
 
   # GET /cost_codes
   # GET /cost_codes.json
@@ -71,7 +71,26 @@ class CostCodesController < ApplicationController
     rescue => e
       redirect_to "/projects/#{@project.id}/cost_codes", notice: 'Cost Code can not deleted because it is linked with its assosiative records'
     end
+  end
 
+  def select_cost_codes
+    @unassign_cost_codes = @project.cost_codes.where(budget_holder_id: nil)
+    @budget_holders = @project.budget_holders
+  end
+
+  def assign_cost_codes
+    cost_code_ids = params[:cost_code_ids].reject { |e| e.empty? }
+    budget_holder_id = params[:cost_code][:budget_holder_id]
+    if cost_code_ids.present? && budget_holder_id.present?
+      @project.cost_codes.where(id: cost_code_ids).update_all(budget_holder_id: budget_holder_id)
+      respond_to do |format|
+        format.html { redirect_to project_cost_codes_path, notice: 'Cost Code Successfully Assigned' }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to select_cost_codes_project_cost_codes_path, notice: 'Parameter Missing' }
+      end
+    end
   end
 
   def import
