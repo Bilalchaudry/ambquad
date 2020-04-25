@@ -81,7 +81,7 @@ class EmployeesController < ApplicationController
   # DELETE /employees/1.json
   def destroy
     begin
-      if @employee.other_managers.present? || @employee.budget_holders.present?
+      if @employee.other_manager.present? || @employee.budget_holders.present?
         respond_to do |format|
           format.js
         end

@@ -93,9 +93,11 @@ class Employee < ApplicationRecord
             row[3] = project_company.id
           end
 
-          exist_employee_email = Employee.where(email: row[10].strip)
-          if !exist_employee_email.empty?
-            return error = "Validation Failed. Email Already Exist, Error on Row: #{i}"
+          if row[10].present?
+            exist_employee_email = Employee.where(email: row[10].strip)
+            if !exist_employee_email.empty?
+              return error = "Validation Failed. Email Already Exist, Error on Row: #{i}"
+            end
           end
 
           unless (project.start_date..project.end_date).cover?(Date.parse(row[5])) || (project.start_date..project.end_date).cover?(Date.parse(row[6]))
