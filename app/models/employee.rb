@@ -108,9 +108,11 @@ class Employee < ApplicationRecord
             return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
           end
 
-          new_employee_email = @employee.any? {|a| a.email == row[10].strip}
-          if new_employee_email == true
-            return error = "Validation Failed. Email Already Exist in File, Error on Row: #{i}"
+          if row[10].present?
+            new_employee_email = @employee.any? {|a| a.email == row[10].strip}
+            if new_employee_email == true
+              return error = "Validation Failed. Email Already Exist in File, Error on Row: #{i}"
+            end
           end
 
           if row[9].present?
@@ -119,10 +121,11 @@ class Employee < ApplicationRecord
               return error = "Validation Failed. Phone Already Exist, Error on Row: #{i}"
             end
           end
-
-          new_employee_phone = @employee.any? {|a| a.phone == row[9].strip}
-          if new_employee_phone == true
-            return error = "Validation Failed. Phone Already Exist in File, Error on Row: #{i}"
+          if row[9].present?
+            new_employee_phone = @employee.any? {|a| a.phone == row[9].strip}
+            if new_employee_phone == true
+              return error = "Validation Failed. Phone Already Exist in File, Error on Row: #{i}"
+            end
           end
 
           if row[8].present?
