@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_27_070137) do
+ActiveRecord::Schema.define(version: 2020_04_27_115705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,8 @@ ActiveRecord::Schema.define(version: 2020_04_27_070137) do
     t.string "project_role"
     t.string "employee_name"
     t.string "phone_country_code"
+    t.date "foreman_start_date"
+    t.date "foreman_end_date"
     t.index ["employee_type_id"], name: "index_employees_on_employee_type_id"
     t.index ["foreman_id"], name: "index_employees_on_foreman_id"
     t.index ["other_manager_id"], name: "index_employees_on_other_manager_id"

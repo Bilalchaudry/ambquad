@@ -28,13 +28,13 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Employee name</th>
                   <th>Employee ID</th>
+                  <th>Employee name</th>
                   <th>Employee Type</th>
                   <th>Project Company</th>
                   <th>Contract start date</th>
                   <th>Contract end date</th>
-                  <!--                  <th>Foreman</th>-->
+                  <!--                                    <th>Foreman</th>-->
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -43,13 +43,13 @@
                 <tbody>
                 <% @employees.each do |employee| %>
                   <tr>
-                    <td><%= employee.employee.employee_name %></td>
                     <td><%= employee.employee.employee_id %></td>
+                    <td><%= employee.employee.employee_name %></td>
                     <td><%= employee.employee.employee_type.employee_type rescue "N/A" %></td>
                     <td><%= employee.employee.project_company.company_name rescue "N/A" %></td>
                     <td><%= employee.employee.contract_start_date %></td>
                     <td><%= employee.employee.contract_end_date %></td>
-                    <!--                    <td><%#= employee.employee.foreman.employee.employee_name rescue "N/A" %></td>-->
+                    <!--                    <td><%#= Employee.find_by_id(Foreman.find_by_employee_id(employee.employee_id)).employee_name rescue "N/A" %></td>-->
 
                     <td><%= employee.employee.status %></td>
                     <td>

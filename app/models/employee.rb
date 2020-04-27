@@ -188,7 +188,8 @@ class Employee < ApplicationRecord
 
           @employee << project.employees.new(employee_name: row[0], employee_id: row[1], employee_type_id: row[2], project_company_id: row[3], home_company_role: row[4], contract_start_date: row[5],
                                              contract_end_date: row[6], foreman_id: row[7], other_manager_id: row[8], phone: row[9], email: row[10], gender: row[11],
-                                             status: row[12], client_company_id: project.client_company_id)
+                                             status: row[12], client_company_id: project.client_company_id,
+                                             foreman_start_date: row[5])
 
         rescue => e
           return e.message

@@ -118,7 +118,7 @@ class Plant < ApplicationRecord
 
           @plant << project.plants.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
                                         foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
-                                        client_company_id: project.client_company_id)
+                                        client_company_id: project.client_company_id, foreman_start_date: row[4])
         rescue => e
           e.message
         end
