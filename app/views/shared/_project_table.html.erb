@@ -6,9 +6,9 @@
         <thead>
         <tr>
           <th>Name</th>
-          <th>Address</th>
-          <th>Compnay</th>
-          <th>Actions</th>
+          <th>Country</th>
+          <th>Company</th>
+          <th>Project Actions</th>
         </tr>
         </thead>
 
@@ -21,8 +21,8 @@
               <td><%= project.site_office_address %></td>
               <td><%= project.client_company.company_name rescue nil %></td>
               <td>
-                <%= link_to "Project Setup", project_path(project), :class => "btn btn-outline-success" if can? :view, Project %>
-                <%= link_to "Edit Project Details", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project %>
+                <%= link_to "Setup", project_path(project), :class => "btn btn-outline-success" if can? :view, Project %>
+                <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project %>
                 <%= link_to "Delete", project_path(project), data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true if can? :delete, Project %></td>
             </tr>
           <% end %>
@@ -33,8 +33,8 @@
               <td><%= project.site_office_address %></td>
               <td><%= project.client_company.company_name rescue nil %></td>
               <td>
-                <%= link_to "Project Setup", project_path(project), :class => "btn btn-outline-success" if can? :view, Project %>
-                <%= link_to "Edit Project Details", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project %>
+                <%= link_to "Setup", project_path(project), :class => "btn btn-outline-success" if can? :view, Project %>
+                <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project %>
                 <%= link_to "Delete", project_path(project), data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete if can? :delete, Project %></td>
             </tr>
           <% end %>
