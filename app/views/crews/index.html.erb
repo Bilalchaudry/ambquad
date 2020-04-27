@@ -26,6 +26,8 @@
                 <thead>
                 <tr>
                   <th>Foreman name</th>
+                  <th>Employee Type</th>
+                  <th>Project Company</th>
                   <th>Actions</th>
 
                 </tr>
@@ -35,6 +37,8 @@
                 <% @crews.each do |foreman| %>
                   <tr>
                     <td><%= Employee.find_by_id(foreman.employee_id).employee_name  rescue "N/A" %></td>
+                    <td><%= Employee.find_by_id(foreman.employee_id).employee_type.employee_type rescue "N/A" %> </td>
+                    <td><%= Employee.find_by_id(foreman.employee_id).project_company.company_name rescue "N/A" %></td>
                     <td>
                       <%= link_to 'Plant', "/projects/#{@project.id}/crews/#{foreman.id}/plants_list", :class => "btn btn-outline-dark" %>
                       <%= link_to 'Employee', "/projects/#{@project.id}/crews/#{foreman.id}/employees_list", :class => "btn btn-outline-info" %>

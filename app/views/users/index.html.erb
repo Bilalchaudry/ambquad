@@ -43,7 +43,7 @@
                       <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
                       <% unless user.role.eql?("Admin") && user.client_company.company_name.eql?("Ambquad") %>
-                        <%= link_to "Delete", "/users/#{user.id}", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete , remote: true if can? :delete, User%>
+                        <%= link_to "Delete", "/users/#{user.id}", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true if can? :delete, User %>
                       <% end %>
                     </td>
                   </tr>
@@ -57,18 +57,6 @@
 
       </div>
     </main>
-    <footer class="py-4 bg-light mt-auto">
-      <div class="container-fluid">
-        <div class="d-flex align-items-center justify-content-between small">
-          <div class="text-muted">Copyright &copy; Your Website 2019</div>
-          <div>
-            <a href="#">Privacy Policy</a>
-            &middot;
-            <a href="#">Terms &amp; Conditions</a>
-          </div>
-        </div>
-      </div>
-    </footer>
   </div>
 </div>
 

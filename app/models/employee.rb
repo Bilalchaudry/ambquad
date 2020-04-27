@@ -63,6 +63,28 @@ class Employee < ApplicationRecord
             return error = "Validation Failed.Employee Field Empty in File, Error on Row: #{i}"
           end
 
+          exist_employee_name = Employee.where(employee_name: row[0].strip).first
+          if exist_employee_name.present?
+            return error = "Validation Failed. Employee Name Exist, Error on Row: #{i}"
+          end
+
+
+          employee_name = @employee.any? {|a| a.employee_name == row[0].strip}
+          if employee_name
+            return error = "Validation Failed. Employee Name Already Exist in File, Error on Row: #{i}"
+          end
+
+
+          exist_employee_id = Employee.where(employee_id: row[1].strip).first
+          if exist_employee_id.present?
+            return error = "Validation Failed. Employee ID Exist, Error on Row: #{i}"
+          end
+
+
+          employee_id = @employee.any? {|a| a.employee_id == row[1].strip}
+          if employee_id
+            return error = "Validation Failed. Employee ID Already Exist in File, Error on Row: #{i}"
+          end
 
           if row[11].present?
             if row[11] == 'm' || row[11] == 'M' || row[11] == 'Male' || row[11] == 'male'
@@ -121,6 +143,7 @@ class Employee < ApplicationRecord
               return error = "Validation Failed. Phone Already Exist, Error on Row: #{i}"
             end
           end
+
           if row[9].present?
             new_employee_phone = @employee.any? {|a| a.phone == row[9].strip}
             if new_employee_phone == true

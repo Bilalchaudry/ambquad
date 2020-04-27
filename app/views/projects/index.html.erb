@@ -25,7 +25,7 @@
                   <th>Name</th>
                   <th>Company</th>
                   <th>Country</th>
-                  <th>Actions</th>
+                  <th>Project Actions</th>
                 </tr>
                 </thead>
 
@@ -36,7 +36,7 @@
                     <td><%= project.client_company.company_name rescue nil %></td>
                     <td><%= project.country rescue "N/A" %></td>
                     <td>
-                      <%= link_to "Project Setup", project_path(project), :class => "btn btn-outline-dark" if can? :view, Project %>
+                      <%= link_to "Setup", project_path(project), :class => "btn btn-outline-dark" if can? :view, Project %>
                       <%= link_to "Edit Project Details", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project%>
                       <%= link_to "Delete", "/projects/#{project.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true  if can? :delete, Project %>
                     </td>

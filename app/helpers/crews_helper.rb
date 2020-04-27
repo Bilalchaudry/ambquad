@@ -6,7 +6,7 @@ module CrewsHelper
   end
 
   def crew_employees
-    @crew_employee = @project.crews.get_all_employees(params[:id])
+    @crew_employee = @project.crews.get_assigned_employees(params[:id])
     @crews = @project.employees.reject { |employee| @crew_employee.pluck(:employee_id).include?(employee.id) }
   end
 

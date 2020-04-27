@@ -35,6 +35,7 @@ class EmployeesController < ApplicationController
 
       respond_to do |format|
         if @employee.save
+          @employee.project_company.update(number_of_employee: @employee.project_company.number_of_employee + 1)
           @employee_time_sheet = EmployeeTimeSheet.new(employee: @employee.employee_name, labour_type: @employee.employee_type.employee_type, employee_id: @employee.id,
                                                        project_company_id: @employee.project_company_id, total_hours: 0, employee_type_id: @employee.employee_type_id,
                                                        project_id: @project.id, employee_create_date: Time.now.strftime("%Y-%m-%d"), foreman_id: @employee.foreman_id)

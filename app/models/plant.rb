@@ -56,7 +56,7 @@ class Plant < ApplicationRecord
             return error = "Validation Failed Plant Field Empty in File, Error on Row: #{i}"
           end
 
-          if (project.start_date..project.end_date).cover?(Date.parse(row[4])) || (project.start_date..project.end_date).cover?(Date.parse(row[5]))
+          unless (project.start_date..project.end_date).cover?(Date.parse(row[4])) || (project.start_date..project.end_date).cover?(Date.parse(row[5]))
             return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
           end
 

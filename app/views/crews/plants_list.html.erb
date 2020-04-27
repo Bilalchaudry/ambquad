@@ -1,12 +1,14 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
+        <%= render 'shared/client_project_foreman' %>
+      </div>
       <div class="container-fluid">
-        <center>
-          <h3 class="alert-success mt-1"><%= notice %></h3>
-        </center>
-        <h5 class="mt-2 text-center">Plants</h5>
-        <%= render 'shared/client_and_project_info' %>
+
         <div class="row">
           <div class="col-xl-6 col-md-6"></div>
 
@@ -36,7 +38,7 @@
                   <th>Project Company</th>
                   <th>Contract Start Date</th>
                   <th>Contract End Date</th>
-<!--                  <th>Foreman</th>-->
+                  <!--                  <th>Foreman</th>-->
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -50,9 +52,9 @@
                     <td><%= plant.plant.project_company.company_name %></td>
                     <td><%= plant.plant.contract_start_date %></td>
                     <td><%= plant.plant.contract_end_date %></td>
-<!--                    <td><%#= plant.plant.foreman.employee.employee_name rescue "N/A" %></td>-->
+                    <!--                    <td><%#= plant.plant.foreman.employee.employee_name rescue "N/A" %></td>-->
                     <td>
-                      <%= link_to "Delete", "/projects/#{@project.id}/crews/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true   %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/crews/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true %>
                     </td>
                   </tr>
                 <% end %>

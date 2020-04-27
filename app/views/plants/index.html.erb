@@ -41,8 +41,8 @@
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Plant Name</th>
                   <th>Plant ID</th>
+                  <th>Plant Name</th>
                   <th>Plant Type</th>
                   <th>Project Company</th>
                   <th>Contract Start Date</th>
@@ -55,8 +55,8 @@
                 <tbody>
                 <% @plants.each do |plant| %>
                   <tr>
-                    <td><%= plant.plant_name rescue "N/A" %></td>
                     <td><%= plant.plant_id rescue "N/A" %></td>
+                    <td><%= plant.plant_name rescue "N/A" %></td>
                     <td><%= plant.plant_type.type_name  rescue "N/A"%></td>
                     <td><%= plant.project_company.company_name rescue "N/A"%></td>
                     <td><%= plant.contract_start_date rescue "N/A" %></td>

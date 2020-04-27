@@ -117,9 +117,10 @@
   </div>
 
   <%= yield %>
-
+  <%= render "layouts/footer" %>
 <% else %>
   <%= yield %>
+  <%= render "layouts/footer" %>
 <% end %>
 </body>
 
