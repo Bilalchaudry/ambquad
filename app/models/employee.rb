@@ -244,7 +244,6 @@ class Employee < ApplicationRecord
                                                      company: company,
                                                      total_hours: 0,
                                                      employee_type_id: self.employee_type_id,
-                                                     project_name: self.project.project_name,
                                                      employee_id: employee_id.to_i, project_id: self.project_id,
                                                      employee_create_date: Time.now.strftime("%Y-%m-%d"))
   end
