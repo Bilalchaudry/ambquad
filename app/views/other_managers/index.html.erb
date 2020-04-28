@@ -1,20 +1,42 @@
-<!--<p id="notice"><%#= notice %></p>-->
-<!--<h1>Other Managers</h1>-->
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
+        <%= render 'shared/client_and_project_info' %>
+      </div>
       <div class="container-fluid">
-        <h1 class="mt-4">Other Managers</h1>
-        <div class="row">
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-3 col-md-4">
+        <div class="row pt-3">
+
+          <div class="col-xl-3   col-md-3">
             <div class="card bg-success text-white mb-3">
-              <%= link_to 'Add New Manager', new_other_manager_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Add New Manager', new_project_other_manager_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+
+<!--            <div class="col-xl-3 col-md-3">-->
+<!--              <div class="card bg-success text-white mb-3">-->
+                <%#= link_to 'Download Template', download_template_project_other_managers_path, :class => "btn btn-dark", style: "color: white" %>
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-xl-3 col-md-3">-->
+              <%#= form_tag import_project_other_managers_path, multipart: true do %>
+                <%#= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+                <%#= file_field_tag :file, :required => true, class: 'pb-1' %>
+              <%# end %>
+<!--            </div>-->
         </div>
         <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Other Managers</div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -22,6 +44,7 @@
                 <tr>
                   <th>Employee Name</th>
                   <th>Manager Type</th>
+                  <th>Project Company</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -29,11 +52,12 @@
                 <tbody>
                 <% @other_managers.each do |other_manager| %>
                   <tr>
-                    <td><%="#{other_manager.employee.first_name} #{other_manager.employee.last_name}"%></td>
+                    <td><%= Employee.find_by_id(other_manager.employee_id).employee_name  rescue "N/A" %></td>
                     <td><%= other_manager.manager_type %></td>
-                    <td><%= link_to 'View', other_manager, :class => "btn btn-outline-dark" %>
-                    <%= link_to 'Edit', edit_other_manager_path(other_manager), :class => "btn btn-outline-info" %>
-                    <%= link_to 'Destroy', other_manager, method: :delete, data: {confirm: 'Are you sure?'} , :class => "btn btn-outline-danger"%></td>
+                    <td><%= Employee.find_by_id(other_manager.employee_id).project_company.company_name rescue "N/A" %></td>
+                    <td><%= link_to 'View', "/projects/#{@project.id}/other_managers/#{other_manager.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/other_managers/#{other_manager.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to 'Destroy', "/projects/#{@project.id}/other_managers/#{other_manager.id}/", method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", remote: true %></td>
                   </tr>
                 <% end %>
                 </tbody>

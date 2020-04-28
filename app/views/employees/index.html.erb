@@ -1,34 +1,52 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
+        <%= render 'shared/client_and_project_info' %>
+      </div>
       <div class="container-fluid">
-        <h1 class="mt-4">Employees</h1>
-        <div class="row">
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-3 col-md-4">
+        <div class="row pt-3">
+          <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "New Employee", new_employee_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'New Employee', new_project_employee_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Download Template', download_template_project_employees_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3">
+            <%= form_tag import_project_employees_path, multipart: true do %>
+              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+              <%= file_field_tag :file, :required => true, class: "pb-1" %>
+            <% end %>
+          </div>
         </div>
+
         <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Employees</div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>First name</th>
-                  <th>Last name</th>
-                  <th>Employee</th>
-                  <th>Phone</th>
-                  <th>Email</th>
-                  <th>Gender</th>
-                  <th>Home company role</th>
-                  <th>Contract start date</th>
-                  <th>Contract end date</th>
+                  <th>Employee ID</th>
+                  <th>Employee Name</th>
+                  <th>Employee Type</th>
+                  <th>Project Company</th>
+                  <th>Contract Start Date</th>
+                  <th>Contract End Date</th>
+                  <th>Foreman</th>
                   <th>Status</th>
-                  <th>Project</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -36,20 +54,17 @@
                 <tbody>
                 <% @employees.each do |employee| %>
                   <tr>
-                    <td><%= employee.first_name %></td>
-                    <td><%= employee.last_name %></td>
                     <td><%= employee.employee_id %></td>
-                    <td><%= employee.phone %></td>
-                    <td><%= employee.email %></td>
-                    <td><%= employee.gender %></td>
-                    <td><%= employee.home_company_role %></td>
+                    <td><%= employee.employee_name %></td>
+                    <td><%= employee.employee_type.employee_type rescue "N/A" %></td>
+                    <td><%= employee.project_company.company_name rescue "N/A" %></td>
                     <td><%= employee.contract_start_date %></td>
                     <td><%= employee.contract_end_date %></td>
+                    <td><%= Employee.find_by_id(employee.foreman.employee_id).employee_name rescue "N/A" %></td>
                     <td><%= employee.status %></td>
-                    <td><%= employee.project.project_name %></td>
-                    <td><%= link_to 'View', employee, :class => "btn btn-outline-dark" %>
-                      <%= link_to 'Edit', edit_employee_path(employee), :class => "btn btn-outline-info" %>
-                      <%= link_to 'Destroy', employee, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger" %></td>
+                    <td><%= link_to 'View', "/projects/#{@project.id}/employees/#{employee.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to 'Edit', "/projects/#{@project.id}/employees/#{employee.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to 'Delete', "/projects/#{@project.id}/employees/#{employee.id}", method: :delete, data: {confirm: 'Are you sure?'}, remote: true, :class => "btn btn-outline-danger" %></td>
                   </tr>
                 <% end %>
                 </tbody>

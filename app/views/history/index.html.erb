@@ -1,0 +1,47 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <h1 class="mt-3">History</h1>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Changes</th>
+                  <th>Action</th>
+                  <th>Time</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @audits.each do |audit| %>
+                  <tr>
+                    <td><%= audit.user.username rescue "N/A" %></td>
+                    <td><%= audit.audited_changes rescue nil %></td>
+                    <td><%= audit.action rescue "N/A" %></td>
+                    <td><%= audit.created_at rescue "N/A" %></td>
+                    <td>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $('#dataTable').DataTable();
+</script>

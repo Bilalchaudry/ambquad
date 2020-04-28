@@ -1,6 +1,24 @@
-<h1>Editing Cost Code</h1>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading text-white bg-clr">
+            <h4 class="text-center font-weight-light">Edit Cost Code</h4>
+          </div>
 
-<%= render 'form', cost_code: @cost_code %>
+          <div class="card-body">
+            <%= render 'form', cost_code: @cost_code %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<%= link_to 'Show', @cost_code %> |
-<%= link_to 'Back', cost_codes_path %>

@@ -1,0 +1,3 @@
+<h6 class="text-white">Client - <%= @project.client_company.company_name rescue "N/A" %></h6>
+<h6 class="text-white">Project - <%= @project.project_name rescue "N/A" %></h6>
+<h6 class="text-white">Foreman - <%= Employee.find_by_id(Foreman.find_by_id(params[:id]).employee_id).employee_name rescue "N/A" %></h6>

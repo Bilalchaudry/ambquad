@@ -1,79 +1,200 @@
-<div id="layoutAuthentication_content">
-  <main>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-7">
-          <div class="card shadow-lg border-0 rounded-lg mt-5">
-            <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Cost Code</h3></div>
-            <div class="card-body">
+<%= form_with(model: [@project, cost_code], local: true) do |form| %>
+  <%= render 'layouts/error_messages', object: form.object %>
 
-              <%= form_with(model: cost_code, local: true) do |form| %>
-                <%= render 'layouts/error_messages', object: form.object %>
+  <% if params[:action].eql?("edit") %>
 
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :cost_code_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :cost_code_id, :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <%= form.label :cost_code_description, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <%= form.text_field :cost_code_description, :class => "form-control py-2", :required => true %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-4">
-                  <%= form.label :project_id, :class => "mb-1 pt-2", :style => 'font-weight:bold' %>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <select name="cost_code[project_id]" id="project_id" class="form-control">
-                        <option value=" "></option>
-                        <% Project.all.each do |project| %>
-                          <option value="<%= project.id %>">
-                            <%= project.project_name %>
-                          </option>
-                        <% end %>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                <hr>
-                <div class="row">
-                  <div class="col-md-3"></div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= form.submit 'Save', :class => 'btn btn-dark w-100', :style => 'font-weight:bold' %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= link_to "Cancel", cost_codes_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3"></div>
-                </div>
-              <% end %>
-            </div>
-          </div>
+    <div class="form-row">
+      <%= form.label :budget_holder, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control">
+            <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id : "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.employee_name : "None" %></option>
+            <% @project.budget_holders.reject {|budget_holder| budget_holder.id == @cost_code.budget_holder_id}.each do |budget_holder| %>
+              <option value="<%= budget_holder.id %>">
+                <%= budget_holder.employee.employee_name %>
+              </option>
+            <% end %>
+          </select>
         </div>
       </div>
     </div>
-  </main>
-</div>
+
+    <% if TimeSheetCostCode.find_by_cost_code_id(@cost_code.id).present? %>
+      <div class="form-row">
+        <%= form.label :budget_holder_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+        <div class="value">
+          <div class="input-group">
+            <%= form.text_field :budget_holder_start_date, id: "new-bd-date", :class => 'form-control py-2', 'placeholder' => Time.now.strftime("%m/%d/%Y") %>
+          </div>
+        </div>
+      </div>
+
+    <% end %>
+  <% else %>
+    <div class="form-row">
+      <%= form.label :budget_holder, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <select name="cost_code[budget_holder_id]" id="budget_holder" class="form-control">
+            <option value="<%= @cost_code.budget_holder.present? ? @cost_code.budget_holder_id : "" %>"><%= @cost_code.budget_holder.present? ? @cost_code.budget_holder.employee.employee_name : "None" %></option>
+            <% @project.budget_holders.reject {|budget_holder| budget_holder.id == @cost_code.budget_holder_id}.each do |budget_holder| %>
+              <option value="<%= budget_holder.id %>">
+                <%= budget_holder.employee.employee_name %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  <% end %>
+
+
+  <div class="form-row">
+    <%= form.label :cost_code_id, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <% if params[:action].eql?("edit") %>
+          <%= form.text_field :cost_code_id, :class => "form-control py-2", :disabled => true %>
+        <% else %>
+          <%= form.text_field :cost_code_id, :class => "form-control py-2", :required => true %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :cost_code_description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :cost_code_description, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_01, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_01, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_01_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_01_Description, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_02, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_02, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <%= form.label :WBS_02_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_02_Description, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_03, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_03, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_03_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_03_Description, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <%= form.label :WBS_04, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_04, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <%= form.label :WBS_04_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_04_Description, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_05, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_05, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :WBS_05_Description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :WBS_05_Description, :class => "form-control py-2" %>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= form.submit 'Save', :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= link_to "Cancel", project_cost_codes_path, :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+<% end %>
+<script type="text/javascript">
+    $(function () {
+        $('.b-end-date').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+
+        $('#new-bd-date').datepicker({
+            uiLibrary: 'bootstrap',
+            minDate: new Date()
+        });
+
+    });
+</script>

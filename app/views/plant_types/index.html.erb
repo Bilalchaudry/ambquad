@@ -1,47 +1,69 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
+        <%= render 'shared/client_and_project_info' %>
+      </div>
       <div class="container-fluid">
-        <h1 class="mt-4">Plant Types</h1>
-        <div class="row">
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-4 col-md-6"></div>
-          <div class="col-xl-3 col-md-4">
+        <div class="row pt-3">
+          <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-3">
-              <%= link_to "Add New Plant Type", new_plant_type_path, :class => "btn btn-dark", style: "color: white" %>
+              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
-        </div>
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                  <th>Plant Types</th>
-                  <th>Actions</th>
-                </tr>
-                </thead>
 
-                <tbody>
-                <% @plant_types.each do |plant_type| %>
-                  <tr>
-                    <td><%= plant_type.type_name%></td>
-                    <td>
-                      <%= link_to "View", plant_type_path(plant_type), :class => "btn btn-outline-dark" %>
-                      <%= link_to "Edit", edit_plant_type_path(plant_type), :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/plant_types/#{plant_type.id}" + "?delete=true", :class => "btn btn-outline-danger", method: :delete %>
-                    </td>
-                  </tr>
-                <% end %>
-                </tbody>
-              </table>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Add New Plant Type", new_project_plant_type_path, :class => "btn btn-dark", style: "color: white" %>
             </div>
+          </div>
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Download Template', download_template_project_plant_types_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3">
+            <%= form_tag import_project_plant_types_path, multipart: true do %>
+              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+              <%= file_field_tag :file, :required => true, class: 'pb-1' %>
+            <% end %>
+          </div>
+      </div>
+      <div class="card mb-4">
+        <div class="card-header"><i class="fas fa-table mr-1"></i>Plant Types</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+              <tr>
+                <th>Plant Types</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <% @plant_types.each do |plant_type| %>
+                <tr>
+                  <td><%= plant_type.type_name %></td>
+                  <td>
+                    <%= link_to "View", "/projects/#{@project.id}/plant_types/#{plant_type.id}", :class => "btn btn-outline-dark" %>
+                    <%= link_to "Edit", "/projects/#{@project.id}/plant_types/#{plant_type.id}/edit", :class => "btn btn-outline-info" %>
+                    <%= link_to "Delete", "/projects/#{@project.id}/plant_types/#{plant_type.id}" + "?delete=true", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </main>
   </div>
+  </main>
+</div>
 </div>
 
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>

@@ -11,7 +11,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local       = true
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
@@ -27,8 +27,7 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.public_file_server.enabled = true
-  config.assets.compile = true
+  config.assets.compile = false
   config.assets.digest = true
   config.serve_static_assets = true
 
@@ -94,4 +93,20 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_mailer.default_options = { from: ENV["email_id"] }
+  config.action_mailer.default_url_options = { host: ENV["production_host"] }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.smtp_settings = {
+      :address => ENV["address"],
+      :port => 587,
+      :domain => ENV["domain"],
+      :user_name => ENV["username"],
+      :password => ENV["email_password"],
+      :authentication => :plain,
+      :enable_starttls_auto => true
+  }
+
 end

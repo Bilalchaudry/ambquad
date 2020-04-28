@@ -1,0 +1,76 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
+        <%= render 'shared/client_project_foreman' %>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-6 col-md-6"></div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Back to Crews', project_crews_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Assign Foreman', new_project_crew_path(@project.id, id: params[:id], employee: true), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Employee ID</th>
+                  <th>Employee name</th>
+                  <th>Employee Type</th>
+                  <th>Project Company</th>
+                  <th>Contract start date</th>
+                  <th>Contract end date</th>
+                  <!--                                    <th>Foreman</th>-->
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @employees.each do |employee| %>
+                  <tr>
+                    <td><%= employee.employee.employee_id %></td>
+                    <td><%= employee.employee.employee_name %></td>
+                    <td><%= employee.employee.employee_type.employee_type rescue "N/A" %></td>
+                    <td><%= employee.employee.project_company.company_name rescue "N/A" %></td>
+                    <td><%= employee.employee.contract_start_date %></td>
+                    <td><%= employee.employee.contract_end_date %></td>
+                    <!--                    <td><%#= Employee.find_by_id(Foreman.find_by_employee_id(employee.employee_id)).employee_name rescue "N/A" %></td>-->
+
+                    <td><%= employee.employee.status %></td>
+                    <td>
+                      <%= link_to 'Destroy', "/projects/#{@project.id}/crews/#{employee.id}", method: :delete, data: {confirm: 'Are you sure?'}, remote: true, :class => "btn btn-outline-danger" %>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $('#dataTable').DataTable();
+</script>

@@ -1,3 +1,51 @@
 // Place all the styles related to the projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.hidden_option {
+  display: none;
+}
+
+.bold-title {
+  font-weight: bold !important;
+}
+
+.bold-title-with-color {
+  color: green !important;
+  font-weight: bold !important;
+}
+
+.row1-clr {
+  background-color: #FF6864 !important;
+}
+
+.row2-clr {
+  background-color: #8ACCB1 !important;
+}
+
+.row3-clr {
+  background-color: darkgrey !important;
+}
+
+.row4-clr {
+  background-color: #8a6d3b !important;
+}
+
+.without-setup-clr {
+  background-color: #FF6864 !important;
+}
+.with-setup-clr {
+  background-color: #383838!important;
+}
+.view-detail-clr {
+  color: white;
+}
+.time-sheet-without-setup-clr {
+  background-color: #383838 !important;
+}
+
+.time-sheet-setup-clr {
+  background-color: #00B0F0 !important;
+}
+.top-bar-btn-clr {
+  background-color: #d4edda !important;
+}

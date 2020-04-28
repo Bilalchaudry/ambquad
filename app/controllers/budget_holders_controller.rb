@@ -1,10 +1,12 @@
 class BudgetHoldersController < ApplicationController
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
   before_action :set_budget_holder, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   # GET /budget_holders
   # GET /budget_holders.json
   def index
-    @budget_holders = current_user.client_company.budget_holders
+    @budget_holders = @project.budget_holders
   end
 
   # GET /budget_holders/1
@@ -24,17 +26,15 @@ class BudgetHoldersController < ApplicationController
   # POST /budget_holders
   # POST /budget_holders.json
   def create
-    @budget_holder = BudgetHolder.new(budget_holder_params)
-    @budget_holder.client_company_id = current_user.client_company_id
-    respond_to do |format|
-      if @budget_holder.save
-        format.html { redirect_to @budget_holder, notice: 'Budget holder was successfully created.' }
-        format.json { render :show, status: :created, location: @budget_holder }
-      else
-        format.html { render :new }
-        format.json { render json: @budget_holder.errors, status: :unprocessable_entity }
+    params[:budget_holder][:employee_ids].each do |employee_id|
+      begin
+        BudgetHolder.create(project_id: @project.id, employee_id: employee_id.to_i,
+                            client_company_id: @project.client_company_id)
+      rescue => e
+        puts e.inspect
       end
     end
+    redirect_to project_budget_holders_path(@project), notice: 'Budget Holder was successfully created.'
   end
 
   # PATCH/PUT /budget_holders/1
@@ -42,11 +42,11 @@ class BudgetHoldersController < ApplicationController
   def update
     respond_to do |format|
       if @budget_holder.update(budget_holder_params)
-        format.html { redirect_to @budget_holder, notice: 'Budget holder was successfully updated.' }
-        format.json { render :show, status: :ok, location: @budget_holder }
+        format.html {redirect_to "/projects/#{@project.id}/budget_holders", notice: 'Budget holder was successfully updated.'}
+        format.json {render :show, status: :ok, location: @budget_holder}
       else
-        format.html { render :edit }
-        format.json { render json: @budget_holder.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @budget_holder.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -54,21 +54,59 @@ class BudgetHoldersController < ApplicationController
   # DELETE /budget_holders/1
   # DELETE /budget_holders/1.json
   def destroy
-    @budget_holder.destroy
-    respond_to do |format|
-      format.html { redirect_to budget_holders_url, notice: 'Budget holder was successfully destroyed.' }
-      format.json { head :no_content }
+    begin
+      if @budget_holder.nil? || CostCode.find_by_budget_holder_id(@budget_holder.id).present?
+        respond_to do |format|
+          format.js
+        end
+      else
+        @budget_holder.destroy
+        @destroy = true
+        respond_to do |format|
+          format.js
+        end
+      end
+    rescue => e
+      redirect_to "/projects/#{@project.id}/budget_holders", notice: 'Budget Holder can not deleted because it is linked with its assosiative records'
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_budget_holder
-      @budget_holder = BudgetHolder.find(params[:id])
+  def import
+    file = params[:file]
+
+    File.open(Rails.root.join('public', 'documents', file.original_filename), 'wb') do |f|
+      f.write(file.read)
     end
 
-    # Only allow a list of trusted parameters through.
-    def budget_holder_params
-      params.require(:budget_holder).permit(:employee_id, :client_company_id)
+    errors = BudgetHolder.import_file(params[:file], current_user, @project)
+    if errors == nil
+      flash[:notice] = 'File Imported Successfully'
+    else
+      flash[:notice] = errors
     end
+    redirect_to project_budget_holders_path
+  end
+
+  def download_template
+    send_file(
+        "#{Rails.root}/public/documents/budget_holders.csv",
+        filename: "budget_holders.csv",
+        )
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_budget_holder
+    @budget_holder = BudgetHolder.find(params[:id])
+  end
+
+  def get_project
+    @project = Project.find(params[:project_id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def budget_holder_params
+    params.require(:budget_holder).permit(:employee_id, :client_company_id)
+  end
 end

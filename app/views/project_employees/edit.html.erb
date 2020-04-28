@@ -1,6 +1,22 @@
-<h1>Editing Project Employee</h1>
-
-<%= render 'form', project_employee: @project_employee %>
-
-<%= link_to 'Show', @project_employee %> |
-<%= link_to 'Back', project_employees_path %>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr card-text-clr">
+            <h4 class="text-center font-weight-light">Edit Project Employee</h4>
+          </div>
+          <div class="card-body">
+            <%= render 'form', project_employee: @project_employee %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

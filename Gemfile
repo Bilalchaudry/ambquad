@@ -10,12 +10,15 @@ gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
+gem 'geocoder'
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
-
+gem 'cancancan'
+gem 'bootstrap-datepicker-rails'
+gem 'date_validator', '~> 0.9.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
@@ -26,6 +29,13 @@ gem 'jquery-rails'
 gem 'devise'
 gem 'pg'
 gem 'countries'
+gem 'roo'
+gem 'roo-xls'
+gem "figaro"
+gem 'activerecord-import'
+
+gem "audited", "~> 4.9"
+gem "auto_strip_attributes", "~> 2.6"
 
 gem 'devise-bootstrap-views', '~> 1.0'
 # Use Redis adapter to run Action Cable in production

@@ -1,0 +1,8 @@
+<% if @destroy %>
+var client_companies_path = "/client_companies"
+location.href = client_companies_path
+alert("Company deleted successfully")
+<% else %>
+alert("Company can not deleted because Company is linked with Project.")
+
+<% end %>

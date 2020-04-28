@@ -1,0 +1,62 @@
+<%= form_with(model: employee_time_sheet, local: true) do |form| %>
+  <% if employee_time_sheet.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(employee_time_sheet.errors.count, "error") %> prohibited this employee_time_sheet from being saved:</h2>
+
+      <ul>
+      <% employee_time_sheet.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :employee %>
+    <%= form.text_field :employee %>
+  </div>
+
+  <div class="field">
+    <%= form.label :employee_id %>
+    <%= form.number_field :employee_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :labour_type %>
+    <%= form.text_field :labour_type %>
+  </div>
+
+  <div class="field">
+    <%= form.label :employee_type_id %>
+    <%= form.number_field :employee_type_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :company %>
+    <%= form.text_field :company %>
+  </div>
+
+  <div class="field">
+    <%= form.label :project_company_id %>
+    <%= form.number_field :project_company_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :manager %>
+    <%= form.text_field :manager %>
+  </div>
+
+  <div class="field">
+    <%= form.label :foreman_id %>
+    <%= form.number_field :foreman_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :total_hours %>
+    <%= form.text_field :total_hours %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
