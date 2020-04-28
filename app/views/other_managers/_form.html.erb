@@ -1,0 +1,69 @@
+<%= form_with(model: [@project, other_manager], local: true) do |form| %>
+  <% if other_manager.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(other_manager.errors.count, "error") %> prohibited this other_manager from being
+        saved:</h2>
+
+      <ul>
+        <% other_manager.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-row">
+    <%= form.label :manager_type, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :manager_type, :class => "form-control py-2", :required => true %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <%= form.label :employees, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+  <div class="value">
+    <div class="input-group">
+      <% if params[:action].eql?("edit") %>
+        <select name="other_manager[employee_id]" id="employee_id" class="form-control">
+          <option value="<%= @other_manager.present? ? @other_manager.employee_id : "" %>"><%= @other_manager.present? ? Employee.find_by_id(@other_manager.employee_id).employee_name : "None" %></option>
+          <% @project.employees.reject { |employee| @project.other_managers.pluck(:employee_id).include?(employee.id) }.each do |employee| %>
+            <option value="<%= employee.id %>">
+              <%= employee.employee_name %>
+            </option>
+          <% end %>
+        </select>
+      <% else %>
+        <%= form.select :employee_ids, options_for_select(@project.employees.reject { |employee| @project.other_managers.pluck(:employee_id).include?(employee.id) }.map { |c| [c.employee_name, c.id] }), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+      <% end %>
+    </div>
+  </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= form.submit 'Save', :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= link_to "Cancel", project_other_managers_path, :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+<% end %>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('select').selectpicker();
+    });
+</script>

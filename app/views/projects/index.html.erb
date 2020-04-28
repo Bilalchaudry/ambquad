@@ -1,0 +1,71 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-3">Projects</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-3 col-md-4">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Add New Project", new_project_path, :class => "btn btn-dark", style: "color: white" if can? :create, Project %>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Projects</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Company</th>
+                  <th>Country</th>
+                  <th>Project Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @projects.each do |project| %>
+                  <tr>
+                    <td><%= project.project_name %></td>
+                    <td><%= project.client_company.company_name rescue nil %></td>
+                    <td><%= project.country rescue "N/A" %></td>
+                    <td>
+                      <% if project.project_status.eql?(0) %>
+                        <%= link_to "Setup", project_path(project), :class => "btn btn-outline-dark" if can? :view, Project %>
+                      <% else %>
+                        <%= button_tag 'Setup', :class => "btn btn-outline-dark disable", type: 'button' %>
+                        <%#= link_to "Setup", "#", :class => "btn btn-outline-dark disable", disabled: true %>
+                      <% end %>
+                      <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project %>
+                      <%= link_to "Delete", "/projects/#{project.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true if can? :delete, Project %>
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+
+    $('#dataTable').dataTable({
+        "columnDefs": [
+            {"searchable": false, "targets": 3}
+        ]
+    });
+</script>

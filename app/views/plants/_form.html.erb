@@ -1,0 +1,260 @@
+<%= form_with(model: [@project, plant], local: true) do |form| %>
+  <%= render 'layouts/error_messages', object: form.object %>
+
+  <% if params[:action].eql?("edit") %>
+
+    <div class="form-row">
+      <%= form.label :plant_name, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :plant_name, :class => "form-control py-2", :disabled => true %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+
+      <%= form.label :plant_id, "Plant ID", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :plant_id, :class => "form-control py-2", :disabled => true %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+
+      <%= form.label :plant_type, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :plant_type, :class => "form-control py-2", value: @plant.plant_type.type_name, :disabled => true %>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <%= form.label :project_company, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :project_company, :class => "form-control py-2", value: @plant.project_company.company_name, :disabled => true %>
+        </div>
+      </div>
+    </div>
+
+  <% else %>
+
+    <div class="form-row">
+      <%= form.label :plant_name, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :plant_name, :class => "form-control py-2", :required => true %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <%= form.label :plant_id, "Plant ID", :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <%= form.text_field :plant_id, :class => "form-control ", :required => true %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <%= form.label :plant_type, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <select name="plant[plant_type_id]" id="plant_type_id" class="form-control" required>
+            <option value="<%= @plant.plant_type.present? ? @plant.plant_type_id : "" %>"><%= @plant.plant_type.present? ? @plant.plant_type.type_name : "None" %></option>
+            <% @project.plant_types.reject {|plant_type| plant_type.id == @plant.plant_type_id}.each do |plant_type| %>
+              <option value="<%= plant_type.id %>">
+                <%= plant_type.type_name %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <%= form.label :project_company, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <select name="plant[project_company_id]" id="project_company_id" class="form-control" required>
+            <option value="<%= @plant.project_company.present? ? @plant.project_company_id : "" %>"><%= @plant.project_company.present? ? @plant.project_company.company_name : "None" %></option>
+            <% @project.project_companies.reject {|project_company| project_company.id == @plant.project_company_id}.each do |company| %>
+              <option value="<%= company.id %>">
+                <%= company.company_name %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+  <% end %>
+
+  <div class="form-row m-b-55">
+    <div class="name pt-3">Contract Date</div>
+    <div class="value">
+      <div class="row row-refine">
+        <div class="col-5">
+          <div class="input-group-desc">
+            <% if @plant.plant_time_sheets.present? && params[:action].eql?("edit") %>
+              <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :disabled => true %>
+            <% else %>
+
+              <%= form.text_field :contract_start_date, :class => 'start-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+
+            <% end %>
+
+            <label class="label--desc">Contract Start Date</label>
+          </div>
+        </div>
+        <div class="col-2 pt-3">
+          <center>To</center>
+        </div>
+        <div class="col-5">
+          <div class="input-group-desc">
+            <%= form.text_field :contract_end_date, :class => 'end-date form-control py-2', 'placeholder' => "dd-mm-yyyy", :required => true %>
+            <%= form.label :contract_end_date, :class => "label--desc" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <% if params[:action].eql?("edit") %>
+    <% if @plant.plant_time_sheets.present? %>
+      <div class="form-row">
+        <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+        <div class="value">
+          <div class="input-group">
+            <select name="plant[foreman_id]" id="foreman_id" class="form-control">
+              <option value="<%= @plant.foreman_id rescue nil %>"><%= Employee.find_by_id(@plant.foreman.employee_id).employee_name rescue "N/A" %></option>
+              <% @project.foremen.reject {|foremen| foremen.id == @plant.foreman_id}.each do |foreman| %>
+                <option value="<%= foreman.id %>">
+                  <%= Employee.find_by_id(foreman.employee_id).employee_name rescue "N/A" %>
+                </option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <%= form.label :foreman_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+        <div class="value">
+          <div class="col-lg-12">
+            <%= form.text_field :foreman_start_date, id: "foreman-st-date", :class => 'form-control py-2 pl-2', 'placeholder' => Date.today %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+  <% else %>
+    <div class="form-row">
+      <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+      <div class="value">
+        <div class="input-group">
+          <select name="plant[foreman_id]" id="foreman_id" class="form-control">
+            <option value="<%= @plant.foreman.present? ? @plant.foreman_id : "" %>"><%= @plant.foreman.present? ? @plant.foreman.employee.employee_name : "None" %></option>
+            <% @project.foremen.reject {|foremen| foremen.id == @plant.foreman_id}.each do |foreman| %>
+              <option value="<%= foreman.id %>">
+                <%= Employee.find_by_id(foreman.employee_id).employee_name rescue "N/A" %>
+              </option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+
+  <div class="form-row">
+    <%= form.label :other_manager, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <select name="plant[other_manager_id]" id="other_manager_id" class="form-control">
+          <% if params[:action].eql?("edit") %>
+            <option value="<%= @plant.other_manager_id rescue nil %>"><%= Employee.find_by_id(@plant.other_manager_id).employee_name rescue nil %></option>
+          <% else %>
+            <option value="<%= @plant.other_manager_id.present? ? @plant.other_manager_id : "" %>"><%= @plant.other_manager_id.present? ? Employee.find_by_id(@plant.other_manager_id).employee_name : "None" %></option>
+          <% end %>
+          <% @project.other_managers.reject {|other_manager| other_manager.id == @plant.other_manager_id}.each do |other_manager| %>
+            <option value="<%= other_manager.id %>">
+              <%= Employee.find_by_id(other_manager.employee_id).employee_name rescue "N/A" %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <%= form.label :market_value, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <%= form.text_field :market_value, validate: true, :class => "form-control" %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <%= form.label :status, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <div class="value">
+      <div class="input-group">
+        <select name="plant[status]" id="status" class="form-control" required>
+          <option value="<%= @plant.status rescue nil %>">
+            <%= @plant.status rescue nil %>
+            <% Plant.statuses.reject {|status| @plant.status == status}.each do |key, value| %>
+            <option value="<%= value %>">
+              <%= key %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= form.submit 'Save', :class => 'btn w-100 bg-clr btn-style' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group mt-3 mb-0">
+        <div class="actions">
+          <%= link_to "Cancel", project_plants_path, :class => 'btn bg-clr btn-style w-100' %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+<% end %>
+<script type="text/javascript">
+    $(function () {
+        $('.start-date').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+        $('.end-date').datepicker({
+            format: 'yyyy-mm-dd',
+        });
+
+        $('#foreman-st-date').datepicker({
+            uiLibrary: 'bootstrap',
+            minDate: 0
+        });
+    })
+    ;
+</script>
+

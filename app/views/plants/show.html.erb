@@ -1,0 +1,144 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr">
+            <h4 class="text-center font-weight-light text-white">
+              <%= @plant.plant_name %>
+            </h4>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Plant name:</strong>
+              </div>
+              <div class="col-md-8">
+                <div>
+                  <%= @plant.plant_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Plant ID:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @plant.plant_id %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Plant Type:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @plant.plant_type.type_name %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Project Company:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @plant.project_company.company_name %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Contract Start Date:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @plant.contract_start_date %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Contract End Date:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @plant.contract_end_date %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Foreman:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= Employee.find_by_id(@plant.foreman.employee_id).employee_name rescue "N/A" %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Market value:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @plant.market_value %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Other Manager:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= Employee.find_by_id(@plant.other_manager.employee_id).employee_name rescue "N/A" %>
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Edit', "/projects/#{@project.id}/plants/#{@plant.id}/edit", :class => 'btn bg-clr btn-style w-100' %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Back', project_plants_path, :class => 'btn bg-clr btn-style w-100' %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

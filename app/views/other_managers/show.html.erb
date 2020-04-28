@@ -1,0 +1,62 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <div class="page-wrapper p-b-50">
+      <div class="wrapper wrapper--w790">
+        <div class="card card-5 form-border-style">
+          <div class="card-heading bg-clr">
+            <h4 class="text-center font-weight-light text-white">
+              Other Managers
+            </h4>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Type:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= @other_manager.manager_type %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-4">
+                <strong>Employee:</strong>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <%= Employee.find_by_id(@other_manager.employee_id).employee_name rescue "N/A" %>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Edit', "/projects/#{@project.id}/other_managers/#{@other_manager.id}/edit", :class => 'btn w-100 bg-clr btn-style' %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group mt-3 mb-0">
+                  <div class="actions">
+                    <%= link_to 'Back', project_other_managers_path, :class => 'btn w-100 bg-clr btn-style' %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </main>
+</div>

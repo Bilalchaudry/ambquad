@@ -1,0 +1,41 @@
+<div class="card mb-4">
+  <div class="card-header"><i class="fas fa-table mr-1"></i>Client Companies</div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="companydataTable" width="100%" cellspacing="0">
+        <thead>
+        <tr>
+          <th>Company Name</th>
+          <th>Number of Users</th>
+          <th>Country</th>
+          <th>Company Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% ClientCompany.all.each do |company| %>
+          <tr>
+            <td><%= company.company_name %></td>
+            <td><%= company.number_of_users %></td>
+            <td><%= company.country_name %></td>
+            <td>
+              <%= link_to "View", client_company_path(company), :class => "btn btn-outline-success" %>
+              <% unless company.company_name.eql?("Ambquad") %>
+                <%= link_to "Edit", edit_client_company_path(company), :class => "btn btn-outline-info" %>
+                <%= link_to "Delete", client_company_path(company), data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true if can? :destroy, ClientCompany %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('#companydataTable').dataTable({
+        })
+    })
+</script>

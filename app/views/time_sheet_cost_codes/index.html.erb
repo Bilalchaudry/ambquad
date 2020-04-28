@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Time Sheet Cost Codes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cost code</th>
+      <th>Cost code</th>
+      <th>Hrs</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @time_sheet_cost_codes.each do |time_sheet_cost_code| %>
+      <tr>
+        <td><%= time_sheet_cost_code.cost_code %></td>
+        <td><%= time_sheet_cost_code.cost_code_id %></td>
+        <td><%= time_sheet_cost_code.hrs %></td>
+<!--        <td><%#= link_to 'Show', time_sheet_cost_code %></td>-->
+        <td><%= link_to 'Edit', edit_time_sheet_cost_code_path(time_sheet_cost_code) %></td>
+        <td><%= link_to 'Destroy', time_sheet_cost_code, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Time Sheet Cost Code', new_time_sheet_cost_code_path %>

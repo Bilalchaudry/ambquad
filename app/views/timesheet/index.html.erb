@@ -1,0 +1,207 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 class="alert-info mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-2">Time Sheet</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-3 col-md-4">
+            <div class="text-white mb-3">
+              <input id="datepicker" width="270" placeholder="Select Date"/>
+            </div>
+          </div>
+
+        </div>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="example" class="table-bordered" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th rowspan="2">Employee</th>
+                  <th rowspan="2">Labour Type</th>
+                  <th rowspan="2">Company</th>
+                  <th rowspan="2">Manager</th>
+                  <th rowspan="2">Total Hours</th>
+                  <th colspan="6">Select Cost Codes</th>
+                </tr>
+                <tr>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>AMB 001</td>
+                  <td>Engineer</td>
+                  <td>Hyndai</td>
+                  <td>Steve Jobs</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                </tr>
+                <tr>
+                  <td>AMB 001</td>
+                  <td>Labour</td>
+                  <td>Hyndai</td>
+                  <td>Steve Jobs</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                </tr>
+                <tr>
+                  <td>AMB 001</td>
+                  <td>Engineer</td>
+                  <td>Hyndai</td>
+                  <td>Steve Jobs</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                </tr>
+                <tr>
+                  <td>AMB 001</td>
+                  <td>Labour</td>
+                  <td>Hyndai</td>
+                  <td>Steve Jobs</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                </tr>
+                <tr>
+                  <td>AMB 001</td>
+                  <td>Engineer</td>
+                  <td>Hyndai</td>
+                  <td>Steve Jobs</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                </tr>
+                <tr>
+                  <td>AMB 001</td>
+                  <td>Labour</td>
+                  <td>Hyndai</td>
+                  <td>Steve Jobs</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                </tr>
+                <tr>
+                  <td>AMB 001</td>
+                  <td>Engineer</td>
+                  <td>Hyndai</td>
+                  <td>Steve Jobs</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                </tr>
+                <tr>
+                  <td>AMB 001</td>
+                  <td>Labour</td>
+                  <td>Hyndai</td>
+                  <td>Steve Jobs</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                  <td>20CP01</td>
+                  <td>9.50</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group mt-3 mb-0">
+                <div class="actions">
+                  <%= link_to 'Copy from Previous Timesheet', timesheet_index_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group mt-3 mb-0">
+                <div class="actions">
+                  <%= link_to 'Save Progress', timesheet_index_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group mt-3 mb-0">
+                <div class="actions">
+                  <%= link_to 'Update Timesheets', timesheet_index_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group mt-3 mb-0">
+                <div class="actions">
+                  <%= link_to 'Submit Timesheets', timesheet_index_path, :class => 'btn btn-dark w-100', :style => 'font-weight:bold; color: white;' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
+<!--<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
+<script>
+    // $(document).ready(function() {
+        $('#example').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                 'csv', 'excel', 'pdf', 'print'
+            ]
+        } );
+    // } );
+    $('#datepicker').datepicker({
+        uiLibrary: 'bootstrap'
+    });
+</script>

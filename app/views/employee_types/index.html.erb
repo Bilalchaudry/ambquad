@@ -1,0 +1,78 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
+        <%= render 'shared/client_and_project_info' %>
+      </div>
+      <div class="container-fluid">
+        <div class="row pt-3">
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Back to Project Setup", project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Add New Employee Type", new_project_employee_type_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Download Template', download_template_project_employee_types_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3">
+            <%= form_tag import_project_employee_types_path, multipart: true do %>
+              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+              <%= file_field_tag :file, :required => true, class: 'pb-1' %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Employee Types</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Employee Types</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @employee_types.each do |employee_type| %>
+                  <tr>
+                    <td><%= employee_type.employee_type %></td>
+                    <td>
+                      <%= link_to "View", "/projects/#{@project.id}/employee_types/#{employee_type.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", "/projects/#{@project.id}/employee_types/#{employee_type.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/employee_types/#{employee_type.id}" + "?delete=true", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true %>
+
+
+                    </td>
+                  </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $('#dataTable').DataTable();
+</script>

@@ -1,0 +1,101 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <% if notice.present? %>
+      <p id="notice" class="alert-success notice-style"><%= notice %></p>
+    <% end %>
+    <div class="form-info-style">
+      <%= render 'shared/client_and_project_info' %>
+    </div>
+    <main>
+      <div class="container-fluid">
+        <div class="row pt-3">
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Back to Project Setup", project_path(@project), :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Add New Plant", new_project_plant_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to 'Download Template', download_template_project_plants_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3">
+            <%= form_tag import_project_plants_path, multipart: true do %>
+              <%= submit_tag "Import", :class => "btn btn-dark", style: "color: white" %>
+              <%= file_field_tag :file, :required => true, class: 'pb-1' %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Plants</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Plant ID</th>
+                  <th>Plant Name</th>
+                  <th>Plant Type</th>
+                  <th>Project Company</th>
+                  <th>Contract Start Date</th>
+                  <th>Contract End Date</th>
+                  <th>Foreman</th>
+                  <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @plants.each do |plant| %>
+                  <tr>
+                    <td><%= plant.plant_id rescue "N/A" %></td>
+                    <td><%= plant.plant_name rescue "N/A" %></td>
+                    <td><%= plant.plant_type.type_name  rescue "N/A"%></td>
+                    <td><%= plant.project_company.company_name rescue "N/A"%></td>
+                    <td><%= plant.contract_start_date rescue "N/A" %></td>
+                    <td><%= plant.contract_end_date  rescue "N/A"%></td>
+                    <td><%= Employee.find_by_id(plant.foreman.employee_id).employee_name rescue "N/A" %></td>
+                    <td>
+                      <%= link_to "View", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", "/projects/#{@project.id}/plants/#{plant.id}/edit", :class => "btn btn-outline-info" %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true   %>
+                    </td>
+                  </tr>
+                <% end %>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+    <footer class="py-4 bg-light mt-auto">
+      <div class="container-fluid">
+        <div class="d-flex align-items-center justify-content-between small">
+          <div class="text-muted">Copyright &copy; Your Website 2019</div>
+          <div>
+            <a href="#">Privacy Policy</a>
+            &middot;
+            <a href="#">Terms &amp; Conditions</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $('#dataTable').DataTable();
+</script>

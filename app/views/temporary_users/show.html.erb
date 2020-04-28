@@ -1,0 +1,46 @@
+<%  if notice.present? %>
+  <p id="notice" class="alert-success" style="height: 35px; font-size: 20px; text-align: center; padding-top: 7px;"><%= notice %></p>
+<% end %>
+
+<p>
+  <strong>First name:</strong>
+  <%= @temporary_user.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @temporary_user.last_name %>
+</p>
+
+<p>
+  <strong>Phone no:</strong>
+  <%= @temporary_user.phone_no %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @temporary_user.email %>
+</p>
+
+<p>
+  <strong>Username:</strong>
+  <%= @temporary_user.username %>
+</p>
+
+<p>
+  <strong>Role:</strong>
+  <%= @temporary_user.role %>
+</p>
+
+<p>
+  <strong>Encrypted password:</strong>
+  <%= @temporary_user.encrypted_password %>
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @temporary_user.company_id %>
+</p>
+
+<%= link_to 'Edit', edit_temporary_user_path(@temporary_user) %> |
+<%= link_to 'Back', temporary_users_path %>
