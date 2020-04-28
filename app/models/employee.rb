@@ -1,6 +1,5 @@
 class Employee < ApplicationRecord
   audited
-  # after_create :time_sheet_employee
   validates_uniqueness_of :email, :employee_name, :scope => :project_id, :case_sensitive => false
   validates :employee_id, presence: true, uniqueness: {message: "ID already taken"}
 
@@ -27,19 +26,6 @@ class Employee < ApplicationRecord
       Onhold: 1,
       Closed: 2
   }
-
-  # def time_sheet_employee
-  #   @employee_time_sheet = EmployeeTimeSheet.create!(employee: self.employee.employee_name,
-  #                                                    labour_type: self.employee_type.employee_type,
-  #                                                    project_company_id: self.project_company_id,
-  #                                                    company: self.project_company.company_name,
-  #                                                    manager: Employee.find_by_id(self.foreman.employee_id).employee_name,
-  #                                                    foreman_name: Employee.find_by_id(self.other_manager.employee_id).employee_name,
-  #                                                    total_hours: 0,
-  #                                                    employee_type_id: self.employee_type_id,
-  #                                                    employee_id: employee_id.to_i, project_id: self.project_id,
-  #                                                    employee_create_date: Time.now.strftime("%Y-%m-%d"))
-  #   end
 
   # validate :contract_end_date_after_contract_start_date
   # validate :start_date_equal_or_greater_today_date
