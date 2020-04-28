@@ -28,10 +28,6 @@ class TemporaryUsersController < ApplicationController
     @temporary_user.country_name = @temporary_user.client_company.country_name
     @user = User.new(temporary_user_params)
     @user.country_name = @temporary_user.country_name
-    # @user.set_confirmation_token
-    # @user.password = params[:temporary_user][:password]
-    # @user.password_confirmation = params[:temporary_user][:password_confirmation]
-    #
     respond_to do |format|
       if @temporary_user.save && @user.save
         @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
