@@ -84,8 +84,8 @@ class EmployeesController < ApplicationController
   def destroy
     begin
       if @employee.other_manager.present? || @employee.budget_holders.present? || @employee.foreman.present? ||
-          Foreman.find_by_employee_type_id(@employee.id) || BudgetHolder.find_by_employee_type_id(@employee.id) ||
-          OtherManager.find_by_employee_type_id(@employee.id)
+          Foreman.find_by_employee_id(@employee.id) || BudgetHolder.find_by_employee_id(@employee.id) ||
+          OtherManager.find_by_employee_id(@employee.id)
         respond_to do |format|
           format.js
         end
