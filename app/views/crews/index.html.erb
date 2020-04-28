@@ -34,15 +34,23 @@
                 </thead>
 
                 <tbody>
-                <% @crews.each do |foreman| %>
+                <% @foremen.each do |foreman| %>
                   <tr>
-                    <td><%= Employee.find_by_id(foreman.employee_id).employee_name  rescue "N/A" %></td>
+                    <td><%= Employee.find_by_id(foreman.employee_id).employee_name rescue "N/A" %></td>
                     <td><%= Employee.find_by_id(foreman.employee_id).employee_type.employee_type rescue "N/A" %> </td>
                     <td><%= Employee.find_by_id(foreman.employee_id).project_company.company_name rescue "N/A" %></td>
                     <td>
-                      <%= link_to 'Plant', "/projects/#{@project.id}/crews/#{foreman.id}/plants_list", :class => "btn btn-outline-dark" %>
-                      <%= link_to 'Employee', "/projects/#{@project.id}/crews/#{foreman.id}/employees_list", :class => "btn btn-outline-info" %>
+                      <% if @project.crews.where(employee_id: nil, foreman_id: foreman.id).present? %>
+                        <%= link_to 'Plant', "/projects/#{@project.id}/crews/#{foreman.id}/plants_list", :class => "with-setup-clr btn btn-outline-info" %>
+                      <% else %>
+                        <%= link_to 'Plant', "/projects/#{@project.id}/crews/#{foreman.id}/plants_list", :class => "without-setup-clr btn btn-outline-dark" %>
+                      <% end %>
 
+                      <% if @project.crews.where(plant_id: nil, foreman_id: foreman.id).present? %>
+                        <%= link_to 'Employee', "/projects/#{@project.id}/crews/#{foreman.id}/employees_list", :class => "with-setup-clr btn btn-outline-info" %>
+                      <% else %>
+                        <%= link_to 'Employee', "/projects/#{@project.id}/crews/#{foreman.id}/employees_list", :class => "without-setup-clr btn btn-outline-info" %>
+                      <% end %>
                     </td>
                   </tr>
                 <% end %>

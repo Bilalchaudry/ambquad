@@ -160,6 +160,8 @@ ActiveRecord::Schema.define(version: 2020_04_28_080731) do
     t.string "project_role"
     t.string "employee_name"
     t.string "phone_country_code"
+    t.date "foreman_start_date"
+    t.date "foreman_end_date"
     t.index ["employee_type_id"], name: "index_employees_on_employee_type_id"
     t.index ["foreman_id"], name: "index_employees_on_foreman_id"
     t.index ["other_manager_id"], name: "index_employees_on_other_manager_id"
@@ -262,7 +264,7 @@ ActiveRecord::Schema.define(version: 2020_04_28_080731) do
     t.string "city"
     t.string "phone_country_code"
     t.string "poc_phone_country_code"
-    t.integer "number_of_employee", default: 0
+    t.integer "number_of_employee"
     t.index ["client_company_id"], name: "index_project_companies_on_client_company_id"
     t.index ["project_id"], name: "index_project_companies_on_project_id"
   end
@@ -401,7 +403,6 @@ ActiveRecord::Schema.define(version: 2020_04_28_080731) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

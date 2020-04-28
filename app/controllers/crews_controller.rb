@@ -7,7 +7,7 @@ class CrewsController < ApplicationController
   # GET /crews
   # GET /crews.json
   def index
-    @crews = @project.foremen
+    @foremen = @project.foremen
   end
 
   # GET /crews/1
@@ -38,21 +38,24 @@ class CrewsController < ApplicationController
       params[:crew][:plant_ids].each do |plant_id|
         unless plant_id.empty?
           @project.crews.create(plant_id: plant_id.to_i, foreman_id: params[:foreman_id])
+          Plant.find_by_id(plant_id.to_i).update(foreman_id: params[:foreman_id])
         end
       end
       respond_to do |format|
-        format.html { redirect_to "/projects/#{@project.id}/crews/#{params[:foreman_id]}/plants_list", notice: 'Crew was successfully created.' }
-        format.json { render :show, status: :created, location: @crew }
+        format.html {redirect_to "/projects/#{@project.id}/crews/#{params[:foreman_id]}/plants_list", notice: 'Crew was successfully created.'}
+        format.json {render :show, status: :created, location: @crew}
       end
     else
       params[:crew][:employee_ids].each do |employee_id|
         unless employee_id.empty?
+
           @project.crews.create(employee_id: employee_id.to_i, foreman_id: params[:foreman_id])
+          Employee.find_by_id(employee_id.to_i).update(foreman_id: params[:foreman_id])
         end
       end
       respond_to do |format|
-        format.html { redirect_to "/projects/#{@project.id}/crews/#{params[:foreman_id]}/employees_list", notice: 'Crew was successfully created.' }
-        format.json { render :show, status: :created, location: @crew }
+        format.html {redirect_to "/projects/#{@project.id}/crews/#{params[:foreman_id]}/employees_list", notice: 'Crew was successfully created.'}
+        format.json {render :show, status: :created, location: @crew}
       end
     end
   end
@@ -62,11 +65,11 @@ class CrewsController < ApplicationController
   def update
     respond_to do |format|
       if @crew.update(crew_params)
-        format.html { redirect_to @crew, notice: 'Crew was successfully updated.' }
-        format.json { render :show, status: :ok, location: @crew }
+        format.html {redirect_to @crew, notice: 'Crew was successfully updated.'}
+        format.json {render :show, status: :ok, location: @crew}
       else
-        format.html { render :edit }
-        format.json { render json: @crew.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @crew.errors, status: :unprocessable_entity}
       end
     end
   end

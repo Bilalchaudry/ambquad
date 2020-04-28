@@ -32,10 +32,11 @@ class EmployeesController < ApplicationController
         (@project.start_date..@project.end_date).cover?(@employee.contract_end_date)
       @employee.client_company_id = @project.client_company_id
       @employee.country_name = @project.client_company.country_name
+      @employee.foreman_start_date = @employee.contract_start_date
 
       respond_to do |format|
         if @employee.save
-          @employee.project_company.update(number_of_employee: @employee.project_company.number_of_employee + 1)
+          @employee.project_company.update(number_of_employee: @employee.project_company.number_of_employee + 1) rescue nil
           format.html { redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully created.' }
           format.json { render :show, status: :created, location: @employee }
         else
