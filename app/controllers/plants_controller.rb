@@ -26,17 +26,6 @@ class PlantsController < ApplicationController
   # POST /plants
   # POST /plants.json
   def create
-    # @plant = @project.plants.new(plant_params)
-    # @plant.client_company_id = @project.client_company_id
-    # respond_to do |format|
-    #   if @plant.save
-    #     format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully created.' }
-    #     format.json { render :show, status: :created, location: @plant }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @plant.errors, status: :unprocessable_entity }
-    #   end
-    # end
     @plant = @project.plants.new(plant_params)
     @plant.foreman_start_date = @plant.contract_start_date
     @plant.foreman_end_date = @plant.contract_end_date
@@ -46,22 +35,22 @@ class PlantsController < ApplicationController
 
       respond_to do |format|
         if @plant.save
-          manager_id = params[:plant][:other_manager_id]
-          plant_manager = OtherManager.find(manager_id).employee.employee_name rescue nil
-          foreman_id = params[:plant][:other_manager_id]
-          plant_foreman = Foreman.find(foreman_id).employee.employee_name rescue nil
+          foreman_namee = Employee.find_by_id(@plant.foreman.employee_id).employee_name rescue nil
+          other_manager_namee = Employee.find_by_id(@plant.other_manager.employee_id).employee_name rescue nil
           @project.plant_time_sheets.create(plant_id_str: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
                                             project_company_id: params[:plant][:project_company_id],
-                                            foreman_id: params[:plant][:foreman_id], manager: plant_manager,
+                                            foreman_id: params[:plant][:foreman_id],
                                             plant_id: @plant.id,
+                                            foreman_name: foreman_namee,
+                                            manager: other_manager_namee,
                                             plant_create_date: Time.now.strftime("%Y-%m-%d"),
-                                            company: @project.client_company.company_name, foreman_name: plant_foreman, total_hours: 0)
+                                            company: @project.client_company.company_name, total_hours: 0)
 
-          format.html {redirect_to project_plants_path, notice: 'Plant was successfully created.'}
-          format.json {render :show, status: :created, location: @plant}
+          format.html { redirect_to project_plants_path, notice: 'Plant was successfully created.' }
+          format.json { render :show, status: :created, location: @plant }
         else
-          format.html {render :new}
-          format.json {render json: @plant.errors, status: :unprocessable_entity}
+          format.html { render :new }
+          format.json { render json: @plant.errors, status: :unprocessable_entity }
         end
 
 
@@ -80,11 +69,11 @@ class PlantsController < ApplicationController
         # if @plant.foreman_id.eql?(params[:plant][:foreman_id])
         if @plant.update(plant_params)
 
-          format.html {redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.'}
-          format.json {render :show, status: :ok, location: @plant}
+          format.html { redirect_to "/projects/#{@project.id}/plants", notice: 'Plant was successfully updated.' }
+          format.json { render :show, status: :ok, location: @plant }
         else
-          format.html {render :edit}
-          format.json {render json: @plant.errors, status: :unprocessable_entity}
+          format.html { render :edit }
+          format.json { render json: @plant.errors, status: :unprocessable_entity }
         end
         # else
         #   @duplicate_record = @plant.dup

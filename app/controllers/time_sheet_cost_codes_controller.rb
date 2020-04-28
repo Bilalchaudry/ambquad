@@ -47,8 +47,9 @@ class TimeSheetCostCodesController < ApplicationController
         end
       end
     else
+      cost_codee = CostCode.find_by_id(params[:cost_code_id]).cost_code_id
       @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
-                                                                    cost_code: params[:cost_code],
+                                                                    cost_code: cost_codee,
                                                                     employee_id: params[:employee_id],
                                                                     time_sheet_employee_id: params[:time_sheet_employee_id],
                                                                     employee_time_sheet_id: params[:time_sheet_employee_id])

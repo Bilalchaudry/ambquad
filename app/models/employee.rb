@@ -1,5 +1,6 @@
 class Employee < ApplicationRecord
   audited
+  # after_create :time_sheet_employee
   validates_uniqueness_of :email, :employee_name, :scope => :project_id, :case_sensitive => false
   validates :employee_id, presence: true, uniqueness: {message: "ID already taken"}
 
@@ -26,6 +27,19 @@ class Employee < ApplicationRecord
       Onhold: 1,
       Closed: 2
   }
+
+  # def time_sheet_employee
+  #   @employee_time_sheet = EmployeeTimeSheet.create!(employee: self.employee.employee_name,
+  #                                                    labour_type: self.employee_type.employee_type,
+  #                                                    project_company_id: self.project_company_id,
+  #                                                    company: self.project_company.company_name,
+  #                                                    manager: Employee.find_by_id(self.foreman.employee_id).employee_name,
+  #                                                    foreman_name: Employee.find_by_id(self.other_manager.employee_id).employee_name,
+  #                                                    total_hours: 0,
+  #                                                    employee_type_id: self.employee_type_id,
+  #                                                    employee_id: employee_id.to_i, project_id: self.project_id,
+  #                                                    employee_create_date: Time.now.strftime("%Y-%m-%d"))
+  #   end
 
   # validate :contract_end_date_after_contract_start_date
   # validate :start_date_equal_or_greater_today_date
@@ -69,7 +83,7 @@ class Employee < ApplicationRecord
           end
 
 
-          employee_name = @employee.any? {|a| a.employee_name == row[0].strip}
+          employee_name = @employee.any? { |a| a.employee_name == row[0].strip }
           if employee_name
             return error = "Validation Failed. Employee Name Already Exist in File, Error on Row: #{i}"
           end
@@ -81,7 +95,7 @@ class Employee < ApplicationRecord
           end
 
 
-          employee_id = @employee.any? {|a| a.employee_id == row[1].strip}
+          employee_id = @employee.any? { |a| a.employee_id == row[1].strip }
           if employee_id
             return error = "Validation Failed. Employee ID Already Exist in File, Error on Row: #{i}"
           end
@@ -131,7 +145,7 @@ class Employee < ApplicationRecord
           end
 
           if row[10].present?
-            new_employee_email = @employee.any? {|a| a.email == row[10].strip}
+            new_employee_email = @employee.any? { |a| a.email == row[10].strip }
             if new_employee_email == true
               return error = "Validation Failed. Email Already Exist in File, Error on Row: #{i}"
             end
@@ -145,7 +159,7 @@ class Employee < ApplicationRecord
           end
 
           if row[9].present?
-            new_employee_phone = @employee.any? {|a| a.phone == row[9].strip}
+            new_employee_phone = @employee.any? { |a| a.phone == row[9].strip }
             if new_employee_phone == true
               return error = "Validation Failed. Phone Already Exist in File, Error on Row: #{i}"
             end
@@ -219,16 +233,19 @@ class Employee < ApplicationRecord
   end
 
   def time_sheet_employee
-    # other_manager = self.other_manager.employee.employee_name
-    # foreman = self.foreman.employee.employee_name
-    EmployeeTimeSheet.create!(employee: self.employee_name,
-                              labour_type: self.employee_type.employee_type,
-                              project_company_id: self.project_company_id,
-                              # manager: other_manager,
-                              # foreman_name: foreman,
-                              total_hours: 0,
-                              employee_type_id: self.employee_type_id,
-                              employee_id: employee_id.to_i, project_id: self.project_id,
-                              employee_create_date: Time.now.strftime("%Y-%m-%d"))
+    company = self.project_company.company_name rescue nil
+    foreman_namee = Employee.find_by_id(self.foreman.employee_id).employee_name rescue nil
+    other_manager = Employee.find_by_id(self.other_manager.employee_id).employee_name rescue nil
+    @employee_time_sheet = EmployeeTimeSheet.create!(employee: self.employee_name,
+                                                     labour_type: self.employee_type.employee_type,
+                                                     project_company_id: self.project_company_id,
+                                                     manager: other_manager,
+                                                     foreman_name: foreman_namee,
+                                                     company: company,
+                                                     total_hours: 0,
+                                                     employee_type_id: self.employee_type_id,
+                                                     project_name: self.project.project_name,
+                                                     employee_id: employee_id.to_i, project_id: self.project_id,
+                                                     employee_create_date: Time.now.strftime("%Y-%m-%d"))
   end
 end
