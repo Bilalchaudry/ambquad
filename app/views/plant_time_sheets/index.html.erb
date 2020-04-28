@@ -147,7 +147,7 @@
                 var select = document.getElementById("cost_code");
                 $(select).append("<option disabled selected value>-- Select Cost Code -- </option>")
                 for (i = 0; i < data.length; i++) {
-                    $(select).append("<option value=" + data[i].id + ">" + data[i].cost_code_id + "</option>")
+                    $(select).append("<option value=" + data[i].id + ">" + data[i].cost_code_id + " " + data[i].cost_code_description + "</option>")
                 }
                 $("#cost_code_modal").modal();
                 $('.js-example-basic-single').select2();
