@@ -244,10 +244,10 @@
     <%= form.label :gender, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <select name="employee[gender]" id="gender" class="form-control">
-          <option value="<%= @employee.genders[@employee.gender] rescue nil %>">
+        <select name="employee[status]" id="role" class="form-control">
+          <option value="<%= Employee.genders[@employee.gender] rescue nil %>">
             <%= @employee.gender rescue nil %>
-            <% Employee.genders.reject {|gender| @employee.gender == gender}.each do |key, value| %>
+            <% Employee.genders.reject { |status| status == @employee.gender}.each do |key, value| %>
             <option value="<%= value %>">
               <%= key %>
             </option>
@@ -261,10 +261,10 @@
     <%= form.label :status, :class => "mb-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <select name="employee[status]" id="status" class="form-control" required>
-          <option value="<%= @employee.statuses[@employee.status] rescue nil %>">
+        <select name="employee[status]" id="role" class="form-control" required>
+          <option value="<%= Employee.statuses[@employee.status] rescue nil %>">
             <%= @employee.status rescue nil %>
-            <% Employee.statuses.reject {|status| @employee.status == status}.each do |key, value| %>
+            <% Employee.statuses.reject { |status| status == @employee.status}.each do |key, value| %>
             <option value="<%= value %>">
               <%= key %>
             </option>

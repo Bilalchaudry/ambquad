@@ -115,16 +115,21 @@
                   <div class="input-group">
                     <select name="temporary_user[role]" id="role" class="form-control" required>
                       <% if @temporary_user.role.present? %>
-                        <option value="<%= @temporary_user.role rescue nil %>">
+                        <option value="<%= TemporaryUser.roles[@temporary_user.role] rescue nil %>">
                           <%= @temporary_user.role rescue nil %>
+                          <% TemporaryUser.roles.reject { |role| role == @temporary_user.role }.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
                       <% else %>
                         <option value="">
                           <%= nil %>
-                      <% end %>
-                      <% TemporaryUser.roles.each do |key, value| %>
-                        <option value="<%= value %>">
-                          <%= key %>
-                        </option>
+                          <% TemporaryUser.roles.each do |key, value| %>
+                          <option value="<%= value %>">
+                            <%= key %>
+                          </option>
+                        <% end %>
                       <% end %>
                     </select>
                   </div>
@@ -137,9 +142,9 @@
                 <div class="value">
                   <div class="input-group">
                     <select name="temporary_user[status]" id="role" class="form-control" required>
-                      <option value="<%= @temporary_user.status rescue nil %>">
+                      <option value="<%= TemporaryUser.statuses[@temporary_user.status] rescue nil %>">
                         <%= @temporary_user.status rescue nil %>
-                        <% TemporaryUser.statuses.each do |key, value| %>
+                        <% TemporaryUser.statuses.reject { |status| status == @temporary_user.status}.each do |key, value| %>
                         <option value="<%= value %>">
                           <%= key %>
                         </option>

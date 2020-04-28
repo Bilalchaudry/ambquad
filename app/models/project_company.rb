@@ -13,7 +13,6 @@ class ProjectCompany < ApplicationRecord
   def self.import_file(file, user, project)
 
     if File.extname(file.original_filename) == '.csv'
-      file_name = file.original_filename
       csv_text = File.read(file.path)
       csv = CSV.parse(csv_text, :headers => true)
       i = 0
@@ -41,7 +40,7 @@ class ProjectCompany < ApplicationRecord
             return error = "Validation Failed. Project Company Already Exist in Project, Error on Row: #{i}"
           end
 
-          new_project_company = @project_company.any? {|a| a.company_name == row[0]}
+          new_project_company = @project_company.any? {|a| a.company_name.downcase == row[0].strip.downcase}
           if new_project_company == true
             return error = "Validation Failed. Project Company Already Exist in File, Error on Row: #{i}"
           end

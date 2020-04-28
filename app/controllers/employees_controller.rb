@@ -103,7 +103,6 @@ class EmployeesController < ApplicationController
   end
 
   def import
-    file = params[:file]
     errors = Employee.import_file(params[:file], current_user, @project)
     if errors == nil
       flash[:notice] = 'File Imported Successfully'
@@ -141,7 +140,7 @@ class EmployeesController < ApplicationController
                                                       :other_manager_id, :foreman_id, :project_role,
                                                       :employee_type_id, :country_name, :client_company_id,
                                                       :foreman_start_date)
-    employe_params[:gender] = params[:employee][:gender].to_i
+    employe_params[:gender] = params[:employee][:gender].to_i if params[:employee][:gender].present?
     employe_params[:status] = params[:employee][:status].to_i
     return employe_params
   end

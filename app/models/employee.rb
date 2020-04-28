@@ -41,16 +41,16 @@ class Employee < ApplicationRecord
             return error = "Validation Failed.Employee Field Empty in File, Error on Row: #{i}"
           end
 
-          exist_employee_name = Employee.where(employee_name: row[0].strip, project_id: project.id).first
-          if exist_employee_name.present?
-            return error = "Validation Failed. Employee Name Exist, Error on Row: #{i}"
-          end
+          # exist_employee_name = Employee.where(employee_name: row[0].strip, project_id: project.id).first
+          # if exist_employee_name.present?
+          #   return error = "Validation Failed. Employee Name Exist, Error on Row: #{i}"
+          # end
 
 
-          employee_name = @employee.any? {|a| a.employee_name == row[0].strip}
-          if employee_name
-            return error = "Validation Failed. Employee Name Already Exist in File, Error on Row: #{i}"
-          end
+          # employee_name = @employee.any? {|a| a.employee_name.downcase == row[0].strip.downcase}
+          # if employee_name
+          #   return error = "Validation Failed. Employee Name Already Exist in File, Error on Row: #{i}"
+          # end
 
 
           exist_employee_id = Employee.where(employee_id: row[1].strip, project_id: project.id).first
@@ -59,7 +59,7 @@ class Employee < ApplicationRecord
           end
 
 
-          employee_id = @employee.any? {|a| a.employee_id == row[1].strip}
+          employee_id = @employee.any? {|a| a.employee_id.downcase == row[1].strip.downcase}
           if employee_id
             return error = "Validation Failed. Employee ID Already Exist in File, Error on Row: #{i}"
           end

@@ -17,7 +17,7 @@ class PlantType < ApplicationRecord
           i = i + 1
 
           if row[0].nil?
-            return error = "Validation Failed Plant Type Empty in File, Error on Row: #{i}"
+            return error = "Validation Failed. Plant Type Empty in File, Error on Row: #{i}"
           end
 
           exist_plant_type = project.plant_types.where("lower(type_name) = ?",  row[0].strip.downcase)
@@ -25,12 +25,12 @@ class PlantType < ApplicationRecord
             return error = "Validation Failed. Plant Type Already Exist in Project, Error on Row: #{i}"
           end
 
-          new_plant_type = @plant_type.any? {|a| a.type_name == row[0]}
+          new_plant_type = @plant_type.any? {|a| a.type_name.downcase == row[0].strip.downcase}
           if new_plant_type == true
             return error = "Validation Failed. Plant Type Already Exist in File, Error on Row: #{i}"
           end
 
-          @plant_type << project.plant_types.new(type_name: row[0], project_id: project.id)
+          @plant_type << project.plant_types.new(type_name: row[0].strip.downcase)
 
         rescue => e
           return e.message

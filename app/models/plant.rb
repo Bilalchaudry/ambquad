@@ -52,23 +52,23 @@ class Plant < ApplicationRecord
             return error = "Validation Failed. Plant Field Empty in File, Error on Row: #{i}"
           end
 
-          exist_plant_name = Plant.where(plant_name: row[0].strip, project_id: project.id).first
-          if exist_plant_name.present?
-            return error = "Validation Failed. Plant Name Exist, Error on Row: #{i}"
-          end
+          # exist_plant_name = Plant.where(plant_name: row[0].strip, project_id: project.id).first
+          # if exist_plant_name.present?
+          #   return error = "Validation Failed. Plant Name Exist, Error on Row: #{i}"
+          # end
 
-          plant_name = @plant.any? {|a| a.plant_name == row[0].strip}
-          if plant_name
-            return error = "Validation Failed. Plant Name Already Exist in File, Error on Row: #{i}"
-          end
+          # plant_name = @plant.any? {|a| a.plant_name == row[0].strip}
+          # if plant_name
+          #   return error = "Validation Failed. Plant Name Already Exist in File, Error on Row: #{i}"
+          # end
 
-          exist_employee_id = Employee.where(employee_id: row[1].strip, project_id: project.id).first
+          exist_employee_id = project.plants.where(employee_id: row[1].strip).first
           if exist_employee_id.present?
             return error = "Validation Failed. Employee ID Exist, Error on Row: #{i}"
           end
 
 
-          plant_id = @plant.any? {|a| a.plant_id == row[1].strip}
+          plant_id = @plant.any? {|a| a.plant_id.downcase == row[1].strip.downcase}
           if plant_id
             return error = "Validation Failed. Plant ID Already Exist in File, Error on Row: #{i}"
           end
@@ -82,7 +82,7 @@ class Plant < ApplicationRecord
             return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
           end
 
-          plant_type = PlantType.where(type_name: row[2].strip).first
+          plant_type = project.plant_types.where(type_name: row[2].strip).first
           if plant_type.nil?
             return error = "Validation Failed. Plant Type must Exist, Error on Row: #{i}"
           else
