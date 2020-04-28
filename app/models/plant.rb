@@ -11,7 +11,7 @@ class Plant < ApplicationRecord
   has_many :plant_time_sheets
 
   validates_uniqueness_of :plant_id, :scope => :project_id, :case_sensitive => false
-  validates :plant_id, presence: true, uniqueness: {message: "ID already taken"}
+  # validates :plant_id, presence: true, uniqueness: {message: "ID already taken"}
 
   auto_strip_attributes :plant_id
 

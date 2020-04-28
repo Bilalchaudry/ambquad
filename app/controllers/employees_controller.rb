@@ -55,7 +55,7 @@ class EmployeesController < ApplicationController
         end
       end
     else
-      @employee.errors.add(:base,  'Date should be sub set of project start and end date.')
+      @employee.errors.add(:base, 'Date should be sub set of project start and end date.')
       render :action => 'new'
     end
   end
@@ -74,7 +74,7 @@ class EmployeesController < ApplicationController
         end
       end
     else
-      @employee.errors.add(:base,  'Date should be sub set of project start and end date.')
+      @employee.errors.add(:base, 'Date should be sub set of project start and end date.')
       render :action => 'edit'
     end
   end
@@ -83,7 +83,9 @@ class EmployeesController < ApplicationController
   # DELETE /employees/1.json
   def destroy
     begin
-      if @employee.other_manager.present? || @employee.budget_holders.present? || @employee.foreman.present?
+      if @employee.other_manager.present? || @employee.budget_holders.present? || @employee.foreman.present? ||
+          Foreman.find_by_employee_type_id(employee_type_id: @employee.id) || BudgetHolder.find_by_employee_type_id(employee_type_id: @employee.id) ||
+          OtherManager.find_by_employee_type_id(employee_type_id: @employee.id)
         respond_to do |format|
           format.js
         end
