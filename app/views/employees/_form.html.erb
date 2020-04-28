@@ -164,7 +164,7 @@
         <%= form.label :foreman_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">
           <div class="col-lg-12">
-            <%= form.text_field :foreman_start_date, id: "new-foreman-date", :class => 'f-start-date form-control py-2', 'placeholder' => Time.now.strftime("%m/%d/%Y") %>
+            <%= form.text_field :foreman_start_date, :class => 'f-start-date form-control py-2' %>
           </div>
         </div>
       </div>
@@ -261,7 +261,7 @@
     <%= form.label :status, :class => "mb-1 name", :style => 'font-weight:bold' %>
     <div class="value">
       <div class="input-group">
-        <select name="employee[status]" id="status" class="form-control">
+        <select name="employee[status]" id="status" class="form-control" required>
           <option value="<%= @employee.statuses[@employee.status] rescue nil %>">
             <%= @employee.status rescue nil %>
             <% Employee.statuses.reject {|status| @employee.status == status}.each do |key, value| %>
@@ -304,14 +304,14 @@
             format: 'yyyy-mm-dd',
         });
 
-        // $('.f-start-date').datepicker({
-        //     format: 'yyyy-mm-dd',
-        // });
-
-        $('#new-foreman-date').datepicker({
-            uiLibrary: 'bootstrap',
-            minDate: new Date()
+        $('.f-start-date').datepicker({
+            format: 'yyyy-mm-dd',
         });
+
+        // $('#new-foreman-date').datepicker({
+            // uiLibrary: 'bootstrap',
+            // minDate: new Date()
+        // });
     });
 
 </script>

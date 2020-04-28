@@ -48,6 +48,7 @@
                   <th>Contract Start Date</th>
                   <th>Contract End Date</th>
                   <th>Foreman</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -62,6 +63,7 @@
                     <td><%= plant.contract_start_date rescue "N/A" %></td>
                     <td><%= plant.contract_end_date  rescue "N/A"%></td>
                     <td><%= Employee.find_by_id(plant.foreman.employee_id).employee_name rescue "N/A" %></td>
+                    <td><%= plant.status rescue "N/A"%></td>
                     <td>
                       <%= link_to "View", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/plants/#{plant.id}/edit", :class => "btn btn-outline-info" %>

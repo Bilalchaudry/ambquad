@@ -38,6 +38,7 @@
                   <th>Project Company</th>
                   <th>Contract Start Date</th>
                   <th>Contract End Date</th>
+                  <th>Status</th>
                   <!--                  <th>Foreman</th>-->
                   <th>Actions</th>
                 </tr>
@@ -52,6 +53,7 @@
                     <td><%= plant.plant.project_company.company_name %></td>
                     <td><%= plant.plant.contract_start_date %></td>
                     <td><%= plant.plant.contract_end_date %></td>
+                    <td><%= plant.plant.status %></td>
                     <!--                    <td><%#= plant.plant.foreman.employee.employee_name rescue "N/A" %></td>-->
                     <td>
                       <%= link_to "Delete", "/projects/#{@project.id}/crews/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true %>

@@ -1,7 +1,7 @@
 class EmployeesController < ApplicationController
   include EmployeesHelper
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import, :destroy]
   load_and_authorize_resource
   # GET /employees
   # GET /employees.json
@@ -83,11 +83,12 @@ class EmployeesController < ApplicationController
   # DELETE /employees/1.json
   def destroy
     begin
-      if @employee.other_manager.present? || @employee.budget_holders.present?
+      if @employee.other_manager.present? || @employee.budget_holders.present? || @employee.foreman.present?
         respond_to do |format|
           format.js
         end
       else
+        @employee.project_company.update(number_of_employee: @employee.project_company.number_of_employee - 1)
         @employee.destroy
         @destroy = true
         respond_to do |format|
