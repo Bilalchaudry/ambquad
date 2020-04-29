@@ -35,8 +35,8 @@
           <% current_user.client_company.projects.each do |project| %>
             <tr>
               <td><%= project.project_name %></td>
-              <td><%= project.site_office_address %></td>
-              <td><%= project.client_company.company_name rescue nil %></td>
+              <td><%= project.client_company.company_name rescue "N/A" %></td>
+              <td><%= project.country rescue "N/A" %></td>
               <td>
                 <%= link_to "Setup", project_path(project), :class => "btn btn-outline-success" if can? :view, Project %>
                 <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project %>
