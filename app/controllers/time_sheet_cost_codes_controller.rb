@@ -1,11 +1,17 @@
 class TimeSheetCostCodesController < ApplicationController
-  before_action :get_project, only: [:create, :destroy]
+  before_action :get_project, only: [:create, :destroy, :index]
   before_action :set_time_sheet_cost_code, only: [:show, :edit, :update, :destroy]
 
   # GET /time_sheet_cost_codes
   # GET /time_sheet_cost_codes.json
   def index
-    @time_sheet_cost_codes = TimeSheetCostCode.all
+    @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
+    @specific_date_cost_codes_clear.destroy_all
+    respond_to do |format|
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:today_date]).order(:id)
+      format.js
+      # format.html { redirect_to project_plant_time_sheet_path(@plant_time_sheets) }
+    end
   end
 
   # GET /time_sheet_cost_codes/1

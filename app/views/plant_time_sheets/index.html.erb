@@ -43,11 +43,18 @@
             </div>
           </div>
           <div class="col-xl-3 col-md-3">
+            <div class="card text-white mb-2">
+              <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="clear_time_sheet(<%=params[:project_id] %>)">Clear
+                Time Sheet
+              </button>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3">
             <div class="text-white mb-2">
               <input id="datepicker_search_bar" readonly placeholder="<%= Time.now.strftime("%m/%d/%Y") %>"/>
             </div>
           </div>
-          <div class="col-xl-6 col-md-6"></div>
+          <div class="col-xl-3 col-md-3"></div>
         </div>
         <div class="card mb-4">
           <div class="card-header"><i class="fas fa-table mr-1"></i>Plant Time Sheet</div>
@@ -126,8 +133,8 @@
           </div>
         </div>
       </div>
-  </main>
-</div>
+    </main>
+  </div>
 </div>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
@@ -139,7 +146,6 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script>
     function cost_modal_plant(plant, plant_sheet_id) {
-        debugger
         plant_id = plant
         time_sheet_plant_id = plant_sheet_id
         $.ajax({
@@ -308,5 +314,30 @@
             url: "/projects/<%= @project.id %>/plant_time_sheets",
             data: {submit_time_sheet: true, sheet_date: sheet_date}
         })
+    }
+
+    function clear_time_sheet(project_id) {
+        var celender_date = $("#datepicker_search_bar").val();
+        if (celender_date == "") {
+            var today_date = formatDate(new Date())
+        } else {
+            var today_date = formatDate(celender_date)
+        }
+        debugger
+        if (confirm("Are you sure?")) {
+            var link_url = "/projects/<%= @project.id %>/time_sheet_cost_codes/";
+            $.ajax({
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "GET",
+                url: link_url,
+                data: {project_id, today_date},
+                success: function () {
+
+                }
+            })
+        }
+
     }
 </script>
