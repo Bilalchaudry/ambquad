@@ -204,16 +204,18 @@ class Employee < ApplicationRecord
   end
 
   def time_sheet_employee
-    # other_manager = self.other_manager.employee.employee_name
-    # foreman = self.foreman.employee.employee_name
-    EmployeeTimeSheet.create!(employee: self.employee_name,
-                              labour_type: self.employee_type.employee_type,
-                              project_company_id: self.project_company_id,
-                              # manager: other_manager,
-                              # foreman_name: foreman,
-                              total_hours: 0,
-                              employee_type_id: self.employee_type_id,
-                              employee_id: employee_id.to_i, project_id: self.project_id,
-                              employee_create_date: Time.now.strftime("%Y-%m-%d"))
+    company = self.project_company.company_name rescue nil
+    foreman_namee = Employee.find_by_id(self.foreman.employee_id).employee_name rescue nil
+    other_manager = Employee.find_by_id(self.other_manager.employee_id).employee_name rescue nil
+    @employee_time_sheet = EmployeeTimeSheet.create!(employee: self.employee_name,
+                                                     labour_type: self.employee_type.employee_type,
+                                                     project_company_id: self.project_company_id,
+                                                     manager: other_manager,
+                                                     foreman_name: foreman_namee,
+                                                     company: company,
+                                                     total_hours: 0,
+                                                     employee_type_id: self.employee_type_id,
+                                                     employee_id: employee_id.to_i, project_id: self.project_id,
+                                                     employee_create_date: Time.now.strftime("%Y-%m-%d"))
   end
 end
