@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
   <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
@@ -29,7 +29,7 @@
 
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <a class="navbar-brand" href="/">
-    <%= image_tag("Logo.png", alt: 'Site Logo', class: "logo-style")%></a>
+      <%= image_tag("Logo.png", alt: 'Site Logo', class: "logo-style") %></a>
     <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i>
     </button
     ><!-- Navbar Search-->
@@ -40,7 +40,7 @@
       </div>
     </form>
     <!-- Navbar-->
-    <%= link_to "Hi  #{current_user.username }", "#",  :class => 'btn btn-dark', :style => 'color: white;' %>
+    <%= link_to "Hi  #{current_user.username }", "#", :class => 'btn btn-dark', :style => 'color: white;' %>
     <div class="col-sm-2">
       <%= link_to 'Log Out', "/users/0", :class => 'btn btn-dark', :style => 'color: white;' %>
     </div>
@@ -48,7 +48,7 @@
 
   <div id="layoutSidenav">
 
-    <% if current_user.role.eql?("Admin") &&  current_user.client_company.company_name.eql?("Ambquad") %>
+    <% if current_user.role.eql?("Admin") && current_user.client_company.company_name.eql?("Ambquad") %>
       <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
           <div class="sb-sidenav-menu">
@@ -126,7 +126,7 @@
 
 </html>
 <script>
-    $("#sidebarToggle").on("click", function(e) {
+    $("#sidebarToggle").on("click", function (e) {
         e.preventDefault();
         $("body").toggleClass("sb-sidenav-toggled");
     });

@@ -47,6 +47,21 @@ class CostCode < ApplicationRecord
           end
 
 
+          if row[2].nil?
+            return error = "Validation Failed. Cost Cost Description Empty in File, Error on Row: #{i}"
+          end
+
+          cost_code_description = project.cost_codes.where("lower(cost_code_description) = ?", row[2].strip.downcase)
+          if !cost_code_description.empty?
+            return error = "Validation Failed. Cost Cost Description Already Exist in Project, Error on Row: #{i}"
+          end
+
+          new_cost_code_description = @cost_code.any? {|cost_code| cost_code.cost_code_description == row[2]}
+          if new_cost_code_description == true
+            return error = "Validation Failed. Cost Cost Description Already Exist in File, Error on Row: #{i}"
+          end
+
+
           # unless @cost_code.any? {|cost_code| cost_code.employee_id == employee.id}
           @cost_code << project.cost_codes.new(budget_holder_id: row[0], cost_code_id: row[1], cost_code_description: row[2], WBS_01: row[3], WBS_01_Description: row[4],
                                                WBS_02: row[5], WBS_02_Description: row[6], WBS_03: row[7], WBS_03_Description: row[8],

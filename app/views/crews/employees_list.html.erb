@@ -34,7 +34,6 @@
                   <th>Project Company</th>
                   <th>Contract start date</th>
                   <th>Contract end date</th>
-                  <!--                                    <th>Foreman</th>-->
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -49,11 +48,9 @@
                     <td><%= employee.employee.project_company.company_name rescue "N/A" %></td>
                     <td><%= employee.employee.contract_start_date %></td>
                     <td><%= employee.employee.contract_end_date %></td>
-                    <!--                    <td><%#= Employee.find_by_id(Foreman.find_by_employee_id(employee.employee_id)).employee_name rescue "N/A" %></td>-->
-
                     <td><%= employee.employee.status %></td>
                     <td>
-                      <%= link_to 'Destroy', "/projects/#{@project.id}/crews/#{employee.id}", method: :delete, data: {confirm: 'Are you sure?'}, remote: true, :class => "btn btn-outline-danger" %>
+                      <%= link_to 'Delete', "/projects/#{@project.id}/crews/#{employee.id}", method: :delete, data: {confirm: 'Are you sure?'}, remote: true, :class => "btn btn-outline-danger" %>
                     </td>
                   </tr>
                 <% end %>

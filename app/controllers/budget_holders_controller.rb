@@ -26,15 +26,20 @@ class BudgetHoldersController < ApplicationController
   # POST /budget_holders
   # POST /budget_holders.json
   def create
-    params[:budget_holder][:employee_ids].each do |employee_id|
-      begin
-        BudgetHolder.create(project_id: @project.id, employee_id: employee_id.to_i,
-                            client_company_id: @project.client_company_id)
-      rescue => e
-        puts e.inspect
+    if params[:budget_holder][:employee_ids][1].present?
+      params[:budget_holder][:employee_ids].each do |employee_id|
+        begin
+          BudgetHolder.create(project_id: @project.id, employee_id: employee_id.to_i,
+                              client_company_id: @project.client_company_id)
+        rescue => e
+          puts e.inspect
+        end
       end
+      redirect_to project_budget_holders_path(@project), notice: 'Budget Holder was successfully created.'
+    else
+      @budget_holder.errors.add(:base, 'Please select Budget Holder first.')
+      render :action => 'new'
     end
-    redirect_to project_budget_holders_path(@project), notice: 'Budget Holder was successfully created.'
   end
 
   # PATCH/PUT /budget_holders/1
@@ -91,7 +96,7 @@ class BudgetHoldersController < ApplicationController
     send_file(
         "#{Rails.root}/public/documents/budget_holders.csv",
         filename: "budget_holders.csv",
-        )
+    )
   end
 
   private

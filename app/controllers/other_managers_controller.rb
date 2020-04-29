@@ -29,7 +29,9 @@ class OtherManagersController < ApplicationController
   # POST /other_managers
   # POST /other_managers.json
   def create
-    params[:other_manager][:employee_ids].each do |employee_id|
+    if params[:other_manager][:employee_ids][1].present?
+
+      params[:other_manager][:employee_ids].each do |employee_id|
       begin
         OtherManager.create(project_id: @project.id, employee_id: employee_id.to_i,
                        client_company_id: @project.client_company_id, manager_type: params[:other_manager][:manager_type])
@@ -38,6 +40,10 @@ class OtherManagersController < ApplicationController
       end
     end
     redirect_to project_other_managers_path(@project), notice: 'Other manager was successfully created.'
+    else
+      @other_manager.errors.add(:base, 'Please select Other Manager first.')
+      render :action => 'new'
+    end
   end
 
 

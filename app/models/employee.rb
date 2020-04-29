@@ -1,9 +1,9 @@
 class Employee < ApplicationRecord
   audited
-  validates_uniqueness_of :email, :employee_name, :scope => :project_id, :case_sensitive => false
-  validates :employee_id, presence: true, uniqueness: {message: "ID already taken"}
+  validates_uniqueness_of :employee_id, :scope => :project_id, :case_sensitive => false
+  # validates :employee_id, presence: true, uniqueness: {message: "ID already taken"}
 
-  auto_strip_attributes :employee_name, :employee_id
+  auto_strip_attributes :employee_id
 
   after_create :time_sheet_employee
 
@@ -27,28 +27,6 @@ class Employee < ApplicationRecord
       Closed: 2
   }
 
-  # validate :contract_end_date_after_contract_start_date
-  # validate :start_date_equal_or_greater_today_date
-
-  # validates :contract_end_date,
-  #           date: {after: :contract_start_date}
-
-  def contract_end_date_after_contract_start_date
-    if contract_end_date < contract_start_date
-      errors.add(:contract_end_date, "must be after start date.")
-    end
-    if contract_start_date < Date.today
-      errors.add(:contract_start_date, "can't be in the past.")
-    end
-  end
-
-  def start_date_equal_or_greater_today_date
-    if contract_start_date < Date.today
-      errors.add(:contract_start_date, "can't be in the past.")
-    end
-  end
-
-
   def self.import_file(file, user, project)
     if File.extname(file.original_filename) == '.csv'
       csv_text = File.read(file.path)
@@ -63,25 +41,25 @@ class Employee < ApplicationRecord
             return error = "Validation Failed.Employee Field Empty in File, Error on Row: #{i}"
           end
 
-          exist_employee_name = Employee.where(employee_name: row[0].strip).first
-          if exist_employee_name.present?
-            return error = "Validation Failed. Employee Name Exist, Error on Row: #{i}"
-          end
+          # exist_employee_name = Employee.where(employee_name: row[0].strip, project_id: project.id).first
+          # if exist_employee_name.present?
+          #   return error = "Validation Failed. Employee Name Exist, Error on Row: #{i}"
+          # end
 
 
-          employee_name = @employee.any? {|a| a.employee_name == row[0].strip}
-          if employee_name
-            return error = "Validation Failed. Employee Name Already Exist in File, Error on Row: #{i}"
-          end
+          # employee_name = @employee.any? {|a| a.employee_name.downcase == row[0].strip.downcase}
+          # if employee_name
+          #   return error = "Validation Failed. Employee Name Already Exist in File, Error on Row: #{i}"
+          # end
 
 
-          exist_employee_id = Employee.where(employee_id: row[1].strip).first
+          exist_employee_id = Employee.where(employee_id: row[1].strip, project_id: project.id).first
           if exist_employee_id.present?
             return error = "Validation Failed. Employee ID Exist, Error on Row: #{i}"
           end
 
 
-          employee_id = @employee.any? {|a| a.employee_id == row[1].strip}
+          employee_id = @employee.any? {|a| a.employee_id.downcase == row[1].strip.downcase}
           if employee_id
             return error = "Validation Failed. Employee ID Already Exist in File, Error on Row: #{i}"
           end
@@ -116,13 +94,13 @@ class Employee < ApplicationRecord
           end
 
           if row[10].present?
-            exist_employee_email = Employee.where(email: row[10].strip)
+            exist_employee_email = Employee.where(email: row[10].strip, project_id: project.id)
             if !exist_employee_email.empty?
               return error = "Validation Failed. Email Already Exist, Error on Row: #{i}"
             end
           end
 
-          unless (project.start_date..project.end_date).cover?(Date.parse(row[5])) || (project.start_date..project.end_date).cover?(Date.parse(row[6]))
+          if !(project.start_date..project.end_date).cover?(Date.parse(row[5])) || !(project.start_date..project.end_date).cover?(Date.parse(row[6]))
             return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
           end
 
@@ -138,7 +116,7 @@ class Employee < ApplicationRecord
           end
 
           if row[9].present?
-            exist_employee_phone = Employee.where(phone: row[9].strip)
+            exist_employee_phone = Employee.where(phone: row[9].strip, project_id: project.id)
             if !exist_employee_phone.empty?
               return error = "Validation Failed. Phone Already Exist, Error on Row: #{i}"
             end
@@ -195,9 +173,15 @@ class Employee < ApplicationRecord
           return e.message
         end
       end
+
       if @employee.empty?
         return error = "Validation Failed. Please Insert some data in File."
       end
+      @employee.each do |employee|
+        project_company = ProjectCompany.find_by_id(employee.project_company_id)
+        project_company.update(number_of_employee: project_company.number_of_employee + 1) if project_company.present?
+      end
+
       Employee.import @employee
       error = 'File Import Successfully'
     else
@@ -220,16 +204,18 @@ class Employee < ApplicationRecord
   end
 
   def time_sheet_employee
-    # other_manager = self.other_manager.employee.employee_name
-    # foreman = self.foreman.employee.employee_name
-    EmployeeTimeSheet.create!(employee: self.employee_name,
-                              labour_type: self.employee_type.employee_type,
-                              project_company_id: self.project_company_id,
-                              # manager: other_manager,
-                              # foreman_name: foreman,
-                              total_hours: 0,
-                              employee_type_id: self.employee_type_id,
-                              employee_id: employee_id.to_i, project_id: self.project_id,
-                              employee_create_date: Time.now.strftime("%Y-%m-%d"))
+    company = self.project_company.company_name rescue nil
+    foreman_namee = Employee.find_by_id(self.foreman.employee_id).employee_name rescue nil
+    other_manager = Employee.find_by_id(self.other_manager.employee_id).employee_name rescue nil
+    @employee_time_sheet = EmployeeTimeSheet.create!(employee: self.employee_name,
+                                                     labour_type: self.employee_type.employee_type,
+                                                     project_company_id: self.project_company_id,
+                                                     manager: other_manager,
+                                                     foreman_name: foreman_namee,
+                                                     company: company,
+                                                     total_hours: 0,
+                                                     employee_type_id: self.employee_type_id,
+                                                     employee_id: employee_id.to_i, project_id: self.project_id,
+                                                     employee_create_date: Time.now.strftime("%Y-%m-%d"))
   end
 end

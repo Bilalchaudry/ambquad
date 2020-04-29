@@ -38,7 +38,7 @@
                 <%= form.label :project_lead, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
                 <div class="value">
                   <div class="input-group">
-                    <%= form.text_field :project_lead, :class => "form-control py-2", :required => true %>
+                    <%= form.text_field :project_lead, :class => "form-control py-2" %>
                   </div>
                 </div>
               </div>
@@ -188,6 +188,7 @@
       };
 
       function initAutocomplete() {
+          debugger
           // Create the autocomplete object, restricting the search predictions to
           // geographical location types.
           autocomplete = new google.maps.places.Autocomplete(
@@ -203,6 +204,7 @@
       }
 
       function fillInAddress() {
+          debugger
           // Get the place details from the autocomplete object.
           var place = autocomplete.getPlace();
 

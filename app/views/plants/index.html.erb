@@ -1,12 +1,12 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
-    <% if notice.present? %>
-      <p id="notice" class="alert-success notice-style"><%= notice %></p>
-    <% end %>
-    <div class="form-info-style">
-      <%= render 'shared/client_and_project_info' %>
-    </div>
     <main>
+      <% if notice.present? %>
+        <p id="notice" class="alert-success notice-style"><%= notice %></p>
+      <% end %>
+      <div class="form-info-style">
+        <%= render 'shared/client_and_project_info' %>
+      </div>
       <div class="container-fluid">
         <div class="row pt-3">
 
@@ -48,7 +48,8 @@
                   <th>Contract Start Date</th>
                   <th>Contract End Date</th>
                   <th>Foreman</th>
-                  <th>Actions</th>
+                  <th>Status</th>
+                  <th>Plant Actions</th>
                 </tr>
                 </thead>
 
@@ -57,15 +58,16 @@
                   <tr>
                     <td><%= plant.plant_id rescue "N/A" %></td>
                     <td><%= plant.plant_name rescue "N/A" %></td>
-                    <td><%= plant.plant_type.type_name  rescue "N/A"%></td>
-                    <td><%= plant.project_company.company_name rescue "N/A"%></td>
+                    <td><%= plant.plant_type.type_name rescue "N/A" %></td>
+                    <td><%= plant.project_company.company_name rescue "N/A" %></td>
                     <td><%= plant.contract_start_date rescue "N/A" %></td>
-                    <td><%= plant.contract_end_date  rescue "N/A"%></td>
+                    <td><%= plant.contract_end_date rescue "N/A" %></td>
                     <td><%= Employee.find_by_id(plant.foreman.employee_id).employee_name rescue "N/A" %></td>
+                    <td><%= plant.status rescue "N/A" %></td>
                     <td>
                       <%= link_to "View", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/plants/#{plant.id}/edit", :class => "btn btn-outline-info" %>
-                      <%= link_to "Delete", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true   %>
+                      <%= link_to "Delete", "/projects/#{@project.id}/plants/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true %>
                     </td>
                   </tr>
                 <% end %>
@@ -78,18 +80,18 @@
 
       </div>
     </main>
-    <footer class="py-4 bg-light mt-auto">
-      <div class="container-fluid">
-        <div class="d-flex align-items-center justify-content-between small">
-          <div class="text-muted">Copyright &copy; Your Website 2019</div>
-          <div>
-            <a href="#">Privacy Policy</a>
-            &middot;
-            <a href="#">Terms &amp; Conditions</a>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <!--    <footer class="py-4 bg-light mt-auto">-->
+    <!--      <div class="container-fluid">-->
+    <!--        <div class="d-flex align-items-center justify-content-between small">-->
+    <!--          <div class="text-muted">Copyright &copy; Your Website 2019</div>-->
+    <!--          <div>-->
+    <!--            <a href="#">Privacy Policy</a>-->
+    <!--            &middot;-->
+    <!--            <a href="#">Terms &amp; Conditions</a>-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </footer>-->
   </div>
 </div>
 

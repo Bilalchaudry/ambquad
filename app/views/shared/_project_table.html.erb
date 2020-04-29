@@ -6,8 +6,8 @@
         <thead>
         <tr>
           <th>Name</th>
-          <th>Country</th>
           <th>Company</th>
+          <th>Country</th>
           <th>Project Actions</th>
         </tr>
         </thead>
@@ -17,11 +17,16 @@
         <% if current_user.role.eql?("Admin") && current_user.client_company.company_name.eql?("Ambquad") %>
           <% Project.all.each do |project| %>
             <tr>
-              <td><%= project.project_name %></td>
-              <td><%= project.site_office_address %></td>
-              <td><%= project.client_company.company_name rescue nil %></td>
+              <td><%= project.project_name rescue "N/A" %></td>
+              <td><%= project.client_company.company_name rescue "N/A" %></td>
+              <td><%= project.country rescue "N/A" %></td>
               <td>
-                <%= link_to "Setup", project_path(project), :class => "btn btn-outline-success" if can? :view, Project %>
+                <% if project.project_status.eql?(0) %>
+                  <%= link_to "Setup", project_path(project), :class => "btn btn-outline-success" if can? :view, Project %>
+                <% else %>
+                  <%= button_tag 'Setup', :class => "btn btn-outline-dark disable", type: 'button' %>
+                <% end %>
+
                 <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project %>
                 <%= link_to "Delete", project_path(project), data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true if can? :delete, Project %></td>
             </tr>
@@ -30,8 +35,8 @@
           <% current_user.client_company.projects.each do |project| %>
             <tr>
               <td><%= project.project_name %></td>
-              <td><%= project.site_office_address %></td>
-              <td><%= project.client_company.company_name rescue nil %></td>
+              <td><%= project.client_company.company_name rescue "N/A" %></td>
+              <td><%= project.country rescue "N/A" %></td>
               <td>
                 <%= link_to "Setup", project_path(project), :class => "btn btn-outline-success" if can? :view, Project %>
                 <%= link_to "Edit", edit_project_path(project), :class => "btn btn-outline-info" if can? :update, Project %>
