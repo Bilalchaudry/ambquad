@@ -30,6 +30,7 @@ class TimeSheetCostCodesController < ApplicationController
       @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
                                                                     cost_code: cost_codee,
                                                                     plant_id: params[:plant_id],
+                                                                    cost_code_created_at: Date.today,
                                                                     time_sheet_plant_id: params[:time_sheet_plant_id])
       @cost_code = @project.time_sheet_cost_codes.where(time_sheet_plant_id: params[:time_sheet_plant_id])
       unless @cost_code.empty?
@@ -52,6 +53,7 @@ class TimeSheetCostCodesController < ApplicationController
       @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
                                                                     cost_code: cost_codee,
                                                                     employee_id: params[:employee_id],
+                                                                    cost_code_created_at: Date.today,
                                                                     time_sheet_employee_id: params[:time_sheet_employee_id],
                                                                     employee_time_sheet_id: params[:time_sheet_employee_id])
       @cost_code = @project.time_sheet_cost_codes.where(time_sheet_employee_id: params[:time_sheet_employee_id])

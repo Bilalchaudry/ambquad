@@ -1,6 +1,6 @@
 class PlantTimeSheetsController < ApplicationController
-  before_action :get_project, only: :index
-  before_action :set_plant_time_sheet, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:index, :show]
+  before_action :set_plant_time_sheet, only: [:edit, :update, :destroy]
 
   # GET /plant_time_sheets
   # GET /plant_time_sheets.json
@@ -129,6 +129,7 @@ class PlantTimeSheetsController < ApplicationController
   # GET /plant_time_sheets/1
   # GET /plant_time_sheets/1.json
   def show
+    @plant_time_sheets = @project.plant_time_sheets.where(created_at: Date.today.beginning_of_week(:monday) .. Date.today.end_of_week(:sunday)).order(:id) rescue nil
   end
 
   # GET /plant_time_sheets/new

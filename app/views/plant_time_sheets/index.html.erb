@@ -112,15 +112,22 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6"></div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'View Time Sheet', "/projects/#{@project.id}/plant_time_sheets/show", :class => "btn btn-dark w-100" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div>
               </div>
-              <%#= link_to 'New Plant Time Sheet', new_plant_time_sheet_path %>
             </div>
+            <%#= link_to 'New Plant Time Sheet', new_plant_time_sheet_path %>
           </div>
         </div>
       </div>
-    </main>
-  </div>
+  </main>
+</div>
 </div>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>

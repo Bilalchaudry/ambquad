@@ -1,6 +1,6 @@
 class EmployeeTimeSheetsController < ApplicationController
-  before_action :get_project, only: :index
-  before_action :set_employee_time_sheet, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:index, :show]
+  before_action :set_employee_time_sheet, only: [:edit, :update, :destroy]
 
   # GET /employee_time_sheets
   # GET /employee_time_sheets.json
@@ -149,6 +149,7 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets/1
   # GET /employee_time_sheets/1.json
   def show
+    @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:monday) .. Date.today.end_of_week(:sunday)).order(:id)
   end
 
   # GET /employee_time_sheets/new
