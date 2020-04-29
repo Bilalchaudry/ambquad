@@ -1,15 +1,6 @@
 <%= form_with(model: [@project, budget_holder], local: true) do |form| %>
   <% if budget_holder.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(budget_holder.errors.count, "error") %> prohibited this foreman from being
-        saved:</h2>
-
-      <ul>
-        <% budget_holder.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
+    <%= render 'layouts/error_messages', object: form.object %>
   <% end %>
 
   <div class="form-row">

@@ -53,7 +53,7 @@ class EmployeesController < ApplicationController
   # PATCH/PUT /employees/1
   # PATCH/PUT /employees/1.json
   def update
-    if ((@project.start_date..@project.end_date).cover?(params[:employee][:foreman_start_date]))
+    # if ((@project.start_date..@project.end_date).cover?(params[:employee][:foreman_start_date]))
       respond_to do |format|
         if @employee.update(employee_params)
           format.html { redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully updated.' }
@@ -63,10 +63,10 @@ class EmployeesController < ApplicationController
           format.json { render json: @employee.errors, status: :unprocessable_entity }
         end
       end
-    else
-      @employee.errors.add(:base, 'Date should be sub set of project start and end date.')
-      render :action => 'edit'
-    end
+    # else
+    #   @employee.errors.add(:base, 'Date should be sub set of project start and end date.')
+    #   render :action => 'edit'
+    # end
   end
 
   # DELETE /employees/1
