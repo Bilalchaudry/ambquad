@@ -56,24 +56,20 @@
               <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th rowspan="2" class="plant_sheet_id">f Plant</th>
-                  <th rowspan="2" class="plant_sheet_id">Plant Sheet ID</th>
-                  <th rowspan="2">Project Name</th>
-                  <th rowspan="2">Plant ID</th>
-                  <th rowspan="2">Plant name</th>
-                  <th rowspan="2">Company</th>
-                  <th rowspan="2">Manager</th>
-                  <th rowspan="2">Foreman</th>
-                  <th colspan="10">Cost Codes Hours</th>
-                </tr>
-                <tr>
+                  <th class="plant_sheet_id">f Plant</th>
+                  <th  class="plant_sheet_id">Plant Sheet ID</th>
+                  <th>Project Name</th>
+                  <th>Plant ID</th>
+                  <th>Plant name</th>
+                  <th>Company</th>
+                  <th>Manager</th>
+                  <th>Foreman</th>
                   <th>Mon <%= monday = Date.today.beginning_of_week(:monday) %></th>
                   <th>Tue <%= tuesday = monday.next_day %></th>
                   <th>Wed <%= wednesday = tuesday.next_day %></th>
                   <th>Thu <%= thursday = wednesday.next_day %></th>
                   <th>Fri <%= friday = thursday.next_day %></th>
                   <th>Total hours</th>
-                </tr>
                 </tr>
                 </thead>
 
