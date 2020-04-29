@@ -17,7 +17,7 @@
             <% end %>
           </select>
         <% else %>
-          <%= form.select :employee_ids, options_for_select(@project.employees.reject {|employee| @project.foremen.pluck(:employee_id).include?(employee.id)}.map {|c| [c.employee_name, c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true} %>
+          <%= form.select :employee_ids, options_for_select(@project.employees.reject {|employee| @project.foremen.pluck(:employee_id).include?(employee.id)}.map {|c| [c.employee_name, c.id]}), {}, {class: "form-control selectpicker", data: {"live-search": true}, multiple: true}%>
         <% end %>
       </div>
     </div>

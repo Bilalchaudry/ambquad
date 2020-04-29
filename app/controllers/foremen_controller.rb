@@ -37,15 +37,20 @@ class ForemenController < ApplicationController
   # POST /foremen
   # POST /foremen.json
   def create
-    params[:foreman][:employee_ids].each do |employee_id|
-      begin
-        Foreman.create(project_id: @project.id, employee_id: employee_id.to_i,
-                       client_company_id: @project.client_company_id)
-      rescue => e
-        puts e.inspect
+    if params[:foreman][:employee_ids][1].present?
+      params[:foreman][:employee_ids].each do |employee_id|
+        begin
+          Foreman.create(project_id: @project.id, employee_id: employee_id.to_i,
+                         client_company_id: @project.client_company_id)
+        rescue => e
+          puts e.inspect
+        end
       end
+      redirect_to project_foremen_path(@project), notice: 'Foreman was successfully created.'
+    else
+      @foreman.errors.add(:base, 'Please select foreman first.')
+      render :action => 'new'
     end
-    redirect_to project_foremen_path(@project), notice: 'Foreman was successfully created.'
   end
 
   # PATCH/PUT /foremen/1
@@ -101,7 +106,7 @@ class ForemenController < ApplicationController
     send_file(
         "#{Rails.root}/public/documents/foremen.csv",
         filename: "foremen.csv",
-        )
+    )
   end
 
   # def users_except_foremen

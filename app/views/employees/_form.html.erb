@@ -75,8 +75,8 @@
       <div class="value">
         <div class="input-group">
           <select name="employee[employee_type_id]" id="employee_type_id" class="form-control" required>
-            <option value=""></option>
-            <% @project.employee_types.each do |employee_type| %>
+            <option value="<%= @employee.employee_type.present? ? @employee.employee_type_id : "" %>"><%= @employee.employee_type.present? ? @employee.employee_type.employee_type : "" %></option>
+            <% @project.employee_types.reject { |employee_type| @employee.employee_type.present? && employee_type.employee_type.eql?(@employee.employee_type.employee_type) }.each do |employee_type| %>
               <option value="<%= employee_type.id %>">
                 <%= employee_type.employee_type %>
               </option>
@@ -93,7 +93,7 @@
         <div class="input-group">
           <select name="employee[project_company_id]" id="project_company_id" class="form-control" required>
             <option value="<%= @employee.project_company.present? ? @employee.project_company_id : "" %>"><%= @employee.project_company.present? ? @employee.project_company.company_name : "" %></option>
-            <% @project.project_companies.each do |company| %>
+            <% @project.project_companies.reject { |project_company| @employee.project_company.present? && project_company.company_name.eql?(@employee.project_company.company_name) }.each do |company| %>
               <option value="<%= company.id %>">
                 <%= company.company_name %>
               </option>
@@ -247,7 +247,7 @@
         <select name="employee[status]" id="role" class="form-control">
           <option value="<%= Employee.genders[@employee.gender] rescue nil %>">
             <%= @employee.gender rescue nil %>
-            <% Employee.genders.reject { |status| status == @employee.gender}.each do |key, value| %>
+            <% Employee.genders.reject {|status| status == @employee.gender}.each do |key, value| %>
             <option value="<%= value %>">
               <%= key %>
             </option>
@@ -264,7 +264,7 @@
         <select name="employee[status]" id="role" class="form-control" required>
           <option value="<%= Employee.statuses[@employee.status] rescue nil %>">
             <%= @employee.status rescue nil %>
-            <% Employee.statuses.reject { |status| status == @employee.status}.each do |key, value| %>
+            <% Employee.statuses.reject {|status| status == @employee.status}.each do |key, value| %>
             <option value="<%= value %>">
               <%= key %>
             </option>
@@ -309,8 +309,8 @@
         });
 
         // $('#new-foreman-date').datepicker({
-            // uiLibrary: 'bootstrap',
-            // minDate: new Date()
+        // uiLibrary: 'bootstrap',
+        // minDate: new Date()
         // });
     });
 

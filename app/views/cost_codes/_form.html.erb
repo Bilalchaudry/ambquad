@@ -24,7 +24,7 @@
         <%= form.label :budget_holder_start_date, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">
           <div class="input-group">
-            <%= form.text_field :budget_holder_start_date, id: "new-bd-date", :class => 'form-control py-2', 'placeholder' => Time.now.strftime("%m/%d/%Y") %>
+            <%= form.text_field :budget_holder_start_date, id: "new-bd-date", :class => 'form-control py-2' %>
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@
   </div>
 
   <div class="form-row">
-    <%= form.label :cost_code_description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
+    <%= form.label :cost_code_description, :class => "mb-1 pt-2 name", :style => 'font-weight:bold', :required => true %>
     <div class="value">
       <div class="input-group">
         <%= form.text_field :cost_code_description, :class => "form-control py-2" %>
