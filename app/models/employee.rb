@@ -100,7 +100,7 @@ class Employee < ApplicationRecord
             end
           end
 
-          unless (project.start_date..project.end_date).cover?(Date.parse(row[5])) || (project.start_date..project.end_date).cover?(Date.parse(row[6]))
+          if !(project.start_date..project.end_date).cover?(Date.parse(row[5])) || !(project.start_date..project.end_date).cover?(Date.parse(row[6]))
             return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
           end
 

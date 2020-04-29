@@ -62,9 +62,9 @@ class Plant < ApplicationRecord
           #   return error = "Validation Failed. Plant Name Already Exist in File, Error on Row: #{i}"
           # end
 
-          exist_employee_id = project.plants.where(employee_id: row[1].strip).first
+          exist_employee_id = project.plants.where(plant_id: row[1].strip).first
           if exist_employee_id.present?
-            return error = "Validation Failed. Employee ID Exist, Error on Row: #{i}"
+            return error = "Validation Failed. Plant ID Exist, Error on Row: #{i}"
           end
 
 
@@ -74,7 +74,7 @@ class Plant < ApplicationRecord
           end
 
 
-          unless (project.start_date..project.end_date).cover?(Date.parse(row[4])) || (project.start_date..project.end_date).cover?(Date.parse(row[5]))
+          if !(project.start_date..project.end_date).cover?(Date.parse(row[4])) || !(project.start_date..project.end_date).cover?(Date.parse(row[5]))
             return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
           end
 
@@ -142,7 +142,7 @@ class Plant < ApplicationRecord
         end
       end
       if @plant.empty?
-        return error = "Validation Failed. Please Insert some data in File."
+        return error = "Validation Failed. Please Insert some valid data in File."
       end
       Plant.import @plant
       error = 'File Import Successfully'
