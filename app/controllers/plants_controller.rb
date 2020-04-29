@@ -64,7 +64,7 @@ class PlantsController < ApplicationController
   # PATCH/PUT /plants/1
   # PATCH/PUT /plants/1.json
   def update
-    if ((@plant.start_date..@project.end_date).cover?(params[:plant][:foreman_start_date]))
+    # if ((@plant.start_date..@project.end_date).cover?(params[:plant][:foreman_start_date]))
       respond_to do |format|
         # if @plant.foreman_id.eql?(params[:plant][:foreman_id])
         if @plant.update(plant_params)
@@ -90,10 +90,10 @@ class PlantsController < ApplicationController
         #   end
         # end
       end
-    else
-      @plant.errors.add(:base, 'Date should be sub set of project start and end date.')
-      render :action => 'edit'
-    end
+    # else
+    #   @plant.errors.add(:base, 'Date should be sub set of project start and end date.')
+    #   render :action => 'edit'
+    # end
   end
 
   # DELETE /plants/1
