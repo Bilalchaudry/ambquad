@@ -7,10 +7,10 @@ class TimeSheetCostCodesController < ApplicationController
   def index
     @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
     @specific_date_cost_codes_clear.destroy_all
+    @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:today_date]).order(:id)
+    @plant_time_sheets.update_all(total_hours: 0)
     respond_to do |format|
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:today_date]).order(:id)
       format.js
-      # format.html { redirect_to project_plant_time_sheet_path(@plant_time_sheets) }
     end
   end
 
