@@ -37,21 +37,11 @@ class EmployeesController < ApplicationController
       respond_to do |format|
         if @employee.save
           @employee.project_company.update(number_of_employee: @employee.project_company.number_of_employee + 1) rescue nil
-          @employee_time_sheet = EmployeeTimeSheet.new(employee: @employee.employee_name, labour_type: @employee.employee_type.employee_type, employee_id: @employee.id,
-                                                       project_company_id: @employee.project_company_id, total_hours: 0, employee_type_id: @employee.employee_type_id,
-                                                       project_id: @project.id, employee_create_date: Time.now.strftime("%Y-%m-%d"), foreman_id: @employee.foreman_id)
-          @employee_time_sheet.manager = @employee.other_manager.employee.employee_name rescue nil
-          @employee_time_sheet.foreman_name = @employee.foreman.employee.employee_name rescue nil
-          if @employee_time_sheet.save
-            format.html {redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully created.'}
-            format.json {render :show, status: :created, location: @employee}
-          else
-            format.html {render :new}
-            format.json {render json: @employee.errors, status: :unprocessable_entity}
-          end
+          format.html { redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully created.' }
+          format.json { render :show, status: :created, location: @employee }
         else
-          format.html {render :new}
-          format.json {render json: @employee.errors, status: :unprocessable_entity}
+          format.html { render :new }
+          format.json { render json: @employee.errors, status: :unprocessable_entity }
         end
       end
     else
@@ -66,11 +56,11 @@ class EmployeesController < ApplicationController
     if ((@project.start_date..@project.end_date).cover?(params[:employee][:foreman_start_date]))
       respond_to do |format|
         if @employee.update(employee_params)
-          format.html {redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully updated.'}
-          format.json {render :show, status: :ok, location: @employee}
+          format.html { redirect_to "/projects/#{@project.id}/employees", notice: 'Employee was successfully updated.' }
+          format.json { render :show, status: :ok, location: @employee }
         else
-          format.html {render :edit}
-          format.json {render json: @employee.errors, status: :unprocessable_entity}
+          format.html { render :edit }
+          format.json { render json: @employee.errors, status: :unprocessable_entity }
         end
       end
     else
