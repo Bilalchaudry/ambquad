@@ -8,7 +8,7 @@
 
         <select name="project[client_company_id]" id="company_id" class="form-control" required>
           <option value=<%= @project.client_company.present? ? @project.client_company_id : "" %>><%= @project.client_company.present? ? ClientCompany.find_by_id(@project.client_company_id).company_name : "" %></option>
-          <% ClientCompany.each do |company| %>
+          <% ClientCompany.all.each do |company| %>
             <option value="<%= company.id %>">
               <%= company.company_name %>
             </option>

@@ -21,12 +21,12 @@ class EmployeeType < ApplicationRecord
 
           exist_employee_type = project.employee_types.where("lower(employee_type) = ?", row[0].strip.downcase)
           if exist_employee_type.present?
-            return error = "Validation Failed Employee Type Already Exist in Project, Error on Row: #{i}"
+            return error = "Validation Failed. Employee Type Already Exist in Project, Error on Row: #{i}"
           end
 
-          new_employee_type = @employee_type.any? {|a| a.employee_type == row[0].strip}
+          new_employee_type = @employee_type.any? {|a| a.employee_type.downcase == row[0].strip.downcase}
           if new_employee_type == true
-            return error = "Validation Failed Employee Type Already Exist in File, Error on Row: #{i}"
+            return error = "Validation Failed.Employee Type Already Exist in File, Error on Row: #{i}"
           end
 
           @employee_type << project.employee_types.new(employee_type: row[0].strip, project_id: project.id)

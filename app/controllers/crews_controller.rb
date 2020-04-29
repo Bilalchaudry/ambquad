@@ -1,6 +1,6 @@
 class CrewsController < ApplicationController
   include CrewsHelper
-  before_action :set_foreman, only: [:new]
+  before_action :set_foreman, only: :new
   before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :plants_list, :employees_list, :destroy]
 
 
@@ -79,6 +79,13 @@ class CrewsController < ApplicationController
   def destroy
     begin
       @crew = @project.crews.find(params[:id])
+      if @crew.plant_id.present?
+        plant = Plant.find_by_id(@crew.plant_id)
+        plant.update(foreman_id: nil) if plant.present?
+      else
+        employee = Employee.find_by_id(@crew.employee_id)
+        employee.update(foreman_id: nil) if employee.present?
+      end
       @crew.destroy
       @destroy = true
       respond_to do |format|
