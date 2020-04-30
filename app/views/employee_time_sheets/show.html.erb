@@ -14,17 +14,19 @@
           <div class="col-xl-3 col-md-3">
             <%= link_to 'Back to Timesheet ', "/projects/#{@project.id}/employee_time_sheets", :class => "btn btn-dark w-100" %>
           </div>
-          <div class="col-xl-1 col-md-1 ml-5">
-            <% Date.today %>
+          <div class="col-xl-1 col-md-1">
             <% date = @current_week_start_date.to_s %>
             <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?current=" + date, :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf053;</i>
             <% end %>
           </div>
-          <div class="col-xl-2 col-md-2 btn btn-info">
+          <div class="col-xl-2 col-md-2 text-white btn bg-clr">
             <%= date %>
           </div>
-          <div class="col-xl-1 col-md-1 ml-5">
+          <div class="col-xl-2 col-md-2 btn btn-info">
+            <%= @current_week_start_date.end_of_week(:saturday) + 1 %>
+          </div>
+          <div class="col-xl-1 col-md-1">
             <% date = @current_week_start_date.to_s %>
             <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?nextweek=" + date, :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf054;</i>
@@ -33,7 +35,6 @@
           <div class="col-xl-3 col-md-3">
             <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100" %>
           </div>
-          <div class="col-xl-1 col-md-1"></div>
         </div>
         <div class="card mb-4">
           <div class="card-header"><i class="fas fa-table mr-1"></i>Employee Time Sheet</div>
