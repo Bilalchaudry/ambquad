@@ -1,7 +1,7 @@
 class EmployeesController < ApplicationController
   include EmployeesHelper
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
-  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import]
+  before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :import, :destroy]
   load_and_authorize_resource
   # GET /employees
   # GET /employees.json
@@ -73,11 +73,14 @@ class EmployeesController < ApplicationController
   # DELETE /employees/1.json
   def destroy
     begin
-      if @employee.other_manager.present? || @employee.budget_holders.present?
+      if @employee.other_manager.present? || @employee.budget_holders.present? || @employee.foreman.present? ||
+          Foreman.find_by_employee_id(@employee.id) || BudgetHolder.find_by_employee_id(@employee.id) ||
+          OtherManager.find_by_employee_id(@employee.id)
         respond_to do |format|
           format.js
         end
       else
+        @employee.project_company.update(number_of_employee: @employee.project_company.number_of_employee - 1)
         @employee.destroy
         @destroy = true
         respond_to do |format|
@@ -90,7 +93,6 @@ class EmployeesController < ApplicationController
   end
 
   def import
-    file = params[:file]
     errors = Employee.import_file(params[:file], current_user, @project)
     if errors == nil
       flash[:notice] = 'File Imported Successfully'
@@ -128,7 +130,7 @@ class EmployeesController < ApplicationController
                                                       :other_manager_id, :foreman_id, :project_role,
                                                       :employee_type_id, :country_name, :client_company_id,
                                                       :foreman_start_date)
-    employe_params[:gender] = params[:employee][:gender].to_i
+    employe_params[:gender] = params[:employee][:gender].to_i if params[:employee][:gender].present?
     employe_params[:status] = params[:employee][:status].to_i
     return employe_params
   end

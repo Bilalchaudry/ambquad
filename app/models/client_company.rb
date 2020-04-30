@@ -9,7 +9,10 @@ class ClientCompany < ApplicationRecord
 
   validates :address, presence: true
   validates_uniqueness_of :company_name, :company_id, :case_sensitive => false
-  auto_strip_attributes :company_name
+  validates :company_id, presence: true, uniqueness: {message: "ID already taken"}
+
+
+  auto_strip_attributes :company_name, :company_id
 
   before_destroy :check_for_projects, prepend: true
 
