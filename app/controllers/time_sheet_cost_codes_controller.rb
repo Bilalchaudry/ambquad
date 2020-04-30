@@ -5,12 +5,22 @@ class TimeSheetCostCodesController < ApplicationController
   # GET /time_sheet_cost_codes
   # GET /time_sheet_cost_codes.json
   def index
-    @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
-    @specific_date_cost_codes_clear.destroy_all
-    @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:today_date]).order(:id)
-    @plant_time_sheets.update_all(total_hours: 0)
-    respond_to do |format|
-      format.js
+    if params[:employee_sheet_clear].present?
+      @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
+      @specific_date_cost_codes_clear.destroy_all
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:today_date]).order(:id)
+      @employee_time_sheets.update_all(total_hours: 0)
+      respond_to do |format|
+        format.js
+      end
+    else
+      @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
+      @specific_date_cost_codes_clear.destroy_all
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:today_date]).order(:id)
+      @plant_time_sheets.update_all(total_hours: 0)
+      respond_to do |format|
+        format.js
+      end
     end
   end
 

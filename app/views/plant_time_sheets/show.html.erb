@@ -10,32 +10,9 @@
         <%= render 'shared/client_and_project_info' %>
       </div>
       <div class="container-fluid">
-        <div class="modal fade" id="cost_code_modal" role="dialog">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-              <div class="modal-body">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-
-          </div>
-          <%# end %>
-        </div>
-        <center>
-          <h3 class="alert-info mt-1"><%= notice %></h3>
-        </center>
+        <!--        <center>-->
+        <!--          <h3 class="alert-info mt-1"><%#= notice %></h3>-->
+        <!--        </center>-->
         <div class="row">
           <div class="col-xl-3 col-md-3">
             <div class="card bg-success text-white mb-2">
@@ -47,7 +24,14 @@
               <div class="btn  text-white bg-info">Current Week Sheet</div>
             </div>
           </div>
-          <div class="col-xl-6 col-md-6"></div>
+          <div class="col-xl-3 col-md-3">
+            <div class="text-white mb-2">
+              <div class="btn  text-white">
+                <button class="btn btn-dark" onclick="previous_sheet_data()"> Previous Week</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-md-3"></div>
         </div>
         <div class="card mb-4">
           <div class="card-header"><i class="fas fa-table mr-1"></i>Plant Time Sheet</div>
@@ -56,19 +40,19 @@
               <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th class="plant_sheet_id">f Plant</th>
-                  <th  class="plant_sheet_id">Plant Sheet ID</th>
                   <th>Project Name</th>
                   <th>Plant ID</th>
                   <th>Plant name</th>
                   <th>Company</th>
                   <th>Manager</th>
                   <th>Foreman</th>
-                  <th>Mon <%= monday = Date.today.beginning_of_week(:monday) %></th>
-                  <th>Tue <%= tuesday = monday.next_day %></th>
-                  <th>Wed <%= wednesday = tuesday.next_day %></th>
-                  <th>Thu <%= thursday = wednesday.next_day %></th>
-                  <th>Fri <%= friday = thursday.next_day %></th>
+                  <th>Sun <%= sun = Date.today.beginning_of_week(:sunday) %></th>
+                  <th>Mon <%= mon = sun.next_day %></th>
+                  <th>Tue <%= tue = mon.next_day %></th>
+                  <th>Wed <%= wed = tue.next_day %></th>
+                  <th>Thur <%= thurs = wed.next_day %></th>
+                  <th>Fri <%= fri = thurs.next_day %></th>
+                  <th>Sat <%= sat = fri.next_day %></th>
                   <th>Total hours</th>
                 </tr>
                 </thead>
@@ -76,15 +60,18 @@
                 <tbody>
                 <% @plant_time_sheets.each do |plant_time_sheet| %>
                   <tr id="row<%= plant_time_sheet.id %>">
-                    <td class="plant_sheet_id"><%= plant_time_sheet.plant_id %></td>
-                    <td class="plant_sheet_id"> <%= plant_time_sheet.id %></td>
                     <td><%= plant_time_sheet.project.project_name %></td>
                     <td><%= plant_time_sheet.plant_id_str %></td>
                     <td><%= plant_time_sheet.plant_name %></td>
                     <td><%= plant_time_sheet.company %></td>
                     <td><%= plant_time_sheet.manager %></td>
                     <td><%= plant_time_sheet.foreman_name %></td>
-                    <% cost_codes_of_specific_date(plant_time_sheet.id, monday, tuesday, wednesday, thursday, friday) %>
+                    <% cost_codes_of_specific_date(plant_time_sheet.id, sun, mon, tue, wed, thurs, fri, sat) %>
+                    <% if @sunday_cost_code.present? %>
+                      <td><%= @sunday_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                     <% if @monday_cost_code.present? %>
                       <td><%= @monday_cost_code.hrs %></td>
                     <% else %>
@@ -107,6 +94,11 @@
                     <% end %>
                     <% if @fri_cost_code.present? %>
                       <td><%= @fri_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if @sat_cost_code.present? %>
+                      <td><%= @sat_cost_code.hrs %></td>
                     <% else %>
                       <td></td>
                     <% end %>
@@ -142,29 +134,57 @@
                 {
                     extend: 'csvHtml5',
                     exportOptions: {
-                        columns: [2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 22, 23]
+                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
                     }
                 },
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns: [2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 22, 23]
+                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     exportOptions: {
-                        columns: [2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 22, 23]
+                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 22, 23]
+                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
                     }
                 }
             ]
         });
     });
+    function formatDate(date) {
+        var selected_date = new Date(date),
+            month = '' + (selected_date.getMonth() + 1),
+            day = '' + selected_date.getDate(),
+            year = selected_date.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+    function previous_sheet_data() {
+       today_date = formatDate(new Date());
+            $.ajax({
+                type: "GET",
+                url: "/projects/<%= @project.id %>/plant_time_sheets",
+                data: {today_date},
+                success: function (data) {
+                    console.log(data);
+                    // $("#cost_code").empty()
+                    // var select = document.getElementById("cost_code");
+                    // $(select).append("<option disabled selected value>-- Select Cost Code -- </option>")
+                    // for (i = 0; i < data.length; i++) {
+                    //     $(select).append("<option value=" + data[i].id + ">" + data[i].cost_code_id + " " + data[i].cost_code_description + "</option>")
+                }
+            })
+
+    }
 </script>

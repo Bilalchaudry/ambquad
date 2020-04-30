@@ -121,6 +121,12 @@ class PlantTimeSheetsController < ApplicationController
           format.html
         end
       end
+    elsif params[:today_date].present?
+      previous_week = (params[:today_date].to_date.beginning_of_week(:sunday) - 7)
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: previous_week.beginning_of_week(:monday)..previous_week.end_of_week(:sunday)).order(:id) rescue nil
+      respond_to do |format|
+       redirect_to project_plant_time_sheet_url(@project.id)
+      end
     else
       @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
     end
@@ -129,7 +135,7 @@ class PlantTimeSheetsController < ApplicationController
   # GET /plant_time_sheets/1
   # GET /plant_time_sheets/1.json
   def show
-    @plant_time_sheets = @project.plant_time_sheets.where(created_at: Date.today.beginning_of_week(:monday) .. Date.today.end_of_week(:sunday)).order(:id) rescue nil
+    @plant_time_sheets = @project.plant_time_sheets.where(created_at: Date.today.beginning_of_week(:monday)..Date.today.end_of_week(:sunday)).order(:id) rescue nil
   end
 
   # GET /plant_time_sheets/new

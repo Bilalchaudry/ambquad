@@ -56,34 +56,39 @@
               <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th class="emp_id">Emp TS ID</th>
-                  <th >Project Name</th>
+                  <th>Project Name</th>
+                  <th>Employee ID</th>
                   <th>Employee</th>
-                  <th class="emp_id">Employee ID</th>
                   <th>Labour type</th>
                   <th>Company</th>
-                  <th >Manager</th>
-                  <th >Foreman</th>
-                  <th>Mon <%= monday = Date.today.beginning_of_week(:monday) %></th>
+                  <th>Manager</th>
+                  <th>Foreman</th>
+                  <th>Sun <%= sunday = Date.today.beginning_of_week(:sunday) %></th>
+                  <th>Mon <%= monday = sunday.next_day %></th>
                   <th>Tue <%= tuesday = monday.next_day %></th>
                   <th>Wed <%= wednesday = tuesday.next_day %></th>
                   <th>Thu <%= thursday = wednesday.next_day %></th>
                   <th>Fri <%= friday = thursday.next_day %></th>
+                  <th>Sat <%= saturday = friday.next_day %></th>
                   <th>Total hours</th>
                 </tr>
                 </thead>
                 <tbody>
                 <% @employee_time_sheets.each do |employee_time_sheet| %>
                   <tr id="row<%= employee_time_sheet.id %>">
-                    <td class="emp_id"><%= employee_time_sheet.id %></td>
                     <td><%= employee_time_sheet.project.project_name %></td>
+                    <td><%= employee_time_sheet.employee_id %></td>
                     <td><%= employee_time_sheet.employee %></td>
-                    <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
                     <td><%= employee_time_sheet.labour_type %></td>
                     <td><%= employee_time_sheet.company %></td>
                     <td><%= employee_time_sheet.manager %></td>
                     <td><%= employee_time_sheet.foreman_name %></td>
-                    <% employee_codes_of_specific_date(employee_time_sheet.id, monday, tuesday, wednesday, thursday, friday) %>
+                    <% employee_codes_of_specific_date(employee_time_sheet.id, sunday, monday, tuesday, wednesday, thursday, friday, saturday) %>
+                    <% if @sunday_cost_code.present? %>
+                      <td><%= @sunday_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
                     <% if @monday_cost_code.present? %>
                       <td><%= @monday_cost_code.hrs %></td>
                     <% else %>
@@ -106,6 +111,11 @@
                     <% end %>
                     <% if @fri_cost_code.present? %>
                       <td><%= @fri_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if @saturday_cost_code.present? %>
+                      <td><%= @saturday_cost_code.hrs %></td>
                     <% else %>
                       <td></td>
                     <% end %>
@@ -140,26 +150,26 @@
                 {
                     extend: 'csvHtml5',
                     exportOptions: {
-                        columns: [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                        columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                     }
                 },
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns: [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                        columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     exportOptions: {
-                        columns: [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                        columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                        columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                     }
                 }
             ]
