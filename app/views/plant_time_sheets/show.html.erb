@@ -10,28 +10,30 @@
         <%= render 'shared/client_and_project_info' %>
       </div>
       <div class="container-fluid">
-        <!--        <center>-->
-        <!--          <h3 class="alert-info mt-1"><%#= notice %></h3>-->
-        <!--        </center>-->
         <div class="row">
           <div class="col-xl-3 col-md-3">
-            <div class="card bg-success text-white mb-2">
-              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
-            </div>
+            <%= link_to 'Back to Timesheet ', "/projects/#{@project.id}/plant_time_sheets", :class => "btn btn-dark w-100" %>
+          </div>
+          <div class="col-xl-1 col-md-1 ml-5">
+            <% Date.today %>
+            <% date = @current_week_start_date.to_s %>
+            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?current=" + date, :class => "btn btn-dark" do %>
+              <i style="font-size:21px" class="fa">&#xf053;</i>
+            <% end %>
+          </div>
+          <div class="col-xl-2 col-md-2 btn btn-info">
+            <%= date %>
+          </div>
+          <div class="col-xl-1 col-md-1 ml-5">
+            <% date = @current_week_start_date.to_s %>
+            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?nextweek=" + date, :class => "btn btn-dark" do %>
+              <i style="font-size:21px" class="fa">&#xf054;</i>
+            <% end %>
           </div>
           <div class="col-xl-3 col-md-3">
-            <div class="text-white mb-2">
-              <div class="btn  text-white bg-info">Current Week Sheet</div>
-            </div>
+            <%= link_to 'Current Week ', "/projects/#{@project.id}/plant_time_sheets/show", :class => "btn btn-dark w-100" %>
           </div>
-          <div class="col-xl-3 col-md-3">
-            <div class="text-white mb-2">
-              <div class="btn  text-white">
-                <button class="btn btn-dark" onclick="previous_sheet_data()"> Previous Week</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-md-3"></div>
+          <div class="col-xl-1 col-md-1"></div>
         </div>
         <div class="card mb-4">
           <div class="card-header"><i class="fas fa-table mr-1"></i>Plant Time Sheet</div>
@@ -46,7 +48,7 @@
                   <th>Company</th>
                   <th>Manager</th>
                   <th>Foreman</th>
-                  <th>Sun <%= sun = Date.today.beginning_of_week(:sunday) %></th>
+                  <th>Sun <%= sun = @current_week_start_date %></th>
                   <th>Mon <%= mon = sun.next_day %></th>
                   <th>Tue <%= tue = mon.next_day %></th>
                   <th>Wed <%= wed = tue.next_day %></th>
@@ -134,31 +136,32 @@
                 {
                     extend: 'csvHtml5',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                     }
                 },
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                     }
                 }
             ]
         });
     });
+
     function formatDate(date) {
         var selected_date = new Date(date),
             month = '' + (selected_date.getMonth() + 1),
@@ -169,22 +172,5 @@
         if (day.length < 2) day = '0' + day;
 
         return [year, month, day].join('-');
-    }
-    function previous_sheet_data() {
-       today_date = formatDate(new Date());
-            $.ajax({
-                type: "GET",
-                url: "/projects/<%= @project.id %>/plant_time_sheets",
-                data: {today_date},
-                success: function (data) {
-                    console.log(data);
-                    // $("#cost_code").empty()
-                    // var select = document.getElementById("cost_code");
-                    // $(select).append("<option disabled selected value>-- Select Cost Code -- </option>")
-                    // for (i = 0; i < data.length; i++) {
-                    //     $(select).append("<option value=" + data[i].id + ">" + data[i].cost_code_id + " " + data[i].cost_code_description + "</option>")
-                }
-            })
-
     }
 </script>

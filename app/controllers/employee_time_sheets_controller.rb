@@ -149,7 +149,16 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets/1
   # GET /employee_time_sheets/1.json
   def show
-    @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:monday) .. Date.today.end_of_week(:sunday)).order(:id)
+    if params[:current].present?
+      @current_week_start_date = params[:current].to_date - 7
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+    elsif params[:nextweek].present?
+      @current_week_start_date = params[:nextweek].to_date + 7
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+    else
+      @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday) .. Date.today.end_of_week(:saturday)).order(:id)
+      @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+    end
   end
 
   # GET /employee_time_sheets/new

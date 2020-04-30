@@ -10,44 +10,30 @@
         <%= render 'shared/client_and_project_info' %>
       </div>
       <div class="container-fluid">
-        <div class="modal fade" id="cost_code_modal" role="dialog">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-              <div class="modal-body">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <select class="js-example-basic-single form-control" name="time_sheet_cost_code[cost_code_id]" onchange="add_cost_code()" id="cost_code">
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-          <%# end %>
-        </div>
-        <center>
-          <h3 class="alert-info mt-1"><%= notice %></h3>
-        </center>
         <div class="row">
           <div class="col-xl-3 col-md-3">
-            <div class="card bg-success text-white mb-2">
-              <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
-            </div>
+            <%= link_to 'Back to Timesheet ', "/projects/#{@project.id}/employee_time_sheets", :class => "btn btn-dark w-100" %>
+          </div>
+          <div class="col-xl-1 col-md-1 ml-5">
+            <% Date.today %>
+            <% date = @current_week_start_date.to_s %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?current=" + date, :class => "btn btn-dark" do %>
+              <i style="font-size:21px" class="fa">&#xf053;</i>
+            <% end %>
+          </div>
+          <div class="col-xl-2 col-md-2 btn btn-info">
+            <%= date %>
+          </div>
+          <div class="col-xl-1 col-md-1 ml-5">
+            <% date = @current_week_start_date.to_s %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?nextweek=" + date, :class => "btn btn-dark" do %>
+              <i style="font-size:21px" class="fa">&#xf054;</i>
+            <% end %>
           </div>
           <div class="col-xl-3 col-md-3">
-            <div class="text-white mb-2">
-              <div class="btn  text-white bg-info">Current Week Sheet</div>
-              <!--              <input id="datepicker_search_bar" readonly placeholder="<%#= Time.now.strftime("%m/%d/%Y") %>"/>-->
-            </div>
+            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100" %>
           </div>
-          <div class="col-xl-6 col-md-6"></div>
+          <div class="col-xl-1 col-md-1"></div>
         </div>
         <div class="card mb-4">
           <div class="card-header"><i class="fas fa-table mr-1"></i>Employee Time Sheet</div>
@@ -63,7 +49,8 @@
                   <th>Company</th>
                   <th>Manager</th>
                   <th>Foreman</th>
-                  <th>Sun <%= sunday = Date.today.beginning_of_week(:sunday) %></th>
+                  <th>Date</th>
+                  <th>Sun <%= sunday = @current_week_start_date %></th>
                   <th>Mon <%= monday = sunday.next_day %></th>
                   <th>Tue <%= tuesday = monday.next_day %></th>
                   <th>Wed <%= wednesday = tuesday.next_day %></th>
@@ -83,6 +70,7 @@
                     <td><%= employee_time_sheet.company %></td>
                     <td><%= employee_time_sheet.manager %></td>
                     <td><%= employee_time_sheet.foreman_name %></td>
+                    <td><%= employee_time_sheet.employee_create_date %></td>
                     <% employee_codes_of_specific_date(employee_time_sheet.id, sunday, monday, tuesday, wednesday, thursday, friday, saturday) %>
                     <% if @sunday_cost_code.present? %>
                       <td><%= @sunday_cost_code.hrs %></td>
