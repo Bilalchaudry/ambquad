@@ -1,6 +1,6 @@
 class PlantTimeSheetsController < ApplicationController
-  before_action :get_project, only: :index
-  before_action :set_plant_time_sheet, only: [:show, :edit, :update, :destroy]
+  before_action :get_project, only: [:index, :show]
+  before_action :set_plant_time_sheet, only: [:edit, :update, :destroy]
 
   # GET /plant_time_sheets
   # GET /plant_time_sheets.json
@@ -129,6 +129,16 @@ class PlantTimeSheetsController < ApplicationController
   # GET /plant_time_sheets/1
   # GET /plant_time_sheets/1.json
   def show
+    if params[:current].present?
+      @current_week_start_date = params[:current].to_date - 7
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+    elsif params[:nextweek].present?
+      @current_week_start_date = params[:nextweek].to_date + 7
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+    else
+      @plant_time_sheets = @project.plant_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id) rescue nil
+      @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+    end
   end
 
   # GET /plant_time_sheets/new
