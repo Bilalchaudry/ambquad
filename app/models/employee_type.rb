@@ -29,7 +29,7 @@ class EmployeeType < ApplicationRecord
             return error = "Validation Failed.Employee Type Already Exist in File, Error on Row: #{i}"
           end
 
-          @employee_type << project.employee_types.new(employee_type: row[0].strip, project_id: project.id)
+          @employee_type << project.employee_types.new(employee_type: row[0].strip, project_id: project.id, client_company_id: project.client_company_id)
 
         rescue => e
           return e.message
@@ -39,7 +39,7 @@ class EmployeeType < ApplicationRecord
         return error = "Validation Failed. Please Insert some data in File."
       end
       EmployeeType.import @employee_type
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
     else
       error = 'Invalid file format. Please upload CSV file'
     end
