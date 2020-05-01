@@ -1,11 +1,27 @@
 class TimeSheetCostCodesController < ApplicationController
-  before_action :get_project, only: [:create, :destroy]
+  before_action :get_project, only: [:create, :destroy, :index]
   before_action :set_time_sheet_cost_code, only: [:show, :edit, :update, :destroy]
 
   # GET /time_sheet_cost_codes
   # GET /time_sheet_cost_codes.json
   def index
-    @time_sheet_cost_codes = TimeSheetCostCode.all
+    if params[:employee_sheet_clear].present?
+      @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
+      @specific_date_cost_codes_clear.destroy_all
+      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:today_date]).order(:id)
+      @employee_time_sheets.update_all(total_hours: 0)
+      respond_to do |format|
+        format.js
+      end
+    else
+      @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
+      @specific_date_cost_codes_clear.destroy_all
+      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:today_date]).order(:id)
+      @plant_time_sheets.update_all(total_hours: 0)
+      respond_to do |format|
+        format.js
+      end
+    end
   end
 
   # GET /time_sheet_cost_codes/1
@@ -30,6 +46,7 @@ class TimeSheetCostCodesController < ApplicationController
       @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
                                                                     cost_code: cost_codee,
                                                                     plant_id: params[:plant_id],
+                                                                    cost_code_created_at: Date.today,
                                                                     time_sheet_plant_id: params[:time_sheet_plant_id])
       @cost_code = @project.time_sheet_cost_codes.where(time_sheet_plant_id: params[:time_sheet_plant_id])
       unless @cost_code.empty?
@@ -52,6 +69,7 @@ class TimeSheetCostCodesController < ApplicationController
       @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
                                                                     cost_code: cost_codee,
                                                                     employee_id: params[:employee_id],
+                                                                    cost_code_created_at: Date.today,
                                                                     time_sheet_employee_id: params[:time_sheet_employee_id],
                                                                     employee_time_sheet_id: params[:time_sheet_employee_id])
       @cost_code = @project.time_sheet_cost_codes.where(time_sheet_employee_id: params[:time_sheet_employee_id])
