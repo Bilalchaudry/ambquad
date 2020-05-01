@@ -165,6 +165,7 @@ a {
 }
 a:hover {
   color: #0056b3;
+  background-color: transparent;
   text-decoration: underline;
 }
 
