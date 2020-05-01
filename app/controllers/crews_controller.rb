@@ -89,7 +89,10 @@ class CrewsController < ApplicationController
       @crew.destroy
       @destroy = true
       respond_to do |format|
-        format.js
+        format.js {
+          flash[:notice] = 'Removed Successfully'
+          render inline: "location.reload();" 
+        }
       end
     rescue => e
       redirect_to project_crews_path, notice: e.message

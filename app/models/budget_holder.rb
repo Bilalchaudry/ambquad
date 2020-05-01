@@ -39,7 +39,7 @@ class BudgetHolder < ApplicationRecord
         return error = "Validation Failed. Please Insert some data in File."
       end
       BudgetHolder.import @budget_holders
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
 
     end
   end
