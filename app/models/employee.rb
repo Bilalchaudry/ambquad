@@ -183,7 +183,7 @@ class Employee < ApplicationRecord
       end
 
       Employee.import @employee
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
     else
       error = 'Invalid File Format. Please Import CSV Successfully'
 

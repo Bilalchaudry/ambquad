@@ -126,8 +126,8 @@ class Plant < ApplicationRecord
 
           if row[9] == 'Active' || row[9] == 'a' || row[9] == 'A' || row[9] == 'active'
             row[9] = "Active"
-          elsif row[9] == 'Closed' || row[9] == 'closed' || row[9] == 'c' || row[9] == 'c' || row[9] == 'close' || row[9] == 'Close'
-            row[9] = "Closed"
+          elsif row[9] == 'Inactive' || row[9] == 'inactive'
+            row[9] = "Inactive"
           elsif row[9] == 'Onhold' || row[9] == 'onhold' || row[9] == 'o' || row[9] == 'O' || row[9] == 'OnHold' || row[9] == 'onHold'
             row[9] = "Onhold"
           else
