@@ -207,9 +207,10 @@
             ]
         });
     });
+
     $('#datepicker_search_bar').datepicker({
         uiLibrary: 'bootstrap',
-        maxDate: new Date()
+        // maxDate: new Date()
     });
     $('#datepicker_search_bar').change(function () {
         var celender_date = $("#datepicker_search_bar").val();
@@ -220,10 +221,12 @@
             data: {date: formated_date, search_date: 'true'}
         })
     });
+
     $('#datepicker_copy_from_previous').datepicker({
         uiLibrary: 'bootstrap',
         maxDate: new Date()
     });
+
     $('#datepicker_copy_from_previous').change(function () {
         var celender_date = $("#datepicker_copy_from_previous").val();
         var formated_date = formatDate(celender_date);

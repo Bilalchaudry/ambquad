@@ -20,24 +20,24 @@ class EmployeeTimeSheetsController < ApplicationController
     elsif params[:date].present? && params[:search_date].present?
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:date])
       if @employee_time_sheets.empty?
-        @project_employees = @project.employees
-        @employee_time_sheets = []
-        begin
-          @project_employees.each do |project_employee|
-
-            manager_name = project_employee.other_managers.employee.employee_name rescue nil
-            foreman_name = project_employee.foreman.employee.employee_name rescue nil
-
-            @employee_time_sheets << @project.employee_time_sheets.new(employee: project_employee.employee_name, labour_type: project_employee.employee_type.employee_type,
-                                                                       project_company_id: project_employee.project_company_id,
-                                                                       manager: manager_name, foreman_name: foreman_name, foreman_id: project_employee.foreman_id,
-                                                                       total_hours: 0, employee_type_id: project_employee.employee_type_id,
-                                                                       employee_create_date: params[:date], project_id: @project.id, employee_id: project_employee.employee_id)
-          end
-          EmployeeTimeSheet.import @employee_time_sheets
-        rescue => e
-          e.message
-        end
+        # @project_employees = @project.employees
+        # @employee_time_sheets = []
+        # begin
+        #   @project_employees.each do |project_employee|
+        #
+        #     manager_name = project_employee.other_managers.employee.employee_name rescue nil
+        #     foreman_name = project_employee.foreman.employee.employee_name rescue nil
+        #
+        #     @employee_time_sheets << @project.employee_time_sheets.new(employee: project_employee.employee_name, labour_type: project_employee.employee_type.employee_type,
+        #                                                                project_company_id: project_employee.project_company_id,
+        #                                                                manager: manager_name, foreman_name: foreman_name, foreman_id: project_employee.foreman_id,
+        #                                                                total_hours: 0, employee_type_id: project_employee.employee_type_id,
+        #                                                                employee_create_date: params[:date], project_id: @project.id, employee_id: project_employee.employee_id)
+        #   end
+        #   EmployeeTimeSheet.import @employee_time_sheets
+        # rescue => e
+        #   e.message
+        # end
       end
       respond_to do |format|
         format.js

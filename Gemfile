@@ -33,7 +33,7 @@ gem 'roo'
 gem 'roo-xls'
 gem "figaro"
 gem 'activerecord-import'
-
+gem 'rufus-scheduler', '~> 3.2'
 gem "audited", "~> 4.9"
 gem "auto_strip_attributes", "~> 2.6"
 
