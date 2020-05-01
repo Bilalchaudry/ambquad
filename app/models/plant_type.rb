@@ -30,7 +30,7 @@ class PlantType < ApplicationRecord
             return error = "Validation Failed. Plant Type Already Exist in File, Error on Row: #{i}"
           end
 
-          @plant_type << project.plant_types.new(type_name: row[0].strip)
+          @plant_type << project.plant_types.new(type_name: row[0].strip, client_company_id: project.client_company_id)
 
         rescue => e
           return e.message
@@ -40,7 +40,7 @@ class PlantType < ApplicationRecord
         return error = "Validation Failed. Please Insert some data in File."
       end
       PlantType.import @plant_type
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
     else
       error = 'Invalid File Format. Please Import CSV Successfully'
     end

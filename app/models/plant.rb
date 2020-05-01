@@ -145,7 +145,7 @@ class Plant < ApplicationRecord
         return error = "Validation Failed. Please Insert some valid data in File."
       end
       Plant.import @plant
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
     else
       error = 'Invalid File Format. Please Import CSV Successfully'
     end

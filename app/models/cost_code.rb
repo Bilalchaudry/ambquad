@@ -75,7 +75,7 @@ class CostCode < ApplicationRecord
         return error = "Validation Failed. Please Insert some data in File."
       end
       CostCode.import @cost_code
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
     else
       error = 'Invalid File Format. Please Import CSV Successfully'
     end
