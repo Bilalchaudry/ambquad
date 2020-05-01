@@ -7,7 +7,8 @@ module CrewsHelper
 
   def crew_employees
     @crew_employee = @project.crews.get_assigned_employees(params[:id])
-    @crews = @project.employees.reject { |employee| @crew_employee.pluck(:employee_id).include?(employee.id) }
+    crew_forman_employee_id = @project.foremen.find(params[:id]).employee_id
+    @crews = @project.employees.where("id != ?", crew_forman_employee_id).reject { |employee| @crew_employee.pluck(:employee_id).include?(employee.id) }
   end
 
 end
