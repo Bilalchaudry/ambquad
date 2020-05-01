@@ -30,7 +30,7 @@ class PlantType < ApplicationRecord
             return error = "Validation Failed. Plant Type Already Exist in File, Error on Row: #{i}"
           end
 
-          @plant_type << project.plant_types.new(type_name: row[0].strip.downcase)
+          @plant_type << project.plant_types.new(type_name: row[0].strip)
 
         rescue => e
           return e.message
