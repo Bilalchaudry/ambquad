@@ -527,3 +527,6 @@ input {
     bottom: 0;
     width: 100%;
 }
+* {
+    font-family: 'Montserrat', sans-serif !important;
+}
