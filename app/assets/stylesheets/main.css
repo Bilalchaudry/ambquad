@@ -13,12 +13,14 @@
     font-family: "Open Sans", "Arial", "Helvetica Neue", sans-serif;
 }
 
-.bg-clr {
+#layoutAuthentication {
     /* background-color: #8CCDB0 !important; */
     background: url('/assets/bg.jpeg') no-repeat fixed;
     background-size: cover;
 }
-
+.bg-clr {
+    background-color: #8CCDB0 !important;
+}
 .btn-style {
     font-weight: bold !important;
     color: white !important;
