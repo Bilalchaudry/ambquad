@@ -13,11 +13,6 @@
     font-family: "Open Sans", "Arial", "Helvetica Neue", sans-serif;
 }
 
-#layoutAuthentication {
-    /* background-color: #8CCDB0 !important; */
-    background: url('/assets/bg.jpeg') no-repeat fixed;
-    background-size: cover;
-}
 .bg-clr {
     background-color: #8CCDB0 !important;
 }
