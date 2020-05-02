@@ -14,7 +14,9 @@
 }
 
 .bg-clr {
-    background-color: #8CCDB0 !important;
+    /* background-color: #8CCDB0 !important; */
+    background: url('/assets/bg.jpeg') no-repeat fixed;
+    background-size: cover;
 }
 
 .btn-style {
@@ -529,4 +531,7 @@ input {
 }
 * {
     font-family: 'Montserrat', sans-serif !important;
+}
+.small{
+    font-size: 100%!important;
 }
