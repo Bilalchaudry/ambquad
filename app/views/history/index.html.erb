@@ -7,7 +7,7 @@
         <div class="card mb-4">
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
                   <th>User</th>
@@ -24,12 +24,11 @@
                     <td><%= audit.audited_changes rescue nil %></td>
                     <td><%= audit.action rescue "N/A" %></td>
                     <td><%= audit.created_at rescue "N/A" %></td>
-                    <td>
-                    </td>
                   </tr>
                 <% end %>
                 </tbody>
               </table>
+              <%= will_paginate @audits %>
               <br>
             </div>
           </div>
@@ -38,13 +37,3 @@
     </main>
   </div>
 </div>
-
-
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#dataTable').DataTable();
-    })
-</script>

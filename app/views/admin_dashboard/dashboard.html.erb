@@ -24,7 +24,7 @@
                         <% if current_user.role.eql?("Admin") && current_user.client_company.company_name.eql?("Ambquad") %>
 
                           <a  class="nav-item nav-link dashboard-admin-b2" id="nav-users-tab" data-toggle="tab" href="#users-table" role="tab" aria-controls="nav-profile" aria-selected="false">
-                            <div class="card-body">Ambquad TM Users</div>
+                            <div class="card-body">Ambquad Users</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                               <div class="small text-white">View Details</div>
                               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
@@ -81,28 +81,3 @@
     </main>
   </div>
 </div>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
-
-<script>
-    $('#dataTable').DataTable();
-    //$('#table').DataTable(); comment this datatable maynot load twice nit confirm
-    $(document).ready(function () {
-        $('#table').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'excelHtml5',
-                'csvHtml5',
-                'pdfHtml5',
-                'print'
-            ]
-        });
-    });
-
-</script>

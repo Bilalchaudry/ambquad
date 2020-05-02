@@ -1,8 +1,3 @@
-<style>
-  a:hover {
-    background-color: transparent;
-  }
-</style>
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <div id="layoutAuthentication_content">
@@ -32,7 +27,9 @@
                             <div class="row">
                               <span class="ml-5"><%= @project.employees.count %></span>
                             </div>
-                            Employees
+                            <a href="/projects/<%= @project.id %>/employees">
+                              <strong>Employees</strong>
+                            </a>
                           </button>
                         </div>
                       </div>
@@ -42,23 +39,31 @@
                             <div class="row">
                               <span class="ml-5"><%= @project.plants.count %></span>
                             </div>
-                            Plant Items
+                            <a href="/projects/<%= @project.id %>/plants">
+                              <strong>Plant Items</strong>
+                            </a>
                           </button>
                         </div>
                       </div>
                       <div class="col-md-2 ">
-                        <div class="row">
-                        <span class="small btn top-bar-btn-clr mt-2">
-                          <span class="pl-2">1221</span><br>
-                          labour hours</span>
+                        <div class="row mt-2">
+                          <button class="btn top-bar-btn-clr ">
+                            <div class="row">
+                              <span class="ml-5">N/A</span>
+                            </div>
+                            <strong>Labour Hours</strong>
+                          </button>
                         </div>
                       </div>
 
                       <div class="col-md-2 ">
-                        <div class="row">
-                        <span class="small btn top-bar-btn-clr mt-2">
-                           <span class="pl-2">1212</span><br>
-                          Plant hours</span>
+                        <div class="row mt-2">
+                          <button class="btn top-bar-btn-clr ">
+                            <div class="row">
+                              <span class="ml-5">N/A</span>
+                            </div>
+                            <strong>Plant Hours</strong>
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -66,6 +71,7 @@
                 </div>
 
 
+                <% enable_timesheet = true %>
                 <div class="card-body mt-2">
                   <div class="" id="nav-tab" role="tablist">
 
@@ -81,6 +87,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Project Companies</div>
@@ -102,6 +109,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Employee Types</div>
@@ -123,6 +131,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Plant Types</div>
@@ -148,6 +157,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Employees</div>
@@ -169,6 +179,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Project Equipment</div>
@@ -195,6 +206,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Foreman</div>
@@ -216,6 +228,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Budget Holders</div>
@@ -260,6 +273,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Cost Codes</div>
@@ -281,6 +295,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Crews</div>
@@ -291,7 +306,8 @@
                           </div>
                         </div>
                       <% end %>
-                      <% if @project.employee_time_sheets.present? %>
+
+                      <% if enable_timesheet == true %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card time-sheet-setup-clr text-white mb-3">
                             <div class="card-body">Employee Time Sheet</div>
@@ -306,14 +322,13 @@
                           <div class="card time-sheet-without-setup-clr text-white mb-3">
                             <div class="card-body">Employee Time Sheet</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                              <%= link_to 'View Detail', "/projects/#{@project.id}/employee_time_sheets", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                              <p>Project is Incomplete</p>
                             </div>
                           </div>
                         </div>
                       <% end %>
 
-                      <% if @project.plant_time_sheets.present? %>
+                      <% if enable_timesheet == true %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card time-sheet-setup-clr text-white mb-3">
                             <div class="card-body">Plant Time Sheet</div>
@@ -328,8 +343,7 @@
                           <div class="card time-sheet-without-setup-clr text-white mb-3">
                             <div class="card-body">Plant Time Sheet</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                              <%= link_to 'View Detail', "/projects/#{@project.id}/plant_time_sheets", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                              <p>Project is Incomplete</p>
                             </div>
                           </div>
                         </div>

@@ -56,7 +56,7 @@ class ProjectCompany < ApplicationRecord
         return error = "Validation Failed. Please Insert some data in File."
       end
       ProjectCompany.import @project_company
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
     else
       error = 'Invalid File Format. Please Import CSV Successfully'
     end

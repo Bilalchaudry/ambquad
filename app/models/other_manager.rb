@@ -40,7 +40,7 @@ class OtherManager < ApplicationRecord
         return error = "Validation Failed. Please Insert some data in File."
       end
       OtherManager.import @other_managers
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
 
     end
   end
