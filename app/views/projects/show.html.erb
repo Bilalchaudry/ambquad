@@ -61,6 +61,7 @@
                 </div>
 
 
+                <% enable_timesheet = true %>
                 <div class="card-body mt-2">
                   <div class="" id="nav-tab" role="tablist">
 
@@ -76,6 +77,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Project Companies</div>
@@ -97,6 +99,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Employee Types</div>
@@ -118,6 +121,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Plant Types</div>
@@ -143,6 +147,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Employees</div>
@@ -164,6 +169,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Project Equipment</div>
@@ -190,6 +196,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Foreman</div>
@@ -211,6 +218,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Budget Holders</div>
@@ -255,6 +263,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Cost Codes</div>
@@ -276,6 +285,7 @@
                           </div>
                         </div>
                       <% else %>
+                        <% enable_timesheet = false %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card without-setup-clr text-white mb-3">
                             <div class="card-body">Crews</div>
@@ -286,7 +296,8 @@
                           </div>
                         </div>
                       <% end %>
-                      <% if @project.employee_time_sheets.present? %>
+
+                      <% if enable_timesheet == true %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card time-sheet-setup-clr text-white mb-3">
                             <div class="card-body">Employee Time Sheet</div>
@@ -301,14 +312,13 @@
                           <div class="card time-sheet-without-setup-clr text-white mb-3">
                             <div class="card-body">Employee Time Sheet</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                              <%= link_to 'View Detail', "/projects/#{@project.id}/employee_time_sheets", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                              <p>Project is Incomplete</p>
                             </div>
                           </div>
                         </div>
                       <% end %>
 
-                      <% if @project.plant_time_sheets.present? %>
+                      <% if enable_timesheet == true %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card time-sheet-setup-clr text-white mb-3">
                             <div class="card-body">Plant Time Sheet</div>
@@ -323,8 +333,7 @@
                           <div class="card time-sheet-without-setup-clr text-white mb-3">
                             <div class="card-body">Plant Time Sheet</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                              <%= link_to 'View Detail', "/projects/#{@project.id}/plant_time_sheets", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                              <p>Project is Incomplete</p>
                             </div>
                           </div>
                         </div>
