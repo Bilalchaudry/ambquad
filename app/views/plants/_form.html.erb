@@ -129,7 +129,6 @@
 
 
   <% if params[:action].eql?("edit") %>
-    <% if @plant.plant_time_sheets.present? %>
       <div class="form-row">
         <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">
@@ -153,8 +152,6 @@
           </div>
         </div>
       </div>
-    <% end %>
-
   <% else %>
     <div class="form-row">
       <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
