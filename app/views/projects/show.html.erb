@@ -27,7 +27,9 @@
                             <div class="row">
                               <span class="ml-5"><%= @project.employees.count %></span>
                             </div>
-                            Employees
+                            <a href="/projects/<%= @project.id %>/employees">
+                              <strong>Employees</strong>
+                            </a>
                           </button>
                         </div>
                       </div>
@@ -37,23 +39,31 @@
                             <div class="row">
                               <span class="ml-5"><%= @project.plants.count %></span>
                             </div>
-                            Plant Items
+                            <a href="/projects/<%= @project.id %>/plants">
+                              <strong>Plant Items</strong>
+                            </a>
                           </button>
                         </div>
                       </div>
                       <div class="col-md-2 ">
-                        <div class="row">
-                        <span class="small btn top-bar-btn-clr mt-2">
-                          <span class="pl-2">N/A</span><br>
-                          labour hours</span>
+                        <div class="row mt-2">
+                          <button class="btn top-bar-btn-clr ">
+                            <div class="row">
+                              <span class="ml-5">N/A</span>
+                            </div>
+                            <strong>Labour Hours</strong>
+                          </button>
                         </div>
                       </div>
 
                       <div class="col-md-2 ">
-                        <div class="row">
-                        <span class="small btn top-bar-btn-clr mt-2">
-                           <span class="pl-2">N/A</span><br>
-                          Plant hours</span>
+                        <div class="row mt-2">
+                          <button class="btn top-bar-btn-clr ">
+                            <div class="row">
+                              <span class="ml-5">N/A</span>
+                            </div>
+                            <strong>Plant Hours</strong>
+                          </button>
                         </div>
                       </div>
                     </div>
