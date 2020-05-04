@@ -11,6 +11,7 @@ class Project < ApplicationRecord
   has_many :employee_types, dependent: :destroy
   has_many :foremen, dependent: :destroy
   has_many :project_plants, dependent: :destroy
+  has_many :employee_time_sheets, dependent: :destroy
 
   has_many :users, :through => :user_projects
   has_many :project_companies

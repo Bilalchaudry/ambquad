@@ -5,7 +5,7 @@ class Employee < ApplicationRecord
 
   auto_strip_attributes :employee_id
 
-  after_create :time_sheet_employee
+  # after_create :time_sheet_employee
 
   belongs_to :client_company
   belongs_to :project_company
