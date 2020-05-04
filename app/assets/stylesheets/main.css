@@ -13,10 +13,14 @@
     font-family: "Open Sans", "Arial", "Helvetica Neue", sans-serif;
 }
 
+#layoutAuthentication {
+    /* background-color: #8CCDB0 !important; */
+    background: url('/assets/bg.jpeg') no-repeat fixed;
+    background-size: cover;
+}
 .bg-clr {
     background-color: #8CCDB0 !important;
 }
-
 .btn-style {
     font-weight: bold !important;
     color: white !important;
@@ -520,4 +524,16 @@ input {
         padding: 40px 30px;
         padding-bottom: 50px;
     }
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+* {
+    font-family: 'Montserrat', sans-serif !important;
+}
+.small{
+    font-size: 100%!important;
 }

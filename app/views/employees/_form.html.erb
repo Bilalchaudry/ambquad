@@ -143,13 +143,12 @@
   </div>
 
   <% if params[:action].eql?("edit") %>
-    <% if @project.employee_time_sheets.present? %>
       <div class="form-row">
         <%= form.label :foreman, :class => "mb-1 pt-2 name", :style => 'font-weight:bold' %>
         <div class="value">
           <div class="input-group">
             <select name="employee[foreman_id]" id="forman_id" class="form-control">
-              <option value=""></option>
+              <option value="<%= @employee.foreman_id rescue nil %>"><%= Employee.find_by_id(@employee.foreman.employee_id).employee_name rescue "N/A" %></option>
               <% @project.foremen.each do |forman| %>
                 <option value="<%= forman.id %>">
                   <%= Employee.find_by_id(forman.employee_id).employee_name rescue "N/A" %>
@@ -168,7 +167,6 @@
           </div>
         </div>
       </div>
-    <% end %>
 
   <% else %>
     <div class="form-row">

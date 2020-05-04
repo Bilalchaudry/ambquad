@@ -40,7 +40,7 @@ class Foreman < ApplicationRecord
         return error = "Validation Failed. Please Insert some data in File."
       end
       Foreman.import @foremen
-      error = 'File Import Successfully'
+      error = 'Data imported successfully!'
 
     end
   end
