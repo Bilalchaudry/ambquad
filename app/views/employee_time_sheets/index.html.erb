@@ -64,13 +64,13 @@
                 <thead>
                 <tr>
                   <th rowspan="2" class="emp_id">Emp TS ID</th>
-<!--                  <th rowspan="2">Project Name</th>-->
+                  <!--                  <th rowspan="2">Project Name</th>-->
                   <th rowspan="2">Employee</th>
-<!--                  <th rowspan="2" class="emp_id">Employee ID</th>-->
+                  <!--                  <th rowspan="2" class="emp_id">Employee ID</th>-->
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
-<!--                  <th rowspan="2">Foreman</th>-->
+                  <!--                  <th rowspan="2">Foreman</th>-->
                   <th rowspan="2">Total hours</th>
                   <th colspan="10">Select Cost Codes</th>
                 </tr>
@@ -97,35 +97,35 @@
                 </tbody>
               </table>
               <br>
-                <div class="row">
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy
-                          from Previous Timesheet
-                        </button>
-                      </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy
+                        from Previous Timesheet
+                      </button>
                     </div>
                   </div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <button class='btn btn-dark w-100' style='font-weight:bold; color: white;' onclick="submit_time_sheet()">Submit
-                          Timesheets
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group mt-3 mb-0">
-                      <div class="actions">
-                        <%= link_to 'Timesheet View', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100"%>
-                        <%#= link_to 'View Detail', project_employee_time_sheet_path(@project.id), :class => "btn btn-dark w-100"%>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-3"></div>
                 </div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <button class='btn btn-dark w-100' style='font-weight:bold; color: white;' onclick="submit_time_sheet()">Submit
+                        Timesheets
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group mt-3 mb-0">
+                    <div class="actions">
+                      <%= link_to 'Timesheet View', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100" %>
+                      <%#= link_to 'View Detail', project_employee_time_sheet_path(@project.id), :class => "btn btn-dark w-100"%>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3"></div>
+              </div>
               <%#= link_to 'New Employee Time Sheet', new_employee_time_sheet_path %>
             </div>
           </div>
@@ -143,7 +143,9 @@
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
+
     function cost_modal(emp_id, emp_time_id) {
+        debugger
         time_sheet_employee_id = emp_time_id
         employee_id = emp_id
         $.ajax({
@@ -151,6 +153,7 @@
             url: "/projects/<%= @project.id %>/employee_time_sheets",
             data: {time_sheet_employee_id, emp_id, find_emp_codes: emp_time_id},
             success: function (data) {
+                debugger
                 console.log(data);
                 $("#cost_code").empty()
                 var select = document.getElementById("cost_code");
@@ -165,6 +168,7 @@
     }
 
     function add_cost_code() {
+        debugger
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text();
         project_id = <%= params[:project_id] %>
@@ -240,7 +244,7 @@
 
     $('#datepicker_copy_from_previous').datepicker({
         uiLibrary: 'bootstrap',
-        maxDate: new Date()
+        // maxDate: new Date()
     });
 
     $('#datepicker_copy_from_previous').change(function () {
@@ -252,7 +256,7 @@
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
-            data: {date: formated_date, current_date: current_formatted_date,  copy_from_previous: 'true'}
+            data: {date: formated_date, current_date: current_formatted_date, copy_from_previous: 'true'}
         })
     });
 
