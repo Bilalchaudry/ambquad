@@ -6,9 +6,10 @@ class TimeSheetCostCodesController < ApplicationController
   # GET /time_sheet_cost_codes.json
   def index
     if params[:employee_sheet_clear].present?
-      @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
-      @specific_date_cost_codes_clear.destroy_all
+      # @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
+      # @specific_date_cost_codes_clear.destroy_all
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:today_date]).order(:id)
+      @project.time_sheet_cost_codes.where(employee_time_sheet_id: @employee_time_sheets.pluck(:id)).delete_all rescue nil
       @employee_time_sheets.update_all(total_hours: 0)
       respond_to do |format|
         format.js
@@ -60,8 +61,8 @@ class TimeSheetCostCodesController < ApplicationController
           format.js
           format.html
         else
-          format.html { render :new }
-          format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
+          format.html {render :new}
+          format.json {render json: @time_sheet_cost_code.errors, status: :unprocessable_entity}
         end
       end
     else
@@ -85,8 +86,8 @@ class TimeSheetCostCodesController < ApplicationController
           format.html
           # format.json { render :show, status: :created, location: @time_sheet_cost_code }
         else
-          format.html { render :new }
-          format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
+          format.html {render :new}
+          format.json {render json: @time_sheet_cost_code.errors, status: :unprocessable_entity}
         end
       end
     end
@@ -97,11 +98,11 @@ class TimeSheetCostCodesController < ApplicationController
   def update
     respond_to do |format|
       if @time_sheet_cost_code.update(time_sheet_cost_code_params)
-        format.html { redirect_to @time_sheet_cost_code, notice: 'Time sheet cost code was successfully updated.' }
-        format.json { render :show, status: :ok, location: @time_sheet_cost_code }
+        format.html {redirect_to @time_sheet_cost_code, notice: 'Time sheet cost code was successfully updated.'}
+        format.json {render :show, status: :ok, location: @time_sheet_cost_code}
       else
-        format.html { render :edit }
-        format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @time_sheet_cost_code.errors, status: :unprocessable_entity}
       end
     end
   end

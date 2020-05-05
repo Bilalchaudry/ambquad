@@ -1,3 +1,4 @@
+
 <% @employee_time_sheets.each do |employee_time_sheet| %>
 
   <% employee_total_hours_cost_code_sum(employee_time_sheet.id) %>
@@ -5,13 +6,11 @@
   <% if employee_time_sheet.total_hours != @cost_code_and_total_hours_sum %>
     <tr class="table-dark" id="row<%= employee_time_sheet.id %>">
       <td class="emp_id"><%= employee_time_sheet.id %></td>
-<!--      <td><%#= employee_time_sheet.project.project_name %></td>-->
       <td><%= employee_time_sheet.employee %></td>
       <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
       <td><%= employee_time_sheet.labour_type %></td>
       <td><%= employee_time_sheet.company %></td>
       <td><%= employee_time_sheet.manager %></td>
-<!--      <td><%#= employee_time_sheet.foreman_name %></td>-->
       <% if employee_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
         <td>
           <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
@@ -45,13 +44,11 @@
   <% else %>
     <tr id="row<%= employee_time_sheet.id %>">
       <td class="emp_id"><%= employee_time_sheet.id %></td>
-<!--      <td><%#= employee_time_sheet.project.project_name %></td>-->
       <td><%= employee_time_sheet.employee %></td>
       <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
       <td><%= employee_time_sheet.labour_type %></td>
       <td><%= employee_time_sheet.company %></td>
       <td><%= employee_time_sheet.manager %></td>
-<!--      <td><%#= employee_time_sheet.foreman_name %></td>-->
       <td>
         <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
       </td>
