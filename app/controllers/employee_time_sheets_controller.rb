@@ -39,7 +39,7 @@ class EmployeeTimeSheetsController < ApplicationController
             end
           end
 
-          company_name = employee_time_sheet.project.project_company.company_name rescue nil
+          company_name = employee_time_sheet.project_company.company_name rescue nil
 
           copied_time_sheet_data = @project.employee_time_sheets.create(employee: employee_time_sheet.employee, labour_type: employee_time_sheet.labour_type,
                                                                         project_company_id: employee_time_sheet.project_company_id, manager: employee_time_sheet.manager,

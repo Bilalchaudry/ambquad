@@ -1,75 +1,75 @@
-<!--<div id="layoutSidenav">-->
-<!--  <div id="layoutSidenav_content">-->
-<!--    <main>-->
-<!--      <div class="container-fluid">-->
-<!--        <center>-->
-<!--          <h3 id="notice" class="alert-success mt-1"><%#= notice %></h3>-->
-<!--        </center>-->
-<!--        <h1 class="mt-3">Ambquad Users</h1>-->
-<!--        <div class="row">-->
-<!--          <div class="col-xl-4 col-md-6"></div>-->
-<!--          <div class="col-xl-4 col-md-6"></div>-->
-<!--          <div class="col-xl-3 col-md-4">-->
-<!--            <div class="card bg-success text-white mb-3">-->
-              <%#= link_to "Add New User", new_temporary_user_path, :class => "btn btn-dark", style: "color: white" %>
-<!--            </div>-->
-<!--          </div>-->
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid">
+        <center>
+          <h3 id="notice" class="alert-success mt-1"><%= notice %></h3>
+        </center>
+        <h1 class="mt-3">Ambquad Users</h1>
+        <div class="row">
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-4 col-md-6"></div>
+          <div class="col-xl-3 col-md-4">
+            <div class="card bg-success text-white mb-3">
+              <%= link_to "Add New User", new_temporary_user_path, :class => "btn btn-dark", style: "color: white" %>
+            </div>
+          </div>
 
-<!--        </div>-->
+        </div>
 
-<!--        <div class="card mb-4">-->
-<!--          <div class="card-header"><i class="fas fa-table mr-1"></i>Ambquad Users</div>-->
-<!--          <div class="card-body">-->
-<!--            <div class="table-responsive">-->
-<!--              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                  <th>User Name</th>-->
-<!--                  <th>Company</th>-->
-<!--                  <th>Role</th>-->
-<!--                  <th>Status</th>-->
-<!--                  <th>Ambquad User Actions</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Ambquad Users</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Company</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Ambquad User Actions</th>
+                </tr>
+                </thead>
 
-<!--                <tbody>-->
-                <%# @users.each do |user| %>
-<!--                  <tr>-->
-<!--                    <td><%#= user.username %></td>-->
-<!--                    <td><%#= user.client_company.company_name %></td>-->
-<!--                    <td><%#= user.role %></td>-->
-<!--                    <td><%#= user.status rescue nil %></td>-->
-<!--                    <td>-->
-                      <%#= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
-                      <%#= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
-                      <%# unless user.role.eql?("Admin") && user.client_company.company_name.eql?("Ambquad") %>
-                        <%#= link_to "Delete", "/users/#{user.id}", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true if can? :delete, User %>
-                      <%# end %>
-<!--                    </td>-->
-<!--                  </tr>-->
-                <%# end %>
+                <tbody>
+                <% @users.each do |user| %>
+                  <tr>
+                    <td><%= user.username %></td>
+                    <td><%= user.client_company.company_name %></td>
+                    <td><%= user.role %></td>
+                    <td><%= user.status rescue nil %></td>
+                    <td>
+                      <%= link_to "View", user_path(user), :class => "btn btn-outline-dark" %>
+                      <%= link_to "Edit", edit_user_path(user), :class => "btn btn-outline-info" %>
+                      <% unless user.role.eql?("Admin") && user.client_company.company_name.eql?("Ambquad") %>
+                        <%= link_to "Delete", "/users/#{user.id}", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true if can? :delete, User %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
 
-<!--                </tbody>-->
-<!--              </table>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
-<!--      </div>-->
-<!--    </main>-->
-<!--  </div>-->
-<!--</div>-->
+      </div>
+    </main>
+  </div>
+</div>
 
-<!--<script>-->
-<!--  var dataTable = $('#dataTable').DataTable({-->
-<!--    "columnDefs": [-->
-<!--        {"searchable": false, "targets": 4}-->
-<!--    ]-->
-<!--  });-->
-<!--  document.addEventListener("turbolinks:before-cache", function() {-->
-<!--    if (dataTable !== null) {-->
-<!--      dataTable.destroy();-->
-<!--      dataTable = null;-->
-<!--    }-->
-<!--  });-->
-<!--</script>-->
+<script>
+  var dataTable = $('#dataTable').DataTable({
+    "columnDefs": [
+        {"searchable": false, "targets": 4}
+    ]
+  });
+  document.addEventListener("turbolinks:before-cache", function() {
+    if (dataTable !== null) {
+      dataTable.destroy();
+      dataTable = null;
+    }
+  });
+</script>
