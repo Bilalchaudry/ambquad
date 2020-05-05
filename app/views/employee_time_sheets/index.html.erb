@@ -66,7 +66,7 @@
                   <th rowspan="2" class="emp_id">Emp TS ID</th>
 <!--                  <th rowspan="2">Project Name</th>-->
                   <th rowspan="2">Employee</th>
-                  <th rowspan="2" class="emp_id">Employee ID</th>
+<!--                  <th rowspan="2" class="emp_id">Employee ID</th>-->
                   <th rowspan="2">Labour type</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -166,7 +166,7 @@
 
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
-        cost_code = $("#cost_code option:selected").text()
+        cost_code = $("#cost_code option:selected").text();
         project_id = <%= params[:project_id] %>
             $.ajax({
                 headers: {
@@ -177,7 +177,7 @@
                 data: {
                     cost_code_id: cost_code_id,
                     cost_code: cost_code,
-                    employee_id: employee_id,
+                    // employee_id: employee_id,
                     project_id: project_id,
                     time_sheet_employee_id: time_sheet_employee_id
                 },
@@ -227,6 +227,7 @@
         uiLibrary: 'bootstrap',
         // maxDate: new Date()
     });
+
     $('#datepicker_search_bar').change(function () {
         var celender_date = $("#datepicker_search_bar").val();
         var formated_date = formatDate(celender_date);
@@ -332,4 +333,5 @@
             })
         }
     }
+
 </script>

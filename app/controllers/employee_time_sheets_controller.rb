@@ -6,9 +6,10 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets.json
   def index
     if params[:find_emp_codes].present?
-      employee_used_time_sheet_code = @project.time_sheet_cost_codes.where(employee_time_sheet_id: params[:time_sheet_employee_id], employee_id: params[:emp_id], created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).pluck(:cost_code_id)
-      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-      unused_codes_for_employee = @project.cost_codes.where.not(id: employee_used_time_sheet_code)
+      employee_time_sheet = EmployeeTimeSheet.find_by_id(params[:time_sheet_employee_id])
+      employee_used_time_sheet_code = employee_time_sheet.time_sheet_cost_codes.where(employee_id: employee_time_sheet.employee_id).pluck(:cost_code_id)
+      # @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      unused_codes_for_employee = @project.cost_codes.where('created_at < ? ', employee_time_sheet.created_at).where.not(id: employee_used_time_sheet_code, budget_holder_id: nil )
       render json: unused_codes_for_employee
 
     elsif params[:find_plant_codes].present?
