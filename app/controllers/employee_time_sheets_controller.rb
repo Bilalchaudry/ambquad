@@ -45,6 +45,9 @@ class EmployeeTimeSheetsController < ApplicationController
       end
     elsif params[:date].present? && params[:copy_from_previous].present?
       @employee_time_sheets_previous_data = @project.employee_time_sheets.where(employee_create_date: params[:date])
+      employee_time_sheets_current_data = @project.employee_time_sheets.where(employee_create_date: params[:current_date])
+
+      employee_ids = employee_time_sheets_current_data.pluck(:employee_id)
       if @employee_time_sheets_previous_data.present?
         # @employee_time_sheets_copy_data = []
         # begin
@@ -52,6 +55,16 @@ class EmployeeTimeSheetsController < ApplicationController
           # exist_data = []
           # exist_data = @project.employee_time_sheets.where(employee_id: employee_time_sheet.employee_id, employee_create_date: Date.today)
           # if exist_data.empty?
+
+          # if employee_time_sheet.employee_id
+
+          if employee_ids.include?(employee_time_sheet.employee_id)
+            emp_time_sheet = employee_time_sheets_current_data.find_by_employee_id(employee_time_sheet.employee_id)
+            if emp_time_sheet.present?
+              emp_time_sheet.destroy
+              # emp_time_sheet.time_sheet_cost_codes.delete_all if emp_time_sheet.time_sheet_cost_codes.present?
+            end
+          end
 
           copied_time_sheet_data = @project.employee_time_sheets.create(employee: employee_time_sheet.employee, labour_type: employee_time_sheet.labour_type,
                                                                         project_company_id: employee_time_sheet.project_company_id, manager: employee_time_sheet.manager,

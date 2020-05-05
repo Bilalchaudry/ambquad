@@ -9,6 +9,7 @@
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
       </div>
+
       <div class="container-fluid">
         <div class="modal fade" id="cost_code_modal" role="dialog">
           <div class="modal-dialog">
@@ -50,7 +51,7 @@
           </div>
           <div class="col-xl-3 col-md-3">
             <div class="text-white mb-2">
-              <input id="datepicker_search_bar" readonly placeholder="<%= Time.now.strftime("%m/%d/%Y") %>"/>
+              <input id="datepicker_search_bar" value="<%= Time.now.strftime("%m/%d/%Y") %>" readonly placeholder="<%= Time.now.strftime("%m/%d/%Y") %>"/>
             </div>
           </div>
           <div class="col-xl-3 col-md-3"></div>
@@ -242,13 +243,15 @@
     });
 
     $('#datepicker_copy_from_previous').change(function () {
-        var celender_date = $("#datepicker_copy_from_previous").val();
-        var formated_date = formatDate(celender_date);
+        var calender_date = $("#datepicker_copy_from_previous").val();
+        var current_date = $("#datepicker_search_bar").val();
+        var formated_date = formatDate(calender_date);
+        var current_formatted_date = formatDate(current_date);
         $("#datepicker_copy_from_previous").val("");
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
-            data: {date: formated_date, copy_from_previous: 'true'}
+            data: {date: formated_date, current_date: current_formatted_date,  copy_from_previous: 'true'}
         })
     });
 
@@ -305,6 +308,7 @@
             data: {submit_time_sheet: true, sheet_date: sheet_date}
         })
     }
+
     function clear_employee_time_sheet(project_id) {
         var celender_date = $("#datepicker_search_bar").val();
         if (celender_date == "") {
