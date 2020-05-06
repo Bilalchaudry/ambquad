@@ -9,7 +9,7 @@ class EmployeeTimeSheetsController < ApplicationController
       employee_time_sheet = EmployeeTimeSheet.find_by_id(params[:time_sheet_employee_id])
       employee_used_time_sheet_code = employee_time_sheet.time_sheet_cost_codes.pluck(:cost_code_id)
       # @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-      unused_codes_for_employee = @project.cost_codes.where('created_at < ? ', employee_time_sheet.created_at).where.not(id: employee_used_time_sheet_code, budget_holder_id: nil )
+      unused_codes_for_employee = @project.cost_codes.where('created_at < ? ', employee_time_sheet.created_at).where.not(id: employee_used_time_sheet_code, budget_holder_id: nil)
       render json: unused_codes_for_employee
 
     elsif params[:find_plant_codes].present?
@@ -127,16 +127,31 @@ class EmployeeTimeSheetsController < ApplicationController
   # GET /employee_time_sheets/1
   # GET /employee_time_sheets/1.json
   def show
-    if params[:current].present?
-      @current_week_start_date = params[:current].to_date - 7
-      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
-    elsif params[:nextweek].present?
-      @current_week_start_date = params[:nextweek].to_date + 7
-      @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+
+    if params[:cost_code].present?
+      if params[:current].present?
+        @current_week_start_date = params[:current].to_date - 7
+        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+      elsif params[:nextweek].present?
+        @current_week_start_date = params[:nextweek].to_date + 7
+        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+      else
+        @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id)
+        @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+      end
     else
-      @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id)
-      @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+      if params[:current].present?
+        @current_week_start_date = params[:current].to_date - 7
+        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+      elsif params[:nextweek].present?
+        @current_week_start_date = params[:nextweek].to_date + 7
+        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+      else
+        @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id)
+        @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+      end
     end
+
   end
 
   # GET /employee_time_sheets/new
