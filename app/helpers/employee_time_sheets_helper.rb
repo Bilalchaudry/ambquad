@@ -10,6 +10,11 @@ module EmployeeTimeSheetsHelper
     end
   end
 
+  def cost_code_sum(employee_time_sheet)
+    @cost_codes = employee_time_sheet.time_sheet_cost_codes
+    @cost_code_and_total_hours_sum = @cost_codes.sum(:hrs)
+  end
+
   def cost_code_time_sheet_id_employee(cost_code_id, employee_time_sheet_id)
     @cost_code_id = cost_code_id
     @cost_code_time_sheet_id = @project.time_sheet_cost_codes.where(cost_code_id: @cost_code_id, employee_time_sheet_id: employee_time_sheet_id).ids

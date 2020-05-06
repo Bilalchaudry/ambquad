@@ -139,6 +139,7 @@ class EmployeeTimeSheetsController < ApplicationController
         @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id)
         @current_week_start_date = (Date.today.beginning_of_week(:sunday))
       end
+      render 'employee_time_sheets/cost_code_time_sheet'
     else
       if params[:current].present?
         @current_week_start_date = params[:current].to_date - 7
