@@ -79,45 +79,62 @@ class EmployeeTimeSheetsController < ApplicationController
       end
     elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
       today = params[:sheet_date].to_date
-      whole_week = (today.at_beginning_of_week..today.at_end_of_week - 2)
-      if Time.now.strftime("%Y-%m-%d").to_date >= whole_week.first
-        @time_sheet_submit_data = []
-        condition_check = true
-        whole_week.each do |day|
-          time_sheet_data = EmployeeTimeSheet.where(employee_create_date: day)
-          if !time_sheet_data.present?
-            @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-            condition_check = false
-            respond_to do |format|
-              format.js {flash.now[:notice] = "Please Complete the Time Sheet there is no data on Date: #{day}"}
-              format.html
-            end
-          elsif time_sheet_data.first.submit_sheet == true
-            @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-            condition_check = false
-            respond_to do |format|
-              format.js {flash.now[:notice] = "Time Sheet Already Submitted"}
-              format.html
-            end
-          else
-            @time_sheet_submit_data.push(time_sheet_data)
-          end
+      today_date = Date.today
+      # if today_date.friday? || today_date.saturday? || today_date.sunday?
+        whole_week = (today.at_beginning_of_week..today.at_end_of_week)
+        @submitted_time_sheets = @project.employee_time_sheets.where(employee_create_date: whole_week).order(:id)
+        if @submitted_time_sheets.first.submit_sheet.eql?(false)
+          @submitted_time_sheets.update(submit_sheet: true)
+          @result = "Time Sheet Submitted Successfully"
+        elsif @submitted_time_sheets.first.submit_sheet.eql?(true)
+          @result = "Time Sheet Already Submitted"
         end
-        if condition_check == true
-          @time_sheet_submit_data.each {|single_data| single_data.update(submit_sheet: true)}
-          @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today).order(:id)
-          respond_to do |format|
-            format.js {flash.now[:notice] = "Time Sheet Submitted Successfully"}
-            format.html
-          end
-        end
-      else
-        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today).order(:id)
-        respond_to do |format|
-          format.js {flash.now[:notice] = "You cannot Submit Time Sheet Before Date: #{whole_week.first}"}
-          format.html
-        end
+      # else
+      #   @result = "You can Submit Time Sheet on Friday, Saturday or Sunday"
+      # end
+
+      respond_to do |format|
+        format.js
       end
+
+      # if Time.now.strftime(" % Y - % m - % d ").to_date >= whole_week.first
+      #   @time_sheet_submit_data = []
+      #   condition_check = true
+      #   whole_week.each do |day|
+      #     time_sheet_data = EmployeeTimeSheet.where(employee_create_date: day)
+      #     if !time_sheet_data.present?
+      #       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime(" % Y - % m - % d ")).order(:id)
+      #       condition_check = false
+      #       respond_to do |format|
+      #         format.js {flash.now[:notice] = " Please Complete the Time Sheet there is no data on Date: #{day}"}
+      #         format.html
+      #       end
+      #     elsif time_sheet_data.first.submit_sheet == true
+      #       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      #       condition_check = false
+      #       respond_to do |format|
+      #         format.js {flash.now[:notice] = "Time Sheet Already Submitted"}
+      #         format.html
+      #       end
+      #     else
+      #       @time_sheet_submit_data.push(time_sheet_data)
+      #     end
+      #   end
+      #   if condition_check == true
+      #     @time_sheet_submit_data.each {|single_data| single_data.update(submit_sheet: true)}
+      #     @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today).order(:id)
+      #     respond_to do |format|
+      #       format.js {flash.now[:notice] = "Time Sheet Submitted Successfully"}
+      #       format.html
+      #     end
+      #   end
+      # else
+      #   @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today).order(:id)
+      #   respond_to do |format|
+      #     format.js {flash.now[:notice] = "You cannot Submit Time Sheet Before Date: #{whole_week.first}"}
+      #     format.html
+      #   end
+      # end
 
     else
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today).order(:id)

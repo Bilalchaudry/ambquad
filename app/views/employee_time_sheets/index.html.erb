@@ -147,19 +147,16 @@
 <script type="text/javascript">
 
     function cost_modal(emp_id, emp_time_id) {
-        debugger
-        time_sheet_employee_id = emp_time_id
-        employee_id = emp_id
+        time_sheet_employee_id = emp_time_id;
+        employee_id = emp_id;
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
             data: {time_sheet_employee_id, emp_id, find_emp_codes: emp_time_id},
             success: function (data) {
-                debugger
-                console.log(data);
-                $("#cost_code").empty()
+                $("#cost_code").empty();
                 var select = document.getElementById("cost_code");
-                $(select).append("<option disabled selected value>-- Select Cost Code -- </option>")
+                $(select).append("<option disabled selected value>-- Select Cost Code -- </option>");
                 for (i = 0; i < data.length; i++) {
                     $(select).append("<option value=" + data[i].id + ">" + data[i].cost_code_id + " " + data[i].cost_code_description + "</option>")
                 }
@@ -170,7 +167,6 @@
     }
 
     function add_cost_code() {
-        debugger
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text();
         project_id = <%= params[:project_id] %>
@@ -183,7 +179,6 @@
                 data: {
                     cost_code_id: cost_code_id,
                     cost_code: cost_code,
-                    // employee_id: employee_id,
                     project_id: project_id,
                     time_sheet_employee_id: time_sheet_employee_id
                 },
@@ -323,7 +318,6 @@
         } else {
             var today_date = formatDate(celender_date)
         }
-        debugger
         if (confirm("Are you sure?")) {
             var link_url = "/projects/<%= @project.id %>/time_sheet_cost_codes/";
             $.ajax({
