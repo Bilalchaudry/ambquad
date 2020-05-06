@@ -20,10 +20,14 @@ class EmployeeTimeSheetsController < ApplicationController
 
     elsif params[:date].present? && params[:search_date].present?
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:date])
-      respond_to do |format|
-        format.js
-        format.html
+      if @employee_time_sheets.first.submit_sheet.eql?(false) || current_user.role.eql?("Admin")
+        respond_to do |format|
+          format.js
+        end
+      else
+        render :js => "window.location = '/projects/1/employee_time_sheets/show'"
       end
+
     elsif params[:date].present? && params[:copy_from_previous].present?
       @employee_time_sheets_previous_data = @project.employee_time_sheets.where(employee_create_date: params[:date])
       employee_time_sheets_current_data = @project.employee_time_sheets.where(employee_create_date: params[:current_date])
@@ -81,14 +85,14 @@ class EmployeeTimeSheetsController < ApplicationController
       today = params[:sheet_date].to_date
       today_date = Date.today
       # if today_date.friday? || today_date.saturday? || today_date.sunday?
-        whole_week = (today.at_beginning_of_week..today.at_end_of_week)
-        @submitted_time_sheets = @project.employee_time_sheets.where(employee_create_date: whole_week).order(:id)
-        if @submitted_time_sheets.first.submit_sheet.eql?(false)
-          @submitted_time_sheets.update(submit_sheet: true)
-          @result = "Time Sheet Submitted Successfully"
-        elsif @submitted_time_sheets.first.submit_sheet.eql?(true)
-          @result = "Time Sheet Already Submitted"
-        end
+      whole_week = (today.at_beginning_of_week..today.at_end_of_week)
+      @submitted_time_sheets = @project.employee_time_sheets.where(employee_create_date: whole_week).order(:id)
+      if @submitted_time_sheets.first.submit_sheet.eql?(false)
+        @submitted_time_sheets.update(submit_sheet: true)
+        @result = "Time Sheet Submitted Successfully"
+      elsif @submitted_time_sheets.first.submit_sheet.eql?(true)
+        @result = "Time Sheet Already Submitted"
+      end
       # else
       #   @result = "You can Submit Time Sheet on Friday, Saturday or Sunday"
       # end
