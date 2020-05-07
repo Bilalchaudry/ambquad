@@ -98,6 +98,7 @@
                           </div>
                         </div>
                       <% end %>
+
                       <% if @project.employee_types.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
@@ -120,6 +121,7 @@
                           </div>
                         </div>
                       <% end %>
+
                       <% if @project.plant_types.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
@@ -168,6 +170,7 @@
                           </div>
                         </div>
                       <% end %>
+
                       <% if @project.plants.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
@@ -343,17 +346,14 @@
                           <div class="card time-sheet-without-setup-clr text-white mb-3">
                             <div class="card-body">Plant Time Sheet</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                              <p>Project is Incomplete</p>
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/plant_time_sheets", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                             </div>
                           </div>
                         </div>
                       <% end %>
-
                     </div>
-
                   </div>
-
-
                 </div>
               </div>
             </div>

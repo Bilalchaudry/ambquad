@@ -1,2 +1,6 @@
+<% if @result.present? %>
+alert("<%= @result %>")
+<% else %>
 $('table#table tbody').html("<%= j render 'time_sheet_table_data' %>")
-$("#flash").html('<%= j render partial: "shared/notice" %>');
+//$("#flash").html('<%#= j render partial: "shared/notice" %>');
+<% end %>
