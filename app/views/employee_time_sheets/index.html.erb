@@ -42,6 +42,15 @@
               <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
+
+          <div class="col-xl-3 col-md-3">
+            <div class="card text-white mb-2">
+              <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="next_week_time_sheet(<%=params[:project_id] %>)">
+                Next week Time Sheet
+              </button>
+            </div>
+          </div>
+
           <div class="col-xl-3 col-md-3">
             <div class="card text-white mb-2">
               <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="clear_employee_time_sheet(<%=params[:project_id] %>)">Clear
@@ -333,6 +342,22 @@
                 }
             })
         }
+    }
+
+    function next_week_time_sheet(project_id) {
+        var link_url = "/projects/<%= @project.id %>/employee_time_sheets?next_week_time_sheet=true";
+        $.ajax({
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "GET",
+            url: link_url,
+            data: {employee_sheet_clear: 'true'},
+            success: function () {
+
+            }
+        })
+
     }
 
 </script>

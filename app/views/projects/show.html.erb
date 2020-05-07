@@ -71,82 +71,84 @@
                 </div>
 
 
-                <%# enable_timesheet = true %>
+                <% enable_timesheet = true %>
                 <div class="card-body mt-2">
                   <div class="" id="nav-tab" role="tablist">
 
                     <div class="row">
-                      <%# if @project.project_companies.present? %>
-                      <div class="col-xl-3 col-md-6">
-                        <div class="card with-setup-clr text-white mb-3">
-                          <div class="card-body">Project Companies</div>
-                          <div class="card-footer d-flex align-items-center justify-content-between">
-                            <%= link_to 'View Detail', "/projects/#{@project.id}/project_companies", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                      <% if @project.project_companies.present? %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card with-setup-clr text-white mb-3">
+                            <div class="card-body">Project Companies</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/project_companies", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <%# else %>
-                      <%# enable_timesheet = false %>
-                      <!--                        <div class="col-xl-3 col-md-6">-->
-                      <!--                          <div class="card without-setup-clr text-white mb-3">-->
-                      <!--                            <div class="card-body">Project Companies</div>-->
-                      <!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                      <%#= link_to 'View Detail', "/projects/#{@project.id}/project_companies", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                      <!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-                      <!--                            </div>-->
-                      <!--                          </div>-->
-                      <!--                        </div>-->
-                      <%# end %>
-                      <%# if @project.employee_types.present? %>
-                      <div class="col-xl-3 col-md-6">
-                        <div class="card with-setup-clr text-white mb-3">
-                          <div class="card-body">Employee Types</div>
-                          <div class="card-footer d-flex align-items-center justify-content-between">
-                            <%= link_to 'View Detail', "/projects/#{@project.id}/employee_types", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Project Companies</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/project_companies", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <%# else %>
-                      <%# enable_timesheet = false %>
-                      <!--                        <div class="col-xl-3 col-md-6">-->
-                      <!--                          <div class="card without-setup-clr text-white mb-3">-->
-                      <!--                            <div class="card-body">Employee Types</div>-->
-                      <!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                      <%#= link_to 'View Detail', "/projects/#{@project.id}/employee_types", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                      <!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-                      <!--                            </div>-->
-                      <!--                          </div>-->
-                      <!--                        </div>-->
-                      <%# end %>
-                      <%# if @project.plant_types.present? %>
-                      <div class="col-xl-3 col-md-6">
-                        <div class="card with-setup-clr text-white mb-3">
-                          <div class="card-body">Plant Types</div>
-                          <div class="card-footer d-flex align-items-center justify-content-between">
-                            <%= link_to 'View Detail', "/projects/#{@project.id}/plant_types", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                      <% end %>
+
+                      <% if @project.employee_types.present? %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card with-setup-clr text-white mb-3">
+                            <div class="card-body">Employee Types</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/employee_types", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <%# else %>
-                      <%# enable_timesheet = false %>
-                      <!--                        <div class="col-xl-3 col-md-6">-->
-                      <!--                          <div class="card without-setup-clr text-white mb-3">-->
-                      <!--                            <div class="card-body">Plant Types</div>-->
-                      <!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                      <%#= link_to 'View Detail', "/projects/#{@project.id}/plant_types", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                      <!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-                      <!--                            </div>-->
-                      <!--                          </div>-->
-                      <!--                        </div>-->
-                      <%# end %>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Employee Types</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/employee_types", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+
+                      <% if @project.plant_types.present? %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card with-setup-clr text-white mb-3">
+                            <div class="card-body">Plant Types</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/plant_types", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Plant Types</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/plant_types", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
                     </div>
 
 
                     <div class="row">
-                      <%# if @project.employees.present? %>
+                      <% if @project.employees.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
                             <div class="card-body">Employees</div>
@@ -156,20 +158,20 @@
                             </div>
                           </div>
                         </div>
-                      <%# else %>
-                        <%# enable_timesheet = false %>
-<!--                        <div class="col-xl-3 col-md-6">-->
-<!--                          <div class="card without-setup-clr text-white mb-3">-->
-<!--                            <div class="card-body">Employees</div>-->
-<!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                              <%#= link_to 'View Detail', "/projects/#{@project.id}/employees", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-<!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-                      <%# end %>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Employees</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/employees", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
 
-                      <%# if @project.plants.present? %>
+                      <% if @project.plants.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
                             <div class="card-body">Project Equipment</div>
@@ -179,24 +181,24 @@
                             </div>
                           </div>
                         </div>
-                      <%# else %>
-                        <%# enable_timesheet = false %>
-<!--                        <div class="col-xl-3 col-md-6">-->
-<!--                          <div class="card without-setup-clr text-white mb-3">-->
-<!--                            <div class="card-body">Project Equipment</div>-->
-<!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                              <%#= link_to 'View Detail', "/projects/#{@project.id}/plants", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-<!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-                      <%# end %>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Project Equipment</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/plants", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
 
                     </div>
 
 
                     <div class="row">
-                      <%# if @project.foremen.present? %>
+                      <% if @project.foremen.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
                             <div class="card-body">Foreman</div>
@@ -206,19 +208,19 @@
                             </div>
                           </div>
                         </div>
-                      <%# else %>
-                        <%# enable_timesheet = false %>
-<!--                        <div class="col-xl-3 col-md-6">-->
-<!--                          <div class="card without-setup-clr text-white mb-3">-->
-<!--                            <div class="card-body">Foreman</div>-->
-<!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                              <%#= link_to 'View Detail', "/projects/#{@project.id}/foremen", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-<!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-                      <%# end %>
-                      <%# if @project.budget_holders.present? %>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Foreman</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/foremen", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                      <% if @project.budget_holders.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
                             <div class="card-body">Budget Holders</div>
@@ -228,19 +230,19 @@
                             </div>
                           </div>
                         </div>
-                      <%# else %>
-                        <%# enable_timesheet = false %>
-<!--                        <div class="col-xl-3 col-md-6">-->
-<!--                          <div class="card without-setup-clr text-white mb-3">-->
-<!--                            <div class="card-body">Budget Holders</div>-->
-<!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                              <%#= link_to 'View Detail', "/projects/#{@project.id}/budget_holders", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-<!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-                      <%# end %>
-                      <%# if @project.other_managers.present? %>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Budget Holders</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/budget_holders", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                      <% if @project.other_managers.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
                             <div class="card-body">Other Managers</div>
@@ -250,20 +252,20 @@
                             </div>
                           </div>
                         </div>
-                      <%# else %>
-<!--                        <div class="col-xl-3 col-md-6">-->
-<!--                          <div class="card without-setup-clr text-white mb-3">-->
-<!--                            <div class="card-body">Other Managers</div>-->
-<!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                              <%#= link_to 'View Detail', "/projects/#{@project.id}/other_managers", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-<!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-                      <%# end %>
+                      <% else %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Other Managers</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/other_managers", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
                     </div>
                     <div class="row">
-                      <%# if @project.cost_codes.present? %>
+                      <% if @project.cost_codes.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
                             <div class="card-body">Cost Codes</div>
@@ -273,19 +275,19 @@
                             </div>
                           </div>
                         </div>
-                      <%# else %>
-                        <%# enable_timesheet = false %>
-<!--                        <div class="col-xl-3 col-md-6">-->
-<!--                          <div class="card without-setup-clr text-white mb-3">-->
-<!--                            <div class="card-body">Cost Codes</div>-->
-<!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                              <%#= link_to 'View Detail', "/projects/#{@project.id}/cost_codes", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-<!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-                      <%# end %>
-                      <%# if @project.crews.present? %>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Cost Codes</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/cost_codes", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                      <% if @project.crews.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
                             <div class="card-body">Crews</div>
@@ -295,20 +297,20 @@
                             </div>
                           </div>
                         </div>
-                      <%# else %>
-                        <%# enable_timesheet = false %>
-<!--                        <div class="col-xl-3 col-md-6">-->
-<!--                          <div class="card without-setup-clr text-white mb-3">-->
-<!--                            <div class="card-body">Crews</div>-->
-<!--                            <div class="card-footer d-flex align-items-center justify-content-between">-->
-                              <%#= link_to 'View Detail', "/projects/#{@project.id}/crews", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-<!--                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-                      <%# end %>
+                      <% else %>
+                        <% enable_timesheet = false %>
+                        <div class="col-xl-3 col-md-6">
+                          <div class="card without-setup-clr text-white mb-3">
+                            <div class="card-body">Crews</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                              <%= link_to 'View Detail', "/projects/#{@project.id}/crews", :class => "bold-title view-detail-clr nav-item nav-link small" %>
+                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
 
-                      <% if @project.employee_time_sheets.present? %>
+                      <% if enable_timesheet %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card time-sheet-setup-clr text-white mb-3">
                             <div class="card-body">Employee Time Sheet</div>
@@ -346,7 +348,6 @@
                           </div>
                         </div>
                       <% end %>
-
                     </div>
                   </div>
                 </div>
