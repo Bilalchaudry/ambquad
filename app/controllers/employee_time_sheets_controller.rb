@@ -40,34 +40,44 @@ class EmployeeTimeSheetsController < ApplicationController
         @employee_time_sheets_previous_data = @project.employee_time_sheets.where(employee_create_date: params[:date])
         employee_time_sheets_current_data = @project.employee_time_sheets.where(employee_create_date: params[:current_date])
 
-        employee_ids = employee_time_sheets_current_data.pluck(:employee_id)
+        employee_ids_of_current_data = employee_time_sheets_current_data.pluck(:employee_id)
         if @employee_time_sheets_previous_data.present?
           @employee_time_sheets_previous_data.each do |employee_time_sheet|
 
-            if employee_ids.include?(employee_time_sheet.employee_id)
+            if employee_ids_of_current_data.include?(employee_time_sheet.employee_id)
               emp_time_sheet = employee_time_sheets_current_data.find_by_employee_id(employee_time_sheet.employee_id)
               if emp_time_sheet.present?
-                emp_time_sheet.destroy
+                emp_time_sheet.update(total_hours: employee_time_sheet.total_hours)
+                emp_time_sheet.time_sheet_cost_codes.delete_all
+                employee_cost_codes = employee_time_sheet.time_sheet_cost_codes
+
+                employee_cost_codes.each do |cost_code|
+                  TimeSheetCostCode.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
+                                        employee_id: cost_code.employee_id, hrs: cost_code.hrs,
+                                        employee_time_sheet_id: emp_time_sheet.id,
+                                        project_id: @project.id, cost_code_created_at: params[:current_date])
+                end
+
               end
             end
 
-            company_name = employee_time_sheet.project_company.company_name rescue nil
+              # company_name = employee_time_sheet.project_company.company_name rescue nil
+              #
+              # copied_time_sheet_data = @project.employee_time_sheets.create(employee: employee_time_sheet.employee, labour_type: employee_time_sheet.labour_type,
+              #                                                               project_company_id: employee_time_sheet.project_company_id, manager: employee_time_sheet.manager,
+              #                                                               foreman_name: employee_time_sheet.foreman_name, total_hours: employee_time_sheet.total_hours,
+              #                                                               employee_type_id: employee_time_sheet.employee_type_id, employee_id: employee_time_sheet.employee_id,
+              #                                                               employee_create_date: params[:current_date], project_id: @project.id, company: company_name,
+              #                                                               foreman_id: employee_time_sheet.foreman_id)
 
-            copied_time_sheet_data = @project.employee_time_sheets.create(employee: employee_time_sheet.employee, labour_type: employee_time_sheet.labour_type,
-                                                                          project_company_id: employee_time_sheet.project_company_id, manager: employee_time_sheet.manager,
-                                                                          foreman_name: employee_time_sheet.foreman_name, total_hours: employee_time_sheet.total_hours,
-                                                                          employee_type_id: employee_time_sheet.employee_type_id, employee_id: employee_time_sheet.employee_id,
-                                                                          employee_create_date: params[:current_date], project_id: @project.id, company: company_name,
-                                                                          foreman_id: employee_time_sheet.foreman_id)
-
-            employee_cost_codes = employee_time_sheet.time_sheet_cost_codes
-
-            employee_cost_codes.each do |cost_code|
-              @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
-                                                    employee_id: cost_code.employee_id, hrs: cost_code.hrs,
-                                                    employee_time_sheet_id: copied_time_sheet_data.id)
-
-            end
+              # employee_cost_codes = employee_time_sheet.time_sheet_cost_codes
+              #
+              # employee_cost_codes.each do |cost_code|
+              #   @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
+              #                                         employee_id: cost_code.employee_id, hrs: cost_code.hrs,
+              #                                         employee_time_sheet_id: copied_time_sheet_data.id)
+              #
+              # end
           end
         end
 
@@ -197,8 +207,9 @@ class EmployeeTimeSheetsController < ApplicationController
     else
       date = Date.today
       employee_create_date = date
+      number_of_remaining_week_days = (Date.today.end_of_week(:sunday) - Date.today).to_i
       if date.thursday?
-        (1..6).to_a.reverse.each do |day|
+        (1..number_of_remaining_week_days).to_a.reverse.each do |day|
 
           project_employees = @project.employees
           if project_employees.present?
@@ -252,7 +263,7 @@ class EmployeeTimeSheetsController < ApplicationController
         @current_week_start_date = params[:nextweek].to_date + 7
         @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
       else
-        @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id)
+        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id)
         @current_week_start_date = (Date.today.beginning_of_week(:sunday))
       end
       render 'employee_time_sheets/cost_code_time_sheet'
@@ -264,7 +275,7 @@ class EmployeeTimeSheetsController < ApplicationController
         @current_week_start_date = params[:nextweek].to_date + 7
         @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
       else
-        @employee_time_sheets = @project.employee_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id)
+        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id)
         @current_week_start_date = (Date.today.beginning_of_week(:sunday))
       end
     end
