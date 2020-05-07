@@ -33,12 +33,12 @@ module EmployeeTimeSheetsHelper
 
   def employee_cost_codes(employee_time_sheet, sunday, monday, tuesday, wednesday, thursday, friday, saturday)
     @cost_codes = employee_time_sheet.time_sheet_cost_codes
-    @sunday_cost_code = @cost_codes.where(cost_code_created_at: sunday)
-    @monday_cost_code = @cost_codes.where(cost_code_created_at: monday)
-    @tue_cost_code = @cost_codes.where(cost_code_created_at: tuesday)
-    @wed_cost_code = @cost_codes.where(cost_code_created_at: wednesday)
-    @thur_cost_code = @cost_codes.where(cost_code_created_at: thursday)
-    @fri_cost_code = @cost_codes.where(cost_code_created_at: friday)
-    @saturday_cost_code = @cost_codes.where(cost_code_created_at: saturday)
+    @sunday_cost_code = @cost_codes.find_by(cost_code_created_at: sunday)
+    @monday_cost_code = @cost_codes.find_by(cost_code_created_at: monday)
+    @tue_cost_code = @cost_codes.find_by(cost_code_created_at: tuesday)
+    @wed_cost_code = @cost_codes.find_by(cost_code_created_at: wednesday)
+    @thur_cost_code = @cost_codes.find_by(cost_code_created_at: thursday)
+    @fri_cost_code = @cost_codes.find_by(cost_code_created_at: friday)
+    @saturday_cost_code = @cost_codes.find_by(cost_code_created_at: saturday)
   end
 end
