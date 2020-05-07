@@ -10,7 +10,7 @@
       <td class="emp_id"><%= employee_time_sheet.employee_id %></td>
       <td><%= employee_time_sheet.labour_type %></td>
       <td><%= employee_time_sheet.company %></td>
-      <td><%= employee_time_sheet.manager %></td>
+      <td><%= employee_time_sheet.foreman_name %></td>
       <% if employee_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
         <td>
           <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
@@ -22,7 +22,7 @@
         <% if @cost_codes[i].present? %>
           <td><%= @cost_codes[i].cost_code %>
             <% cost_code_time_sheet_id_employee(@cost_codes[i].cost_code_id, employee_time_sheet.id) %>
-            <button class="cost-btn" , onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
+            <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
           </td>
           <td class="emp_id"> <%= @cost_codes[i].cost_code %></td>
           <td><%= @cost_codes[i].hrs %></td>
@@ -48,7 +48,7 @@
 <!--      <td class="emp_id"><%#= employee_time_sheet.employee_id %></td>-->
       <td><%= employee_time_sheet.labour_type %></td>
       <td><%= employee_time_sheet.company %></td>
-      <td><%= employee_time_sheet.manager %></td>
+      <td><%= employee_time_sheet.foreman_name %></td>
       <td>
         <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)"><%= employee_time_sheet.total_hours %></button>
       </td>

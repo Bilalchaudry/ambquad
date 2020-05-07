@@ -6,8 +6,6 @@ class TimeSheetCostCodesController < ApplicationController
   # GET /time_sheet_cost_codes.json
   def index
     if params[:employee_sheet_clear].present?
-      # @specific_date_cost_codes_clear = @project.time_sheet_cost_codes.where(cost_code_created_at: params[:today_date].to_date)
-      # @specific_date_cost_codes_clear.destroy_all
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:today_date]).order(:id)
       @project.time_sheet_cost_codes.where(employee_time_sheet_id: @employee_time_sheets.pluck(:id)).delete_all rescue nil
       @employee_time_sheets.update_all(total_hours: 0)
@@ -70,7 +68,7 @@ class TimeSheetCostCodesController < ApplicationController
       @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
                                                                     cost_code: cost_codee,
                                                                     employee_id: params[:employee_id],
-                                                                    cost_code_created_at: Date.today,
+                                                                    cost_code_created_at: params[:date],
                                                                     time_sheet_employee_id: params[:time_sheet_employee_id],
                                                                     employee_time_sheet_id: params[:time_sheet_employee_id])
       @cost_code = @project.time_sheet_cost_codes.where(time_sheet_employee_id: params[:time_sheet_employee_id])
@@ -110,10 +108,17 @@ class TimeSheetCostCodesController < ApplicationController
   # DELETE /time_sheet_cost_codes/1
   # DELETE /time_sheet_cost_codes/1.json
   def destroy
+    employee_time_sheet = @time_sheet_cost_code.employee_time_sheet
     @time_sheet_cost_code.destroy
     respond_to do |format|
+
+      total_hours = employee_time_sheet.total_hours
+      total_cost_codes = employee_time_sheet.time_sheet_cost_codes.count.to_f rescue 0.0
+      devided_time = (total_hours / total_cost_codes).round(2)
+      employee_time_sheet.time_sheet_cost_codes.update(hrs: devided_time)
+
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:timesheet_date]).order(:id)
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:plant_timesheet_date]).order(:id)
+      # @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:plant_timesheet_date]).order(:id)
       format.js
     end
   end

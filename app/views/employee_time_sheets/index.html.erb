@@ -177,6 +177,8 @@
     function add_cost_code() {
         cost_code_id = $('#cost_code').val();
         cost_code = $("#cost_code option:selected").text();
+        var celender_date = $("#datepicker_search_bar").val();
+        var formated_date = formatDate(celender_date);
         project_id = <%= params[:project_id] %>
             $.ajax({
                 headers: {
@@ -188,7 +190,8 @@
                     cost_code_id: cost_code_id,
                     cost_code: cost_code,
                     project_id: project_id,
-                    time_sheet_employee_id: time_sheet_employee_id
+                    time_sheet_employee_id: time_sheet_employee_id,
+                    date: formated_date
                 },
                 cache: false,
                 success: function () {
@@ -354,6 +357,7 @@
             url: link_url,
             data: {employee_sheet_clear: 'true'},
             success: function () {
+                alert("TimeSheet created successfully.")
 
             }
         })
