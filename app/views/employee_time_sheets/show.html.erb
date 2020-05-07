@@ -1,11 +1,11 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <div id="flash">
-        <% if notice.present? %>
-          <%= render partial: "shared/notice" %>
-        <% end %>
-      </div>
+<!--      <div id="flash">-->
+        <%# if notice.present? %>
+          <%#= render partial: "shared/notice" %>
+        <%# end %>
+<!--      </div>-->
 
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
@@ -86,13 +86,13 @@
                     <% end %>
 
                     <% if @monday_cost_code.present? %>
-                      <td><%= @monday_cost_code.hrs %></td>
+                      <td><%= @monday_cost_code.sum.hrs %></td>
                     <% else %>
                       <td></td>
                     <% end %>
 
                     <% if @tue_cost_code.present? %>
-                      <td><%= @tue_cost_code.hrs %></td>
+                      <td><%= @tue_cost_code.sum.hrs %></td>
                     <% else %>
                       <td></td>
                     <% end %>
