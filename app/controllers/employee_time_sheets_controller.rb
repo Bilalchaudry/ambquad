@@ -55,9 +55,10 @@ class EmployeeTimeSheetsController < ApplicationController
 
             copied_time_sheet_data = @project.employee_time_sheets.create(employee: employee_time_sheet.employee, labour_type: employee_time_sheet.labour_type,
                                                                           project_company_id: employee_time_sheet.project_company_id, manager: employee_time_sheet.manager,
-                                                                          foreman_name: employee_time_sheet.foreman_id, total_hours: employee_time_sheet.total_hours,
+                                                                          foreman_name: employee_time_sheet.foreman_name, total_hours: employee_time_sheet.total_hours,
                                                                           employee_type_id: employee_time_sheet.employee_type_id, employee_id: employee_time_sheet.employee_id,
-                                                                          employee_create_date: params[:current_date], project_id: @project.id, company: company_name)
+                                                                          employee_create_date: params[:current_date], project_id: @project.id, company: company_name,
+                                                                          foreman_id: employee_time_sheet.foreman_id)
 
             employee_cost_codes = employee_time_sheet.time_sheet_cost_codes
 
@@ -149,7 +150,7 @@ class EmployeeTimeSheetsController < ApplicationController
         # end
 
       elsif params[:next_week_time_sheet].present?
-        date = @project.employee_time_sheets.last.employee_create_date
+        date = @project.employee_time_sheets.order(:employee_create_date).last.employee_create_date
         employee_create_date = date
         (1..6).to_a.reverse.each do |day|
 
@@ -160,7 +161,7 @@ class EmployeeTimeSheetsController < ApplicationController
 
             project_employees.each do |employee|
               manager_name = employee.other_managers.employee.employee_name rescue nil
-              foreman_name = employee.foreman.employee.employee_name rescue nil
+              foreman_name = Employee.find_by_id(Foreman.find_by_id(employee.foreman_id).employee_id).employee_name rescue nil
               company_name = employee.project_company.company_name rescue nil
 
 
@@ -172,7 +173,8 @@ class EmployeeTimeSheetsController < ApplicationController
                                                                           project_company_id: employee.project_company_id, company: company_name,
                                                                           manager: manager_name, foreman_name: foreman_name, foreman_id: employee.foreman_id,
                                                                           total_hours: sheet_hours, employee_type_id: employee.employee_type_id,
-                                                                          employee_create_date: employee_create_date, project_id: @project.id, employee_id: employee.id)
+                                                                          employee_create_date: employee_create_date,
+                                                                          project_id: @project.id, employee_id: employee.id)
 
               if previous_employee_time_sheet.present?
                 employee_cost_codes = previous_employee_time_sheet.time_sheet_cost_codes.where(employee_time_sheet_id: previous_employee_time_sheet.id)
@@ -205,7 +207,7 @@ class EmployeeTimeSheetsController < ApplicationController
 
             project_employees.each do |employee|
               manager_name = employee.other_managers.employee.employee_name rescue nil
-              foreman_name = employee.foreman.employee.employee_name rescue nil
+              foreman_name = Employee.find_by_id(Foreman.find_by_id(employee.foreman_id).employee_id).employee_name rescue nil
               company_name = employee.project_company.company_name rescue nil
 
 
