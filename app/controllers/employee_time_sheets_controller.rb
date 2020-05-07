@@ -164,7 +164,7 @@ class EmployeeTimeSheetsController < ApplicationController
         employee_create_date = date
         (1..7).to_a.reverse.each do |day|
 
-          project_employees = @project.employees.where.not(foreman_id: nil)
+          project_employees = @project.employees.where(status: "Active").where.not(foreman_id: nil)
           if project_employees.present?
             employee_create_date = employee_create_date + 1
             search_date = employee_create_date - 7
@@ -211,7 +211,7 @@ class EmployeeTimeSheetsController < ApplicationController
       if date.thursday?
         (1..number_of_remaining_week_days).to_a.reverse.each do |day|
 
-          project_employees = @project.employees
+          project_employees = @project.employees.where(status: "Active")
           if project_employees.present?
             employee_create_date = employee_create_date + 1
             search_date = employee_create_date - 7
