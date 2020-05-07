@@ -1,11 +1,11 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <div id="flash">
-        <% if notice.present? %>
-          <%= render partial: "shared/notice" %>
-        <% end %>
-      </div>
+<!--      <div id="flash">-->
+        <%# if notice.present? %>
+          <%#= render partial: "shared/notice" %>
+        <%# end %>
+<!--      </div>-->
 
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
@@ -80,43 +80,43 @@
                     <% employee_cost_codes(employee_time_sheet, sunday, monday, tuesday, wednesday, thursday, friday, saturday) %>
 
                     <% if @sunday_cost_code.present? %>
-                      <td><%= @sunday_cost_code.hrs %></td>
+                      <td><%= @sunday_cost_code.sum(:hrs) %></td>
                     <% else %>
                       <td></td>
                     <% end %>
 
                     <% if @monday_cost_code.present? %>
-                      <td><%= @monday_cost_code.hrs %></td>
+                      <td><%= @monday_cost_code.sum(:hrs) %></td>
                     <% else %>
                       <td></td>
                     <% end %>
 
                     <% if @tue_cost_code.present? %>
-                      <td><%= @tue_cost_code.hrs %></td>
+                      <td><%= @tue_cost_code.sum(:hrs) %></td>
                     <% else %>
                       <td></td>
                     <% end %>
 
                     <% if @wed_cost_code.present? %>
-                      <td><%= @wed_cost_code.hrs %></td>
+                      <td><%= @wed_cost_code.sum(:hrs) %></td>
                     <% else %>
                       <td></td>
                     <% end %>
 
                     <% if @thur_cost_code.present? %>
-                      <td><%= @thur_cost_code.hrs %></td>
+                      <td><%= @thur_cost_code.sum(:hrs) %></td>
                     <% else %>
                       <td></td>
                     <% end %>
 
                     <% if @fri_cost_code.present? %>
-                      <td><%= @fri_cost_code.hrs %></td>
+                      <td><%= @fri_cost_code.sum(:hrs) %></td>
                     <% else %>
                       <td></td>
                     <% end %>
 
                     <% if @saturday_cost_code.present? %>
-                      <td><%= @saturday_cost_code.hrs %></td>
+                      <td><%= @saturday_cost_code.sum(:hrs) %></td>
                     <% else %>
                       <td></td>
                     <% end %>
