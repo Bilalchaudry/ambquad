@@ -194,40 +194,6 @@
             });
     }
 
-    $(document).ready(function () {
-        $('#table').DataTable({
-            "pageLength": 100,
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'csvHtml5',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
-                    }
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
-                    }
-                }
-            ]
-        });
-    });
-
     $('#datepicker_search_bar').datepicker({
         uiLibrary: 'bootstrap',
         // maxDate: new Date()
@@ -357,6 +323,9 @@
 
     }
     
+    var dataTable = $('#table').DataTable({
+      "pageLength": 100,
+    });
     document.addEventListener("turbolinks:before-cache", function() {
         if (dataTable !== null) {
             dataTable.destroy();
