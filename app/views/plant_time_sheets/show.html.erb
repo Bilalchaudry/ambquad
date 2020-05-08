@@ -1,44 +1,174 @@
-<p id="notice"><%= notice %></p>
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <div id="flash">
+        <% if notice.present? %>
+          <%= render partial: "shared/notice" %>
+        <% end %>
+      </div>
+      <div class="form-info-style">
+        <%= render 'shared/client_and_project_info' %>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-3 col-md-3">
+            <%= link_to 'Back to Timesheet ', "/projects/#{@project.id}/plant_time_sheets", :class => "btn btn-dark w-100" %>
+          </div>
+          <div class="col-xl-1 col-md-1 ml-5">
+            <% date = @current_week_start_date.to_s %>
+            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?current=" + date, :class => "btn btn-dark" do %>
+              <i style="font-size:21px" class="fa">&#xf053;</i>
+            <% end %>
+          </div>
+          <div class="col-xl-3 col-md-3 text-white btn bg-clr font-weight-bold">
+            <%= date %> To <%= @current_week_start_date.end_of_week(:saturday) + 1 %>
+          </div>
+          <div class="col-xl-1 col-md-1 ml-5">
+            <% date = @current_week_start_date.to_s %>
+            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?nextweek=" + date, :class => "btn btn-dark" do %>
+              <i style="font-size:21px" class="fa">&#xf054;</i>
+            <% end %>
+          </div>
+          <div class="col-xl-3 col-md-3">
+            <%= link_to 'Current Week ', "/projects/#{@project.id}/plant_time_sheets/show", :class => "btn btn-dark w-100" %>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Plant Time Sheet</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="table" class="table-bordered" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Plant ID</th>
+                  <th>Plant name</th>
+                  <th>Company</th>
+                  <th>Manager</th>
+                  <th>Foreman</th>
+                  <th>Sun <%= sun = @current_week_start_date %></th>
+                  <th>Mon <%= mon = sun.next_day %></th>
+                  <th>Tue <%= tue = mon.next_day %></th>
+                  <th>Wed <%= wed = tue.next_day %></th>
+                  <th>Thur <%= thurs = wed.next_day %></th>
+                  <th>Fri <%= fri = thurs.next_day %></th>
+                  <th>Sat <%= sat = fri.next_day %></th>
+                  <th>Total hours</th>
+                </tr>
+                </thead>
 
-<p>
-  <strong>Plant:</strong>
-  <%= @plant_time_sheet.plant_id %>
-</p>
+                <tbody>
+                <% @plant_time_sheets.each do |plant_time_sheet| %>
+                  <tr id="row<%= plant_time_sheet.id %>">
+                    <td><%= plant_time_sheet.project.project_name %></td>
+                    <td><%= plant_time_sheet.plant_id_str %></td>
+                    <td><%= plant_time_sheet.plant_name %></td>
+                    <td><%= plant_time_sheet.company %></td>
+                    <td><%= plant_time_sheet.manager %></td>
+                    <td><%= plant_time_sheet.foreman_name %></td>
+                    <% cost_codes_of_specific_date(plant_time_sheet.id, sun, mon, tue, wed, thurs, fri, sat) %>
+                    <% if @sunday_cost_code.present? %>
+                      <td><%= @sunday_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if @monday_cost_code.present? %>
+                      <td><%= @monday_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if @tue_cost_code.present? %>
+                      <td><%= @tue_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if @wed_cost_code.present? %>
+                      <td><%= @wed_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if @thur_cost_code.present? %>
+                      <td><%= @thur_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if @fri_cost_code.present? %>
+                      <td><%= @fri_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <% if @sat_cost_code.present? %>
+                      <td><%= @sat_cost_code.hrs %></td>
+                    <% else %>
+                      <td></td>
+                    <% end %>
+                    <td><%= plant_time_sheet.total_hours %></td>
+                <% end %>
+                </tr>
+                </tbody>
+              </table>
 
-<p>
-  <strong>Plant name:</strong>
-  <%= @plant_time_sheet.plant_name %>
-</p>
+              <br>
+            </div>
+            <%#= link_to 'New Plant Time Sheet', new_plant_time_sheet_path %>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable({
+            "pageLength": 100,
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                    }
+                }
+            ]
+        });
+    });
 
-<p>
-  <strong>Plant:</strong>
-  <%= @plant_time_sheet.plant_id %>
-</p>
+    function formatDate(date) {
+        var selected_date = new Date(date),
+            month = '' + (selected_date.getMonth() + 1),
+            day = '' + selected_date.getDate(),
+            year = selected_date.getFullYear();
 
-<p>
-  <strong>Company:</strong>
-  <%= @plant_time_sheet.company %>
-</p>
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
 
-<p>
-  <strong>Project company:</strong>
-  <%= @plant_time_sheet.project_company_id %>
-</p>
-
-<p>
-  <strong>Manager:</strong>
-  <%= @plant_time_sheet.manager %>
-</p>
-
-<p>
-  <strong>Foreman:</strong>
-  <%= @plant_time_sheet.foreman_id %>
-</p>
-
-<p>
-  <strong>Total hours:</strong>
-  <%= @plant_time_sheet.total_hours %>
-</p>
-
-<%= link_to 'Edit', edit_plant_time_sheet_path(@plant_time_sheet) %> |
-<%= link_to 'Back', plant_time_sheets_path %>
+        return [year, month, day].join('-');
+    }
+</script>

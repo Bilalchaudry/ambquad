@@ -4,6 +4,7 @@ class ProjectCompany < ApplicationRecord
   has_many :employees, dependent: :destroy
   has_many :plants
   has_many :project_plants
+  has_many :employee_time_sheets
   belongs_to :project
 
 

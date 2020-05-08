@@ -1,11 +1,11 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-<!--      <div id="flash">-->
-        <%# if notice.present? %>
-          <%#= render partial: "shared/notice" %>
-        <%# end %>
-<!--      </div>-->
+      <div id="flash">
+        <% if notice.present? %>
+          <%= render partial: "shared/notice" %>
+        <% end %>
+      </div>
 
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
@@ -20,7 +20,7 @@
           <div class="col-xl-1 col-md-1 ml-5">
             <% date = @current_week_start_date %>
             <% date = date.to_s %>
-            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?current=" + date, :class => "btn btn-dark" do %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&current=" + date, :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf053;</i>
             <% end %>
           </div>
@@ -32,18 +32,13 @@
           <div class="col-xl-1 col-md-1 ml-5">
             <% date = @current_week_start_date %>
             <% date = date.to_s %>
-            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?nextweek=" + date, :class => "btn btn-dark" do %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&nextweek=" + date, :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf054;</i>
             <% end %>
           </div>
 
           <div class="col-xl-3 col-md-3">
-            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100" %>
-          </div>
-
-
-          <div class="col-xl-3 col-md-3">
-            <%= link_to 'Cost Code Timesheet ', "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
+            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
           </div>
         </div>
 
@@ -54,71 +49,52 @@
               <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Employee</th>
-                  <th>Company</th>
-                  <th>Manager</th>
-                  <!--                  <th>Date</th>-->
-                  <th>Sun <%= sunday = @current_week_start_date %></th>
-                  <th>Mon <%= monday = sunday.next_day %></th>
-                  <th>Tue <%= tuesday = monday.next_day %></th>
-                  <th>Wed <%= wednesday = tuesday.next_day %></th>
-                  <th>Thu <%= thursday = wednesday.next_day %></th>
-                  <th>Fri <%= friday = thursday.next_day %></th>
-                  <th>Sat <%= saturday = friday.next_day %></th>
+
+                  <th rowspan="2">Employee</th>
+                  <th rowspan="2">Company</th>
+                  <th rowspan="2">Manager</th>
+
+                  <th colspan="10">Select Cost Codes</th>
+                </tr>
+                <tr>
+                  <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th class="emp_id">Costcode</th>
+                  <th>Hrs</th>
                   <th>Total hours</th>
+                </tr>
                 </tr>
                 </thead>
                 <tbody>
                 <% @employee_time_sheets.each do |employee_time_sheet| %>
                   <tr id="row<%= employee_time_sheet.id %>">
-                    <td><%= employee_time_sheet.id %></td>
                     <td><%= employee_time_sheet.employee %></td>
                     <td><%= employee_time_sheet.company %></td>
                     <td><%= employee_time_sheet.foreman_name %></td>
-                    <!--                    <td><%#= employee_time_sheet.employee_create_date %></td>-->
-                    <% employee_cost_codes(employee_time_sheet, sunday, monday, tuesday, wednesday, thursday, friday, saturday) %>
-
-                    <% if @sunday_cost_code.present? %>
-                      <td><%= @sunday_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @monday_cost_code.present? %>
-                      <td><%= @monday_cost_code.sum.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @tue_cost_code.present? %>
-                      <td><%= @tue_cost_code.sum.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @wed_cost_code.present? %>
-                      <td><%= @wed_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @thur_cost_code.present? %>
-                      <td><%= @thur_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @fri_cost_code.present? %>
-                      <td><%= @fri_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @saturday_cost_code.present? %>
-                      <td><%= @saturday_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
+                    <% cost_code_sum(employee_time_sheet) %>
+                    <% @cost_codes = @cost_codes.to_a %>
+                    <% for i in 0..4 %>
+                      <% if @cost_codes[i].present? %>
+                        <td><%= @cost_codes[i].cost_code %> </td>
+                        <td><%= @cost_codes[i].hrs %></td>
+                      <% else %>
+                        <td style="background-color: darkgray">
+                          <!--                          <button class="w-100 cost-bot" disabled>+</button>-->
+                        </td>
+                        <td class="emp_id"></td>
+                        <td style="background-color: darkgray"></td>
+                      <% end %>
                     <% end %>
 
                     <td>
@@ -152,26 +128,26 @@
                 {
                     extend: 'csvHtml5',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                     }
                 },
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
                     }
                 }
             ]
