@@ -120,7 +120,7 @@
                       </div>
                     </div>
                   </div>
-                <% end %> 
+                <% end %>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
@@ -130,7 +130,6 @@
                 </div>
                 <div class="col-md-3"></div>
               </div>
-              <%#= link_to 'New Employee Time Sheet', new_employee_time_sheet_path %>
             </div>
           </div>
         </div>
@@ -231,8 +230,8 @@
         return [year, month, day].join('-');
     }
 
-    function updateTotalHours(total_hours, data_id) {
-        var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
+    function updateTotalHours(updated_hours, total_hours, data_id) {
+        var new_total_hours = updated_hours
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
@@ -316,12 +315,12 @@
         })
 
     }
-    
+
     var dataTable = $('#table').DataTable({
-      "ordering": false,
-      "pageLength": 100,
+        "ordering": false,
+        "pageLength": 100,
     });
-    document.addEventListener("turbolinks:before-cache", function() {
+    document.addEventListener("turbolinks:before-cache", function () {
         if (dataTable !== null) {
             dataTable.destroy();
             dataTable = null;
