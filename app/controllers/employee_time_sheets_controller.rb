@@ -265,9 +265,10 @@ class EmployeeTimeSheetsController < ApplicationController
         @current_week_start_date = params[:nextweek].to_date + 7
         @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:sunday)).order(:id) rescue nil
       else
-        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:sunday)).order(:id)
-        @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:sunday))
       end
+      @timesheet_employee_ids = @employee_time_sheets.pluck(:employee_id).uniq
+      @current_week_start_date = (Date.today.beginning_of_week(:sunday))
     end
 
   end

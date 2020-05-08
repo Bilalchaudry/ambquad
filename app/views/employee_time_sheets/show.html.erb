@@ -58,7 +58,6 @@
                   <th>Employee</th>
                   <th>Company</th>
                   <th>Manager</th>
-                  <!--                  <th>Date</th>-->
                   <th>Sun <%= sunday = @current_week_start_date %></th>
                   <th>Mon <%= monday = sunday.next_day %></th>
                   <th>Tue <%= tuesday = monday.next_day %></th>
@@ -70,63 +69,36 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% @employee_time_sheets.each do |employee_time_sheet| %>
-                  <tr id="row<%= employee_time_sheet.id %>">
-                    <td><%= employee_time_sheet.id %></td>
-                    <td><%= employee_time_sheet.employee %></td>
-                    <td><%= employee_time_sheet.company %></td>
-                    <td><%= employee_time_sheet.foreman_name %></td>
-                    <!--                    <td><%#= employee_time_sheet.employee_create_date %></td>-->
-                    <% employee_cost_codes(employee_time_sheet, sunday, monday, tuesday, wednesday, thursday, friday, saturday) %>
+                <% @project.employees.each do |employee| %>
+                  <% if @timesheet_employee_ids.include?(employee.id) %>
+                    <tr id="row<%= employee.id %>">
+                      <td><%= employee.id rescue "N/A" %></td>
+                      <td><%= employee.employee_name rescue "N/A" %></td>
+                      <td><%= employee.project_company.company_name rescue "N/A" %></td>
+                      <td><%= Employee.find_by_id(employee.foreman.employee_id).employee_name rescue "N/A" %></td>
 
-                    <% if @sunday_cost_code.present? %>
-                      <td><%= @sunday_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
+                      <% week_days_array = [sunday, monday, tuesday, wednesday, thursday, friday, saturday] %>
 
-                    <% if @monday_cost_code.present? %>
-                      <td><%= @monday_cost_code.sum.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
+                      <% @total_hrs = 0 %>
+                      <% week_days_array.each do |day| %>
+                        <% employee_cost_codes(day, employee) %>
 
-                    <% if @tue_cost_code.present? %>
-                      <td><%= @tue_cost_code.sum.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
+                        <% if @cost_code.present? %>
+                          <td><%= hours = @cost_code.sum(:hrs) %></td>
+                          <% @total_hrs = @total_hrs + hours %>
+                        <% else %>
+                          <td>0</td>
+                        <% end %>
 
-                    <% if @wed_cost_code.present? %>
-                      <td><%= @wed_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
+                      <% end %>
+                      <td>
+                        <%= @total_hrs rescue 0 %>
+                      </td>
+                  <% end %>
+                  </tr>
 
-                    <% if @thur_cost_code.present? %>
-                      <td><%= @thur_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @fri_cost_code.present? %>
-                      <td><%= @fri_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @saturday_cost_code.present? %>
-                      <td><%= @saturday_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <td>
-                      <%= employee_time_sheet.total_hours %>
-                    </td>
                 <% end %>
-                </tr>
-              </table>
+                </table>
               <br>
             </div>
           </div>
@@ -135,6 +107,7 @@
     </main>
   </div>
 </div>
+
 <script>
   var dataTable = $('#table').DataTable({
       "pageLength": 100,

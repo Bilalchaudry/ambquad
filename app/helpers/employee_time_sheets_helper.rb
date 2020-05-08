@@ -20,7 +20,7 @@ module EmployeeTimeSheetsHelper
     @cost_code_time_sheet_id = @project.time_sheet_cost_codes.where(cost_code_id: @cost_code_id, employee_time_sheet_id: employee_time_sheet_id).ids
   end
 
-  def employee_codes_of_specific_date(employee_time_sheet_id, sun,monday, tuesday, wednesday, thursday, friday,sat)
+  def employee_codes_of_specific_date(employee_time_sheet_id, sun, monday, tuesday, wednesday, thursday, friday, sat)
     @cost_codes = @project.time_sheet_cost_codes.where(employee_time_sheet_id: employee_time_sheet_id)
     @sunday_cost_code = @cost_codes.find_by(cost_code_created_at: sun)
     @monday_cost_code = @cost_codes.find_by(cost_code_created_at: monday)
@@ -31,14 +31,10 @@ module EmployeeTimeSheetsHelper
     @saturday_cost_code = @cost_codes.find_by(cost_code_created_at: sat)
   end
 
-  def employee_cost_codes(employee_time_sheet, sunday, monday, tuesday, wednesday, thursday, friday, saturday)
-    @cost_codes = employee_time_sheet.time_sheet_cost_codes
-    @sunday_cost_code = @cost_codes.find_by(cost_code_created_at: sunday)
-    @monday_cost_code = @cost_codes.find_by(cost_code_created_at: monday)
-    @tue_cost_code = @cost_codes.find_by(cost_code_created_at: tuesday)
-    @wed_cost_code = @cost_codes.find_by(cost_code_created_at: wednesday)
-    @thur_cost_code = @cost_codes.find_by(cost_code_created_at: thursday)
-    @fri_cost_code = @cost_codes.find_by(cost_code_created_at: friday)
-    @saturday_cost_code = @cost_codes.find_by(cost_code_created_at: saturday)
+  def employee_cost_codes(day, employee)
+    @cost_code = @project.time_sheet_cost_codes.where(cost_code_created_at: day, employee_id: employee.id)
+    # if employee_time_sheet
+    #   @cost_code = employee_time_sheet.time_sheet_cost_codes.find_by(cost_code_created_at: day)
+    # end
   end
 end
