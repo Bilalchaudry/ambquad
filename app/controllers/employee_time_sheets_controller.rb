@@ -203,9 +203,8 @@ class EmployeeTimeSheetsController < ApplicationController
 
       else
         non_submitted_sheets = @project.employee_time_sheets.where(submit_sheet: false)
-        non_submitted_sheet_date = non_submitted_sheets.nil? ? nil : non_submitted_sheets.first.employee_create_date
-        if non_submitted_sheet_date
-          @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: non_submitted_sheet_date).order(:id)
+        if non_submitted_sheets.present?
+          @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: non_submitted_sheets.first.employee_create_date).order(:id)
         else
           @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today).order(:id)
         end  
