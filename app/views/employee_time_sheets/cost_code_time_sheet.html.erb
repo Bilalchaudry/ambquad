@@ -55,6 +55,7 @@
                 <thead>
                 <tr>
 
+                  <th rowspan="2">Employee ID</th>
                   <th rowspan="2">Employee</th>
                   <th rowspan="2">Company</th>
                   <th rowspan="2">Manager</th>
@@ -78,7 +79,8 @@
                 <tbody>
                 <% @employee_time_sheets.each do |employee_time_sheet| %>
                   <tr id="row<%= employee_time_sheet.id %>">
-                    <td><%= employee_time_sheet.employee %></td>
+                    <td><%= employee_time_sheet.employee.employee_id %></td>
+                    <td><%= employee_time_sheet.employee.employee_name %></td>
                     <td><%= employee_time_sheet.company %></td>
                     <td><%= employee_time_sheet.foreman_name %></td>
                     <% cost_code_sum(employee_time_sheet) %>
