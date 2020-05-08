@@ -1,11 +1,11 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <div id="flash">
-        <% if notice.present? %>
-          <%= render partial: "shared/notice" %>
-        <% end %>
-      </div>
+      <!--      <div id="flash">-->
+      <%# if notice.present? %>
+      <%#= render partial: "shared/notice" %>
+      <%# end %>
+      <!--      </div>-->
 
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
@@ -18,21 +18,21 @@
           </div>
 
           <div class="col-xl-1 col-md-1 ml-5">
-            <% date = @current_week_start_date %>
-            <% date = date.to_s %>
-            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&current=" + date, :class => "btn btn-dark" do %>
+            <%# date = @current_week_start_date %>
+            <% next_date = @today_date - 1 %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&date=#{next_date}", :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf053;</i>
             <% end %>
           </div>
 
           <div class="col-xl-3 col-md-3 text-white btn bg-clr font-weight-bold">
-            <%= date %> To <%= @current_week_start_date.end_of_week(:saturday) + 1 %>
+            <%= @today_date %>
           </div>
 
           <div class="col-xl-1 col-md-1 ml-5">
-            <% date = @current_week_start_date %>
-            <% date = date.to_s %>
-            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&nextweek=" + date, :class => "btn btn-dark" do %>
+            <%# date = @current_week_start_date %>
+            <% previous_date = @today_date + 1 %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&date=#{previous_date}", :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf054;</i>
             <% end %>
           </div>
@@ -139,10 +139,10 @@
             }
         ]
     });
-    document.addEventListener("turbolinks:before-cache", function() {
-      if (dataTable !== null) {
-          dataTable.destroy();
-          dataTable = null;
-      }
-    });  
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
 </script>
