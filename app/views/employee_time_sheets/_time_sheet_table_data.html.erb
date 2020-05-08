@@ -22,28 +22,23 @@
             <% cost_code_time_sheet_id_employee(@cost_codes[i].cost_code_id, employee_time_sheet.id) %>
             <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
           </td>
-          <td class="emp_id"> <%= @cost_codes[i].cost_code %></td>
           <td><%= @cost_codes[i].hrs %></td>
         <% elsif employee_time_sheet.total_hours > 0 %>
           <td>
             <button class="w-100 cost-bot" onclick="cost_modal(<%= employee_time_sheet.employee_id %>,<%= employee_time_sheet.id %>)">+</button>
           </td>
-          <td class="emp_id"></td>
           <td>0</td>
         <% else %>
           <td>
             <button class="w-100 cost-bot" disabled>+</button>
           </td>
-          <td class="emp_id"></td>
           <td>0</td>
         <% end %>
       <% end %>
     </tr>
   <% else %>
     <tr id="row<%= employee_time_sheet.id %>">
-      <td class="emp_id"><%= employee_time_sheet.id %></td>
       <td><%= employee_time_sheet.employee %></td>
-<!--      <td class="emp_id"><%#= employee_time_sheet.employee_id %></td>-->
       <td><%= employee_time_sheet.labour_type %></td>
       <td><%= employee_time_sheet.company %></td>
       <td><%= employee_time_sheet.foreman_name %></td>
@@ -56,19 +51,16 @@
             <% cost_code_time_sheet_id_employee(@cost_codes[i].cost_code_id, employee_time_sheet.id) %>
             <button class="cost-btn"  onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
           </td>
-          <td class="emp_id"> <%= @cost_codes[i].cost_code %></td>
           <td><%= @cost_codes[i].hrs %></td>
         <% elsif employee_time_sheet.total_hours > 0 %>
           <td>
             <button class="w-100 cost-bot" onclick="cost_modal(<%= employee_time_sheet.employee_id %>,<%= employee_time_sheet.id %>)">+</button>
           </td>
-          <td class="emp_id"></td>
           <td>0</td>
         <% else %>
           <td>
             <button class="w-100 cost-bot" disabled>+</button>
           </td>
-          <td class="emp_id"></td>
           <td>0</td>
         <% end %>
       <% end %>
