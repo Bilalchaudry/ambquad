@@ -60,7 +60,7 @@
           </div>
           <div class="col-xl-3 col-md-3">
             <div class="text-white mb-2">
-              <input id="datepicker_search_bar" readonly placeholder="<%= Time.now.strftime("%m/%d/%Y") %>"/>
+              <input id="datepicker_search_bar" readonly placeholder="<%= @employee_time_sheets.first.employee_create_date.strftime("%m/%d/%Y") %>"/>
             </div>
           </div>
           <div class="col-xl-3 col-md-3"></div>
@@ -118,15 +118,17 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="form-group mt-3 mb-0">
-                    <div class="actions">
-                      <button class='btn btn-dark w-100' style='font-weight:bold; color: white;' onclick="submit_time_sheet()">Submit
-                        Timesheets
-                      </button>
+                <% if !current_user.role.eql?("Admin") %>
+                  <div class="col-md-3">
+                    <div class="form-group mt-3 mb-0">
+                      <div class="actions">
+                        <button class='btn btn-dark w-100' style='font-weight:bold; color: white;' onclick="submit_time_sheet()">
+                          Submit Timesheet
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                <% end %> 
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
@@ -193,40 +195,6 @@
                 }
             });
     }
-
-    $(document).ready(function () {
-        $('#table').DataTable({
-            "pageLength": 100,
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'csvHtml5',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
-                    }
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
-                    }
-                }
-            ]
-        });
-    });
 
     $('#datepicker_search_bar').datepicker({
         uiLibrary: 'bootstrap',
@@ -357,6 +325,9 @@
 
     }
     
+    var dataTable = $('#table').DataTable({
+      "pageLength": 100,
+    });
     document.addEventListener("turbolinks:before-cache", function() {
         if (dataTable !== null) {
             dataTable.destroy();
