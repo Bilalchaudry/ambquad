@@ -227,7 +227,7 @@ class EmployeeTimeSheetsController < ApplicationController
               manager_name = employee.other_managers.employee.employee_name rescue nil
               foreman_name = Employee.find_by_id(Foreman.find_by_id(employee.foreman_id).employee_id).employee_name rescue nil
               company_name = employee.project_company.company_name rescue nil
-              employee_time_sheets = @project.employee_time_sheets.create(employee: employee.employee_name, labour_type: employee.employee_type.employee_type,
+              employee_time_sheets = @project.employee_time_sheets.create(labour_type: employee.employee_type.employee_type,
                                                                           project_company_id: employee.project_company_id, company: company_name,
                                                                           manager: manager_name, foreman_name: foreman_name, foreman_id: employee.foreman_id,
                                                                           total_hours: 0, employee_type_id: employee.employee_type_id,
