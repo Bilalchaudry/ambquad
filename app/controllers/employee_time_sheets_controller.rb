@@ -179,7 +179,7 @@ class EmployeeTimeSheetsController < ApplicationController
                                                                                  employee_create_date: search_date).first
 
               sheet_hours = previous_employee_time_sheet.total_hours rescue 0
-              employee_time_sheets = @project.employee_time_sheets.create(employee: employee.employee_name, labour_type: employee.employee_type.employee_type,
+              employee_time_sheets = @project.employee_time_sheets.create(labour_type: employee.employee_type.employee_type,
                                                                           project_company_id: employee.project_company_id, company: company_name,
                                                                           manager: manager_name, foreman_name: foreman_name, foreman_id: employee.foreman_id,
                                                                           total_hours: sheet_hours, employee_type_id: employee.employee_type_id,
@@ -246,19 +246,9 @@ class EmployeeTimeSheetsController < ApplicationController
   def show
 
     if params[:cost_code].present?
-      # if params[:current].present?
-      #   @current_week_start_date = params[:current].to_date - 7
-      #   @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
-      # elsif params[:nextweek].present?
-      #   @current_week_start_date = params[:nextweek].to_date + 7
-      #   @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
-      # else
-      @today_date =  params[:date].present? ? Date.parse(params[:date]) :  Date.today
+      @today_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @today_date)
-      # @current_week_start_date = (Date.today.beginning_of_week(:sunday))
-      # end
       @timesheet_employee_ids = @employee_time_sheets.pluck(:employee_id).uniq
-      # @current_week_start_date = (Date.today.beginning_of_week(:sunday))
       render 'employee_time_sheets/cost_code_time_sheet'
     else
       if params[:current].present?
@@ -269,9 +259,9 @@ class EmployeeTimeSheetsController < ApplicationController
         @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
       else
         @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:sunday))
+        @current_week_start_date = (Date.today.beginning_of_week(:sunday))
       end
       @timesheet_employee_ids = @employee_time_sheets.pluck(:employee_id).uniq
-      @current_week_start_date = (Date.today.beginning_of_week(:sunday))
     end
 
   end
