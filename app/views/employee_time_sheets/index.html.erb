@@ -118,12 +118,12 @@
                     </div>
                   </div>
                 </div>
-                <% if current_user.role.eql?("Admin") %>
+                <% if current_user.role.eql?("Admin") && current_user.client_company.company_name.eql?("Ambquad") %>
                   <div class="col-md-3">
                     <div class="form-group mt-3 mb-0">
                       <div class="actions">
-                        <button class='btn btn-dark w-100' style='font-weight:bold; color: white;' onclick="submit_time_sheet()">Submit
-                          Timesheet
+                        <button class='btn btn-dark w-100' style='font-weight:bold; color: white;' onclick="submit_time_sheet()">
+                          Submit Timesheet
                         </button>
                       </div>
                     </div>
