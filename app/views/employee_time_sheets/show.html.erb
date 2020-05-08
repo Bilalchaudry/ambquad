@@ -1,11 +1,11 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-<!--      <div id="flash">-->
-        <%# if notice.present? %>
-          <%#= render partial: "shared/notice" %>
-        <%# end %>
-<!--      </div>-->
+      <!--      <div id="flash">-->
+      <%# if notice.present? %>
+      <%#= render partial: "shared/notice" %>
+      <%# end %>
+      <!--      </div>-->
 
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
@@ -58,7 +58,6 @@
                   <th>Employee</th>
                   <th>Company</th>
                   <th>Manager</th>
-                  <!--                  <th>Date</th>-->
                   <th>Sun <%= sunday = @current_week_start_date %></th>
                   <th>Mon <%= monday = sunday.next_day %></th>
                   <th>Tue <%= tuesday = monday.next_day %></th>
@@ -70,64 +69,81 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% @employee_time_sheets.each do |employee_time_sheet| %>
-                  <tr id="row<%= employee_time_sheet.id %>">
-                    <td><%= employee_time_sheet.id %></td>
-                    <td><%= employee_time_sheet.employee %></td>
-                    <td><%= employee_time_sheet.company %></td>
-                    <td><%= employee_time_sheet.foreman_name %></td>
-                    <!--                    <td><%#= employee_time_sheet.employee_create_date %></td>-->
-                    <% employee_cost_codes(employee_time_sheet, sunday, monday, tuesday, wednesday, thursday, friday, saturday) %>
+                <% @project.employees.each do |employee| %>
+                  <% if @timesheet_employee_ids.include?(employee.id) %>
+                    <tr id="row<%= employee.id %>">
+                      <td><%= employee.id rescue "N/A" %></td>
+                      <td><%= employee.employee_name rescue "N/A" %></td>
+                      <td><%= employee.project_company.company_name rescue "N/A" %></td>
+                      <td><%= Employee.find_by_id(employee.foreman.employee_id).employee_name rescue "N/A" %></td>
 
-                    <% if @sunday_cost_code.present? %>
-                      <td><%= @sunday_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
+                      <% week_days_array = [sunday, monday, tuesday, wednesday, thursday, friday, saturday] %>
 
-                    <% if @monday_cost_code.present? %>
-                      <td><%= @monday_cost_code.sum.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
+                      <% @total_hrs = 0 %>
+                      <% week_days_array.each do |day| %>
+                        <% employee_cost_codes(day, employee) %>
 
-                    <% if @tue_cost_code.present? %>
-                      <td><%= @tue_cost_code.sum.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
+                        <% if @cost_code.present? %>
+                          <td><%= hours = @cost_code.sum(:hrs) %></td>
+                          <% @total_hrs = @total_hrs + hours %>
+                        <% else %>
+                          <td></td>
+                        <% end %>
 
-                    <% if @wed_cost_code.present? %>
-                      <td><%= @wed_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
+                      <% end %>
+                      <td>
+                        <%= @total_hrs rescue 0 %>
+                      </td>
+                  <% end %>
+                  </tr>
 
-                    <% if @thur_cost_code.present? %>
-                      <td><%= @thur_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @fri_cost_code.present? %>
-                      <td><%= @fri_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <% if @saturday_cost_code.present? %>
-                      <td><%= @saturday_cost_code.hrs %></td>
-                    <% else %>
-                      <td></td>
-                    <% end %>
-
-                    <td>
-                      <%= employee_time_sheet.total_hours %>
-                    </td>
                 <% end %>
-                </tr>
-              </table>
+                </table>
               <br>
+
+              <%# if @sunday_cost_code.present? %>
+              <!--                      <td><%#= @sunday_cost_code.hrs %></td>-->
+              <%# else %>
+              <!--                      <td></td>-->
+              <%# end %>
+
+              <%# if @monday_cost_code.present? %>
+              <!--                      <td><%#= @monday_cost_code.sum.hrs %></td>-->
+              <%# else %>
+              <!--                      <td></td>-->
+              <%# end %>
+
+              <%# if @tue_cost_code.present? %>
+              <!--                      <td><%#= @tue_cost_code.sum.hrs %></td>-->
+              <%# else %>
+              <!--                      <td></td>-->
+              <%# end %>
+
+              <%# if @wed_cost_code.present? %>
+              <!--                      <td><%#= @wed_cost_code.hrs %></td>-->
+              <%# else %>
+              <!--                      <td></td>-->
+              <%# end %>
+
+              <%# if @thur_cost_code.present? %>
+              <!--                      <td><%#= @thur_cost_code.hrs %></td>-->
+              <%# else %>
+              <!--                      <td></td>-->
+              <%# end %>
+
+              <%# if @fri_cost_code.present? %>
+              <!--                      <td><%#= @fri_cost_code.hrs %></td>-->
+              <%# else %>
+              <!--                      <td></td>-->
+              <%# end %>
+
+              <%# if @saturday_cost_code.present? %>
+              <!--                      <td><%#= @saturday_cost_code.hrs %></td>-->
+              <%# else %>
+              <!--                      <td></td>-->
+              <%# end %>
+
+
             </div>
           </div>
         </div>
@@ -135,14 +151,7 @@
     </main>
   </div>
 </div>
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js" crossorigin="anonymous"></script>
+
 <script>
     $(document).ready(function () {
         $('#table').DataTable({
@@ -152,29 +161,36 @@
                 {
                     extend: 'csvHtml5',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
                     }
                 },
                 {
                     extend: 'excelHtml5',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
                     }
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
                     }
                 },
                 {
                     extend: 'print',
                     exportOptions: {
-                        columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        columns: [1, 2, 3, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20]
                     }
                 }
             ]
         });
+    });
+
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
     });
 </script>
