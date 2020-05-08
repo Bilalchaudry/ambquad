@@ -207,7 +207,7 @@ class EmployeeTimeSheetsController < ApplicationController
           @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: non_submitted_sheets.first.employee_create_date).order(:id)
         else
           if current_user.role.eql?("User")
-            render :js => "window.location = '/projects/#{@project.id}/employee_time_sheets/show'"
+            redirect_to '/projects/#{@project.id}/employee_time_sheets/show'"
           else
             @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today).order(:id)
           end
