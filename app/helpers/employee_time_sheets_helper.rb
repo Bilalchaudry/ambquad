@@ -12,7 +12,7 @@ module EmployeeTimeSheetsHelper
 
   def cost_code_sum(employee_time_sheet)
     @cost_codes = employee_time_sheet.time_sheet_cost_codes
-    @cost_code_and_total_hours_sum = @cost_codes.sum(:hrs)
+    @cost_code_and_total_hours_sum = @cost_codes.sum(:hrs) rescue 0
   end
 
   def cost_code_time_sheet_id_employee(cost_code_id, employee_time_sheet_id)
