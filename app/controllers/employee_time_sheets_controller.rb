@@ -213,7 +213,6 @@ class EmployeeTimeSheetsController < ApplicationController
 
           project_employees = @project.employees.where(status: "Active")
           if project_employees.present?
-            employee_create_date = employee_create_date + 1
             search_date = employee_create_date - 7
 
             project_employees.each do |employee|
@@ -232,6 +231,7 @@ class EmployeeTimeSheetsController < ApplicationController
                                                                           total_hours: sheet_hours, employee_type_id: employee.employee_type_id,
                                                                           employee_create_date: employee_create_date, project_id: @project.id, employee_id: employee.id)
 
+              employee_create_date = employee_create_date + 1
               if previous_employee_time_sheet.present?
                 employee_cost_codes = previous_employee_time_sheet.time_sheet_cost_codes.where(employee_time_sheet_id: previous_employee_time_sheet.id)
 
