@@ -318,6 +318,7 @@
     }
     
     var dataTable = $('#table').DataTable({
+      "ordering": false,
       "pageLength": 100,
     });
     document.addEventListener("turbolinks:before-cache", function() {
