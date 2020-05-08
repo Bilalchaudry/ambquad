@@ -208,7 +208,7 @@ class EmployeeTimeSheetsController < ApplicationController
       date = Date.today
       employee_create_date = date
       number_of_remaining_week_days = (Date.today.end_of_week(:monday) - Date.today).to_i
-      if date.thursday?
+      
         (1..number_of_remaining_week_days).to_a.reverse.each do |day|
 
           project_employees = @project.employees.where(status: "Active")
@@ -245,8 +245,6 @@ class EmployeeTimeSheetsController < ApplicationController
             end
           end
         end
-
-      end
       @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: Date.today).order(:id)
     end
   end
