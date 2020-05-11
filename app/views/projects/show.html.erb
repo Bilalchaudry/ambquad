@@ -49,7 +49,7 @@
                         <div class="row mt-2">
                           <button class="btn top-bar-btn-clr ">
                             <div class="row">
-                              <span class="ml-5">N/A</span>
+                              <span class="ml-5"><%= @project.employee_time_sheets.sum(:total_hours) rescue 0 %></span>
                             </div>
                             <strong>Labour Hours</strong>
                           </button>
@@ -60,7 +60,7 @@
                         <div class="row mt-2">
                           <button class="btn top-bar-btn-clr ">
                             <div class="row">
-                              <span class="ml-5">N/A</span>
+                              <span class="ml-5"><%= @project.plant_time_sheets.sum(:total_hours) rescue 0 %></span>
                             </div>
                             <strong>Plant Hours</strong>
                           </button>
