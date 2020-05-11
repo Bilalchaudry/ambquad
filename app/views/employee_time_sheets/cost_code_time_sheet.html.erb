@@ -1,11 +1,6 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <!--      <div id="flash">-->
-      <%# if notice.present? %>
-      <%#= render partial: "shared/notice" %>
-      <%# end %>
-      <!--      </div>-->
 
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
@@ -18,27 +13,28 @@
           </div>
 
           <div class="col-xl-1 col-md-1 ml-5">
-            <%# date = @current_week_start_date %>
-            <% next_date = @today_date - 1 %>
-            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&date=#{next_date}", :class => "btn btn-dark" do %>
+            <% date = @current_week_start_date %>
+            <% date = date.to_s %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&current=#{date}", :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf053;</i>
             <% end %>
           </div>
 
           <div class="col-xl-3 col-md-3 text-white btn bg-clr font-weight-bold">
-            <%= @today_date %>
+            <%= date %> To <%= @current_week_start_date.end_of_week(:sunday) %>
           </div>
 
           <div class="col-xl-1 col-md-1 ml-5">
-            <%# date = @current_week_start_date %>
-            <% previous_date = @today_date + 1 %>
-            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&date=#{previous_date}", :class => "btn btn-dark" do %>
+            <% date = @current_week_start_date %>
+            <% date = date.to_s %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&nextweek=" + date, :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf054;</i>
             <% end %>
           </div>
 
+
           <div class="col-xl-3 col-md-3">
-            <%= link_to "Today's Date", "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
+            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100" %>
           </div>
 
           <div class="col-xl-3 col-md-3">
@@ -77,27 +73,36 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% @employee_time_sheets.each do |employee_time_sheet| %>
-                  <tr id="row<%= employee_time_sheet.id %>">
-                    <td><%= employee_time_sheet.employee.employee_id %></td>
-                    <td><%= employee_time_sheet.employee.employee_name %></td>
-                    <td><%= employee_time_sheet.company %></td>
-                    <td><%= employee_time_sheet.foreman_name %></td>
-                    <% cost_code_sum(employee_time_sheet) %>
-                    <% @cost_codes = @cost_codes.to_a %>
-                    <% for i in 0..4 %>
-                      <% if @cost_codes[i].present? %>
-                        <td><%= @cost_codes[i].cost_code %> </td>
-                        <td><%= @cost_codes[i].hrs %></td>
-                      <% else %>
-                        <td style="background-color: darkgray"></td>
-                        <td style="background-color: darkgray"></td>
-                      <% end %>
-                    <% end %>
+                <% @project.employees.each do |employee| %>
+                  <% if @timesheet_employee_ids.include?(employee.id) %>
+                    <tr id="row<%= employee.id %>">
+                      <td><%= employee.employee_id %></td>
+                      <td><%= employee.employee_name %></td>
+                      <td><%= employee.company rescue "N/A" %></td>
+                      <td><%= employee.foreman_name rescue "N/A" %></td>
 
-                    <td>
-                      <%= employee_time_sheet.total_hours %>
-                    </td>
+                      <% cost_codes = weekly_cost_codes(employee) %>
+
+                      <% @cost_code_array = cost_codes.pluck(:cost_code_id).uniq %>
+
+                      <% for i in 0..4 %>
+
+
+                        <% if @cost_code_array[i].present? %>
+                          <td><%= @cost_code_array[i] %> </td>
+
+                          <% @weekly_sinlge_cost_code = cost_codes.where(employee_id: employee.id, cost_code_id: @cost_code_array[i]) %>
+                          <td><%= @weekly_sinlge_cost_code.sum(:hrs) %></td>
+                        <% else %>
+                          <td style="background-color: darkgray"></td>
+                          <td style="background-color: darkgray"></td>
+                        <% end %>
+                      <% end %>
+
+                      <td>
+                        <%= employee_time_sheet.total_hours rescue 0 %>
+                      </td>
+                  <% end %>
                 <% end %>
                 </tr>
               </table>

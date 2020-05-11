@@ -82,7 +82,7 @@
 
                       <% end %>
                       <td>
-                        <%= @total_hrs rescue 0 %>
+                        <%= @total_hrs.round(2) rescue 0 %>
                       </td>
                   <% end %>
                   </tr>
