@@ -139,13 +139,15 @@
 </div>
 
 <script type="text/javascript">
-  function update_cost_code_hours(updated_hours,cost_code_id) {
-      var celender_date = $("#datepicker_search_bar").val();
-      if (celender_date == "") {
-          var today_date = formatDate(new Date())
-      } else {
-          var today_date = formatDate(celender_date)
-      }
+  function update_cost_code_hours(updated_hours,cost_code_id, total_hours) {
+      var updated_hours = parseFloat(updated_hours);
+      if (updated_hours < total_hours && updated_hours > 0 ) {
+          var celender_date = $("#datepicker_search_bar").val();
+          if (celender_date == "") {
+              var today_date = formatDate(new Date())
+          } else {
+              var today_date = formatDate(celender_date)
+          }
           $.ajax({
               headers: {
                   'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -161,6 +163,15 @@
               success: function () {
               }
           });
+      }
+      else{
+          swal({
+              title: "Warning!",
+              text: "Cost code hours should be less than total hours.",
+              icon: "warning"
+          });
+      }
+
   }
 
     function cost_modal(emp_id, emp_time_id) {
