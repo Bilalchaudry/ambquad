@@ -242,6 +242,7 @@
                           </div>
                         </div>
                       <% end %>
+
                       <% if @project.other_managers.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
@@ -264,6 +265,7 @@
                         </div>
                       <% end %>
                     </div>
+
                     <div class="row">
                       <% if @project.cost_codes.present? %>
                         <div class="col-xl-3 col-md-6">
@@ -287,6 +289,7 @@
                           </div>
                         </div>
                       <% end %>
+
                       <% if @project.crews.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
@@ -310,9 +313,12 @@
                         </div>
                       <% end %>
 
-                      <% enable_timesheet = false if @project.employees.where(foreman_id: nil).present? %>
-                      <% enable_timesheet = false if @project.plants.where(foreman_id: nil).present? %>
                       <% enable_timesheet = false if @project.cost_codes.where(budget_holder_id: nil).present? %>
+                      <% plant_timesheet = enable_timesheet %>
+                      <% plant_timesheet = false if @project.plants.where(foreman_id: nil).present? %>
+                      <% plant_timesheet = true if @project.plant_time_sheets.present? %>
+
+                      <% enable_timesheet = false if @project.employees.where(foreman_id: nil).present? %>
                       <% enable_timesheet = true if @project.employee_time_sheets.present? %>
 
                       <% if (enable_timesheet == true) %>
@@ -336,7 +342,7 @@
                         </div>
                       <% end %>
 
-                      <% if enable_timesheet == true %>
+                      <% if plant_timesheet == true %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card time-sheet-setup-clr text-white mb-3">
                             <div class="card-body">Plant Time Sheet</div>
@@ -351,8 +357,7 @@
                           <div class="card time-sheet-without-setup-clr text-white mb-3">
                             <div class="card-body">Plant Time Sheet</div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                              <%= link_to 'View Detail', "/projects/#{@project.id}/plant_time_sheets", :class => "bold-title view-detail-clr nav-item nav-link small" %>
-                              <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                              <p>Project is Incomplete</p>
                             </div>
                           </div>
                         </div>

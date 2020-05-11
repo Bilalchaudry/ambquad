@@ -1,0 +1,150 @@
+<div id="layoutSidenav">
+  <div id="layoutSidenav_content">
+    <main>
+      <!--      <div id="flash">-->
+      <%# if notice.present? %>
+      <%#= render partial: "shared/notice" %>
+      <%# end %>
+      <!--      </div>-->
+
+      <div class="form-info-style">
+        <%= render 'shared/client_and_project_info' %>
+      </div>
+
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xl-3 col-md-3">
+            <%= link_to 'Back to Timesheet ', "/projects/#{@project.id}/plant_time_sheets", :class => "btn btn-dark w-100" %>
+          </div>
+
+          <div class="col-xl-1 col-md-1 ml-5">
+            <%# date = @current_week_start_date %>
+            <% next_date = @today_date - 1 %>
+            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true&date=#{next_date}", :class => "btn btn-dark" do %>
+              <i style="font-size:21px" class="fa">&#xf053;</i>
+            <% end %>
+          </div>
+
+          <div class="col-xl-3 col-md-3 text-white btn bg-clr font-weight-bold">
+            <%= @today_date %>
+          </div>
+
+          <div class="col-xl-1 col-md-1 ml-5">
+            <%# date = @current_week_start_date %>
+            <% previous_date = @today_date + 1 %>
+            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true&date=#{previous_date}", :class => "btn btn-dark" do %>
+              <i style="font-size:21px" class="fa">&#xf054;</i>
+            <% end %>
+          </div>
+
+          <div class="col-xl-3 col-md-3">
+            <%= link_to "Today's Date", "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
+          </div>
+
+          <div class="col-xl-3 col-md-3">
+            <%= link_to 'Timesheet View', "/projects/#{@project.id}/plant_time_sheets/show", :class => "btn btn-dark w-100" %>
+          </div>
+
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Timesheet Summary (Cost Codes)</div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="table" class="table-bordered" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+
+                  <th rowspan="2">Plant ID</th>
+                  <th rowspan="2">Plant</th>
+                  <th rowspan="2">Company</th>
+                  <th rowspan="2">Manager</th>
+                  <th colspan="11" style="text-align: center;">Cost Codes Summary</th>
+                </tr>
+                <tr>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Total hours</th>
+                </tr>
+                </tr>
+                </thead>
+                <tbody>
+                <% @plant_time_sheets.each do |plant_time_sheet| %>
+                  <tr id="row<%= plant_time_sheet.id %>">
+                    <td><%= plant_time_sheet.plant.plant_id %></td>
+                    <td><%= plant_time_sheet.plant.plant_name %></td>
+                    <td><%= plant_time_sheet.company %></td>
+                    <td><%= plant_time_sheet.foreman_name %></td>
+                    <% cost_code_sum(plant_time_sheet) %>
+                    <% @cost_codes = @cost_codes.to_a %>
+                    <% for i in 0..4 %>
+                      <% if @cost_codes[i].present? %>
+                        <td><%= @cost_codes[i].cost_code %> </td>
+                        <td><%= @cost_codes[i].hrs %></td>
+                      <% else %>
+                        <td style="background-color: darkgray"></td>
+                        <td style="background-color: darkgray"></td>
+                      <% end %>
+                    <% end %>
+
+                    <td>
+                      <%= plant_time_sheet.total_hours %>
+                    </td>
+                <% end %>
+                </tr>
+              </table>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<script>
+    var dataTable = $('#table').DataTable({
+        "pageLength": 100,
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+                }
+            }
+        ]
+    });
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
+</script>
