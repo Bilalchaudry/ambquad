@@ -12,7 +12,7 @@
       <td><%= employee_time_sheet.foreman_name %></td>
       <% if employee_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
         <td>
-          <input size="4" type="text" id="<%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) updateTotalHours($('#<%= employee_time_sheet.id %>').val(),<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)" value="<%= employee_time_sheet.total_hours %>">
+          <input size="4" class="mt-1 td-bg-clr" type="text" id="<%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) updateTotalHours($('#<%= employee_time_sheet.id %>').val(),<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)" value="<%= employee_time_sheet.total_hours %>">
         </td>
       <% else %>
         <td><%= employee_time_sheet.total_hours %></td>
@@ -24,7 +24,7 @@
             <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
           </td>
           <td>
-            <input size="2" type="text" id="hours<%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) update_cost_code_hours($('#hours<%= employee_time_sheet.id %>').val(),<%= @cost_codes[i].id  %>)" value="<%= @cost_codes[i].hrs %>">
+            <input size="2" type="text" class="mt-1 td-bg-clr" id="hours<%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) update_cost_code_hours($('#hours<%= employee_time_sheet.id %>').val(),<%= @cost_codes[i].id  %>)" value="<%= @cost_codes[i].hrs %>">
             <%#= @cost_codes[i].hrs %>
           </td>
         <% elsif employee_time_sheet.total_hours > 0 %>
@@ -48,7 +48,7 @@
       <td><%= employee_time_sheet.company %></td>
       <td><%= employee_time_sheet.foreman_name %></td>
       <td>
-        <input size="4" type="text" id="<%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) updateTotalHours($('#<%= employee_time_sheet.id %>').val(),<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)" value="<%= employee_time_sheet.total_hours %>">
+        <input size="4" class="mt-1 td-bg-clr" type="text" id="<%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) updateTotalHours($('#<%= employee_time_sheet.id %>').val(),<%= employee_time_sheet.total_hours %>, <%= employee_time_sheet.id %>)" value="<%= employee_time_sheet.total_hours %>">
       </td>
       <% for i in 0..4 %>
         <% if @cost_codes[i].present? %>
@@ -57,7 +57,7 @@
             <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.employee_create_date %>')">x</button>
           </td>
           <td>
-            <input size="2" type="text" id="hours<%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) update_cost_code_hours($('#hours<%= employee_time_sheet.id %>').val(),<%= @cost_codes[i].id  %>)" value="<%= @cost_codes[i].hrs %>">
+            <input size="2" class="mt-1 td-bg-clr" type="text" id="hours<%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) update_cost_code_hours($('#hours<%= employee_time_sheet.id %>').val(),<%= @cost_codes[i].id  %>)" value="<%= @cost_codes[i].hrs %>">
             <%#= @cost_codes[i].hrs %>
           </td>
         <% elsif employee_time_sheet.total_hours > 0 %>
