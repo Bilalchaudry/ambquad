@@ -189,9 +189,6 @@ class EmployeeTimeSheetsController < ApplicationController
   def show
 
     if params[:cost_code].present?
-      # @today_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
-      # @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: @today_date)
-      # @timesheet_employee_ids = @employee_time_sheets.pluck(:employee_id).uniq
 
       if params[:current].present?
         @current_week_start_date = params[:current].to_date - 7

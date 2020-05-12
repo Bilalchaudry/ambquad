@@ -103,41 +103,41 @@
 </div>
 
 <script>
-  var dataTable = $('#table').DataTable({
-      "pageLength": 100,
-      dom: 'Bfrtip',
-      buttons: [
-          {
-              extend: 'csvHtml5',
-              exportOptions: {
-                  columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
-              }
-          },
-          {
-              extend: 'excelHtml5',
-              exportOptions: {
-                  columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
-              }
-          },
-          {
-              extend: 'pdfHtml5',
-              orientation: 'landscape',
-              exportOptions: {
-                  columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
-              }
-          },
-          {
-              extend: 'print',
-              exportOptions: {
-                  columns: [0, 1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11]
-              }
-          }
-      ]
-  });
-  document.addEventListener("turbolinks:before-cache", function() {
-    if (dataTable !== null) {
-        dataTable.destroy();
-        dataTable = null;
-    }
-  });
+    var dataTable = $('#table').DataTable({
+        "pageLength": 100,
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                }
+            }
+        ]
+    });
+    document.addEventListener("turbolinks:before-cache", function () {
+        if (dataTable !== null) {
+            dataTable.destroy();
+            dataTable = null;
+        }
+    });
 </script>

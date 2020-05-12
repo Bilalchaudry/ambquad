@@ -34,7 +34,7 @@
 
 
           <div class="col-xl-3 col-md-3">
-            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&", :class => "btn btn-dark w-100" %>
+            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
           </div>
 
           <div class="col-xl-3 col-md-3">
@@ -81,8 +81,9 @@
                       <td><%= employee.project_company.company_name rescue "N/A" %></td>
                       <td><%= Employee.find_by_id(employee.foreman.employee_id).employee_name rescue "N/A" %></td>
 
+
                       <% @total_hrs = 0 %>
-                      <% cost_codes = weekly_cost_codes(employee) %>
+                      <% cost_codes = weekly_cost_codes(employee, "employee") %>
 
                       <% @cost_code_array = cost_codes.pluck(:cost_code).uniq %>
 
@@ -103,7 +104,7 @@
                       <td>
                         <%= @total_hrs rescue 0 %>
                       </td>
-                  <% end %>
+                  <% end %>employee
                 <% end %>
                 </tr>
               </table>

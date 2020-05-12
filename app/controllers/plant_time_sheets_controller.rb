@@ -186,10 +186,27 @@ class PlantTimeSheetsController < ApplicationController
   # GET /plant_time_sheets/1.json
   def show
     if params[:cost_code].present?
-      @today_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
-      @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @today_date)
+      if params[:current].present?
+        @current_week_start_date = params[:current].to_date - 7
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+        @cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+      elsif params[:nextweek].present?
+        @current_week_start_date = params[:nextweek].to_date + 7
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+        @cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+
+      else
+        @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:sunday))
+        @cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:sunday))
+      end
       @timesheet_plant_ids = @plant_time_sheets.pluck(:plant_id).uniq
+
       render 'plant_time_sheets/cost_code_time_sheet'
+
+      # @today_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
+      # @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @today_date)
+      # @timesheet_plant_ids = @plant_time_sheets.pluck(:plant_id).uniq
     else
       if params[:current].present?
         @current_week_start_date = params[:current].to_date - 7
