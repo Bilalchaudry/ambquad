@@ -61,7 +61,7 @@
           </div>
           <div class="col-xl-3 col-md-3">
             <div class="text-white mb-2">
-              <input id="datepicker_search_bar" readonly value="<%= @employee_time_sheets.first.employee_create_date.strftime("%m/%d/%Y") %>" placeholder="<%= @employee_time_sheets.first.employee_create_date.strftime("%m/%d/%Y") %>"/>
+              <input id="datepicker_search_bar" readonly value="<%= @employee_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>" placeholder="<%= @employee_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>"/>
             </div>
           </div>
           <div class="col-xl-3 col-md-3"></div>

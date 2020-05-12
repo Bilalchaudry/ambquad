@@ -5,139 +5,203 @@ class PlantTimeSheetsController < ApplicationController
   # GET /plant_time_sheets
   # GET /plant_time_sheets.json
   def index
-    if params[:date].present? && params[:search_date].present?
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:date])
-      if @plant_time_sheets.empty?
-        @project_plant = @project.plants
-        @plant_time_sheets = []
-        begin
-          @project_plant.each do |project_plant|
-            manager_name = project_plant.other_manager.employee.employee_name
-            foreman_name = project_plant.foreman.employee.employee_name
-            @plant_time_sheets << @project.plant_time_sheets.new(plant_id_str: project_plant.plant_id, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
-                                                                 foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: params[:date],
-                                                                 foreman_name: foreman_name, manager: manager_name, total_hours: 0,
-                                                                 plant_id: project_plant.id)
+    if @project.plant_time_sheets.present?
+      if params[:find_emp_codes].present?
+        plant_time_sheet = PlantTimeSheet.find_by_id(params[:time_sheet_employee_id])
+        plant_used_time_sheet_code = plant_time_sheet.time_sheet_cost_codes.pluck(:cost_code_id)
+        unused_codes_for_plant = @project.cost_codes.where('created_at < ? ', plant_time_sheet.created_at).where.not(id: plant_used_time_sheet_code, budget_holder_id: nil)
+        render json: unused_codes_for_plant
 
-          end
-          PlantTimeSheet.import @plant_time_sheets
-        rescue => e
-          e.message
-        end
-      end
-      respond_to do |format|
-        format.js
-        format.html
-      end
-    elsif params[:date].present? && params[:copy_from_previous].present?
-      @plant_time_sheets_previous_data = @project.plant_time_sheets.where(plant_create_date: params[:date])
-      unless @plant_time_sheets_previous_data.empty?
-        @plant_time_sheets_copy_data = []
-        begin
-          @plant_time_sheets_previous_data.each do |project_plant|
-            exist_data = []
-            exist_data = @project.plant_time_sheets.where(plant_id: project_plant.plant_id, plant_create_date: Time.now.strftime("%Y-%m-%d"))
-            if exist_data.empty?
-              @plant_time_sheets_copy_data << @project.plant_time_sheets.new(plant_id_str: project_plant.plant_id_str, plant_name: project_plant.plant_name, project_company_id: project_plant.project_company_id,
-                                                                             foreman_id: project_plant.foreman_id, project_id: project_plant.project_id, plant_create_date: Time.now.strftime("%Y-%m-%d"),
-                                                                             manager: project_plant.manager, total_hours: project_plant.total_hours, plant_id: project_plant.plant_id)
-            end
-          end
-          unless @plant_time_sheets_copy_data.empty?
-            PlantTimeSheet.import @plant_time_sheets_copy_data
+      elsif params[:find_plant_codes].present?
+        plant_used_time_sheet_code = @project.time_sheet_cost_codes.where(plant_id: params[:plant_id], time_sheet_plant_id: params[:time_sheet_plant_id], created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).pluck(:cost_code_id)
+        @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+        unused_codes_for_plant = @project.cost_codes.where.not(id: plant_used_time_sheet_code)
+        render json: unused_codes_for_plant
 
-            cost_code_count = 0
-            for single_plant in @plant_time_sheets_previous_data
-              @new_cost_codes = []
-              @old_cost_code = TimeSheetCostCode.where(time_sheet_plant_id: single_plant.id)
-              @old_cost_code.each do |cost_code|
-                @new_cost_codes = @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
-                                                                        plant_id: cost_code.plant_id, hrs: cost_code.hrs,
-                                                                        time_sheet_plant_id: @plant_time_sheets_copy_data[cost_code_count].id)
-              end
-              cost_code_count = cost_code_count + 1
-            end
-          end
-        rescue => e
-          e.message
-        end
-      end
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-      respond_to do |format|
-        format.js
-        format.html
-      end
-    elsif params[:total_hour].present? && params[:update_total_hour].present? && params[:data_id]
-      @plant_time_sheets = @project.plant_time_sheets.where(id: params[:data_id]).first
-      @plant_time_sheets.update(total_hours: params[:total_hour])
-      @time_sheet_cost_code = TimeSheetCostCode.where(time_sheet_plant_id: @plant_time_sheets.id)
-      unless @time_sheet_cost_code.empty?
-        devided_time = (params[:total_hour].to_f / @time_sheet_cost_code.count.to_f).round(2)
-        @time_sheet_cost_code.update(hrs: devided_time)
-      end
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @plant_time_sheets.plant_create_date).order(:id)
-      respond_to do |format|
-        format.js
-        format.html
-      end
-    elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
-      today = params[:sheet_date].to_date
-      whole_week = (today.at_beginning_of_week..today.at_end_of_week - 2)
-      if Time.now.strftime("%Y-%m-%d").to_date >= whole_week.first
-        @time_sheet_submit_data = []
-        condition_check = true
-        whole_week.each do |day|
-          time_sheet_data = PlantTimeSheet.where(plant_create_date: day)
-          if !time_sheet_data.present?
-            @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-            condition_check = false
+      elsif params[:date].present? && params[:search_date].present?
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: params[:date])
+        if @plant_time_sheets.present?
+          if @plant_time_sheets.first.submit_sheet.eql?(false) || current_user.role.eql?("Admin")
             respond_to do |format|
-              format.js { flash.now[:notice] = "Please Complete the Time Sheet there is no data on Date: #{day}" }
-              format.html
-            end
-          elsif time_sheet_data.first.submit_sheet == true
-            @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
-            condition_check = false
-            respond_to do |format|
-              format.js { flash.now[:notice] = "Time Sheet Already Submitted" }
-              format.html
+              format.js
             end
           else
-            @time_sheet_submit_data.push(time_sheet_data)
+            render :js => "window.location = '/projects/#{@project.id}/plant_time_sheets/show'"
           end
-        end
-        if condition_check == true
-          @time_sheet_submit_data.each { |single_data| single_data.update(submit_sheet: true) }
-          @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
           respond_to do |format|
-            format.js { flash.now[:notice] = "Time Sheet Submitted Successfully" }
-            format.html
+            format.js
+          end
+        else
+          respond_to do |format|
+            format.js
           end
         end
-      else
-        @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      elsif params[:date].present? && params[:copy_from_previous].present?
+        @plant_time_sheets_previous_data = @project.plant_time_sheets.where(timesheet_created_at: params[:date])
+        plant_time_sheets_current_data = @project.plant_time_sheets.where(timesheet_created_at: params[:current_date])
+
+        plant_ids_of_current_data = plant_time_sheets_current_data.pluck(:plant_id)
+        if @plant_time_sheets_previous_data.present?
+          @plant_time_sheets_previous_data.each do |plant_time_sheet|
+
+            if plant_ids_of_current_data.include?(plant_time_sheet.plant_id)
+              emp_time_sheet = plant_time_sheets_current_data.find_by_plant_id(plant_time_sheet.plant_id)
+              if emp_time_sheet.present?
+                emp_time_sheet.update(total_hours: plant_time_sheet.total_hours)
+                emp_time_sheet.time_sheet_cost_codes.delete_all
+                plant_cost_codes = plant_time_sheet.time_sheet_cost_codes
+
+                plant_cost_codes.each do |cost_code|
+                  TimeSheetCostCode.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
+                                           plant_id: cost_code.plant_id, hrs: cost_code.hrs,
+                                           plant_time_sheet_id: emp_time_sheet.id,
+                                           project_id: @project.id, cost_code_created_at: params[:current_date])
+                end
+
+              end
+            end
+          end
+        end
+
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: params[:current_date]).order(:id)
         respond_to do |format|
-          format.js { flash.now[:notice] = "You cannot Submit Time Sheet Before Date: #{whole_week.first}" }
+          format.js
           format.html
+        end
+      elsif params[:total_hour].present? && params[:update_total_hour].present? && params[:data_id]
+        @plant_time_sheet_data = @project.plant_time_sheets.where(id: params[:data_id]).first
+        @plant_time_sheet_data.update(total_hours: params[:total_hour])
+        @time_sheet_cost_code = TimeSheetCostCode.where(plant_id: @plant_time_sheet_data.plant_id, project_id: @project.id,
+                                                        time_sheet_plant_id: @plant_time_sheet_data.id)
+        unless @time_sheet_cost_code.empty?
+          devided_time = (params[:total_hour].to_f / @time_sheet_cost_code.count.to_f).round(2)
+          @time_sheet_cost_code.update(hrs: devided_time)
+        end
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @plant_time_sheet_data.timesheet_created_at).order(:id)
+        respond_to do |format|
+          format.js
+          format.html
+        end
+      elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
+        today = params[:sheet_date].to_date
+        today_date = Date.today
+        if today_date.friday? || today_date.saturday? || today_date.sunday?
+          whole_week = (today.at_beginning_of_week..today.at_end_of_week)
+          @submitted_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: whole_week).order(:id)
+          if @submitted_time_sheets.first.submit_sheet.eql?(false)
+            @submitted_time_sheets.update(submit_sheet: true)
+            @result = "Time Sheet Submitted Successfully"
+          elsif @submitted_time_sheets.first.submit_sheet.eql?(true)
+            @result = "Time Sheet Already Submitted"
+          end
+        else
+          @result = "You can Submit Time Sheet on Friday, Saturday or Sunday"
+        end
+
+        respond_to do |format|
+          format.js
+        end
+
+      elsif params[:next_week_time_sheet].present?
+        date = @project.plant_time_sheets.order(:timesheet_created_at).last.timesheet_created_at
+        plant_create_date = date
+        (1..7).to_a.reverse.each do |day|
+
+          project_plants = @project.plants.where(status: "Active").where.not(foreman_id: nil)
+          if project_plants.present?
+            plant_create_date = plant_create_date + 1
+            search_date = plant_create_date - 7
+
+            project_plants.each do |plant|
+              manager_name = plant.other_managers.plant.plant_name rescue nil
+              foreman_name = Employee.find_by_id(Foreman.find_by_id(plant.foreman_id).plant_id).plant_name rescue nil
+              company_name = plant.project_company.company_name rescue nil
+
+
+              previous_plant_time_sheet = @project.plant_time_sheets.where(plant_id: plant.id,
+                                                                           timesheet_created_at: search_date).first
+
+              sheet_hours = previous_plant_time_sheet.total_hours rescue 0
+              plant_time_sheets = @project.plant_time_sheets.create(plant_name: plant.plant_type.type_name,
+                                                                    project_company_id: plant.project_company_id, company: company_name,
+                                                                    manager: manager_name, foreman_name: foreman_name, foreman_id: plant.foreman_id,
+                                                                    total_hours: sheet_hours, timesheet_created_at: plant_create_date, project_id: @project.id,
+                                                                    plant_id: plant.id)
+
+              if previous_plant_time_sheet.present?
+                plant_cost_codes = previous_plant_time_sheet.time_sheet_cost_codes.where(plant_time_sheet_id: previous_plant_time_sheet.id)
+
+                plant_cost_codes.each do |cost_code|
+                  @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
+                                                        plant_id: cost_code.plant_id, hrs: cost_code.hrs,
+                                                        plant_time_sheet_id: plant_time_sheets.id)
+
+                end
+              end
+            end
+          end
+        end
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: date).order(:id)
+
+      else
+        non_submitted_sheets = @project.plant_time_sheets.where(submit_sheet: false).order(:id)
+        if non_submitted_sheets.present?
+          @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: non_submitted_sheets.first.timesheet_created_at).order(:id)
+        else
+          if current_user.role.eql?("User")
+            redirect_to '/projects/' + @project.id.to_s + '/plant_time_sheets/show'
+          else
+            @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: Date.today).order(:id)
+          end
         end
       end
     else
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: Time.now.strftime("%Y-%m-%d")).order(:id)
+      date = Date.today
+      timesheet_created_at = date
+      number_of_remaining_week_days = (Date.today.end_of_week(:monday) - Date.today).to_i
+
+      (1..number_of_remaining_week_days).to_a.reverse.each do |day|
+
+        project_plants = @project.plants.where(status: "Active")
+        if project_plants.present?
+          project_plants.each do |plant|
+            manager_name = plant.other_managers.plant.plant_name rescue nil
+            foreman_name = Employee.find_by_id(Foreman.find_by_id(plant.foreman_id).plant_id).employee_name rescue nil
+            company_name = plant.project_company.company_name rescue nil
+            plant_time_sheets = @project.plant_time_sheets.create(plant_name: plant.plant_type.type_name,
+                                                                  project_company_id: plant.project_company_id, company: company_name,
+                                                                  manager: manager_name, foreman_name: foreman_name, foreman_id: plant.foreman_id,
+                                                                  total_hours: 0, timesheet_created_at: timesheet_created_at, project_id: @project.id,
+                                                                  plant_id: plant.id)
+
+          end
+          timesheet_created_at = timesheet_created_at + 1
+        end
+      end
+      @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: Date.today).order(:id)
     end
   end
 
   # GET /plant_time_sheets/1
   # GET /plant_time_sheets/1.json
   def show
-    if params[:current].present?
-      @current_week_start_date = params[:current].to_date - 7
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
-    elsif params[:nextweek].present?
-      @current_week_start_date = params[:nextweek].to_date + 7
-      @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: @current_week_start_date..@current_week_start_date.end_of_week(:saturday)).order(:id) rescue nil
+    if params[:cost_code].present?
+      @today_date = params[:date].present? ? Date.parse(params[:date]) : Date.today
+      @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @today_date)
+      @timesheet_plant_ids = @plant_time_sheets.pluck(:plant_id).uniq
+      render 'plant_time_sheets/cost_code_time_sheet'
     else
-      @plant_time_sheets = @project.plant_time_sheets.where(created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:saturday)).order(:id) rescue nil
-      @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+      if params[:current].present?
+        @current_week_start_date = params[:current].to_date - 7
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+      elsif params[:nextweek].present?
+        @current_week_start_date = params[:nextweek].to_date + 7
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+      else
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:sunday))
+        @current_week_start_date = (Date.today.beginning_of_week(:sunday))
+      end
+      @timesheet_plant_ids = @plant_time_sheets.pluck(:plant_id).uniq
     end
   end
 
@@ -157,11 +221,11 @@ class PlantTimeSheetsController < ApplicationController
 
     respond_to do |format|
       if @plant_time_sheet.save
-        format.html { redirect_to @plant_time_sheet, notice: 'Plant time sheet was successfully created.' }
-        format.json { render :show, status: :created, location: @plant_time_sheet }
+        format.html {redirect_to @plant_time_sheet, notice: 'Plant time sheet was successfully created.'}
+        format.json {render :show, status: :created, location: @plant_time_sheet}
       else
-        format.html { render :new }
-        format.json { render json: @plant_time_sheet.errors, status: :unprocessable_entity }
+        format.html {render :new}
+        format.json {render json: @plant_time_sheet.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -171,11 +235,11 @@ class PlantTimeSheetsController < ApplicationController
   def update
     respond_to do |format|
       if @plant_time_sheet.update(plant_time_sheet_params)
-        format.html { redirect_to @plant_time_sheet, notice: 'Plant time sheet was successfully updated.' }
-        format.json { render :show, status: :ok, location: @plant_time_sheet }
+        format.html {redirect_to @plant_time_sheet, notice: 'Plant time sheet was successfully updated.'}
+        format.json {render :show, status: :ok, location: @plant_time_sheet}
       else
-        format.html { render :edit }
-        format.json { render json: @plant_time_sheet.errors, status: :unprocessable_entity }
+        format.html {render :edit}
+        format.json {render json: @plant_time_sheet.errors, status: :unprocessable_entity}
       end
     end
   end
@@ -185,8 +249,8 @@ class PlantTimeSheetsController < ApplicationController
   def destroy
     @plant_time_sheet.destroy
     respond_to do |format|
-      format.html { redirect_to plant_time_sheets_url, notice: 'Plant time sheet was successfully destroyed.' }
-      format.json { head :no_content }
+      format.html {redirect_to plant_time_sheets_url, notice: 'Plant time sheet was successfully destroyed.'}
+      format.json {head :no_content}
     end
   end
 
