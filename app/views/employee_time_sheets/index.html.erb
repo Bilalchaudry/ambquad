@@ -1,11 +1,6 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <!--      <div id="flash">-->
-      <%# if notice.present? %>
-      <%#= render partial: "shared/notice" %>
-      <%# end %>
-      <!--      </div>-->
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
       </div>
@@ -143,7 +138,7 @@
 
     function update_cost_code_hours(updated_hours, cost_code_id, total_hours, td_id) {
         var updated_hours = parseFloat(updated_hours);
-        if (updated_hours < total_hours && updated_hours > 0) {
+        if (updated_hours <= total_hours && updated_hours > 0) {
             var celender_date = $("#datepicker_search_bar").val();
             if (celender_date == "") {
                 var today_date = formatDate(new Date())
@@ -159,7 +154,8 @@
                 data: {
                     hrs: updated_hours,
                     id: cost_code_id,
-                    today_date
+                    today_date,
+                    update_employee_cost_code_hours: 'true'
                 },
                 cache: false,
                 success: function () {
@@ -169,7 +165,7 @@
         } else {
             swal({
                 title: "Warning!",
-                text: "Cost code hours should be less than total hours.",
+                text: "Cost code hours should be less than or equal to total hours and greater than zero.",
                 icon: "warning"
             });
         }

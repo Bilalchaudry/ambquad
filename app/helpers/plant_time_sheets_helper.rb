@@ -1,4 +1,9 @@
 module PlantTimeSheetsHelper
+  def sort_plant_cost_codes(cost_codes_array)
+    @cost_codes = cost_codes_array.sort_by do |cost_code|
+      cost_code[:created_at]
+    end
+  end
   def checking_cost_code_and_total_hours(plant_time_sheet_id)
     @cost_codes = @project.time_sheet_cost_codes.where(time_sheet_plant_id: plant_time_sheet_id)
     @cost_codes_ar = @cost_codes.to_a
