@@ -37,6 +37,9 @@
 .td-clr-red {
     border:2px solid red;
 }
+.empty-cost-cost-hours-bg {
+    background-color: transparent;
+}
 
 /* ==========================================================================
    #GRID
