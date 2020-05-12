@@ -37,15 +37,15 @@
               <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
-
-          <div class="col-xl-3 col-md-3">
-            <div class="card text-white mb-2">
-              <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="next_week_time_sheet(<%=params[:project_id] %>)">
-                Next week Time Sheet
-              </button>
+          <% if current_user.role.eql?("Admin") %>
+            <div class="col-xl-3 col-md-3">
+              <div class="card text-white mb-2">
+                <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="next_week_time_sheet(<%=params[:project_id] %>)">
+                  Next week Time Sheet
+                </button>
+              </div>
             </div>
-          </div>
-
+          <% end %>
           <div class="col-xl-3 col-md-3">
             <div class="card text-white mb-2">
               <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="clear_plant_time_sheet(<%=params[:project_id] %>)">Clear
@@ -153,7 +153,7 @@
                     hrs: updated_hours,
                     id: cost_code_id,
                     today_date,
-                    plant_cost_code: 'true'
+                    update_plant_cost_code_hours: 'true'
                 },
                 cache: false,
                 success: function () {
@@ -173,10 +173,17 @@
     function cost_modal_plant(emp_id, emp_time_id) {
         time_sheet_employee_id = emp_time_id;
         employee_id = emp_id;
+        var celender_date = $("#datepicker_search_bar").val();
+        var formated_date = formatDate(celender_date);
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/plant_time_sheets",
-            data: {time_sheet_employee_id, emp_id, find_emp_codes: emp_time_id, plant_sheet: true},
+            data: {
+                time_sheet_employee_id, emp_id,
+                find_emp_codes: emp_time_id,
+                plant_sheet: true,
+                date: formated_date
+            },
             success: function (data) {
                 $("#plant_cost_code").empty();
                 var select = document.getElementById("plant_cost_code");
@@ -261,8 +268,9 @@
         return [year, month, day].join('-');
     }
 
-    function updateTotalHours(total_hours, data_id) {
-        var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
+    function updateplantTotalHours(updated_hours, data_id) {
+        var new_total_hours = updated_hours
+        // var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/plant_time_sheets",
@@ -351,7 +359,7 @@
         "ordering": false,
         "pageLength": 100,
     });
-    document.addEventListener("turbolinks:before-cache", function() {
+    document.addEventListener("turbolinks:before-cache", function () {
         if (dataTable !== null) {
             dataTable.destroy();
             dataTable = null;
