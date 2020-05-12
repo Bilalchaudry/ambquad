@@ -19,9 +19,7 @@
       <% end %>
       <% for i in 0..4 %>
         <% if @cost_codes[i].present? %>
-          <% @cost_codes = @cost_codes.sort_by do |cost_code|
-            cost_code[:created_at]
-          end  %>
+          <% sort_cost_codes(@cost_codes) %>
           <td><%= @cost_codes[i].cost_code %>
             <% cost_code_time_sheet_id_employee(@cost_codes[i].cost_code_id, employee_time_sheet.id) %>
             <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.timesheet_created_at %>')">x</button>
@@ -55,9 +53,7 @@
       </td>
       <% for i in 0..4 %>
         <% if @cost_codes[i].present? %>
-          <% @cost_codes = @cost_codes.sort_by do |cost_code|
-            cost_code[:created_at]
-          end  %>
+         <% sort_cost_codes(@cost_codes) %>
           <td><%= @cost_codes[i].cost_code %>
             <% cost_code_time_sheet_id_employee(@cost_codes[i].cost_code_id, employee_time_sheet.id) %>
             <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.timesheet_created_at %>')">x</button>
