@@ -1,11 +1,11 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <div id="flash">
-        <% if notice.present? %>
-          <%#= render partial: "shared/notice" %>
-        <% end %>
-      </div>
+      <!--      <div id="flash">-->
+      <%# if notice.present? %>
+      <%#= render partial: "shared/notice" %>
+      <%# end %>
+      <!--      </div>-->
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
       </div>
@@ -148,10 +148,12 @@
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/plant_time_sheets",
-            data: {time_sheet_employee_id, emp_id,
+            data: {
+                time_sheet_employee_id, emp_id,
                 find_emp_codes: emp_time_id,
                 plant_sheet: true,
-                date: formated_date},
+                date: formated_date
+            },
             success: function (data) {
                 $("#plant_cost_code").empty();
                 var select = document.getElementById("plant_cost_code");
@@ -198,14 +200,16 @@
         // maxDate: new Date()
     });
 
-    $('#datepicker_search_bar').change(function () {
-        var celender_date = $("#datepicker_search_bar").val();
-        var formated_date = formatDate(celender_date);
-        $.ajax({
-            type: "GET",
-            url: '/projects/<%= @project.id %>/plant_time_sheets',
-            data: {date: formated_date, search_date: 'true'}
-        })
+    $('#datepicker_search_bar').change(function (e) {
+        if (event.keyCode != 13) {
+            var celender_date = $("#datepicker_search_bar").val();
+            var formated_date = formatDate(celender_date);
+            $.ajax({
+                type: "GET",
+                url: '/projects/<%= @project.id %>/plant_time_sheets',
+                data: {date: formated_date, search_date: 'true'}
+            })
+        }
     });
 
     $('#datepicker_copy_from_previous').datepicker({
@@ -213,17 +217,19 @@
         // maxDate: new Date()
     });
 
-    $('#datepicker_copy_from_previous').change(function () {
-        var calender_date = $("#datepicker_copy_from_previous").val();
-        var current_date = $("#datepicker_search_bar").val();
-        var formated_date = formatDate(calender_date);
-        var current_formatted_date = formatDate(current_date);
-        $("#datepicker_copy_from_previous").val("");
-        $.ajax({
-            type: "GET",
-            url: "/projects/<%= @project.id %>/plant_time_sheets",
-            data: {date: formated_date, current_date: current_formatted_date, copy_from_previous: 'true'}
-        })
+    $('#datepicker_copy_from_previous').change(function (e) {
+        if (event.keyCode != 13) {
+            var calender_date = $("#datepicker_copy_from_previous").val();
+            var current_date = $("#datepicker_search_bar").val();
+            var formated_date = formatDate(calender_date);
+            var current_formatted_date = formatDate(current_date);
+            $("#datepicker_copy_from_previous").val("");
+            $.ajax({
+                type: "GET",
+                url: "/projects/<%= @project.id %>/plant_time_sheets",
+                data: {date: formated_date, current_date: current_formatted_date, copy_from_previous: 'true'}
+            })
+        }
     });
 
     function formatDate(date) {
@@ -326,7 +332,7 @@
         "ordering": false,
         "pageLength": 100,
     });
-    document.addEventListener("turbolinks:before-cache", function() {
+    document.addEventListener("turbolinks:before-cache", function () {
         if (dataTable !== null) {
             dataTable.destroy();
             dataTable = null;
