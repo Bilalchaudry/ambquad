@@ -7,6 +7,7 @@
     <tr class="table-dark" id="row<%= employee_time_sheet.id %>">
       <td><%= employee_time_sheet.employee.employee_id %></td>
       <td><%= employee_time_sheet.employee.employee_name %></td>
+      <td><%= employee_time_sheet.labour_type %></td>
       <td><%= employee_time_sheet.company %></td>
       <td><%= employee_time_sheet.foreman_name %></td>
       <% if employee_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
@@ -42,6 +43,7 @@
     <tr id="row<%= employee_time_sheet.id %>">
       <td><%= employee_time_sheet.employee.employee_id %></td>
       <td><%= employee_time_sheet.employee.employee_name %></td>
+      <td><%= employee_time_sheet.labour_type %></td>
       <td><%= employee_time_sheet.company %></td>
       <td><%= employee_time_sheet.foreman_name %></td>
       <td>
