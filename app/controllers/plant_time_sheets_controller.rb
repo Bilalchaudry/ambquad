@@ -7,9 +7,19 @@ class PlantTimeSheetsController < ApplicationController
   def index
     if @project.plant_time_sheets.present?
       if params[:find_emp_codes].present?
+        date = Date.parse(params[:date])
         plant_time_sheet = PlantTimeSheet.find_by_id(params[:time_sheet_employee_id])
-        plant_used_time_sheet_code = plant_time_sheet.time_sheet_cost_codes.pluck(:cost_code_id)
-        unused_codes_for_plant = @project.cost_codes.where('created_at < ? ', plant_time_sheet.created_at).where.not(id: plant_used_time_sheet_code, budget_holder_id: nil)
+        plant_cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: date.beginning_of_week(:sunday)..date.end_of_week(:sunday), plant_id: plant_time_sheet.plant_id)
+        plant_cost_codes_ids = plant_cost_codes.pluck(:cost_code_id).uniq #[2, 4]
+        if plant_cost_codes_ids.length > 4
+          plant_used_time_sheet_code = plant_time_sheet.time_sheet_cost_codes.pluck(:cost_code_id) # [4]
+          unused_codes_for_plant = CostCode.where(id: plant_cost_codes_ids).pluck(:id) - plant_used_time_sheet_code
+          unused_codes_for_plant = CostCode.where(id: unused_codes_for_plant)
+        else
+          plant_time_sheet = PlantTimeSheet.find_by_id(params[:time_sheet_employee_id])
+          plant_used_time_sheet_code = plant_time_sheet.time_sheet_cost_codes.pluck(:cost_code_id)
+          unused_codes_for_plant = @project.cost_codes.where('created_at < ? ', plant_time_sheet.created_at).where.not(id: plant_used_time_sheet_code, budget_holder_id: nil)
+        end
         render json: unused_codes_for_plant
 
       elsif params[:find_plant_codes].present?
@@ -134,7 +144,7 @@ class PlantTimeSheetsController < ApplicationController
                 plant_cost_codes.each do |cost_code|
                   @project.time_sheet_cost_codes.create(cost_code_id: cost_code.cost_code_id, cost_code: cost_code.cost_code,
                                                         plant_id: cost_code.plant_id, hrs: cost_code.hrs,
-                                                        plant_time_sheet_id: plant_time_sheets.id)
+                                                        plant_time_sheet_id: plant_time_sheets.id, cost_code_created_at: plant_create_date)
 
                 end
               end
