@@ -77,15 +77,15 @@
                 </tr>
                 <tr>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -136,7 +136,7 @@
 <script type="text/javascript">
     function update_plant_cost_code_hours(updated_hours, cost_code_id, total_hours, td_id) {
         var updated_hours = parseFloat(updated_hours);
-        if (updated_hours < total_hours && updated_hours > 0) {
+        if (updated_hours <= total_hours && updated_hours > 0) {
             var celender_date = $("#datepicker_search_bar").val();
             if (celender_date == "") {
                 var today_date = formatDate(new Date())
@@ -163,7 +163,7 @@
         } else {
             swal({
                 title: "Warning!",
-                text: "Cost code hours should be less than total hours.",
+                text: "Cost code hours should be less than or equal to total hours and greater than zero.",
                 icon: "warning"
             });
         }
@@ -230,14 +230,16 @@
         // maxDate: new Date()
     });
 
-    $('#datepicker_search_bar').change(function () {
-        var celender_date = $("#datepicker_search_bar").val();
-        var formated_date = formatDate(celender_date);
-        $.ajax({
-            type: "GET",
-            url: '/projects/<%= @project.id %>/plant_time_sheets',
-            data: {date: formated_date, search_date: 'true'}
-        })
+    $('#datepicker_search_bar').change(function (e) {
+        if (event.keyCode != 13) {
+            var celender_date = $("#datepicker_search_bar").val();
+            var formated_date = formatDate(celender_date);
+            $.ajax({
+                type: "GET",
+                url: '/projects/<%= @project.id %>/plant_time_sheets',
+                data: {date: formated_date, search_date: 'true'}
+            })
+        }
     });
 
     $('#datepicker_copy_from_previous').datepicker({
@@ -245,17 +247,19 @@
         // maxDate: new Date()
     });
 
-    $('#datepicker_copy_from_previous').change(function () {
-        var calender_date = $("#datepicker_copy_from_previous").val();
-        var current_date = $("#datepicker_search_bar").val();
-        var formated_date = formatDate(calender_date);
-        var current_formatted_date = formatDate(current_date);
-        $("#datepicker_copy_from_previous").val("");
-        $.ajax({
-            type: "GET",
-            url: "/projects/<%= @project.id %>/plant_time_sheets",
-            data: {date: formated_date, current_date: current_formatted_date, copy_from_previous: 'true'}
-        })
+    $('#datepicker_copy_from_previous').change(function (e) {
+        if (event.keyCode != 13) {
+            var calender_date = $("#datepicker_copy_from_previous").val();
+            var current_date = $("#datepicker_search_bar").val();
+            var formated_date = formatDate(calender_date);
+            var current_formatted_date = formatDate(current_date);
+            $("#datepicker_copy_from_previous").val("");
+            $.ajax({
+                type: "GET",
+                url: "/projects/<%= @project.id %>/plant_time_sheets",
+                data: {date: formated_date, current_date: current_formatted_date, copy_from_previous: 'true'}
+            })
+        }
     });
 
     function formatDate(date) {
