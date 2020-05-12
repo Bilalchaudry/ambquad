@@ -73,8 +73,8 @@
                       <% week_days_array.each do |day| %>
                         <% plant_cost_codes(day, plant) %>
 
-                        <% if @cost_code.present? %>
-                          <td><%= hours = @cost_code.sum(:hrs) %></td>
+                        <% if @plantsheet.present? %>
+                          <td><%= hours = @plantsheet.total_hours %></td>
                           <% @total_hrs = @total_hrs + hours %>
                         <% else %>
                           <td>0</td>
