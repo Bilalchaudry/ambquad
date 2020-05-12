@@ -41,9 +41,9 @@ class TimeSheetCostCodesController < ApplicationController
   # POST /time_sheet_cost_codes.json
   def create
     if params[:plant_id]
-      # plant_id = PlantTimeSheet.find_by_id(params[:plant_time_sheet_id]).plant_id rescue nil
-      # date = Date.parse(params[:date])
-      # plant_cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: date.beginning_of_week(:sunday)..date.end_of_week(:sunday), plant_id: plant_id).pluck(:cost_code_id).uniq
+      plant_id = PlantTimeSheet.find_by_id(params[:plant_time_sheet_id]).plant_id rescue nil
+      date = Date.parse(params[:date])
+      plant_cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: date.beginning_of_week(:sunday)..date.end_of_week(:sunday), plant_id: plant_id).pluck(:cost_code_id).uniq
       # if plant_cost_codes.length < 5
 
         cost_codee = CostCode.find_by_id(params[:cost_code_id]).cost_code_id
@@ -81,9 +81,9 @@ class TimeSheetCostCodesController < ApplicationController
         format.js
       end
     else
-      # employee_id = EmployeeTimeSheet.find_by_id(params[:time_sheet_employee_id]).employee_id rescue nil
-      # date = Date.parse(params[:date])
-      # employee_cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: date.beginning_of_week(:sunday)..date.end_of_week(:sunday), employee_id: employee_id).pluck(:cost_code_id).uniq
+      employee_id = EmployeeTimeSheet.find_by_id(params[:time_sheet_employee_id]).employee_id rescue nil
+      date = Date.parse(params[:date])
+      employee_cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: date.beginning_of_week(:sunday)..date.end_of_week(:sunday), employee_id: employee_id).pluck(:cost_code_id).uniq
       # if employee_cost_codes.length < 5
         cost_codee = CostCode.find_by_id(params[:cost_code_id]).cost_code_id
         @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],

@@ -70,7 +70,7 @@
                   <th>Hrs</th>
                   <th>Total hours</th>
                 </tr>
-                </tr>
+
                 </thead>
                 <tbody>
                 <% @project.employees.each do |employee| %>
@@ -93,7 +93,7 @@
                           <td><%= @cost_code_array[i] %> </td>
 
                           <% @weekly_single_cost_code = cost_codes.where(employee_id: employee.id, cost_code: @cost_code_array[i]) %>
-                          <td><%= hours = @weekly_single_cost_code.sum(:hrs) %></td>
+                          <td><%= hours = @weekly_single_cost_code.sum(:hrs).round(2) %></td>
                           <% @total_hrs = @total_hrs + hours %>
                         <% else %>
                           <td style="background-color: darkgray"></td>
