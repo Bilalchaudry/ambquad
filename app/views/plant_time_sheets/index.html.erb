@@ -98,7 +98,8 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy
+                      <input readonly id="datepicker_copy_from_previous" name="datepicker_copy_from_previous" class="form-control" value="Copy From Previous" style="z-index:-9999; height:0;">
+                      <button id="datepicker_copy_from_previous_btn" class='btn btn-dark w-100' style='font-weight:bold; color: white;margin-top: -15px;'>Copy
                         from Previous Timesheet
                       </button>
                     </div>
@@ -245,6 +246,10 @@
     $('#datepicker_copy_from_previous').datepicker({
         uiLibrary: 'bootstrap',
         // maxDate: new Date()
+    });
+
+    $('#datepicker_copy_from_previous_btn').click(function(e) {
+      $('#datepicker_copy_from_previous').focus();
     });
 
     $('#datepicker_copy_from_previous').change(function (e) {
