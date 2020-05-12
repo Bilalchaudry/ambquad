@@ -42,7 +42,7 @@
       <td><%= plant_time_sheet.plant.plant_id rescue "N/A" %></td>
       <td><%= plant_time_sheet.plant.plant_name rescue "N/A" %></td>
       <td><%= plant_time_sheet.company  rescue "N/A" %></td>
-      <td><%= plant_time_sheet.foreman_name rescue "N/A" %></td>
+      <td><%= Employee.find_by_id(plant_time_sheet.foreman.employee_id).employee_name rescue "N/A" %></td>
       <td>
         <button id="total_hours_button" class="w-100" onclick="updateTotalHours(<%= plant_time_sheet.total_hours %>, <%= plant_time_sheet.id %>)"><%= plant_time_sheet.total_hours %></button>
       </td>

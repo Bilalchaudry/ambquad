@@ -34,7 +34,7 @@
 
 
           <div class="col-xl-3 col-md-3">
-            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100" %>
+            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
           </div>
 
           <div class="col-xl-3 col-md-3">
@@ -78,21 +78,23 @@
                     <tr id="row<%= employee.id %>">
                       <td><%= employee.employee_id %></td>
                       <td><%= employee.employee_name %></td>
-                      <td><%= employee.company rescue "N/A" %></td>
-                      <td><%= employee.foreman_name rescue "N/A" %></td>
+                      <td><%= employee.project_company.company_name rescue "N/A" %></td>
+                      <td><%= Employee.find_by_id(employee.foreman.employee_id).employee_name rescue "N/A" %></td>
 
-                      <% cost_codes = weekly_cost_codes(employee) %>
 
-                      <% @cost_code_array = cost_codes.pluck(:cost_code_id).uniq %>
+                      <% @total_hrs = 0 %>
+                      <% cost_codes = weekly_cost_codes(employee, "employee") %>
+
+                      <% @cost_code_array = cost_codes.pluck(:cost_code).uniq %>
 
                       <% for i in 0..4 %>
-
 
                         <% if @cost_code_array[i].present? %>
                           <td><%= @cost_code_array[i] %> </td>
 
-                          <% @weekly_sinlge_cost_code = cost_codes.where(employee_id: employee.id, cost_code_id: @cost_code_array[i]) %>
-                          <td><%= @weekly_sinlge_cost_code.sum(:hrs) %></td>
+                          <% @weekly_single_cost_code = cost_codes.where(employee_id: employee.id, cost_code: @cost_code_array[i]) %>
+                          <td><%= hours = @weekly_single_cost_code.sum(:hrs) %></td>
+                          <% @total_hrs = @total_hrs + hours %>
                         <% else %>
                           <td style="background-color: darkgray"></td>
                           <td style="background-color: darkgray"></td>
@@ -100,9 +102,9 @@
                       <% end %>
 
                       <td>
-                        <%= employee_time_sheet.total_hours rescue 0 %>
+                        <%= @total_hrs rescue 0 %>
                       </td>
-                  <% end %>
+                  <% end %>employee
                 <% end %>
                 </tr>
               </table>

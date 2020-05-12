@@ -1,11 +1,6 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <!--      <div id="flash">-->
-      <%# if notice.present? %>
-      <%#= render partial: "shared/notice" %>
-      <%# end %>
-      <!--      </div>-->
 
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
@@ -18,27 +13,27 @@
           </div>
 
           <div class="col-xl-1 col-md-1 ml-5">
-            <%# date = @current_week_start_date %>
-            <% next_date = @today_date - 1 %>
-            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true&date=#{next_date}", :class => "btn btn-dark" do %>
+            <% date = @current_week_start_date %>
+            <% date = date.to_s %>
+            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true&current=#{date}", :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf053;</i>
             <% end %>
           </div>
 
           <div class="col-xl-3 col-md-3 text-white btn bg-clr font-weight-bold">
-            <%= @today_date %>
+            <%= date %> To <%= @current_week_start_date.end_of_week(:sunday) %>
           </div>
 
           <div class="col-xl-1 col-md-1 ml-5">
-            <%# date = @current_week_start_date %>
-            <% previous_date = @today_date + 1 %>
-            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true&date=#{previous_date}", :class => "btn btn-dark" do %>
+            <% date = @current_week_start_date %>
+            <% date = date.to_s %>
+            <%= link_to "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true&nextweek=" + date, :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf054;</i>
             <% end %>
           </div>
 
           <div class="col-xl-3 col-md-3">
-            <%= link_to "Today's Date", "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
+            <%= link_to "Current Week", "/projects/#{@project.id}/plant_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
           </div>
 
           <div class="col-xl-3 col-md-3">
@@ -77,27 +72,36 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% @plant_time_sheets.each do |plant_time_sheet| %>
-                  <tr id="row<%= plant_time_sheet.id %>">
-                    <td><%= plant_time_sheet.plant.plant_id %></td>
-                    <td><%= plant_time_sheet.plant.plant_name %></td>
-                    <td><%= plant_time_sheet.company %></td>
-                    <td><%= plant_time_sheet.foreman_name %></td>
-                    <% cost_code_sum(plant_time_sheet) %>
-                    <% @cost_codes = @cost_codes.to_a %>
-                    <% for i in 0..4 %>
-                      <% if @cost_codes[i].present? %>
-                        <td><%= @cost_codes[i].cost_code %> </td>
-                        <td><%= @cost_codes[i].hrs %></td>
-                      <% else %>
-                        <td style="background-color: darkgray"></td>
-                        <td style="background-color: darkgray"></td>
-                      <% end %>
-                    <% end %>
+                <% @project.plants.each do |plant| %>
+                  <% if @timesheet_plant_ids.include?(plant.id) %>
+                    <tr id="row<%= plant.id %>">
+                      <td><%= plant.plant_id rescue "N/A" %></td>
+                      <td><%= plant.plant_name rescue "N/A" %></td>
+                      <td><%= plant.project_company.company_name rescue "N/A" %></td>
+                      <td><%= Employee.find_by_id(plant.foreman.employee_id).employee_name rescue "N/A" %></td>
 
-                    <td>
-                      <%= plant_time_sheet.total_hours %>
-                    </td>
+                      <% @total_hrs = 0 %>
+                      <% cost_codes = weekly_cost_codes(plant, "plant") %>
+
+                      <% @cost_code_array = cost_codes.pluck(:cost_code).uniq %>
+
+                      <% for i in 0..4 %>
+                        <% if @cost_code_array[i].present? %>
+                          <td><%= @cost_code_array[i] %> </td>
+
+                          <% @weekly_single_cost_code = cost_codes.where(plant_id: plant.id, cost_code: @cost_code_array[i]) %>
+                          <td><%= hours = @weekly_single_cost_code.sum(:hrs) %></td>
+                          <% @total_hrs = @total_hrs + hours %>
+                        <% else %>
+                          <td style="background-color: darkgray"></td>
+                          <td style="background-color: darkgray"></td>
+                        <% end %>
+                      <% end %>
+
+                      <td>
+                        <%= @total_hrs rescue 0 %>
+                      </td>
+                  <% end %>
                 <% end %>
                 </tr>
               </table>

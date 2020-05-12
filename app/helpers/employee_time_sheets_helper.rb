@@ -29,8 +29,12 @@ module EmployeeTimeSheetsHelper
     @cost_code_and_total_hours_sum = @cost_codes.sum(:hrs) rescue 0
   end
 
-  def weekly_cost_codes(employee)
-    @employee_cost_codes = @cost_codes.where(employee_id: employee.id)
+  def weekly_cost_codes(object, employee)
+    if employee.eql?("employee")
+      @employee_cost_codes = @cost_codes.where(employee_id: object.id)
+    else
+      @plant_cost_codes = @cost_codes.where(plant_id: object.id)
+    end
   end
 
   def cost_code_time_sheet_id_employee(cost_code_id, employee_time_sheet_id)
@@ -55,16 +59,10 @@ module EmployeeTimeSheetsHelper
   end
 
   def employee_cost_codes(day, employee)
-    @cost_code = @project.time_sheet_cost_codes.where(cost_code_created_at: day, employee_id: employee.id)
-    # if employee_time_sheet
-    #   @cost_code = employee_time_sheet.time_sheet_cost_codes.find_by(cost_code_created_at: day)
-    # end
+    @timesheet = @project.employee_time_sheets.where(timesheet_created_at: day, employee_id: employee.id)
   end
 
-  def plant_cost_codes(day, employee)
-    @cost_code = @project.time_sheet_cost_codes.where(cost_code_created_at: day, plant_id: employee.id)
-    # if employee_time_sheet
-    #   @cost_code = employee_time_sheet.time_sheet_cost_codes.find_by(cost_code_created_at: day)
-    # end
+  def plant_cost_codes(day, plant)
+    @plantsheet = @project.plant_time_sheets.where(timesheet_created_at: day, plant_id: plant.id).first
   end
 end
