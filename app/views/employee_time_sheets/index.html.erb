@@ -84,15 +84,15 @@
                 </tr>
                 <tr>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -140,7 +140,7 @@
 </div>
 
 <script type="text/javascript">
-    function update_cost_code_hours(updated_hours, cost_code_id, total_hours) {
+    function update_cost_code_hours(updated_hours, cost_code_id, total_hours, td_id) {
         var updated_hours = parseFloat(updated_hours);
         if (updated_hours < total_hours && updated_hours > 0) {
             var celender_date = $("#datepicker_search_bar").val();
@@ -162,6 +162,7 @@
                 },
                 cache: false,
                 success: function () {
+                    $(td_id).addClass("td-clr-green");
                 }
             });
         } else {
