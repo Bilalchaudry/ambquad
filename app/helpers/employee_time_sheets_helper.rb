@@ -1,5 +1,9 @@
 module EmployeeTimeSheetsHelper
-
+  def sort_cost_codes(cost_codes_array)
+    @cost_codes = cost_codes_array.sort_by do |cost_code|
+      cost_code[:created_at]
+    end
+  end
   def employee_total_hours_cost_code_sum(employe_time_sheet_id)
     @cost_codes = @project.time_sheet_cost_codes.where(employee_time_sheet_id: employe_time_sheet_id).to_a
     @cost_code_and_total_hours_sum = 0

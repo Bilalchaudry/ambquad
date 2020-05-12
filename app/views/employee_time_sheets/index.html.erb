@@ -42,14 +42,15 @@
               <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
-
-          <div class="col-xl-3 col-md-3">
-            <div class="card text-white mb-2">
-              <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="next_week_time_sheet(<%=params[:project_id] %>)">
-                Next week Time Sheet
-              </button>
+          <% if current_user.role.eql?("Admin") %>
+            <div class="col-xl-3 col-md-3">
+              <div class="card text-white mb-2">
+                <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="next_week_time_sheet(<%=params[:project_id] %>)">
+                  Next week Time Sheet
+                </button>
+              </div>
             </div>
-          </div>
+          <% end %>
 
           <div class="col-xl-3 col-md-3">
             <div class="card text-white mb-2">
@@ -83,15 +84,15 @@
                 </tr>
                 <tr>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -139,7 +140,7 @@
 </div>
 
 <script type="text/javascript">
-    function update_cost_code_hours(updated_hours, cost_code_id, total_hours) {
+    function update_cost_code_hours(updated_hours, cost_code_id, total_hours, td_id) {
         var updated_hours = parseFloat(updated_hours);
         if (updated_hours < total_hours && updated_hours > 0) {
             var celender_date = $("#datepicker_search_bar").val();
@@ -161,6 +162,7 @@
                 },
                 cache: false,
                 success: function () {
+                    $(td_id).addClass("td-clr-green");
                 }
             });
         } else {
@@ -171,7 +173,7 @@
             });
         }
 
-    }
+  }
 
     function cost_modal(emp_id, emp_time_id) {
         time_sheet_employee_id = emp_time_id;

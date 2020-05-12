@@ -77,7 +77,7 @@ class TimeSheetCostCodesController < ApplicationController
       cost_code = TimeSheetCostCode.find_by_id(params[:id])
       cost_code.update(hrs: params[:hrs])
       respond_to do |format|
-        @employee_time_sheets = @project.employee_time_sheets.where(employee_create_date: params[:today_date]).order(:id)
+        @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: params[:today_date]).order(:id)
         format.js
       end
     else
