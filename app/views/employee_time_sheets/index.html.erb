@@ -120,7 +120,7 @@
                       </div>
                     </div>
                   </div>
-                <% end %> 
+                <% end %>
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
@@ -130,7 +130,6 @@
                 </div>
                 <div class="col-md-3"></div>
               </div>
-              <%#= link_to 'New Employee Time Sheet', new_employee_time_sheet_path %>
             </div>
           </div>
         </div>
@@ -140,6 +139,40 @@
 </div>
 
 <script type="text/javascript">
+  function update_cost_code_hours(updated_hours,cost_code_id, total_hours) {
+      var updated_hours = parseFloat(updated_hours);
+      if (updated_hours < total_hours && updated_hours > 0 ) {
+          var celender_date = $("#datepicker_search_bar").val();
+          if (celender_date == "") {
+              var today_date = formatDate(new Date())
+          } else {
+              var today_date = formatDate(celender_date)
+          }
+          $.ajax({
+              headers: {
+                  'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+              },
+              type: 'POST',
+              url: '/projects/<%= @project.id %>/time_sheet_cost_codes',
+              data: {
+                  hrs: updated_hours,
+                  id: cost_code_id,
+                  today_date
+              },
+              cache: false,
+              success: function () {
+              }
+          });
+      }
+      else{
+          swal({
+              title: "Warning!",
+              text: "Cost code hours should be less than total hours.",
+              icon: "warning"
+          });
+      }
+
+  }
 
     function cost_modal(emp_id, emp_time_id) {
         time_sheet_employee_id = emp_time_id;
@@ -231,8 +264,8 @@
         return [year, month, day].join('-');
     }
 
-    function updateTotalHours(total_hours, data_id) {
-        var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
+    function updateTotalHours(updated_hours, total_hours, data_id) {
+        var new_total_hours = updated_hours
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/employee_time_sheets",
@@ -316,12 +349,12 @@
         })
 
     }
-    
+
     var dataTable = $('#table').DataTable({
-      "ordering": false,
-      "pageLength": 100,
+        "ordering": false,
+        "pageLength": 100,
     });
-    document.addEventListener("turbolinks:before-cache", function() {
+    document.addEventListener("turbolinks:before-cache", function () {
         if (dataTable !== null) {
             dataTable.destroy();
             dataTable = null;

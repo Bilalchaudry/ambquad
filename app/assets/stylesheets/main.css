@@ -26,6 +26,15 @@
     color: white !important;
 }
 
+.td-bg-clr {
+    background-color: #f1f1f1 !important;
+    border-radius: 5px !important;
+    text-align: center;
+}
+.td-clr-red {
+    border:2px solid red;
+}
+
 /* ==========================================================================
    #GRID
    ========================================================================== */
