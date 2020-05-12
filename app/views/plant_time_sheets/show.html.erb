@@ -74,7 +74,7 @@
                         <% plant_cost_codes(day, plant) %>
 
                         <% if @plantsheet.present? %>
-                          <td><%= hours = @plantsheet.total_hours %></td>
+                          <td><%= hours = @plantsheet.total_hours.round(2) %></td>
                           <% @total_hrs = @total_hrs + hours %>
                         <% else %>
                           <td>0</td>

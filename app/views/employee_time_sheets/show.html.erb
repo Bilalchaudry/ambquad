@@ -78,7 +78,7 @@
                         <% employee_cost_codes(day, employee) %>
 
                         <% if @timesheet.present? %>
-                          <td><%= hours = @timesheet.first.total_hours %></td>
+                          <td><%= hours = @timesheet.first.total_hours.round(2) %></td>
                           <% @total_hrs = @total_hrs + hours %>
                         <% else %>
                           <td>0</td>
