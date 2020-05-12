@@ -1,4 +1,4 @@
-<%  if params[:plant_id] %>
+<%  if params[:plant_id] or params[:plant_cost_code].present? %>
 $('table#table tbody').html("<%= j render 'plant_time_sheets/plant_time_sheet_table_data' %>")
 <% else %>
 $('table#table tbody').html("<%= j render 'employee_time_sheets/time_sheet_table_data' %>")

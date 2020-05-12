@@ -66,7 +66,14 @@ class TimeSheetCostCodesController < ApplicationController
           format.json {render json: @time_sheet_cost_code.errors, status: :unprocessable_entity}
         end
       end
-    elsif params[:hrs].present?
+    elsif params[:plant_cost_code].present? #update plant time sheet cost code hours
+    update_cost_code = TimeSheetCostCode.find(params[:id])
+      update_cost_code.update_attributes(hrs: params[:hrs])
+      respond_to do |format|
+        @plant_time_sheets  = @project.plant_time_sheets.where(timesheet_created_at: params[:today_date]).order(:id)
+        format.js
+      end
+    elsif params[:hrs].present? #update employee time sheet cost code hours
       update_cost_code = TimeSheetCostCode.find(params[:id])
       update_cost_code.update_attributes(hrs: params[:hrs])
       respond_to do |format|
