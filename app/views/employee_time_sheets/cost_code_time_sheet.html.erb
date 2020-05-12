@@ -1,6 +1,7 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
+
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
       </div>
@@ -14,7 +15,7 @@
           <div class="col-xl-1 col-md-1 ml-5">
             <% date = @current_week_start_date %>
             <% date = date.to_s %>
-            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?current=" + date, :class => "btn btn-dark" do %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&current=#{date}", :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf053;</i>
             <% end %>
           </div>
@@ -26,73 +27,87 @@
           <div class="col-xl-1 col-md-1 ml-5">
             <% date = @current_week_start_date %>
             <% date = date.to_s %>
-            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?nextweek=" + date, :class => "btn btn-dark" do %>
+            <%= link_to "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true&nextweek=" + date, :class => "btn btn-dark" do %>
               <i style="font-size:21px" class="fa">&#xf054;</i>
             <% end %>
           </div>
 
-          <div class="col-xl-3 col-md-3">
-            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100" %>
-          </div>
-
 
           <div class="col-xl-3 col-md-3">
-            <%= link_to 'Cost Code Timesheet ', "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
+            <%= link_to 'Current Week ', "/projects/#{@project.id}/employee_time_sheets/show?cost_code=true", :class => "btn btn-dark w-100" %>
           </div>
+
+          <div class="col-xl-3 col-md-3">
+            <%= link_to 'Timesheet View', "/projects/#{@project.id}/employee_time_sheets/show", :class => "btn btn-dark w-100" %>
+          </div>
+
         </div>
 
         <div class="card mb-4">
-          <div class="card-header"><i class="fas fa-table mr-1"></i>Timesheet Summary</div>
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Timesheet Summary (Cost Codes)</div>
           <div class="card-body">
             <div class="table-responsive">
               <table id="table" class="table-bordered" width="100%" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Employee ID</th>
-                  <th>Employee</th>
-                  <th>Company</th>
-                  <th>Manager</th>
-                  <th>Sun <%= sunday = @current_week_start_date %></th>
-                  <th>Mon <%= monday = sunday.next_day %></th>
-                  <th>Tue <%= tuesday = monday.next_day %></th>
-                  <th>Wed <%= wednesday = tuesday.next_day %></th>
-                  <th>Thu <%= thursday = wednesday.next_day %></th>
-                  <th>Fri <%= friday = thursday.next_day %></th>
-                  <th>Sat <%= saturday = friday.next_day %></th>
+
+                  <th rowspan="2">Employee ID</th>
+                  <th rowspan="2">Employee</th>
+                  <th rowspan="2">Company</th>
+                  <th rowspan="2">Manager</th>
+                  <th colspan="11" style="text-align: center;">Cost Codes Summary</th>
+                </tr>
+                <tr>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
+                  <th>Costcode</th>
+                  <th>Hrs</th>
                   <th>Total hours</th>
                 </tr>
+
                 </thead>
                 <tbody>
                 <% @project.employees.each do |employee| %>
                   <% if @timesheet_employee_ids.include?(employee.id) %>
                     <tr id="row<%= employee.id %>">
-                      <td><%= employee.employee_id rescue "N/A" %></td>
-                      <td><%= employee.employee_name rescue "N/A" %></td>
+                      <td><%= employee.employee_id %></td>
+                      <td><%= employee.employee_name %></td>
                       <td><%= employee.project_company.company_name rescue "N/A" %></td>
                       <td><%= Employee.find_by_id(employee.foreman.employee_id).employee_name rescue "N/A" %></td>
 
-                      <% week_days_array = [sunday, monday, tuesday, wednesday, thursday, friday, saturday] %>
 
                       <% @total_hrs = 0 %>
-                      <% week_days_array.each do |day| %>
-                        <% employee_cost_codes(day, employee) %>
+                      <% cost_codes = weekly_cost_codes(employee, "employee") %>
 
-                        <% if @timesheet.present? %>
-                          <td><%= hours = @timesheet.first.total_hours.round(2) %></td>
+                      <% @cost_code_array = cost_codes.pluck(:cost_code).uniq %>
+
+                      <% for i in 0..4 %>
+
+                        <% if @cost_code_array[i].present? %>
+                          <td><%= @cost_code_array[i] %> </td>
+
+                          <% @weekly_single_cost_code = cost_codes.where(employee_id: employee.id, cost_code: @cost_code_array[i]) %>
+                          <td><%= hours = @weekly_single_cost_code.sum(:hrs).round(2) %></td>
                           <% @total_hrs = @total_hrs + hours %>
                         <% else %>
-                          <td>0</td>
+                          <td style="background-color: darkgray"></td>
+                          <td style="background-color: darkgray"></td>
                         <% end %>
-
                       <% end %>
-                      <td>
-                        <%= @total_hrs.round(2) rescue 0 %>
-                      </td>
-                  <% end %>
-                  </tr>
 
+                      <td>
+                        <%= @total_hrs rescue 0 %>
+                      </td>
+                  <% end %>employee
                 <% end %>
-                </table>
+                </tr>
+              </table>
               <br>
             </div>
           </div>
@@ -101,7 +116,6 @@
     </main>
   </div>
 </div>
-
 <script>
     var dataTable = $('#table').DataTable({
         "pageLength": 100,
@@ -110,26 +124,26 @@
             {
                 extend: 'csvHtml5',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                 }
             },
             {
                 extend: 'excelHtml5',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                 }
             },
             {
                 extend: 'pdfHtml5',
                 orientation: 'landscape',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                 }
             },
             {
                 extend: 'print',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
                 }
             }
         ]

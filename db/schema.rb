@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_080731) do
+ActiveRecord::Schema.define(version: 2020_05_10_204025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 2020_04_28_080731) do
     t.datetime "updated_at", null: false
     t.string "foreman_name"
     t.string "cost_code"
-    t.date "employee_create_date"
+    t.date "timesheet_created_at"
     t.bigint "project_id"
     t.boolean "submit_sheet", default: false
     t.index ["project_id"], name: "index_employee_time_sheets_on_project_id"
@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 2020_04_28_080731) do
     t.datetime "updated_at", null: false
     t.string "foreman_name"
     t.bigint "project_id"
-    t.date "plant_create_date"
+    t.date "timesheet_created_at"
     t.boolean "submit_sheet", default: false
     t.bigint "plant_id"
     t.index ["plant_id"], name: "index_plant_time_sheets_on_plant_id"
@@ -264,7 +264,7 @@ ActiveRecord::Schema.define(version: 2020_04_28_080731) do
     t.string "city"
     t.string "phone_country_code"
     t.string "poc_phone_country_code"
-    t.integer "number_of_employee"
+    t.integer "number_of_employee", default: 0
     t.index ["client_company_id"], name: "index_project_companies_on_client_company_id"
     t.index ["project_id"], name: "index_project_companies_on_project_id"
   end
@@ -367,6 +367,8 @@ ActiveRecord::Schema.define(version: 2020_04_28_080731) do
     t.integer "time_sheet_employee_id"
     t.integer "time_sheet_plant_id"
     t.bigint "employee_time_sheet_id"
+    t.date "cost_code_created_at"
+    t.integer "plant_time_sheet_id"
     t.index ["employee_time_sheet_id"], name: "index_time_sheet_cost_codes_on_employee_time_sheet_id"
     t.index ["plant_id"], name: "index_time_sheet_cost_codes_on_plant_id"
     t.index ["project_id"], name: "index_time_sheet_cost_codes_on_project_id"
@@ -403,6 +405,7 @@ ActiveRecord::Schema.define(version: 2020_04_28_080731) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

@@ -1,4 +1,9 @@
 class EmployeeTimeSheet < ApplicationRecord
-  belongs_to :project
   audited
+
+  has_many :time_sheet_cost_codes, dependent: :destroy
+  belongs_to :project
+  belongs_to :employee, optional: :true
+  belongs_to :project_company, optional: :true
+
 end

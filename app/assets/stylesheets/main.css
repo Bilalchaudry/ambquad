@@ -21,6 +21,21 @@
     color: white !important;
 }
 
+.td-bg-clr {
+    background-color: #f1f1f1 !important;
+    border-radius: 5px !important;
+    text-align: center;
+}
+.td-clr-green {
+    background-color: lightgreen !important;
+}
+.td-clr-red {
+    border:2px solid red;
+}
+.empty-cost-cost-hours-bg {
+    background-color: transparent;
+}
+
 /* ==========================================================================
    #GRID
    ========================================================================== */

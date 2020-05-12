@@ -1,5 +1,9 @@
-<%  if params[:plant_id] %>
+<% if @error.present? %>
+alert('<%= @error %>')
+<% else %>
+<%  if params[:plant_id] or params[:update_plant_cost_code_hours].present?%>
 $('table#table tbody').html("<%= j render 'plant_time_sheets/plant_time_sheet_table_data' %>")
 <% else %>
 $('table#table tbody').html("<%= j render 'employee_time_sheets/time_sheet_table_data' %>")
+<% end %>
 <% end %>
