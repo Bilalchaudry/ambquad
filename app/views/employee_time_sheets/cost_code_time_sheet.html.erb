@@ -78,12 +78,12 @@
                     <tr id="row<%= employee.id %>">
                       <td><%= employee.employee_id %></td>
                       <td><%= employee.employee_name %></td>
-                      <td><%= employee.company rescue "N/A" %></td>
-                      <td><%= employee.foreman_name rescue "N/A" %></td>
+                      <td><%= employee.project_company.company_name rescue "N/A" %></td>
+                      <td><%= Employee.find_by_id(employee.foreman.employee_id).employee_name rescue "N/A" %></td>
 
                       <% cost_codes = weekly_cost_codes(employee) %>
 
-                      <% @cost_code_array = cost_codes.pluck(:cost_code_id).uniq %>
+                      <% @cost_code_array = cost_codes.pluck(:cost_code).uniq %>
 
                       <% for i in 0..4 %>
 
@@ -91,7 +91,7 @@
                         <% if @cost_code_array[i].present? %>
                           <td><%= @cost_code_array[i] %> </td>
 
-                          <% @weekly_sinlge_cost_code = cost_codes.where(employee_id: employee.id, cost_code_id: @cost_code_array[i]) %>
+                          <% @weekly_sinlge_cost_code = cost_codes.where(employee_id: employee.id, cost_code: @cost_code_array[i]) %>
                           <td><%= @weekly_sinlge_cost_code.sum(:hrs) %></td>
                         <% else %>
                           <td style="background-color: darkgray"></td>

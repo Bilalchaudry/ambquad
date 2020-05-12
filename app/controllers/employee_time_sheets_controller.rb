@@ -196,9 +196,12 @@ class EmployeeTimeSheetsController < ApplicationController
       if params[:current].present?
         @current_week_start_date = params[:current].to_date - 7
         @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+        @cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
       elsif params[:nextweek].present?
         @current_week_start_date = params[:nextweek].to_date + 7
         @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+        @cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: @current_week_start_date..@current_week_start_date.end_of_week(:sunday))
+
       else
         @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:sunday))
         @cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: Date.today.beginning_of_week(:sunday)..Date.today.end_of_week(:sunday))
