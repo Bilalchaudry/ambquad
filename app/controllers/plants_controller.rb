@@ -73,7 +73,7 @@ class PlantsController < ApplicationController
   # DELETE /plants/1.json
   def destroy
     begin
-      if @plant.nil? || @plant.plant_time_sheets.present?.present?
+      if @plant.nil? || @plant.plant_time_sheets.present?.present? || @plant.foremane.present?
         respond_to do |format|
           format.js
         end
