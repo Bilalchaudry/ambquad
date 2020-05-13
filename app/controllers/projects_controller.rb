@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
     @project_company = ClientCompany.find(project_company_id) rescue nil
     @client_companies = ClientCompany.all.where.not(id: project_company_id) rescue nil
 
-    project_employee_id = @project.employee_id
+    # project_employee_id = @project.employee_id
     @project_employee = Employee.find(project_employee_id) rescue nil
     @employees = Employee.all.where.not(id: project_employee_id) rescue nil
   end
@@ -71,7 +71,7 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1.json
   def destroy
     begin
-      if @project.project_employees.present? || @project.project_companies.present? || @project.foremen.present? ||
+      if  @project.project_companies.present? || @project.foremen.present? ||
           @project.cost_codes.present? || @project.other_managers.present? || @project.budget_holders.present? ||
           @project.employees.present? || @project.plant_types.present?
         respond_to do |format|

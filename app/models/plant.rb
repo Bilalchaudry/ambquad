@@ -11,7 +11,6 @@ class Plant < ApplicationRecord
   has_many :plant_time_sheets
 
   validates_uniqueness_of :plant_id, :scope => :project_id, :case_sensitive => false
-  # validates :plant_id, presence: true, uniqueness: {message: "ID already taken"}
 
   auto_strip_attributes :plant_id
 
@@ -20,22 +19,6 @@ class Plant < ApplicationRecord
       Inactive: 1,
       Onhold: 2
   }
-
-
-  def contract_end_date_after_contract_start_date
-    if contract_end_date < contract_start_date
-      errors.add(:contract_end_date, "must be after start date.")
-    end
-    if contract_start_date < Date.today
-      errors.add(:contract_start_date, "can't be in the past.")
-    end
-  end
-
-  def start_date_equar_or_greater_today_date
-    if contract_start_date < Date.today
-      errors.add(:contract_start_date, "can't be in the past.")
-    end
-  end
 
   def self.import_file(file, project)
     if File.extname(file.original_filename) == '.csv'
@@ -136,7 +119,7 @@ class Plant < ApplicationRecord
 
           @plant << project.plants.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
                                        foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
-                                       client_company_id: project.client_company_id, foreman_start_date: row[4])
+                                       client_company_id: project.client_company_id)
         rescue => e
           e.message
         end

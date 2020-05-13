@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_10_204025) do
+ActiveRecord::Schema.define(version: 2020_05_13_064727) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,18 +46,14 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
   end
 
   create_table "client_companies", force: :cascade do |t|
-    t.string "email"
     t.string "company_name"
     t.string "company_id"
     t.string "address"
     t.string "phone"
     t.integer "number_of_users", default: 0
-    t.string "primary_poc_first_name"
-    t.string "primary_poc_last_name"
     t.string "poc_email"
     t.string "poc_phone"
     t.integer "status"
-    t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "country_name"
@@ -68,13 +64,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
     t.string "state"
     t.string "country"
     t.string "poc_name"
-  end
-
-  create_table "client_company_projects", force: :cascade do |t|
-    t.integer "project_id"
-    t.integer "client_company_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "cost_codes", force: :cascade do |t|
@@ -109,19 +98,16 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
   end
 
   create_table "employee_time_sheets", force: :cascade do |t|
-    t.string "employee"
     t.integer "employee_id"
     t.string "labour_type"
     t.integer "employee_type_id"
     t.string "company"
     t.integer "project_company_id"
-    t.string "manager"
     t.integer "foreman_id"
     t.float "total_hours"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "foreman_name"
-    t.string "cost_code"
     t.date "timesheet_created_at"
     t.bigint "project_id"
     t.boolean "submit_sheet", default: false
@@ -137,8 +123,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
   end
 
   create_table "employees", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
     t.string "employee_id"
     t.string "phone"
     t.string "email"
@@ -189,11 +173,9 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
   end
 
   create_table "plant_time_sheets", force: :cascade do |t|
-    t.string "plant_id_str"
     t.string "plant_name"
     t.string "company"
     t.integer "project_company_id"
-    t.string "manager"
     t.integer "foreman_id"
     t.float "total_hours"
     t.datetime "created_at", null: false
@@ -235,15 +217,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
     t.integer "client_company_id"
   end
 
-  create_table "project_and_project_companies", force: :cascade do |t|
-    t.bigint "project_id"
-    t.bigint "project_company_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["project_company_id"], name: "index_project_and_project_companies_on_project_company_id"
-    t.index ["project_id"], name: "index_project_and_project_companies_on_project_id"
-  end
-
   create_table "project_companies", force: :cascade do |t|
     t.text "company_summary"
     t.text "project_role"
@@ -269,47 +242,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
     t.index ["project_id"], name: "index_project_companies_on_project_id"
   end
 
-  create_table "project_employees", force: :cascade do |t|
-    t.date "contract_start_date"
-    t.date "contract_end_date"
-    t.bigint "employee_id"
-    t.bigint "employee_type_id"
-    t.bigint "project_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.float "total_hours"
-    t.integer "foreman_id"
-    t.integer "other_manager_id"
-    t.integer "project_company_id"
-    t.index ["employee_id"], name: "index_project_employees_on_employee_id"
-    t.index ["employee_type_id"], name: "index_project_employees_on_employee_type_id"
-    t.index ["project_id"], name: "index_project_employees_on_project_id"
-  end
-
-  create_table "project_plants", force: :cascade do |t|
-    t.integer "plant_id"
-    t.integer "plant_type_id"
-    t.integer "project_company_id"
-    t.date "contract_start_date"
-    t.date "contract_end_date"
-    t.integer "foreman_id"
-    t.integer "other_manager_id"
-    t.integer "status"
-    t.integer "client_company_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "project_id"
-    t.date "foreman_start_date"
-    t.date "foreman_end_date"
-  end
-
-  create_table "project_project_employees", force: :cascade do |t|
-    t.integer "project_id"
-    t.integer "project_employee_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "projects", force: :cascade do |t|
     t.string "project_name"
     t.string "project_id"
@@ -324,7 +256,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
     t.date "closed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "employee_id"
     t.string "project_lead"
     t.string "country"
     t.string "city"
@@ -374,13 +305,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
     t.index ["project_id"], name: "index_time_sheet_cost_codes_on_project_id"
   end
 
-  create_table "user_client_companies", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "client_company_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -421,13 +345,8 @@ ActiveRecord::Schema.define(version: 2020_05_10_204025) do
   add_foreign_key "other_managers", "employees"
   add_foreign_key "plant_time_sheets", "plants"
   add_foreign_key "plant_time_sheets", "projects"
-  add_foreign_key "project_and_project_companies", "project_companies"
-  add_foreign_key "project_and_project_companies", "projects"
   add_foreign_key "project_companies", "client_companies"
   add_foreign_key "project_companies", "projects"
-  add_foreign_key "project_employees", "employee_types"
-  add_foreign_key "project_employees", "employees"
-  add_foreign_key "project_employees", "projects"
   add_foreign_key "time_sheet_cost_codes", "employee_time_sheets"
   add_foreign_key "time_sheet_cost_codes", "plants"
   add_foreign_key "time_sheet_cost_codes", "projects"

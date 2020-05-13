@@ -1,11 +1,5 @@
 class Employee < ApplicationRecord
   audited
-  validates_uniqueness_of :employee_id, :scope => :project_id, :case_sensitive => false
-  # validates :employee_id, presence: true, uniqueness: {message: "ID already taken"}
-
-  auto_strip_attributes :employee_id
-
-  # after_create :time_sheet_employee
 
   belongs_to :client_company
   belongs_to :project_company
@@ -13,10 +7,13 @@ class Employee < ApplicationRecord
   belongs_to :employee_type
   belongs_to :foreman, optional: true
   belongs_to :other_manager, optional: true
-  has_many :project_employees
   has_many :budget_holders
   has_many :crews
   has_many :employee_time_sheets
+
+
+  validates_uniqueness_of :employee_id, :scope => :project_id, :case_sensitive => false
+  auto_strip_attributes :employee_id
 
   enum gender: {
       Male: 0,
@@ -41,17 +38,6 @@ class Employee < ApplicationRecord
           if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[5].nil? || row[6].nil? || row[12].nil?
             return error = "Validation Failed.Employee Field Empty in File, Error on Row: #{i}"
           end
-
-          # exist_employee_name = Employee.where(employee_name: row[0].strip, project_id: project.id).first
-          # if exist_employee_name.present?
-          #   return error = "Validation Failed. Employee Name Exist, Error on Row: #{i}"
-          # end
-
-
-          # employee_name = @employee.any? {|a| a.employee_name.downcase == row[0].strip.downcase}
-          # if employee_name
-          #   return error = "Validation Failed. Employee Name Already Exist in File, Error on Row: #{i}"
-          # end
 
 
           exist_employee_id = Employee.where(employee_id: row[1].strip, project_id: project.id).first
@@ -204,19 +190,4 @@ class Employee < ApplicationRecord
     end
   end
 
-  # def time_sheet_employee
-  #   company = self.project_company.company_name rescue nil
-  #   foreman_namee = Employee.find_by_id(self.foreman.employee_id).employee_name rescue nil
-  #   other_manager = Employee.find_by_id(self.other_manager.employee_id).employee_name rescue nil
-  #   @employee_time_sheet = EmployeeTimeSheet.create!(employee: self.employee_name,
-  #                                                    labour_type: self.employee_type.employee_type,
-  #                                                    project_company_id: self.project_company_id,
-  #                                                    manager: other_manager,
-  #                                                    foreman_name: foreman_namee,
-  #                                                    company: company,
-  #                                                    total_hours: 0,
-  #                                                    employee_type_id: self.employee_type_id,
-  #                                                    employee_id: employee_id.to_i, project_id: self.project_id,
-  #                                                    employee_create_date: Time.now.strftime("%Y-%m-%d"))
-  # end
 end
