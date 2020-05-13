@@ -73,7 +73,7 @@ class PlantsController < ApplicationController
   # DELETE /plants/1.json
   def destroy
     begin
-      if @plant.nil? || PlantTimeSheet.find_by_plant_id(@plant.id).present?
+      if @plant.nil? || @plant.plant_time_sheets.present?.present?
         respond_to do |format|
           format.js
         end
@@ -85,7 +85,7 @@ class PlantsController < ApplicationController
         end
       end
     rescue => e
-      redirect_to "/projects/#{@project.id}/plants", notice: 'Cost Code can not deleted because it is linked with its assosiative records'
+      redirect_to "/projects/#{@project.id}/plants", notice: e.message
     end
   end
 
