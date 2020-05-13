@@ -1,11 +1,6 @@
 <div id="layoutSidenav">
   <div id="layoutSidenav_content">
     <main>
-      <!--      <div id="flash">-->
-      <%# if notice.present? %>
-      <%#= render partial: "shared/notice" %>
-      <%# end %>
-      <!--      </div>-->
       <div class="form-info-style">
         <%= render 'shared/client_and_project_info' %>
       </div>
@@ -42,15 +37,15 @@
               <%= link_to 'Back to Project Setup', project_path(@project), :class => "btn btn-dark", style: "color: white" %>
             </div>
           </div>
-
-          <div class="col-xl-3 col-md-3">
-            <div class="card text-white mb-2">
-              <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="next_week_time_sheet(<%=params[:project_id] %>)">
-                Next week Time Sheet
-              </button>
+          <% if current_user.role.eql?("Admin") %>
+            <div class="col-xl-3 col-md-3">
+              <div class="card text-white mb-2">
+                <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="next_week_time_sheet(<%=params[:project_id] %>)">
+                  Next week Time Sheet
+                </button>
+              </div>
             </div>
-          </div>
-
+          <% end %>
           <div class="col-xl-3 col-md-3">
             <div class="card text-white mb-2">
               <button class="pt-1 pb-1" style="background-color: #856404; color: white;" onclick="clear_plant_time_sheet(<%=params[:project_id] %>)">Clear
@@ -66,7 +61,7 @@
           <div class="col-xl-3 col-md-3"></div>
         </div>
         <div class="card mb-4">
-          <div class="card-header"><i class="fas fa-table mr-1"></i>Employee Time Sheet</div>
+          <div class="card-header"><i class="fas fa-table mr-1"></i>Plant Time Sheet</div>
           <div class="card-body">
             <div class="table-responsive">
 
@@ -82,15 +77,15 @@
                 </tr>
                 <tr>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                   <th>Costcode</th>
-                  <th>Hrs</th>
+                  <th class="px-4">Hrs</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -103,7 +98,8 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                      <button id="datepicker_copy_from_previous" class='btn btn-dark w-100' style='font-weight:bold; color: white;'>Copy
+                      <input readonly id="datepicker_copy_from_previous" name="datepicker_copy_from_previous" class="form-control" value="Copy From Previous" style="z-index:-9999; height:0;">
+                      <button id="datepicker_copy_from_previous_btn" class='btn btn-dark w-100' style='font-weight:bold; color: white;margin-top: -15px;'>Copy
                         from Previous Timesheet
                       </button>
                     </div>
@@ -139,6 +135,41 @@
 </div>
 
 <script type="text/javascript">
+    function update_plant_cost_code_hours(updated_hours, cost_code_id, total_hours, td_id) {
+        var updated_hours = parseFloat(updated_hours);
+        if (updated_hours <= total_hours && updated_hours > 0) {
+            var celender_date = $("#datepicker_search_bar").val();
+            if (celender_date == "") {
+                var today_date = formatDate(new Date())
+            } else {
+                var today_date = formatDate(celender_date)
+            }
+            $.ajax({
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: '/projects/<%= @project.id %>/time_sheet_cost_codes',
+                data: {
+                    hrs: updated_hours,
+                    id: cost_code_id,
+                    today_date,
+                    update_plant_cost_code_hours: 'true'
+                },
+                cache: false,
+                success: function () {
+                    $(td_id).addClass("td-clr-green");
+                }
+            });
+        } else {
+            swal({
+                title: "Warning!",
+                text: "Cost code hours should be less than or equal to total hours and greater than zero.",
+                icon: "warning"
+            });
+        }
+
+    }
 
     function cost_modal_plant(emp_id, emp_time_id) {
         time_sheet_employee_id = emp_time_id;
@@ -217,6 +248,10 @@
         // maxDate: new Date()
     });
 
+    $('#datepicker_copy_from_previous_btn').click(function(e) {
+      $('#datepicker_copy_from_previous').focus();
+    });
+
     $('#datepicker_copy_from_previous').change(function (e) {
         if (event.keyCode != 13) {
             var calender_date = $("#datepicker_copy_from_previous").val();
@@ -242,8 +277,9 @@
         return [year, month, day].join('-');
     }
 
-    function updateTotalHours(total_hours, data_id) {
-        var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
+    function updateplantTotalHours(updated_hours, data_id) {
+        var new_total_hours = updated_hours
+        // var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
         $.ajax({
             type: "GET",
             url: "/projects/<%= @project.id %>/plant_time_sheets",

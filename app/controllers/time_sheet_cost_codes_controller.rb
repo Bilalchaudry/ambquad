@@ -46,34 +46,41 @@ class TimeSheetCostCodesController < ApplicationController
       plant_cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: date.beginning_of_week(:sunday)..date.end_of_week(:sunday), plant_id: plant_id).pluck(:cost_code_id).uniq
       # if plant_cost_codes.length < 5
 
-        cost_codee = CostCode.find_by_id(params[:cost_code_id]).cost_code_id
-        @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
-                                                                      cost_code: cost_codee,
-                                                                      plant_id: plant_id,
-                                                                      cost_code_created_at: params[:date],
-                                                                      time_sheet_employee_id: params[:time_sheet_employee_id],
-                                                                      plant_time_sheet_id: params[:plant_time_sheet_id])
-        @cost_code = @project.time_sheet_cost_codes.where(plant_time_sheet_id: params[:plant_time_sheet_id])
-        unless @cost_code.empty?
-          @total_hours = @project.plant_time_sheets.where(id: params[:plant_time_sheet_id]).first
-          devided_time = (@total_hours.total_hours.to_f / @cost_code.count.to_f).round(2)
-          @cost_code.update(hrs: devided_time)
+      cost_codee = CostCode.find_by_id(params[:cost_code_id]).cost_code_id
+      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
+                                                                    cost_code: cost_codee,
+                                                                    plant_id: plant_id,
+                                                                    cost_code_created_at: params[:date],
+                                                                    time_sheet_employee_id: params[:time_sheet_employee_id],
+                                                                    plant_time_sheet_id: params[:plant_time_sheet_id])
+      @cost_code = @project.time_sheet_cost_codes.where(plant_time_sheet_id: params[:plant_time_sheet_id])
+      unless @cost_code.empty?
+        @total_hours = @project.plant_time_sheets.where(id: params[:plant_time_sheet_id]).first
+        devided_time = (@total_hours.total_hours.to_f / @cost_code.count.to_f).round(2)
+        @cost_code.update(hrs: devided_time)
+      end
+      respond_to do |format|
+        if @time_sheet_cost_code.save
+          @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @total_hours.timesheet_created_at).order(:id)
+          format.js
+          format.html
+          # format.json { render :show, status: :created, location: @time_sheet_cost_code }
+        else
+          format.html { render :new }
+          format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
         end
-        respond_to do |format|
-          if @time_sheet_cost_code.save
-            @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @total_hours.timesheet_created_at).order(:id)
-            format.js
-            format.html
-            # format.json { render :show, status: :created, location: @time_sheet_cost_code }
-          else
-            format.html {render :new}
-            format.json {render json: @time_sheet_cost_code.errors, status: :unprocessable_entity}
-          end
-        end
+      end
       # else
       #   @error = "You have already used your cost code limit of this week for this plant."
       # end
-    elsif params[:hrs].present?
+    elsif params[:update_plant_cost_code_hours] #to update plant time sheet cost codes hours
+      cost_code = TimeSheetCostCode.find_by_id(params[:id])
+      cost_code.update(hrs: params[:hrs])
+      respond_to do |format|
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: params[:today_date]).order(:id)
+        format.js
+      end
+    elsif params[:update_employee_cost_code_hours].present? #to update employee time sheet cost code hours
       cost_code = TimeSheetCostCode.find_by_id(params[:id])
       cost_code.update(hrs: params[:hrs])
       respond_to do |format|
@@ -85,30 +92,30 @@ class TimeSheetCostCodesController < ApplicationController
       date = Date.parse(params[:date])
       employee_cost_codes = @project.time_sheet_cost_codes.where(cost_code_created_at: date.beginning_of_week(:sunday)..date.end_of_week(:sunday), employee_id: employee_id).pluck(:cost_code_id).uniq
       # if employee_cost_codes.length < 5
-        cost_codee = CostCode.find_by_id(params[:cost_code_id]).cost_code_id
-        @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
-                                                                      cost_code: cost_codee,
-                                                                      employee_id: employee_id,
-                                                                      cost_code_created_at: params[:date],
-                                                                      time_sheet_employee_id: params[:time_sheet_employee_id],
-                                                                      employee_time_sheet_id: params[:time_sheet_employee_id])
-        @cost_code = @project.time_sheet_cost_codes.where(time_sheet_employee_id: params[:time_sheet_employee_id])
-        unless @cost_code.empty?
-          @total_hours = @project.employee_time_sheets.where(id: params[:time_sheet_employee_id]).first
-          devided_time = (@total_hours.total_hours.to_f / @cost_code.count.to_f).round(2)
-          @cost_code.update(hrs: devided_time)
+      cost_codee = CostCode.find_by_id(params[:cost_code_id]).cost_code_id
+      @time_sheet_cost_code = @project.time_sheet_cost_codes.create(cost_code_id: params[:cost_code_id],
+                                                                    cost_code: cost_codee,
+                                                                    employee_id: employee_id,
+                                                                    cost_code_created_at: params[:date],
+                                                                    time_sheet_employee_id: params[:time_sheet_employee_id],
+                                                                    employee_time_sheet_id: params[:time_sheet_employee_id])
+      @cost_code = @project.time_sheet_cost_codes.where(time_sheet_employee_id: params[:time_sheet_employee_id])
+      unless @cost_code.empty?
+        @total_hours = @project.employee_time_sheets.where(id: params[:time_sheet_employee_id]).first
+        devided_time = (@total_hours.total_hours.to_f / @cost_code.count.to_f).round(2)
+        @cost_code.update(hrs: devided_time)
+      end
+      respond_to do |format|
+        if @time_sheet_cost_code.save
+          @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: @total_hours.timesheet_created_at).order(:id)
+          format.js
+          format.html
+          # format.json { render :show, status: :created, location: @time_sheet_cost_code }
+        else
+          format.html { render :new }
+          format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
         end
-        respond_to do |format|
-          if @time_sheet_cost_code.save
-            @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: @total_hours.timesheet_created_at).order(:id)
-            format.js
-            format.html
-            # format.json { render :show, status: :created, location: @time_sheet_cost_code }
-          else
-            format.html {render :new}
-            format.json {render json: @time_sheet_cost_code.errors, status: :unprocessable_entity}
-          end
-        end
+      end
       # else
       #   @error = "You have already used your cost code limit of this week for this employee."
       # end
@@ -120,11 +127,11 @@ class TimeSheetCostCodesController < ApplicationController
   def update
     respond_to do |format|
       if @time_sheet_cost_code.update(time_sheet_cost_code_params)
-        format.html {redirect_to @time_sheet_cost_code, notice: 'Time sheet cost code was successfully updated.'}
-        format.json {render :show, status: :ok, location: @time_sheet_cost_code}
+        format.html { redirect_to @time_sheet_cost_code, notice: 'Time sheet cost code was successfully updated.' }
+        format.json { render :show, status: :ok, location: @time_sheet_cost_code }
       else
-        format.html {render :edit}
-        format.json {render json: @time_sheet_cost_code.errors, status: :unprocessable_entity}
+        format.html { render :edit }
+        format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
       end
     end
   end
