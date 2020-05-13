@@ -76,7 +76,7 @@ require 'rufus-scheduler'
 # #
 # # end
 scheduler = Rufus::Scheduler.new
-scheduler.cron '1,12 * * * *' do
+scheduler.cron '1,00 * * * *' do
   Project.all.each do |project|
     @project_name = project.project_name
     @project_employees_without_foreman = project.employees.where(foreman_id: nil)
