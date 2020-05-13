@@ -28,7 +28,7 @@ class ProjectsController < ApplicationController
     @project_company = ClientCompany.find(project_company_id) rescue nil
     @client_companies = ClientCompany.all.where.not(id: project_company_id) rescue nil
 
-    project_employee_id = @project.employee_id
+    # project_employee_id = @project.employee_id
     @project_employee = Employee.find(project_employee_id) rescue nil
     @employees = Employee.all.where.not(id: project_employee_id) rescue nil
   end
