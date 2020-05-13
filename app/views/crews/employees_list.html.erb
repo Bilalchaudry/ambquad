@@ -50,7 +50,7 @@
                     <td><%= employee.employee.contract_end_date %></td>
                     <td><%= employee.employee.status %></td>
                     <td>
-                      <% if employee.employee.employee_time_sheets.present? %>
+                      <% if employee.employee.employee_time_sheets.blank? %>
                         <%= link_to 'Delete', "/projects/#{@project.id}/crews/#{employee.id}", method: :delete, data: {confirm: 'Are you sure?'}, remote: true, :class => "btn btn-outline-danger" %>
                       <% else %>
                         Not Available
