@@ -75,7 +75,7 @@ class EmployeesController < ApplicationController
     begin
       if @employee.other_manager.present? || @employee.budget_holders.present? || @employee.foreman.present? ||
           Foreman.find_by_employee_id(@employee.id) || BudgetHolder.find_by_employee_id(@employee.id) ||
-          OtherManager.find_by_employee_id(@employee.id)
+          OtherManager.find_by_employee_id(@employee.id) || @employee.employee_time_sheets.present?
         respond_to do |format|
           format.js
         end
