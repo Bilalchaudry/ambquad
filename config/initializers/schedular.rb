@@ -9,3 +9,15 @@ scheduler.every '1d' do
   end
 
 end
+scheduler.cron '1,00 * * * *' do
+  Project.all.each do |project|
+    if project.employees.where(foreman_id: nil).present? || project.plants.where(foreman_id: nil).present? || project.cost_codes.where(budget_holder_id: nil).present?
+      @project_name = project.project_name
+      subject = @project_name + ' ' + ' data is incomplete.'
+      project_users = project.client_company.users
+      project_users.each do |project_user|
+        NotificationMailer.notification(@project_name,subject,project_user.username,project_user.email).deliver_now
+      end
+    end
+  end
+end
