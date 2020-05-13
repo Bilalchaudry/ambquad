@@ -71,10 +71,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :project_employees
-
-    resources :project_plants
-
     resources :project_companies do
       collection do
         post :import
