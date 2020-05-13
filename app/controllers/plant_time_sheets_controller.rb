@@ -123,7 +123,6 @@ class PlantTimeSheetsController < ApplicationController
             search_date = plant_create_date - 7
 
             project_plants.each do |plant|
-              manager_name = plant.other_managers.plant.plant_name rescue nil
               foreman_name = Employee.find_by_id(Foreman.find_by_id(plant.foreman_id).plant_id).plant_name rescue nil
               company_name = plant.project_company.company_name rescue nil
 
@@ -134,7 +133,7 @@ class PlantTimeSheetsController < ApplicationController
               sheet_hours = previous_plant_time_sheet.total_hours rescue 0
               plant_time_sheets = @project.plant_time_sheets.create(plant_name: plant.plant_type.type_name,
                                                                     project_company_id: plant.project_company_id, company: company_name,
-                                                                    manager: manager_name, foreman_name: foreman_name, foreman_id: plant.foreman_id,
+                                                                    foreman_name: foreman_name, foreman_id: plant.foreman_id,
                                                                     total_hours: sheet_hours, timesheet_created_at: plant_create_date, project_id: @project.id,
                                                                     plant_id: plant.id)
 
@@ -175,12 +174,11 @@ class PlantTimeSheetsController < ApplicationController
         project_plants = @project.plants.where(status: "Active")
         if project_plants.present?
           project_plants.each do |plant|
-            manager_name = plant.other_managers.plant.plant_name rescue nil
             foreman_name = Employee.find_by_id(Foreman.find_by_id(plant.foreman_id).plant_id).employee_name rescue nil
             company_name = plant.project_company.company_name rescue nil
             plant_time_sheets = @project.plant_time_sheets.create(plant_name: plant.plant_type.type_name,
                                                                   project_company_id: plant.project_company_id, company: company_name,
-                                                                  manager: manager_name, foreman_name: foreman_name, foreman_id: plant.foreman_id,
+                                                                  foreman_name: foreman_name, foreman_id: plant.foreman_id,
                                                                   total_hours: 0, timesheet_created_at: timesheet_created_at, project_id: @project.id,
                                                                   plant_id: plant.id)
 
