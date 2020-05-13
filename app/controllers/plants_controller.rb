@@ -35,14 +35,14 @@ class PlantsController < ApplicationController
 
       respond_to do |format|
         if @plant.save
-          foreman_namee = Employee.find_by_id(@plant.foreman.employee_id).employee_name rescue nil
-          other_manager_namee = Employee.find_by_id(@plant.other_manager.employee_id).employee_name rescue nil
+          foreman_name = Employee.find_by_id(@plant.foreman.employee_id).employee_name rescue nil
+          other_manager_name = Employee.find_by_id(@plant.other_manager.employee_id).employee_name rescue nil
           @project.plant_time_sheets.create(plant_id_str: params[:plant][:plant_id], plant_name: params[:plant][:plant_name],
                                             project_company_id: params[:plant][:project_company_id],
                                             foreman_id: params[:plant][:foreman_id],
                                             plant_id: @plant.id,
-                                            foreman_name: foreman_namee,
-                                            manager: other_manager_namee,
+                                            foreman_name: foreman_name,
+                                            manager: other_manager_name,
                                             plant_create_date: Time.now.strftime("%Y-%m-%d"),
                                             company: @project.client_company.company_name, total_hours: 0)
 

@@ -1,7 +1,6 @@
 class OtherManagersController < ApplicationController
   include OtherManagersHelper
   before_action :set_other_manager, only: [:show, :edit, :update, :destroy]
-  # before_action :employee_except_manager, only: [:new, :edit]
   before_action :get_project, only: [:new, :show, :edit, :update, :create, :index, :destroy, :import]
 
   load_and_authorize_resource
