@@ -21,25 +21,15 @@ class ProjectCompaniesController < ApplicationController
 
   # GET /project_companies/1/edit
   def edit
-    # project_id = @project_company.project_id
-    # @company_project = current_user.client_company.projects.find(project_id) rescue nil
-    # @company_projects = current_user.client_company.projects.all.where.not(id: project_id) rescue nil
   end
 
   # POST /project_companies
   # POST /project_companies.json
   def create
     @project_company = @project.project_companies.new(project_company_params)
-    # @project_company.project_id = @project.id
     @project_company.client_company_id = @project.client_company.id
     @project_company.poc_country = @project.client_company.country_name
     if @project_company.country_name != " "
-      # code = ISO3166::Country.find_country_by_name(@project_company.country_name).country_code
-      # @project_company.phone = '+' + code + @project_company.phone
-      #
-      # poc_code = ISO3166::Country.find_country_by_name(@project_company.poc_country).country_code
-      # @project_company.poc_phone = '+' + poc_code + @project_company.poc_phone
-
       respond_to do |format|
         if @project_company.save
           # @project_company.projects << @project

@@ -123,7 +123,6 @@ class EmployeeTimeSheetsController < ApplicationController
             search_date = timesheet_created_at - 7
 
             project_employees.each do |employee|
-              manager_name = employee.other_managers.employee.employee_name rescue nil
               foreman_name = Employee.find_by_id(Foreman.find_by_id(employee.foreman_id).employee_id).employee_name rescue nil
               company_name = employee.project_company.company_name rescue nil
 
@@ -134,7 +133,7 @@ class EmployeeTimeSheetsController < ApplicationController
               sheet_hours = previous_employee_time_sheet.total_hours rescue 0
               employee_time_sheets = @project.employee_time_sheets.create(labour_type: employee.employee_type.employee_type,
                                                                           project_company_id: employee.project_company_id, company: company_name,
-                                                                          manager: manager_name, foreman_name: foreman_name, foreman_id: employee.foreman_id,
+                                                                          foreman_name: foreman_name, foreman_id: employee.foreman_id,
                                                                           total_hours: sheet_hours, employee_type_id: employee.employee_type_id,
                                                                           timesheet_created_at: timesheet_created_at,
                                                                           project_id: @project.id, employee_id: employee.id)
@@ -177,12 +176,11 @@ class EmployeeTimeSheetsController < ApplicationController
         if project_employees.present?
           search_date = timesheet_created_at - 7
           project_employees.each do |employee|
-            manager_name = employee.other_managers.employee.employee_name rescue nil
             foreman_name = Employee.find_by_id(Foreman.find_by_id(employee.foreman_id).employee_id).employee_name rescue nil
             company_name = employee.project_company.company_name rescue nil
             employee_time_sheets = @project.employee_time_sheets.create(labour_type: employee.employee_type.employee_type,
                                                                         project_company_id: employee.project_company_id, company: company_name,
-                                                                        manager: manager_name, foreman_name: foreman_name, foreman_id: employee.foreman_id,
+                                                                        foreman_name: foreman_name, foreman_id: employee.foreman_id,
                                                                         total_hours: 0, employee_type_id: employee.employee_type_id,
                                                                         timesheet_created_at: timesheet_created_at, project_id: @project.id, employee_id: employee.id)
 

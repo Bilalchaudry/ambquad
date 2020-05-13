@@ -61,12 +61,10 @@ class CostCode < ApplicationRecord
             return error = "Validation Failed. Cost Cost Description Already Exist in File, Error on Row: #{i}"
           end
 
-
-          # unless @cost_code.any? {|cost_code| cost_code.employee_id == employee.id}
           @cost_code << project.cost_codes.new(budget_holder_id: row[0], cost_code_id: row[1], cost_code_description: row[2], WBS_01: row[3], WBS_01_Description: row[4],
                                                WBS_02: row[5], WBS_02_Description: row[6], WBS_03: row[7], WBS_03_Description: row[8],
                                                WBS_04: row[9], WBS_04_Description: row[10], WBS_05: row[11], WBS_05_Description: row[12])
-            # end
+
         rescue => e
           return e.message
         end

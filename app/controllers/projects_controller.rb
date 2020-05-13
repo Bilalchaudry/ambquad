@@ -71,7 +71,7 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1.json
   def destroy
     begin
-      if @project.project_employees.present? || @project.project_companies.present? || @project.foremen.present? ||
+      if  @project.project_companies.present? || @project.foremen.present? ||
           @project.cost_codes.present? || @project.other_managers.present? || @project.budget_holders.present? ||
           @project.employees.present? || @project.plant_types.present?
         respond_to do |format|

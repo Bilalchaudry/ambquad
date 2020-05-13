@@ -109,10 +109,6 @@ class ForemenController < ApplicationController
     )
   end
 
-  # def users_except_foremen
-  #   @users_for_foreman = Employee.all.order( 'id ASC' ) - @foremen
-  # end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
