@@ -55,7 +55,7 @@
                     <td><%= plant.plant.contract_end_date %></td>
                     <td><%= plant.plant.status %></td>
                     <td>
-                      <% if plant.plant.plant_time_sheets.present? %>
+                      <% if plant.plant.plant_time_sheets.blank? %>
                         <%= link_to "Delete", "/projects/#{@project.id}/crews/#{plant.id}", :class => "btn btn-outline-danger", method: :delete, data: {confirm: 'Are you sure?'}, remote: true %>
                       <% else %>
                         Not Available
