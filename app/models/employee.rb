@@ -46,7 +46,7 @@ class Employee < ApplicationRecord
           end
 
 
-          employee_id = @employee.any? {|a| a.employee_id.downcase == row[1].strip.downcase}
+          employee_id = @employee.any? { |a| a.employee_id.downcase == row[1].strip.downcase }
           if employee_id
             return error = "Validation Failed. Employee ID Already Exist in File, Error on Row: #{i}"
           end
@@ -86,17 +86,34 @@ class Employee < ApplicationRecord
               return error = "Validation Failed. Email Already Exist, Error on Row: #{i}"
             end
           end
+          if row[5].length == 8 and row[6].length == 8
+            array_of_date = row[5].split('/')
+            array_of_date[2] = array_of_date[2].to_i + 2000
+            start_date = array_of_date[2].to_s + array_of_date[1].to_s + array_of_date[0].to_s
+            row[5] = start_date.to_date
+            array_of_end_date = row[6].split('/')
+            array_of_end_date[2] = array_of_end_date[2].to_i + 2000
+            end_date = array_of_end_date[2].to_s + array_of_end_date[1].to_s + array_of_end_date[0].to_s
+            row[6] = end_date.to_date
+            if !(project.start_date..project.end_date).cover?(row[5]) || !(project.start_date..project.end_date).cover?(row[6])
+              return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
+            end
+            if row[5] > row[6]
+              return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
+            end
+          else
 
-          if !(project.start_date..project.end_date).cover?(Date.parse(row[5])) || !(project.start_date..project.end_date).cover?(Date.parse(row[6]))
-            return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
-          end
+            if !(project.start_date..project.end_date).cover?(Date.parse(row[5])) || !(project.start_date..project.end_date).cover?(Date.parse(row[6]))
+              return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
+            end
 
-          if Date.parse(row[5]) > Date.parse(row[6])
-            return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
+            if Date.parse(row[5]) > Date.parse(row[6])
+              return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
+            end
           end
 
           if row[10].present?
-            new_employee_email = @employee.any? {|a| a.email == row[10].strip}
+            new_employee_email = @employee.any? { |a| a.email == row[10].strip }
             if new_employee_email == true
               return error = "Validation Failed. Email Already Exist in File, Error on Row: #{i}"
             end
@@ -110,7 +127,7 @@ class Employee < ApplicationRecord
           end
 
           if row[9].present?
-            new_employee_phone = @employee.any? {|a| a.phone == row[9].strip}
+            new_employee_phone = @employee.any? { |a| a.phone == row[9].strip }
             if new_employee_phone == true
               return error = "Validation Failed. Phone Already Exist in File, Error on Row: #{i}"
             end

@@ -56,13 +56,30 @@ class Plant < ApplicationRecord
             return error = "Validation Failed. Plant ID Already Exist in File, Error on Row: #{i}"
           end
 
+          if row[4].length == 8 and row[5].length == 8
+            array_of_date = row[4].split('/')
+            array_of_date[2] = array_of_date[2].to_i + 2000
+            start_date = array_of_date[2].to_s + array_of_date[1].to_s + array_of_date[0].to_s
+            row[4] = start_date.to_date
+            array_of_end_date = row[5].split('/')
+            array_of_end_date[2] = array_of_end_date[2].to_i + 2000
+            end_date = array_of_end_date[2].to_s  + array_of_end_date[1].to_s + array_of_end_date[0].to_s
+            row[5] = end_date.to_date
+            if !(project.start_date..project.end_date).cover?(row[4]) || !(project.start_date..project.end_date).cover?(row[5])
+              return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
+            end
+            if row[4] > row[5]
+              return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
+            end
+          else
 
-          if !(project.start_date..project.end_date).cover?(Date.parse(row[4])) || !(project.start_date..project.end_date).cover?(Date.parse(row[5]))
-            return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
-          end
+            if !(project.start_date..project.end_date).cover?(Date.parse(row[4])) || !(project.start_date..project.end_date).cover?(Date.parse(row[5]))
+              return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
+            end
 
-          if Date.parse(row[4]) > Date.parse(row[5])
-            return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
+            if Date.parse(row[4]) > Date.parse(row[5])
+              return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
+            end
           end
 
           plant_type = project.plant_types.where(type_name: row[2].strip).first
