@@ -70,8 +70,6 @@
                   </div>
                 </div>
 
-
-                <% enable_timesheet = true %>
                 <div class="card-body mt-2">
                   <div class="" id="nav-tab" role="tablist">
 
@@ -214,6 +212,7 @@
                           </div>
                         </div>
                       <% end %>
+
                       <% if @project.budget_holders.present? %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card with-setup-clr text-white mb-3">
@@ -304,15 +303,12 @@
                         </div>
                       <% end %>
 
-                      <% enable_timesheet = false if @project.cost_codes.where(budget_holder_id: nil).present? %>
-                      <% plant_timesheet = enable_timesheet %>
-                      <% plant_timesheet = false if @project.plants.where(foreman_id: nil).present? %>
-                      <% plant_timesheet = true if @project.plant_time_sheets.present? %>
+                      <% employee_timesheet = true %>
+                      <% employee_timesheet = false if @project.cost_codes.where(budget_holder_id: nil).present? %>
+                      <% employee_timesheet = false if (@project.employees.blank? || @project.employees.where(foreman_id: nil).present?) %>
+                      <% employee_timesheet = true if @project.employee_time_sheets.present? %>
 
-                      <% enable_timesheet = false if @project.employees.where(foreman_id: nil).present? %>
-                      <% enable_timesheet = true if @project.employee_time_sheets.present? %>
-
-                      <% if (enable_timesheet == true) %>
+                      <% if (employee_timesheet == true) %>
                         <div class="col-xl-3 col-md-6">
                           <div class="card time-sheet-setup-clr text-white mb-3">
                             <div class="card-body">Employee Time Sheet</div>
@@ -332,6 +328,11 @@
                           </div>
                         </div>
                       <% end %>
+
+                      <% plant_timesheet = true %>
+                      <% plant_timesheet = false if @project.cost_codes.where(budget_holder_id: nil).present? %>
+                      <% plant_timesheet = false if (@project.plants.blank? || @project.plants.where(foreman_id: nil).present?) %>
+                      <% plant_timesheet = true if @project.plant_time_sheets.present? %>
 
                       <% if plant_timesheet == true %>
                         <div class="col-xl-3 col-md-6">

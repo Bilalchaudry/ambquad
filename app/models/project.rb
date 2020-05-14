@@ -29,17 +29,17 @@ class Project < ApplicationRecord
   auto_strip_attributes :project_name
 
 
-  before_destroy :check_for_projects, prepend: true
+  # before_destroy :check_for_projects, prepend: true
 
   private
 
-  def check_for_projects
-    if project_employees.any? || cost_codes.any? || other_managers.any? || plants.any? || budget_holders.any? ||
-        plant_types.any? || employee_types.any? || foremen.any?
-      errors[:base] << "cannot delete submission that has already been linked"
-      return false
-    end
-  end
+  # def check_for_projects
+  #   if project_employees.any? || cost_codes.any? || other_managers.any? || plants.any? || budget_holders.any? ||
+  #       plant_types.any? || employee_types.any? || foremen.any?
+  #     errors[:base] << "cannot delete submission that has already been linked"
+  #     return false
+  #   end
+  # end
 
 
 end
