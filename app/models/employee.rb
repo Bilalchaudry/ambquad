@@ -87,14 +87,8 @@ class Employee < ApplicationRecord
             end
           end
           if row[5].length == 8 and row[6].length == 8
-            array_of_date = row[5].split('/')
-            array_of_date[2] = array_of_date[2].to_i + 2000
-            start_date = array_of_date[2].to_s + array_of_date[1].to_s + array_of_date[0].to_s
-            row[5] = start_date.to_date
-            array_of_end_date = row[6].split('/')
-            array_of_end_date[2] = array_of_end_date[2].to_i + 2000
-            end_date = array_of_end_date[2].to_s + array_of_end_date[1].to_s + array_of_end_date[0].to_s
-            row[6] = end_date.to_date
+            row[5] = Date.strptime(row[5],"%d/%m/%y")
+            row[6] = Date.strptime(row[6],"%d/%m/%y")
             if !(project.start_date..project.end_date).cover?(row[5]) || !(project.start_date..project.end_date).cover?(row[6])
               return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
             end
