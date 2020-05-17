@@ -166,15 +166,20 @@ class EmployeeTimeSheetsController < ApplicationController
         end
       end
     else
-      date = Date.today
-      timesheet_created_at = date
-      number_of_remaining_week_days = (Date.today.end_of_week(:monday) - Date.today).to_i
-
-      (1..number_of_remaining_week_days).to_a.reverse.each do |day|
+      # todaysDate = Date.parse("2020-05-09")
+      todaysDate = Date.today
+      timesheet_created_at = todaysDate
+      if todaysDate.wday == 6 # Today is saturday
+        number_of_remaining_week_days = 0
+      else # Find next saturday
+        next_saturday = todaysDate
+        next_saturday += ((6 - todaysDate.wday) % 7)
+        number_of_remaining_week_days = (next_saturday - todaysDate).to_i
+      end  
+      (0..number_of_remaining_week_days).to_a.reverse.each do |day|
 
         project_employees = @project.employees.where(status: "Active")
         if project_employees.present?
-          search_date = timesheet_created_at - 7
           project_employees.each do |employee|
             foreman_name = Employee.find_by_id(Foreman.find_by_id(employee.foreman_id).employee_id).employee_name rescue nil
             company_name = employee.project_company.company_name rescue nil

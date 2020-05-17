@@ -36,7 +36,7 @@ class Employee < ApplicationRecord
           i = i + 1
 
           if row[0].nil? || row[1].nil? || row[2].nil? || row[3].nil? || row[5].nil? || row[6].nil? || row[12].nil?
-            return error = "Validation Failed.Employee Field Empty in File, Error on Row: #{i}"
+            return error = "Validation Failed. Employee Field Empty in File, Error on Row: #{i}"
           end
 
 
@@ -87,11 +87,25 @@ class Employee < ApplicationRecord
             end
           end
 
-          if !(project.start_date..project.end_date).cover?(Date.parse(row[5])) || !(project.start_date..project.end_date).cover?(Date.parse(row[6]))
+          start_date = Date.strptime(row[5],"%d/%m/%y") rescue nil
+          if start_date.nil?
+            start_date = Date.strptime(row[5],"%d.%m.%y") rescue nil
+          end
+          if start_date.nil?
+            start_date = Date.parse(row[5])
+          end
+          end_date = Date.strptime(row[6],"%d/%m/%y") rescue nil
+          if end_date.nil?
+            end_date = Date.strptime(row[6],"%d.%m.%y") rescue nil
+          end
+          if end_date.nil?
+            end_date = Date.parse(row[6])
+          end
+          if !(project.start_date..project.end_date).cover?(start_date) || !(project.start_date..project.end_date).cover?(end_date)
             return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
           end
 
-          if Date.parse(row[5]) > Date.parse(row[6])
+          if start_date > end_date
             return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
           end
 
@@ -151,10 +165,10 @@ class Employee < ApplicationRecord
             row[2] = plant_type.id
           end
 
-          @employee << project.employees.new(employee_name: row[0], employee_id: row[1], employee_type_id: row[2], project_company_id: row[3], home_company_role: row[4], contract_start_date: row[5],
-                                             contract_end_date: row[6], foreman_id: row[7], other_manager_id: row[8], phone: row[9], email: row[10], gender: row[11],
+          @employee << project.employees.new(employee_name: row[0], employee_id: row[1], employee_type_id: row[2], project_company_id: row[3], home_company_role: row[4], contract_start_date: start_date,
+                                             contract_end_date: end_date, foreman_id: row[7], other_manager_id: row[8], phone: row[9], email: row[10], gender: row[11],
                                              status: row[12], client_company_id: project.client_company_id,
-                                             foreman_start_date: row[5])
+                                             foreman_start_date: start_date)
 
         rescue => e
           return e.message

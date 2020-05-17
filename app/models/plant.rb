@@ -56,12 +56,26 @@ class Plant < ApplicationRecord
             return error = "Validation Failed. Plant ID Already Exist in File, Error on Row: #{i}"
           end
 
+          start_date = Date.strptime(row[4],"%d/%m/%y") rescue nil
+          if start_date.nil?
+            start_date = Date.strptime(row[4],"%d.%m.%y") rescue nil
+          end
+          if start_date.nil?
+            start_date = Date.parse(row[4])
+          end
+          end_date = Date.strptime(row[5],"%d/%m/%y") rescue nil
+          if end_date.nil?
+            end_date = Date.strptime(row[5],"%d.%m.%y") rescue nil
+          end
+          if end_date.nil?
+            end_date = Date.parse(row[5])
+          end
 
-          if !(project.start_date..project.end_date).cover?(Date.parse(row[4])) || !(project.start_date..project.end_date).cover?(Date.parse(row[5]))
+          if !(project.start_date..project.end_date).cover?(start_date) || !(project.start_date..project.end_date).cover?(end_date)
             return error = "Validation Failed. Date should be subset of project start and end date, Error on Row: #{i}"
           end
 
-          if Date.parse(row[4]) > Date.parse(row[5])
+          if start_date > end_date
             return error = "Validation Failed. Contract End date must be after start date, Error on Row: #{i}"
           end
 
@@ -117,8 +131,8 @@ class Plant < ApplicationRecord
             row[9] = "Active"
           end
 
-          @plant << project.plants.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: row[4], contract_end_date: row[5],
-                                       foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: row[4], foreman_end_date: row[5],
+          @plant << project.plants.new(plant_name: row[0], plant_id: row[1], plant_type_id: row[2], project_company_id: row[3], contract_start_date: start_date, contract_end_date: end_date,
+                                       foreman_id: row[6], other_manager_id: row[7], market_value: row[8], status: row[9], foreman_start_date: start_date, foreman_end_date: end_date,
                                        client_company_id: project.client_company_id)
         rescue => e
           e.message
