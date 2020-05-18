@@ -304,7 +304,7 @@
                       <% end %>
 
                       <% employee_timesheet = true %>
-                      <% employee_timesheet = false if @project.cost_codes.where(budget_holder_id: nil).present? %>
+                      <% employee_timesheet = false if (@project.cost_codes.blank? || @project.cost_codes.where(budget_holder_id: nil).present?) %>
                       <% employee_timesheet = false if (@project.employees.blank? || @project.employees.where(foreman_id: nil).present?) %>
                       <% employee_timesheet = true if @project.employee_time_sheets.present? %>
 
@@ -330,7 +330,7 @@
                       <% end %>
 
                       <% plant_timesheet = true %>
-                      <% plant_timesheet = false if @project.cost_codes.where(budget_holder_id: nil).present? %>
+                      <% plant_timesheet = false if (@project.cost_codes.blank? || @project.cost_codes.where(budget_holder_id: nil).present?) %>
                       <% plant_timesheet = false if (@project.plants.blank? || @project.plants.where(foreman_id: nil).present?) %>
                       <% plant_timesheet = true if @project.plant_time_sheets.present? %>
 

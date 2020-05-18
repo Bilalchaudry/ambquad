@@ -165,11 +165,16 @@ class PlantTimeSheetsController < ApplicationController
         end
       end
     else
-      date = Date.today
-      timesheet_created_at = date
-      number_of_remaining_week_days = (Date.today.end_of_week(:monday) - Date.today).to_i
-
-      (1..number_of_remaining_week_days).to_a.reverse.each do |day|
+      todaysDate = Date.today
+      timesheet_created_at = todaysDate
+      if todaysDate.wday == 6 # Today is saturday
+        number_of_remaining_week_days = 0
+      else # Find next saturday
+        next_saturday = todaysDate
+        next_saturday += ((6 - todaysDate.wday) % 7)
+        number_of_remaining_week_days = (next_saturday - todaysDate).to_i
+      end  
+      (0..number_of_remaining_week_days).to_a.reverse.each do |day|
 
         project_plants = @project.plants.where(status: "Active")
         if project_plants.present?
