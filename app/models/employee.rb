@@ -27,7 +27,7 @@ class Employee < ApplicationRecord
 
   def self.import_file(file, user, project)
     if File.extname(file.original_filename) == '.csv'
-      csv_text = File.read(file.path)
+      csv_text = (File.read(file.path, :encoding => 'windows-1251:utf-8')).scrub
       csv = CSV.parse(csv_text, :headers => true)
       i = 0
       @employee = []
