@@ -56,7 +56,11 @@
           </div>
           <div class="col-xl-3 col-md-3">
             <div class="text-white mb-2">
-              <input id="datepicker_search_bar" readonly value="<%= @employee_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>" placeholder="<%= @employee_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>"/>
+              <% if @employee_time_sheets.first.timesheet_created_at.present? %>
+                <input id="datepicker_search_bar" readonly value="<%= @employee_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>" placeholder="<%= @employee_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>"/>
+              <% else %>
+                <input id="datepicker_search_bar" readonly value=<%= Date.today.strftime("%m/%d/%Y") %> placeholder="<%= Date.today.strftime("%m/%d/%Y") %>"/>
+              <% end %>
             </div>
           </div>
           <div class="col-xl-3 col-md-3"></div>
@@ -100,9 +104,9 @@
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
                     <div class="actions">
-                    <input readonly id="datepicker_copy_from_previous" name="datepicker_copy_from_previous" class="form-control" value="Copy From Previous" style="z-index:-9999; height:0;">
+                      <input readonly id="datepicker_copy_from_previous" name="datepicker_copy_from_previous" class="form-control" value="Copy From Previous" style="z-index:-9999; height:0;">
                       <button id="datepicker_copy_from_previous_btn" class='btn btn-dark w-100' style='font-weight:bold; color: white;margin-top: -15px;'>Copy
-                      from Previous Timesheet
+                        from Previous Timesheet
                       </button>
                     </div>
                   </div>
@@ -249,10 +253,10 @@
         // maxDate: new Date()
     });
 
-    $('#datepicker_copy_from_previous_btn').click(function(e) {
-      $('#datepicker_copy_from_previous').focus();
+    $('#datepicker_copy_from_previous_btn').click(function (e) {
+        $('#datepicker_copy_from_previous').focus();
     });
-    
+
     $('#datepicker_copy_from_previous').change(function (e) {
         if (event.keyCode != 13) {
             var calender_date = $("#datepicker_copy_from_previous").val();
