@@ -55,7 +55,11 @@
           </div>
           <div class="col-xl-3 col-md-3">
             <div class="text-white mb-2">
-              <input id="datepicker_search_bar" readonly value="<%= @plant_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>" placeholder="<%= @plant_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>"/>
+              <% if @plant_time_sheets.first.timesheet_created_at.present? %>
+                <input id="datepicker_search_bar" readonly value="<%= @plant_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>" placeholder="<%= @plant_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>"/>
+              <% else %>
+                <input id="datepicker_search_bar" readonly value=<%= Date.today.strftime("%m/%d/%Y") %> placeholder="<%= Date.today.strftime("%m/%d/%Y") %>"/>
+              <% end %>
             </div>
           </div>
           <div class="col-xl-3 col-md-3"></div>
@@ -248,8 +252,8 @@
         // maxDate: new Date()
     });
 
-    $('#datepicker_copy_from_previous_btn').click(function(e) {
-      $('#datepicker_copy_from_previous').focus();
+    $('#datepicker_copy_from_previous_btn').click(function (e) {
+        $('#datepicker_copy_from_previous').focus();
     });
 
     $('#datepicker_copy_from_previous').change(function (e) {

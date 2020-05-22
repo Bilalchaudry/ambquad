@@ -27,10 +27,10 @@
     text-align: center;
 }
 .td-clr-green {
-    background-color: lightgreen !important;
+    background-color: #8CCDB0 !important;
 }
 .td-clr-red {
-    border:2px solid red;
+    border:2px solid #FF6864 !important;
 }
 .empty-cost-cost-hours-bg {
     background-color: transparent;
@@ -426,7 +426,18 @@ h6 {
     width: 160px;
     height: 32px;
 }
-
+.delete-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50% !important;
+}
+.cost-btn {
+    border-radius: 50% !important;
+    float: right !important;
+    float: top !important;
+    border: none !important;
+    background-color: white !important;
+}
 /* ==========================================================================
    #FORM
    ========================================================================== */
