@@ -83,9 +83,11 @@ class TimeSheetCostCodesController < ApplicationController
     elsif params[:update_employee_cost_code_hours].present? #to update employee time sheet cost code hours
       cost_code = TimeSheetCostCode.find_by_id(params[:id])
       cost_code.update(hrs: params[:hrs])
+      @row_id = cost_code.time_sheet_employee_id
+      @cost_codes = TimeSheetCostCode.where(time_sheet_employee_id: @row_id)
+      @employee_time_sheet_data = @project.employee_time_sheets.find(@row_id)
       respond_to do |format|
-        @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: params[:today_date]).order(:id)
-        format.js
+        format.js { render :file => "employee_time_sheets/re_render_row" }
       end
     else
       employee_id = EmployeeTimeSheet.find_by_id(params[:time_sheet_employee_id]).employee_id rescue nil
@@ -99,18 +101,17 @@ class TimeSheetCostCodesController < ApplicationController
                                                                     cost_code_created_at: params[:date],
                                                                     time_sheet_employee_id: params[:time_sheet_employee_id],
                                                                     employee_time_sheet_id: params[:time_sheet_employee_id])
-      @cost_code = @project.time_sheet_cost_codes.where(time_sheet_employee_id: params[:time_sheet_employee_id])
-      unless @cost_code.empty?
+      @cost_codes = @project.time_sheet_cost_codes.where(time_sheet_employee_id: params[:time_sheet_employee_id])
+      unless @cost_codes.empty?
         @total_hours = @project.employee_time_sheets.where(id: params[:time_sheet_employee_id]).first
-        devided_time = (@total_hours.total_hours.to_f / @cost_code.count.to_f).round(2)
-        @cost_code.update(hrs: devided_time)
+        devided_time = (@total_hours.total_hours.to_f / @cost_codes.count.to_f).round(2)
+        @cost_codes.update(hrs: devided_time)
       end
       respond_to do |format|
+        @row_id = params[:time_sheet_employee_id]
         if @time_sheet_cost_code.save
-          @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: @total_hours.timesheet_created_at).order(:id)
-          format.js
-          format.html
-          # format.json { render :show, status: :created, location: @time_sheet_cost_code }
+          @employee_time_sheet_data = @project.employee_time_sheets.find(params[:time_sheet_employee_id])
+          format.js { render :file => "employee_time_sheets/re_render_row" }
         else
           format.html { render :new }
           format.json { render json: @time_sheet_cost_code.errors, status: :unprocessable_entity }
@@ -139,10 +140,11 @@ class TimeSheetCostCodesController < ApplicationController
   # DELETE /time_sheet_cost_codes/1
   # DELETE /time_sheet_cost_codes/1.json
   def destroy
+    @row_id = @time_sheet_cost_code.time_sheet_employee_id
     time_sheet = @time_sheet_cost_code.employee_time_sheet ? @time_sheet_cost_code.employee_time_sheet : @time_sheet_cost_code.plant_time_sheet
     @time_sheet_cost_code.destroy
     respond_to do |format|
-
+      binding.pry
       total_hours = time_sheet.total_hours
       total_cost_codes = time_sheet.time_sheet_cost_codes.count.to_f rescue 0.0
       devided_time = (total_hours / total_cost_codes).round(2)
@@ -151,10 +153,12 @@ class TimeSheetCostCodesController < ApplicationController
       if params[:plant_id].present?
         @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: params[:timesheet_date])
       else
-        @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: params[:timesheet_date]).order(:id)
+        @cost_codes = TimeSheetCostCode.where(time_sheet_employee_id: @row_id)
+        @employee_time_sheet_data = @project.employee_time_sheets.find(@row_id)
+        respond_to do |format|
+          format.js { render :file => "employee_time_sheets/re_render_row" }
+        end
       end
-
-      # @plant_time_sheets = @project.plant_time_sheets.where(plant_create_date: params[:plant_timesheet_date]).order(:id)
       format.js
     end
   end
