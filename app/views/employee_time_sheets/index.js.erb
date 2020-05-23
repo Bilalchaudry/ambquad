@@ -3,9 +3,11 @@ alert("<%= @result %>")
 <% else %>
 dataTable.destroy()
 $('#timesheet-table').html("<%= j render 'time_sheet_table_data' %>")
-dataTable = $('#table').DataTable({
+dataTable = $('#dataTable').DataTable({
     "ordering": true,
-    "lengthMenu": [25, 50, 100, 200],
-    "pageLength": 200
+    "scrollY": "500px",
+    "scrollCollapse": true,
+    "pageLength": 200,
+    "lengthMenu": [[50, 100, 200, -1], [50, 100, 200, "All"]]
 });
 <% end %>
