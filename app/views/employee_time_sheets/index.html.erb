@@ -69,37 +69,9 @@
           <div class="card-header"><i class="fas fa-table mr-1"></i>Employee Time Sheet</div>
           <div class="card-body">
             <div class="table-responsive">
-
-              <table id="table" class="table-bordered" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                  <th rowspan="2">Employee ID</th>
-                  <th rowspan="2">Employee</th>
-                  <th rowspan="2">Labour type</th>
-                  <th rowspan="2">Company</th>
-                  <th rowspan="2">Manager</th>
-                  <th rowspan="2">Total hours</th>
-                  <th colspan="10" style="text-align:center;">Select Cost Codes</th>
-                </tr>
-                <tr>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                </tr>
-                </thead>
-                <tbody>
+              <div id="timesheet-table">
                 <%= render 'time_sheet_table_data' %>
-                </tbody>
-              </table>
-              <br>
-
+              </div>  
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
@@ -140,7 +112,7 @@
 </div>
 
 <script type="text/javascript">
-
+    timesheet_date = $("#datepicker_search_bar").val();
     function update_cost_code_hours(updated_hours, cost_code_id, total_hours, td_id) {
         var updated_hours = parseFloat(updated_hours);
         if (updated_hours <= total_hours && updated_hours > 0) {
@@ -232,20 +204,18 @@
     }
 
     $('#datepicker_search_bar').datepicker({
-        uiLibrary: 'bootstrap',
-        // maxDate: new Date()
-    });
-
-    $('#datepicker_search_bar').change(function (e) {
-        if (event.keyCode != 13) {
-            var celender_date = $("#datepicker_search_bar").val();
-            var formated_date = formatDate(celender_date);
-            $.ajax({
-                type: "GET",
-                url: '/projects/<%= @project.id %>/employee_time_sheets',
-                data: {date: formated_date, search_date: 'true'}
-            })
-        }
+      uiLibrary: 'bootstrap',
+    }).on("change", function() {
+      if($("#datepicker_search_bar").val() != timesheet_date) {
+        timesheet_date = $("#datepicker_search_bar").val();
+        var celender_date = $("#datepicker_search_bar").val();
+        var formated_date = formatDate(celender_date);
+        $.ajax({
+            type: "GET",
+            url: '/projects/<%= @project.id %>/employee_time_sheets',
+            data: {date: formated_date, search_date: 'true'}
+        })  
+      }
     });
 
     $('#datepicker_copy_from_previous').datepicker({
@@ -373,9 +343,10 @@
     }
 
     var dataTable = $('#table').DataTable({
-        "ordering": false,
-        "pageLength": 100,
-    });
+        "ordering": true,
+        "lengthMenu": [25, 50, 100, 200],
+        "pageLength": 200
+      });
     document.addEventListener("turbolinks:before-cache", function () {
         if (dataTable !== null) {
             dataTable.destroy();
