@@ -54,8 +54,6 @@
                       <%= link_to "View", "/projects/#{@project.id}/employee_types/#{employee_type.id}", :class => "btn btn-outline-dark" %>
                       <%= link_to "Edit", "/projects/#{@project.id}/employee_types/#{employee_type.id}/edit", :class => "btn btn-outline-info" %>
                       <%= link_to "Delete", "/projects/#{@project.id}/employee_types/#{employee_type.id}" + "?delete=true", data: {confirm: 'Are you sure?'}, :class => "btn btn-outline-danger", method: :delete, remote: true %>
-
-
                     </td>
                   </tr>
                 <% end %>
@@ -70,7 +68,14 @@
 </div>
 
 <script>
-  var dataTable = $('#dataTable').DataTable();
+  var dataTable = $('#dataTable').DataTable({
+    "columnDefs": [
+        {"searchable": false, "targets": 1}
+    ],
+      "scrollY": "500px",
+      "scrollX": "700px",
+      "lengthMenu": [[50, 100, -1], [50, 100, "All"]]
+  });
   document.addEventListener("turbolinks:before-cache", function() {
     if (dataTable !== null) {
       dataTable.destroy();
