@@ -68,35 +68,9 @@
           <div class="card-header"><i class="fas fa-table mr-1"></i>Plant Time Sheet</div>
           <div class="card-body">
             <div class="table-responsive">
-
-              <table id="table" class="table-bordered" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                  <th rowspan="2">Plant ID</th>
-                  <th rowspan="2">Plant Name</th>
-                  <th rowspan="2">Company</th>
-                  <th rowspan="2">Manager</th>
-                  <th rowspan="2">Total hours</th>
-                  <th colspan="10" style="text-align:center;">Select Cost Codes</th>
-                </tr>
-                <tr>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                  <th>Costcode</th>
-                  <th class="px-4">Hrs</th>
-                </tr>
-                </thead>
-                <tbody>
+              <div id="timesheet-table">
                 <%= render 'plant_time_sheet_table_data' %>
-                </tbody>
-              </table>
-              <br>
+              </div>  
 
               <div class="row">
                 <div class="col-md-3">
@@ -139,6 +113,7 @@
 </div>
 
 <script type="text/javascript">
+    timesheet_date = $("#datepicker_search_bar").val();
     function update_plant_cost_code_hours(updated_hours, cost_code_id, total_hours, td_id) {
         var updated_hours = parseFloat(updated_hours);
         if (updated_hours <= total_hours && updated_hours > 0) {
@@ -231,21 +206,19 @@
     }
 
     $('#datepicker_search_bar').datepicker({
-        uiLibrary: 'bootstrap',
-        // maxDate: new Date()
-    });
-
-    $('#datepicker_search_bar').change(function (e) {
-        if (event.keyCode != 13) {
-            var celender_date = $("#datepicker_search_bar").val();
-            var formated_date = formatDate(celender_date);
-            $.ajax({
-                type: "GET",
-                url: '/projects/<%= @project.id %>/plant_time_sheets',
-                data: {date: formated_date, search_date: 'true'}
-            })
-        }
-    });
+      uiLibrary: 'bootstrap',
+    }).on("change", function() {
+      if($("#datepicker_search_bar").val() != timesheet_date) {
+        timesheet_date = $("#datepicker_search_bar").val();
+        var celender_date = $("#datepicker_search_bar").val();
+        var formated_date = formatDate(celender_date);
+        $.ajax({
+            type: "GET",
+            url: '/projects/<%= @project.id %>/plant_time_sheets',
+            data: {date: formated_date, search_date: 'true'}
+        })  
+      }
+    });    
 
     $('#datepicker_copy_from_previous').datepicker({
         uiLibrary: 'bootstrap',
@@ -368,10 +341,7 @@
 
     }
 
-    var dataTable = $('#table').DataTable({
-        "columnDefs": [
-            {"searchable": false, "targets": 3}
-        ],
+    var dataTable = $('#dataTable').DataTable({
         "scrollY": "500px",
         "scrollCollapse": true,
         "pageLength": 200,
