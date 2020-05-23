@@ -176,7 +176,7 @@ class PlantTimeSheetsController < ApplicationController
       end  
       (0..number_of_remaining_week_days).to_a.reverse.each do |day|
 
-        project_plants = @project.plants.where(status: "Active")
+        project_plants = @project.plants.where(status: "Active").where.not(foreman_id: nil)
         if project_plants.present?
           project_plants.each do |plant|
             foreman_name = Employee.find_by_id(Foreman.find_by_id(plant.foreman_id).plant_id).employee_name rescue nil
