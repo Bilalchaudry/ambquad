@@ -281,7 +281,7 @@
         return [year, month, day].join('-');
     }
 
-    function updateplantTotalHours(updated_hours,td_id, data_id) {
+    function updateplantTotalHours(updated_hours,td_id, data_id,btn_id) {
         var new_total_hours = updated_hours
         // var new_total_hours = prompt("Please Enter Total Hour:", total_hours);
         $.ajax({
@@ -289,6 +289,7 @@
             url: "/projects/<%= @project.id %>/plant_time_sheets",
             data: {total_hour: new_total_hours, update_total_hour: 'true', data_id: data_id},
             success: function () {
+                $(btn_id).removeAttr("disabled");
                 $(td_id).addClass("td-clr-green");
             }
         })
