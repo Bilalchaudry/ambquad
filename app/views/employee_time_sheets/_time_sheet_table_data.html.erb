@@ -1,3 +1,28 @@
+<table id="dataTable" class="table-bordered" width="100%" cellspacing="0">
+<thead>
+<tr>
+  <th rowspan="2">Employee ID</th>
+  <th rowspan="2">Employee</th>
+  <th rowspan="2">Labour type</th>
+  <th rowspan="2">Company</th>
+  <th rowspan="2">Manager</th>
+  <th rowspan="2">Total hours</th>
+  <th colspan="10" style="text-align:center;">Select Cost Codes</th>
+</tr>
+<tr>
+  <th>Costcode</th>
+  <th class="px-4">Hrs</th>
+  <th>Costcode</th>
+  <th class="px-4">Hrs</th>
+  <th>Costcode</th>
+  <th class="px-4">Hrs</th>
+  <th>Costcode</th>
+  <th class="px-4">Hrs</th>
+  <th>Costcode</th>
+  <th class="px-4">Hrs</th>
+</tr>
+</thead>
+<tbody>
 <% @employee_time_sheets.each do |employee_time_sheet| %>
 
   <% employee_total_hours_cost_code_sum(employee_time_sheet.id) %>
@@ -82,3 +107,5 @@
   <% end %>
   </tr>
 <% end %>
+</tbody>
+</table>

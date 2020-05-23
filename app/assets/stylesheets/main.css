@@ -430,13 +430,14 @@ h6 {
     width: 18px;
     height: 18px;
     border-radius: 50% !important;
+    background-color: #ffffff;
 }
 .cost-btn {
     border-radius: 50% !important;
     float: right !important;
     float: top !important;
     border: none !important;
-    background-color: white !important;
+    background-color: transparent !important;
 }
 /* ==========================================================================
    #FORM

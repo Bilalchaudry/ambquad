@@ -178,7 +178,7 @@ class EmployeeTimeSheetsController < ApplicationController
       end  
       (0..number_of_remaining_week_days).to_a.reverse.each do |day|
 
-        project_employees = @project.employees.where(status: "Active")
+        project_employees = @project.employees.where(status: "Active").where.not(foreman_id: nil)
         if project_employees.present?
           project_employees.each do |employee|
             foreman_name = Employee.find_by_id(Foreman.find_by_id(employee.foreman_id).employee_id).employee_name rescue nil
