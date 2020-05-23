@@ -144,7 +144,6 @@ class TimeSheetCostCodesController < ApplicationController
     time_sheet = @time_sheet_cost_code.employee_time_sheet ? @time_sheet_cost_code.employee_time_sheet : @time_sheet_cost_code.plant_time_sheet
     @time_sheet_cost_code.destroy
     respond_to do |format|
-      binding.pry
       total_hours = time_sheet.total_hours
       total_cost_codes = time_sheet.time_sheet_cost_codes.count.to_f rescue 0.0
       devided_time = (total_hours / total_cost_codes).round(2)
