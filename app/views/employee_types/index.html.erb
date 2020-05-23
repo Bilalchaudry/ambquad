@@ -70,11 +70,7 @@
 </div>
 
 <script>
-  var dataTable = $('#dataTable').DataTable({
-    "columnDefs": [
-        {"searchable": false, "targets": 3}
-    ]
-  });
+  var dataTable = $('#dataTable').DataTable();
   document.addEventListener("turbolinks:before-cache", function() {
     if (dataTable !== null) {
       dataTable.destroy();
