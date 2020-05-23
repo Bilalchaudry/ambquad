@@ -282,7 +282,7 @@
         return [year, month, day].join('-');
     }
 
-    function updateTotalHours(updated_hours, total_hours, data_id) {
+    function updateTotalHours(updated_hours,td_id, total_hours, data_id) {
         var new_total_hours = updated_hours;
         $.ajax({
             type: "GET",
@@ -291,6 +291,9 @@
                 total_hour: new_total_hours,
                 update_total_hour: 'true',
                 data_id: data_id
+            },
+            success: function () {
+                $(td_id).addClass("td-clr-green");
             }
         })
     }

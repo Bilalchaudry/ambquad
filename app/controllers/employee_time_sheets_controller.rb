@@ -88,10 +88,10 @@ class EmployeeTimeSheetsController < ApplicationController
           @time_sheet_cost_code.update(hrs: devided_time)
         end
         @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: @employee_time_sheet_data.timesheet_created_at).order(:id)
-        respond_to do |format|
-          format.js
-          format.html
-        end
+        # respond_to do |format|
+        #   format.js
+        #   format.html
+        # end
       elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
         today = params[:sheet_date].to_date
         today_date = Date.today
