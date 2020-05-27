@@ -560,5 +560,5 @@ input {
     font-size: 100%!important;
 }
 .select2-results__options {
-    max-height: 400px;
+    max-height: 400px !important;
 }
