@@ -1,6 +1,6 @@
 <% employee_time_sheet = @employee_time_sheet_data %>
 <% employee_total_hours_cost_code_sum(employee_time_sheet.id) %>
-<% if employee_time_sheet.total_hours != @cost_code_and_total_hours_sum.round %>
+<% if employee_time_sheet.total_hours.round != @cost_code_and_total_hours_sum.round %>
   <td><%= employee_time_sheet.employee.employee_id rescue "N/A" %></td>
   <td><%= employee_time_sheet.employee.employee_name rescue "N/A" %></td>
   <td><%= employee_time_sheet.labour_type %></td>
@@ -39,6 +39,9 @@
       <td>0</td>
     <% end %>
   <% end %>
+  <script>
+    $("#row<%= @row_id %>").addClass("table-dark");
+  </script>
 <% else %>
   <td><%= employee_time_sheet.employee.employee_id rescue "N/A" %></td>
   <td><%= employee_time_sheet.employee.employee_name rescue "N/A" %></td>
@@ -74,4 +77,8 @@
       <td><input class="empty-cost-cost-hours-bg" readonly placeholder="0"/></td>
     <% end %>
   <% end %>
+  <script>
+    $("#row<%= @row_id %>").removeClass("table-dark");
+  </script>
+
 <% end %>

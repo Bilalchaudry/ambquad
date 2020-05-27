@@ -559,3 +559,6 @@ input {
 .small{
     font-size: 100%!important;
 }
+.select2-results__options {
+    max-height: 400px;
+}

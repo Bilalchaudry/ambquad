@@ -184,7 +184,7 @@
 
     $('#datepicker_copy_from_previous').datepicker({
         uiLibrary: 'bootstrap',
-        // maxDate: new Date()
+        maxDate: new Date((new Date()).valueOf() - 1000*3600*24)
     });
 
     $('#datepicker_copy_from_previous_btn').click(function (e) {
