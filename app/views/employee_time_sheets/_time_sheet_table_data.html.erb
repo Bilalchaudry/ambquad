@@ -27,7 +27,7 @@
 
   <% employee_total_hours_cost_code_sum(employee_time_sheet.id) %>
 
-  <% if employee_time_sheet.total_hours.round != @cost_code_and_total_hours_sum.round %>
+  <% if employee_time_sheet.total_hours != @cost_code_and_total_hours_sum %>
     <tr class="table-dark" id="row<%= employee_time_sheet.id %>">
       <td><%= employee_time_sheet.employee.employee_id rescue "N/A" %></td>
       <td><%= employee_time_sheet.employee.employee_name rescue "N/A" %></td>
