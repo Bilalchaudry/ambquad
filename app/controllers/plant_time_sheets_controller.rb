@@ -87,10 +87,10 @@ class PlantTimeSheetsController < ApplicationController
           devided_time = (params[:total_hour].to_f / @time_sheet_cost_code.count.to_f).round(2)
           @time_sheet_cost_code.update(hrs: devided_time)
         end
-        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: @plant_time_sheet_data.timesheet_created_at).order(:id)
+        @row_id = params[:data_id]
+        @cost_codes = @time_sheet_cost_code
         respond_to do |format|
-          format.js
-          format.html
+          format.js { render :file => "plant_time_sheets/re_render_row" }
         end
       elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
         today = params[:sheet_date].to_date
@@ -176,7 +176,7 @@ class PlantTimeSheetsController < ApplicationController
       end  
       (0..number_of_remaining_week_days).to_a.reverse.each do |day|
 
-        project_plants = @project.plants.where(status: "Active")
+        project_plants = @project.plants.where(status: "Active").where.not(foreman_id: nil)
         if project_plants.present?
           project_plants.each do |plant|
             foreman_name = Employee.find_by_id(Foreman.find_by_id(plant.foreman_id).plant_id).employee_name rescue nil

@@ -87,10 +87,10 @@ class EmployeeTimeSheetsController < ApplicationController
           devided_time = (params[:total_hour].to_f / @time_sheet_cost_code.count.to_f).round(2)
           @time_sheet_cost_code.update(hrs: devided_time)
         end
-        @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: @employee_time_sheet_data.timesheet_created_at).order(:id)
+        @row_id = params[:data_id]
+        @cost_codes = @time_sheet_cost_code
         respond_to do |format|
-          format.js
-          format.html
+          format.js { render :file => "employee_time_sheets/re_render_row" }
         end
       elsif params[:submit_time_sheet].present? && params[:sheet_date].present?
         today = params[:sheet_date].to_date
@@ -154,16 +154,17 @@ class EmployeeTimeSheetsController < ApplicationController
         @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: date).order(:id)
 
       else
-        non_submitted_sheets = @project.employee_time_sheets.where(submit_sheet: false)
-        if non_submitted_sheets.present?
-          @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: non_submitted_sheets.first.timesheet_created_at).order(:id)
-        else
-          if current_user.role.eql?("User")
-            redirect_to '/projects/' + @project.id.to_s + '/employee_time_sheets/show'
-          else
-            @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: Date.today).order(:id)
-          end
-        end
+        @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: Date.today).order(:id)
+        # non_submitted_sheets = @project.employee_time_sheets.where(submit_sheet: false)
+        # if non_submitted_sheets.present?
+        #   @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: non_submitted_sheets.first.timesheet_created_at).order(:id)
+        # else
+        #   if current_user.role.eql?("User")
+        #     redirect_to '/projects/' + @project.id.to_s + '/employee_time_sheets/show'
+        #   else
+        #     @employee_time_sheets = @project.employee_time_sheets.where(timesheet_created_at: Date.today).order(:id)
+        #   end
+        # end
       end
     else
       # todaysDate = Date.parse("2020-05-09")
@@ -178,7 +179,7 @@ class EmployeeTimeSheetsController < ApplicationController
       end  
       (0..number_of_remaining_week_days).to_a.reverse.each do |day|
 
-        project_employees = @project.employees.where(status: "Active")
+        project_employees = @project.employees.where(status: "Active").where.not(foreman_id: nil)
         if project_employees.present?
           project_employees.each do |employee|
             foreman_name = Employee.find_by_id(Foreman.find_by_id(employee.foreman_id).employee_id).employee_name rescue nil

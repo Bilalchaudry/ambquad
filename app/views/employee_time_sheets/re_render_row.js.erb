@@ -1,0 +1,19 @@
+$("#row<%= @row_id %>").html("<%= j render 'employee_time_sheets/table_row_rerender' %>")
+$("#row<%= @row_id %> .total_hours").focusin(function(){
+    total_hours_id = $(this).attr('id');
+    total_hours_val = $(this).val();
+});
+$("#row<%= @row_id %> .total_hours").on('change', function(){
+    if(total_hours_val != $(this).val() && total_hours_id == $(this).attr('id')){
+        updateTotalHours($(this).val(), $(this).attr('id'));
+    }
+});
+$("#row<%= @row_id %> .costcode_hours").focusin(function(){
+    costcode_hours_id = $(this).attr('id');
+    costcode_hours_val = $(this).val();
+});
+$("#row<%= @row_id %> .costcode_hours").on('change', function(){
+    if(costcode_hours_val != $(this).val() && costcode_hours_id == $(this).attr('id')){
+        updateCostCodeHours($(this).val(), $(this).attr('id'));
+    }
+});

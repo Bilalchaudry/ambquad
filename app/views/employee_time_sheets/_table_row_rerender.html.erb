@@ -1,0 +1,84 @@
+<% employee_time_sheet = @employee_time_sheet_data %>
+<% employee_total_hours_cost_code_sum(employee_time_sheet.id) %>
+<% if employee_time_sheet.total_hours != @cost_code_and_total_hours_sum %>
+  <td><%= employee_time_sheet.employee.employee_id rescue "N/A" %></td>
+  <td><%= employee_time_sheet.employee.employee_name rescue "N/A" %></td>
+  <td><%= employee_time_sheet.labour_type %></td>
+  <td><%= employee_time_sheet.company %></td>
+  <td><%= employee_time_sheet.foreman_name %></td>
+  <% if employee_time_sheet.submit_sheet == false || current_user.role.eql?("Admin") %>
+    <td>
+      <% if employee_time_sheet.total_hours > 0 %>
+        <input size="4" class="mt-1 td-bg-clr td-clr-red total_hours" type="text" id="<%= employee_time_sheet.id %>" value="<%= employee_time_sheet.total_hours %>">
+      <% else %>
+        <input size="4" class="mt-1 td-bg-clr td-clr-red total_hours" type="text" id="<%= employee_time_sheet.id %>" placeholder="0">
+      <% end %>
+    </td>
+  <% else %>
+    <td><%= employee_time_sheet.total_hours %></td>
+  <% end %>
+  <% for i in 0..4 %>
+    <% if @cost_codes[i].present? %>
+      <% sort_cost_codes(@cost_codes) %>
+      <td><%= @cost_codes[i].cost_code %>
+        <% cost_code_time_sheet_id_employee(@cost_codes[i].cost_code_id, employee_time_sheet.id) %>
+        <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.timesheet_created_at %>')"><%= image_tag("delete.png", alt: 'Delete Button', class: "delete-icon ") %></button>
+      </td>
+      <td>
+        <input size="2" type="text" class="mt-1 td-bg-clr td-clr-red cost costcode_hours" id="<%= @cost_codes[i].id %>" value="<%= @cost_codes[i].hrs %>">
+      </td>
+    <% elsif employee_time_sheet.total_hours > 0 %>
+      <td>
+        <button class="w-100 cost-bot" onclick="cost_modal(<%= employee_time_sheet.employee_id %>,<%= employee_time_sheet.id %>)">+</button>
+      </td>
+      <td><input class="empty-cost-cost-hours-bg" readonly placeholder="0"/></td>
+    <% else %>
+      <td>
+        <button class="w-100 cost-bot" disabled>+</button>
+      </td>
+      <td>0</td>
+    <% end %>
+  <% end %>
+  <script>
+    $("#row<%= @row_id %>").addClass("table-dark");
+  </script>
+<% else %>
+  <td><%= employee_time_sheet.employee.employee_id rescue "N/A" %></td>
+  <td><%= employee_time_sheet.employee.employee_name rescue "N/A" %></td>
+  <td><%= employee_time_sheet.labour_type %></td>
+  <td><%= employee_time_sheet.company %></td>
+  <td><%= employee_time_sheet.foreman_name %></td>
+  <td>
+    <% if employee_time_sheet.total_hours > 0 %>
+      <input size="4" class="mt-1 td-bg-clr total_hours" type="text" id="<%= employee_time_sheet.id %>" value="<%= employee_time_sheet.total_hours %>">
+    <% else %>
+      <input size="4" class="mt-1 td-bg-clr total_hours" type="text" id="<%= employee_time_sheet.id %>" placeholder="0">
+    <% end %>
+  </td>
+  <% for i in 0..4 %>
+    <% if @cost_codes[i].present? %>
+      <% sort_cost_codes(@cost_codes) %>
+      <td><%= @cost_codes[i].cost_code %>
+        <% cost_code_time_sheet_id_employee(@cost_codes[i].cost_code_id, employee_time_sheet.id) %>
+        <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.timesheet_created_at %>')"><%= image_tag("delete.png", alt: 'Delete Button', class: "delete-icon ") %></button>
+      </td>
+      <td>
+        <input size="2" class="mt-1 td-bg-clr costcode_hours" type="text" id="<%= @cost_codes[i].id %>" value="<%= @cost_codes[i].hrs %>">
+      </td>
+    <% elsif employee_time_sheet.total_hours > 0 %>
+      <td>
+        <button class="w-100 cost-bot" onclick="cost_modal(<%= employee_time_sheet.employee_id %>,<%= employee_time_sheet.id %>)">+</button>
+      </td>
+      <td><input class="empty-cost-cost-hours-bg" readonly placeholder="0"/></td>
+    <% else %>
+      <td>
+        <button class="w-100 cost-bot" disabled>+</button>
+      </td>
+      <td><input class="empty-cost-cost-hours-bg" readonly placeholder="0"/></td>
+    <% end %>
+  <% end %>
+  <script>
+    $("#row<%= @row_id %>").removeClass("table-dark");
+  </script>
+
+<% end %>
