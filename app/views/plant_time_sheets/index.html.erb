@@ -55,7 +55,7 @@
           </div>
           <div class="col-xl-3 col-md-3">
             <div class="text-white mb-2">
-              <% if @plant_time_sheets.first.timesheet_created_at.present? %>
+              <% if @plant_time_sheets.present? %>
                 <input id="datepicker_search_bar" readonly value="<%= @plant_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>" placeholder="<%= @plant_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>"/>
               <% else %>
                 <input id="datepicker_search_bar" readonly value=<%= Date.today.strftime("%m/%d/%Y") %> placeholder="<%= Date.today.strftime("%m/%d/%Y") %>"/>
@@ -186,7 +186,7 @@
 
     $('#datepicker_copy_from_previous').datepicker({
         uiLibrary: 'bootstrap',
-        // maxDate: new Date()
+        maxDate: new Date(),
     });
 
     $('#datepicker_copy_from_previous_btn').click(function (e) {

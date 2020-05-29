@@ -153,16 +153,17 @@ class PlantTimeSheetsController < ApplicationController
         @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: date).order(:id)
 
       else
-        non_submitted_sheets = @project.plant_time_sheets.where(submit_sheet: false).order(:id)
-        if non_submitted_sheets.present?
-          @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: non_submitted_sheets.first.timesheet_created_at).order(:id)
-        else
-          if current_user.role.eql?("User")
-            redirect_to '/projects/' + @project.id.to_s + '/plant_time_sheets/show'
-          else
-            @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: Date.today).order(:id)
-          end
-        end
+        @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: Date.today).order(:id)
+        # non_submitted_sheets = @project.plant_time_sheets.where(submit_sheet: false).order(:id)
+        # if non_submitted_sheets.present?
+        #   @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: non_submitted_sheets.first.timesheet_created_at).order(:id)
+        # else
+        #   if current_user.role.eql?("User")
+        #     redirect_to '/projects/' + @project.id.to_s + '/plant_time_sheets/show'
+        #   else
+        #     @plant_time_sheets = @project.plant_time_sheets.where(timesheet_created_at: Date.today).order(:id)
+        #   end
+        # end
       end
     else
       todaysDate = Date.today
