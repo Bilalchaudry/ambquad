@@ -71,7 +71,7 @@
             <div class="table-responsive">
               <div id="timesheet-table">
                 <%= render 'time_sheet_table_data' %>
-              </div>  
+              </div>
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group mt-3 mb-0">
@@ -113,6 +113,7 @@
 
 <script type="text/javascript">
     timesheet_date = $("#datepicker_search_bar").val();
+
     function cost_modal(emp_id, emp_time_id) {
         time_sheet_employee_id = emp_time_id;
         employee_id = emp_id;
@@ -168,23 +169,25 @@
     }
 
     $('#datepicker_search_bar').datepicker({
-      uiLibrary: 'bootstrap',
-    }).on("change", function() {
-      if($("#datepicker_search_bar").val() != timesheet_date) {
-        timesheet_date = $("#datepicker_search_bar").val();
-        var celender_date = $("#datepicker_search_bar").val();
-        var formated_date = formatDate(celender_date);
-        $.ajax({
-            type: "GET",
-            url: '/projects/<%= @project.id %>/employee_time_sheets',
-            data: {date: formated_date, search_date: 'true'}
-        })  
-      }
+        uiLibrary: 'bootstrap',
+    }).on("change", function () {
+        if ($("#datepicker_search_bar").val() != timesheet_date) {
+            timesheet_date = $("#datepicker_search_bar").val();
+            var celender_date = $("#datepicker_search_bar").val();
+            var formated_date = formatDate(celender_date);
+            $('#datepicker_copy_from_previous').datepicker('destroy');
+            $('#datepicker_copy_from_previous').datepicker({maxDate: $('#datepicker_search_bar').val()});
+            $.ajax({
+                type: "GET",
+                url: '/projects/<%= @project.id %>/employee_time_sheets',
+                data: {date: formated_date, search_date: 'true'}
+            })
+        }
     });
 
     $('#datepicker_copy_from_previous').datepicker({
         uiLibrary: 'bootstrap',
-        maxDate: new Date((new Date()).valueOf() - 1000*3600*24)
+        maxDate: $('#datepicker_search_bar').val()
     });
 
     $('#datepicker_copy_from_previous_btn').click(function (e) {
