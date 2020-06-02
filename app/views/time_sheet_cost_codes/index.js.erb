@@ -1,7 +1,7 @@
 <% if params[:employee_sheet_clear].present? %>
 $('#timesheet-table').html("<%= j render 'employee_time_sheets/time_sheet_table_data' %>")
 <% else %>
-$('table#dataTable tbody').html("<%= j render 'plant_time_sheets/plant_time_sheet_table_data' %>")
+$('#timesheet-table').html("<%= j render 'plant_time_sheets/plant_time_sheet_table_data' %>")
 <% end %>
 dataTable.destroy()
 dataTable = $('#dataTable').DataTable({
