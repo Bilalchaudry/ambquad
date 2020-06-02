@@ -285,7 +285,7 @@
 
     function clear_plant_time_sheet(project_id) {
         var celender_date = $("#datepicker_search_bar").val();
-        clear_plant_sheet = true
+        plant_clear_sheet = true
         if (celender_date == "") {
             var today_date = formatDate(new Date())
         } else {
@@ -299,7 +299,7 @@
                 },
                 type: "GET",
                 url: link_url,
-                data: {project_id, today_date,clear_plant_sheet},
+                data: {project_id, today_date,plant_clear_sheet},
                 success: function () {
 
                 }
