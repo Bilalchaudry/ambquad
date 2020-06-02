@@ -55,7 +55,7 @@
           </div>
           <div class="col-xl-3 col-md-3">
             <div class="text-white mb-2">
-              <% if @plant_time_sheets.first.timesheet_created_at.present? %>
+              <% if @plant_time_sheets.present? %>
                 <input id="datepicker_search_bar" readonly value="<%= @plant_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>" placeholder="<%= @plant_time_sheets.first.timesheet_created_at.strftime("%m/%d/%Y") %>"/>
               <% else %>
                 <input id="datepicker_search_bar" readonly value=<%= Date.today.strftime("%m/%d/%Y") %> placeholder="<%= Date.today.strftime("%m/%d/%Y") %>"/>
@@ -179,7 +179,10 @@
         $.ajax({
             type: "GET",
             url: '/projects/<%= @project.id %>/plant_time_sheets',
-            data: {date: formated_date, search_date: 'true'}
+            data: {date: formated_date, search_date: 'true'},
+            success: function () {
+                copy_from_previous_datepicker_plant();
+            }
         })  
       }
     });    
@@ -188,6 +191,31 @@
         uiLibrary: 'bootstrap',
         maxDate: new Date((new Date()).valueOf() - 1000*3600*24)
     });
+    function copy_from_previous_datepicker_plant() {
+        $('#datepicker_copy_from_previous').focus();
+        var date = new Date($("#datepicker_search_bar").val());
+        date.setDate(date.getDate()-1);
+        $('#datepicker_copy_from_previous').datepicker('destroy');
+        $('#datepicker_copy_from_previous').datepicker({
+            uiLibrary: 'bootstrap',
+            maxDate: date,
+        });
+        $('#datepicker_copy_from_previous').change(function (e) {
+            if (event.keyCode != 13) {
+                var calender_date = $("#datepicker_copy_from_previous").val();
+                var current_date = $("#datepicker_search_bar").val();
+                var formated_date = formatDate(calender_date);
+                var current_formatted_date = formatDate(current_date);
+                $("#datepicker_copy_from_previous").val("");
+                $.ajax({
+                    type: "GET",
+                    url: "/projects/<%= @project.id %>/plant_time_sheets",
+                    data: {date: formated_date, current_date: current_formatted_date, copy_from_previous: 'true'}
+                })
+            }
+        });
+
+    }
 
     $('#datepicker_copy_from_previous_btn').click(function (e) {
         $('#datepicker_copy_from_previous').focus();
@@ -257,6 +285,7 @@
 
     function clear_plant_time_sheet(project_id) {
         var celender_date = $("#datepicker_search_bar").val();
+        plant_clear_sheet = true
         if (celender_date == "") {
             var today_date = formatDate(new Date())
         } else {
@@ -270,7 +299,7 @@
                 },
                 type: "GET",
                 url: link_url,
-                data: {project_id, today_date},
+                data: {project_id, today_date,plant_clear_sheet},
                 success: function () {
 
                 }
@@ -349,7 +378,7 @@
       }
 
     }
-
+    initiateFocusEvents();
     function initiateFocusEvents() {
       $(".total_hours").focusin(function(){
         total_hours_id = $(this).attr('id');

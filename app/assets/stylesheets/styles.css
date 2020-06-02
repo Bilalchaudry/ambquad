@@ -10213,3 +10213,7 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+.bg-image-ambquad {
+    background: url('bg.jpeg') no-repeat fixed;
+    background-size: cover;
+}

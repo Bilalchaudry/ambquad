@@ -24,19 +24,24 @@ class TemporaryUsersController < ApplicationController
   # POST /temporary_users
   # POST /temporary_users.json
   def create
-    @temporary_user = TemporaryUser.new(temporary_user_params)
-    @temporary_user.country_name = @temporary_user.client_company.country_name
-    @user = User.new(temporary_user_params)
-    @user.country_name = @temporary_user.country_name
-    respond_to do |format|
-      if @temporary_user.save && @user.save
-        @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
-        format.html {redirect_to users_path, notice: 'User is successfully created.'}
-        format.json {render :show, status: :created, location: @temporary_user}
-      else
-        format.html {render :new}
-        format.json {render json: @temporary_user.errors, status: :unprocessable_entity}
+    begin
+      @temporary_user = TemporaryUser.new(temporary_user_params)
+      @temporary_user.country_name = @temporary_user.client_company.country_name
+      @user = User.new(temporary_user_params)
+      @user.country_name = @temporary_user.country_name
+      respond_to do |format|
+        if @temporary_user.save && @user.save
+          @user.client_company.update(number_of_users: @user.client_company.number_of_users + 1)
+          format.html {redirect_to users_path, notice: 'User is successfully created.'}
+          format.json {render :show, status: :created, location: @temporary_user}
+        else
+          format.html {render :new}
+          format.json {render json: @temporary_user.errors, status: :unprocessable_entity}
+        end
       end
+    rescue => e
+      @temporary_user.errors.add(:base, e.message)
+      render :action => 'new'
     end
 
   end
