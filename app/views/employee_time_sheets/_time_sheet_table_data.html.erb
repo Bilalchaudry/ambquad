@@ -53,7 +53,7 @@
             <button class="cost-btn" onclick="delete_cost_code(<%= @cost_code_id %>, <%= @cost_code_time_sheet_id%>,row<%= employee_time_sheet.id %>, '<%= employee_time_sheet.timesheet_created_at %>')"><%= image_tag("delete.png", alt: 'Delete Button', class: "delete-icon ") %></button>
           </td>
           <td>
-            <input size="2" type="text" class="mt-1 td-bg-clr td-clr-red" id="<%= i %><%= employee_time_sheet.id %>" onkeypress="if (window.event.keyCode == 13) update_cost_code_hours($('#<%= i%><%= employee_time_sheet.id %>').val(),<%= @cost_codes[i].id  %>, <%=employee_time_sheet.total_hours %>, '#<%= i%><%= employee_time_sheet.id %>')" onfocusout="update_cost_code_hours($('#<%= i%><%= employee_time_sheet.id %>').val(),<%= @cost_codes[i].id  %>, <%=employee_time_sheet.total_hours %>, '#<%= i%><%= employee_time_sheet.id %>')" value="<%= @cost_codes[i].hrs %>">
+            <input size="2" type="text" class="mt-1 td-bg-clr td-clr-red costcode_hours" id="<%= @cost_codes[i].id %>" value="<%= @cost_codes[i].hrs %>">
           </td>
         <% elsif employee_time_sheet.total_hours > 0 %>
           <td>
